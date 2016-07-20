@@ -445,27 +445,6 @@ with app.app_context():
             forms[r['lang_id']][(r['pos_id'],r['lemma'])]=r['id']
         return forms
 
-    # def fetch_all_words():
-    #     words = dd(lambda: dd())
-    #     for r in query_omw("""SELECT id, canon FROM w"""):
-    #         words['canon'][r['canon']]=r['id']
-    #         words['id'][r['id']]=r['canon']
-    #     return words
-
-    # def fetch_all_wordform_links():
-    #     wf_links = dd(lambda: dd())
-    #     for r in query_omw("""SELECT id, lang_id, pos_id, lemma
-    #                           FROM f"""):
-    #         wf_links[r['lang_id']][(r['pos_id'],r['lemma'])]=r['id']
-    #     return forms
-
-
-    # def fetch_ss_extend(synset_list):
-    #     synset_list = list(synset_list)
-    #     ss_list = (",".join("?" for s in synset_list), synset_list)
-    #     return True
-
-
     def f_ss_id_by_ili_id(ili_id):
         "Return ss_id from ili_id"
 

@@ -1,5 +1,5 @@
 import os, sys, sqlite3, datetime, urllib, gzip, requests
-from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response
+from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
 from collections import defaultdict as dd
@@ -110,6 +110,7 @@ def comment_id():
     user = fetch_id_from_userid(current_user.id)
     ili_id = request.args.get('ili_id', None)
     comment = request.args.get('comment', None)
+    comment = str(Markup.escape(comment))
     dbinsert = comment_ili_id(ili_id, comment, user)
     return jsonify(result=dbinsert)
 
@@ -153,7 +154,7 @@ def confirm_wn_upload_id():
 def add_new_project():
     user = fetch_id_from_userid(current_user.id)
     proj = request.args.get('proj_code', None)
-
+    proj = str(Markup.escape(proj))
     if user and proj:
         dbinsert = insert_new_project(proj, user)
         return jsonify(result=dbinsert)
@@ -192,9 +193,11 @@ def omw_lang_selector():
 def add_new_language():
     user = fetch_id_from_userid(current_user.id)
     bcp = request.args.get('bcp', None)
+    bcp = str(Markup.escape(bcp))
     iso = request.args.get('iso', None)
+    iso = str(Markup.escape(iso))
     name = request.args.get('name', None)
-
+    name = str(Markup.escape(name))
     if bcp and name:
         dbinsert = insert_new_language(bcp, iso, name, user)
         return jsonify(result=dbinsert)

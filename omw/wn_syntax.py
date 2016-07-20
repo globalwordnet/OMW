@@ -77,16 +77,16 @@ with app.app_context():
                     for lem_form_tag in lem_form.findall('Tag'):
                         lem_form_tag_lbl = lem_form_tag.get('category')
                         lem_form_tag_val = lem_form_tag.text
-                        lemform['tags'].append((lem_form_tag_lbl, 
+                        lemform['tags'].append((lem_form_tag_lbl,
                                                 lem_form_tag_val))
 
-                    
+
                 # LEXICAL ENTRY SENSES
                 for sense in lex_ent.findall('Sense'):
                     sens_id = sense.attrib['id']
                     sens_synset = sense.attrib['synset']
 
-                    synset = wn[lexicon]['syns'][sens_synset] 
+                    synset = wn[lexicon]['syns'][sens_synset]
                     synset['POS'][sens_id] = lem.attrib['partOfSpeech']
 
                     wn_sens = le['senses'][(sens_id, sens_synset)]
@@ -114,7 +114,7 @@ with app.app_context():
                         except:
                             sensExes_lang = lexi_lang # inherits from lexicon
 
-                        wn_sensExes = wn_sens['exes'][(sensExes_lang, 
+                        wn_sensExes = wn_sens['exes'][(sensExes_lang,
                                                        sensExes_txt)]
                         wn_sensExes['attrs'] = sensExes.attrib
 
@@ -148,7 +148,7 @@ with app.app_context():
             wn_dtls['ss_ili_new'][lexicon]=list() # list of newly proposed ILI synsets
             wn_dtls['ss_ili_out'][lexicon]=list() # list of synsets unlinked from ILI
             wn_dtls['ss_ili_linked'][lexicon]=list() # list of synsets with ILI id
-            
+
             for ss in lexi.findall('Synset'):
 
                 ss_id = ss.get('id')
@@ -207,7 +207,7 @@ with app.app_context():
                 if ili_def is not None:
                     ili_def_lang = langs_code['code']['en']
                     synset['ili_def'][(ili_def_lang,ili_def.text)]['attrs'] = ili_def.attrib
-                        
+
 
                 # SYNSET DEFINITIONS (OPTIONAL, 0 or more)
                 for definition in ss.findall('Definition'):
@@ -249,7 +249,7 @@ with app.app_context():
 
 
                 # SYNSET RELATIONS
-                # FIXME: CHECK IF THE TARGET_ID TO LINK EXISTS (?) 
+                # FIXME: CHECK IF THE TARGET_ID TO LINK EXISTS (?)
                 for ss_r in ss.findall('SynsetRelation'): # Multiple rels per ss
 
                     ss_r_attrs = ss_r.attrib
@@ -279,7 +279,7 @@ with app.app_context():
 
 
     def validateFile(current_user):
-        
+
         l=lambda:dd(l)
         vr = l()  # validation report
         final_validation = True # assume it will pass
@@ -387,7 +387,7 @@ with app.app_context():
                 # CHECK META-DATA
                 ################################################################
                 lexicon_lbl = wn[lexicon]['attrs']['id']
-                lexicon_id =  f_proj_id_by_code(lexicon_lbl) 
+                lexicon_id =  f_proj_id_by_code(lexicon_lbl)
                 vr_lex['lex_lbl_val'] = lexicon_lbl
                 if wn[lexicon]['attrs']['id'] in projs.values():
                     vr_lex['lex_lbl'] = True
@@ -397,7 +397,7 @@ with app.app_context():
 
                 lang_lbl = wn[lexicon]['attrs']['language']
                 try:
-                    lang_id = langs_code['code'][lang_lbl] 
+                    lang_id = langs_code['code'][lang_lbl]
                 except:
                     lang_id = None
                 vr_lex['lang_lbl_val'] = lang_lbl
@@ -431,7 +431,7 @@ with app.app_context():
                         vr_lex['confidence_lbl'] = False
                         final_validation = False
 
-                    
+
                 lic = wn[lexicon]['attrs']['license']
                 vr_lex['license_lbl_val'] = lic
                 acceptable_lics = ['wordnet',
@@ -442,7 +442,7 @@ with app.app_context():
                                    'http://opendefinition.org/licenses/cc-by-sa/',
                                    'http://opendefinition.org/licenses/cc-by-sa/3.0',
                                    'http://opendefinition.org/licenses/cc-by-sa/4.0',
-                                   'https://opensource.org/licenses/MIT/',  
+                                   'https://opensource.org/licenses/MIT/',
                                    'https://opensource.org/licenses/Apache-2.0']
                 if lic in acceptable_lics:
                     vr_lex['license_lbl'] = True
@@ -473,7 +473,7 @@ with app.app_context():
                     vr_lex['synsets_bad_id_lbl'] = True
 
 
-                # SYNSETS W/ BAD POS (BY LEMMAS)                
+                # SYNSETS W/ BAD POS (BY LEMMAS)
                 vr_lex['synsets_bad_pos_val'] = wn_dtls['bad_ss_pos'][lexicon]
                 if len(wn_dtls['bad_ss_pos'][lexicon]) > 0:
                     vr_lex['synsets_bad_pos_lbl'] = False
@@ -490,7 +490,7 @@ with app.app_context():
                     final_validation = False
                 else:
                     vr_lex['synsets_bad_sensExe_lang_lbl'] = True
-                    
+
                 # SYNSETS WITH ILI KEYS
                 syns_with_ili_total = len(wn_dtls['ss_ili_linked'][lexicon])
                 vr_lex['synsets_with_ili_lbl_val'] = syns_with_ili_total
@@ -547,7 +547,7 @@ with app.app_context():
                 vr_lex['synsets_ili_def_notexists_lbl_val'] = []
 
                 vr_lex['ili_def_conf_lbl'] = True
-                vr_lex['ili_def_conf_lbl_val'] = []                
+                vr_lex['ili_def_conf_lbl_val'] = []
                 vr_lex['synsets_ili_def_length_lbl'] = True
                 vr_lex['synsets_ili_def_length_lbl_val'] = []
                 vr_lex['synsets_ili_def_nonuniq_lbl'] = True
@@ -566,30 +566,30 @@ with app.app_context():
 
                 good_rels = ['eq_synonym','hypernym','hyponym', 'similar', 'antonym']
                 bad_rels = ['also']
-                warn_rels = ['agent', 'attribute', 'be_in_state', 'causes', 
+                warn_rels = ['agent', 'attribute', 'be_in_state', 'causes',
                 'classified_by', 'classifies', 'co_agent_instrument', 'co_agent_patient',
-                'co_agent_result', 'co_instrument_agent', 'co_instrument_patient', 
+                'co_agent_result', 'co_instrument_agent', 'co_instrument_patient',
                 'co_instrument_result', 'co_patient_agent', 'co_patient_instrument',
-                'co_result_agent', 'co_result_instrument', 'co_role', 'direction', 
+                'co_result_agent', 'co_result_instrument', 'co_role', 'direction',
                 'domain_region', 'domain_topic', 'exemplifies', 'entails',
-                'has_domain_region', 'has_domain_topic', 'is_exemplified_by', 
+                'has_domain_region', 'has_domain_topic', 'is_exemplified_by',
                 'holo_location', 'holo_member', 'holo_part', 'holo_portion',
-                'holo_substance', 'holonym', 'in_manner', 'instance_hypernym', 
+                'holo_substance', 'holonym', 'in_manner', 'instance_hypernym',
                 'instance_hyponym', 'instrument', 'involved', 'involved_agent',
-                'involved_direction', 'involved_instrument', 'involved_location', 
+                'involved_direction', 'involved_instrument', 'involved_location',
                 'involved_patient', 'involved_result', 'involved_source_direction',
-                'involved_target_direction', 'is_caused_by', 'is_entailed_by', 
+                'involved_target_direction', 'is_caused_by', 'is_entailed_by',
                 'location', 'manner_of', 'mero_location', 'mero_member', 'mero_part',
-                'mero_portion', 'mero_substance', 'meronym', 'other', 'patient', 
-                'restricted_by', 'restricts', 'result', 'role', 'source_direction', 
+                'mero_portion', 'mero_substance', 'meronym', 'other', 'patient',
+                'restricted_by', 'restricts', 'result', 'role', 'source_direction',
                 'state_of', 'target_direction', 'subevent', 'is_subevent_of']
 
 
                 def load_all_rels(starting_rels, list_of_rels, i):
                     """
-                    This takes in a dictionary of synsets and populates it with 
-                    a set of relations each synset is involved with, taking the 
-                    whole wordnet. 
+                    This takes in a dictionary of synsets and populates it with
+                    a set of relations each synset is involved with, taking the
+                    whole wordnet.
                     It produces a dictionary of synsets and a set of synsets
                     that it links to, using a given list of relations.
                     """
@@ -625,7 +625,7 @@ with app.app_context():
 
                 for ss_id in wn_dtls['ss_ili_new'][lexicon]:
                     synset = wn[lexicon]['syns'][ss_id]
-                    
+
                     # CHECK IF ILI DEFINITION EXISTS
                     if not synset['ili_def']:
                         vr_lex['synsets_ili_def_notexists_lbl_val'].append(ss_id)
@@ -696,7 +696,7 @@ with app.app_context():
                         for lex in wn.keys():
                             if wn[lex]['syns'][target]['ili_key']:
                                 weak_link_to_ili = True
-                    
+
                     if good_link_to_ili == False and weak_link_to_ili == True:
                         vr_lex['synsets_ili_rel_warn_lbl_val'].append(ss_id)
                         vr_lex['synsets_ili_rel_warn_lbl'] = False
@@ -708,12 +708,12 @@ with app.app_context():
                         final_validation = False
                 ################################################################
 
-        
+
             # FINAL VALIDATION
             vr['final_validation'] = final_validation
 
         else:
-            wn = None 
+            wn = None
             wn_dtls = None
 
         return vr, filename, wn, wn_dtls
@@ -745,7 +745,7 @@ with app.app_context():
             langs, langs_code = fetch_langs()
             poss = fetch_pos()
             wn, wn_dtls = parse_wn(wnlmf)
-            
+
             for lexicon in  wn.keys():
 
                 proj_id = f_proj_id_by_code(lexicon)
@@ -773,7 +773,7 @@ with app.app_context():
                 # INSERT NEW ILI CANDIDATES IN ILI
                 ################################################################
                 max_ili_id = fetch_max_ili_id()
-                blk_ili_data = [] 
+                blk_ili_data = []
                 # (id, kind, ili_def, status, src_id, origin_key, u)
                 for new_ili in wn_dtls['ss_ili_new'][lexicon]:
                     ili_key = max_ili_id + 1
@@ -786,7 +786,7 @@ with app.app_context():
                         ili_def = d
                     origin_key = synset['ili_origin_key']
 
-                    blk_ili_data.append((ili_key, kind, ili_def, status, 
+                    blk_ili_data.append((ili_key, kind, ili_def, status,
                                          src_id, origin_key, u))
 
                     synset['ili_key'] = ili_key
@@ -800,9 +800,9 @@ with app.app_context():
                 # INSERT NEW SYNSETS IN OMW
                 ################################################################
                 blk_ss_data = list()
-                blk_ss_src_data = list() 
+                blk_ss_src_data = list()
                 blk_def_data = list()
-                blk_def_src_data = list() 
+                blk_def_src_data = list()
                 blk_ssexe_data = list()
                 blk_ssexe_src_data = list()
                 max_ss_id = fetch_max_ss_id()
@@ -822,15 +822,15 @@ with app.app_context():
                     except:
                         ss_conf = lex_conf
 
-                    blk_ss_data.append((ss_id, ili_id, ss_pos, u))    
+                    blk_ss_data.append((ss_id, ili_id, ss_pos, u))
                     # ss_id = insert_omw_ss(ili_id, ss_pos, u)
 
                     synset['omw_ss_key'] = ss_id
 
                     blk_ss_src_data.append((ss_id, src_id, origin_key, ss_conf, u))
-                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id, 
+                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id,
                     #                                   origin_key, ss_conf, u)
-                    
+
 
                     ############################################################
                     # DEFINITIONS
@@ -840,7 +840,7 @@ with app.app_context():
                         def_id = max_def_id + 1
                         blk_def_data.append((def_id, ss_id, def_lang_id, def_txt, u))
                         # def_id = insert_omw_def(ss_id, def_lang_id, def_txt, u)
-                        
+
                         try:
                             wn_def = synset['def'][(def_lang_id, def_txt)]
                             def_conf = float(wn_def['attrs']['confidenceScore'])
@@ -857,10 +857,10 @@ with app.app_context():
                     for (exe_lang_id, exe_txt) in synset['ex'].keys():
                         exe_id = max_ssexe_id + 1
 
-                        blk_ssexe_data.append((exe_id, ss_id, exe_lang_id, 
+                        blk_ssexe_data.append((exe_id, ss_id, exe_lang_id,
                                                exe_txt, u))
                         # exe_id = insert_omw_ssexe(ss_id, exe_lang_id, exe_txt, u)
-                        
+
                         try:
                             wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
                             exe_conf = float(wn_exe['attrs']['confidenceScore'])
@@ -891,9 +891,9 @@ with app.app_context():
                 # UPDATE OLD SYNSETS IN OMW (E.G. SOURCE, DEFs, EXEs, etc.)
                 ################################################################
                 # blk_ss_data = list()
-                blk_ss_src_data = list() 
+                blk_ss_src_data = list()
                 blk_def_data = list()
-                blk_def_src_data = list() 
+                blk_def_src_data = list()
                 blk_ssexe_data = list()
                 blk_ssexe_src_data = list()
 
@@ -921,7 +921,7 @@ with app.app_context():
                     synset['omw_ss_key'] = ss_id
 
                     blk_ss_src_data.append((ss_id, src_id, origin_key, ss_conf, u))
-                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id, 
+                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id,
                     #                                   origin_key, ss_conf, u)
 
 
@@ -944,7 +944,7 @@ with app.app_context():
 
                         if not def_id:
                             def_id = max_def_id + 1
-                            blk_def_data.append((def_id, ss_id, def_lang_id, 
+                            blk_def_data.append((def_id, ss_id, def_lang_id,
                                                  def_txt, u))
                             max_def_id = def_id
 
@@ -967,12 +967,12 @@ with app.app_context():
 
                         # exe_id = fetch_ssexe_by_ssid_lang_text(ss_id, exe_lang_id, exe_txt)
                         if not exe_id:
-                            exe_id = max_ssexe_id + 1 
-                            blk_ssexe_data.append((exe_id, ss_id, exe_lang_id, 
+                            exe_id = max_ssexe_id + 1
+                            blk_ssexe_data.append((exe_id, ss_id, exe_lang_id,
                                                    exe_txt, u))
                             # exe_id = insert_omw_exe(ss_id, exe_lang_id, exe_txt, u)
-                            max_ssexe_id = exe_id 
-                        
+                            max_ssexe_id = exe_id
+
                         try:
                             wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
                             exe_conf = float(wn_exe['attrs']['confidenceScore'])
@@ -1031,20 +1031,20 @@ with app.app_context():
 
                     if not can_f_id:
                         can_f_id = max_f_id + 1
-                        blk_f_data.append((can_f_id, lang_id, 
+                        blk_f_data.append((can_f_id, lang_id,
                                            pos_id, lemma, u))
                         max_f_id = can_f_id
 
                         w_id = max_w_id + 1
                         blk_w_data.append((w_id, can_f_id, u))
-                        blk_wf_data.append((w_id, can_f_id, src_id, 
+                        blk_wf_data.append((w_id, can_f_id, src_id,
                                             le_conf, u))
                         max_w_id = w_id
 
                     else: # New word (no way to know if the word existed!) FIXME!?
                         w_id = max_w_id + 1
                         blk_w_data.append((w_id, can_f_id, u))
-                        blk_wf_data.append((w_id, can_f_id, src_id, 
+                        blk_wf_data.append((w_id, can_f_id, src_id,
                                             le_conf, u))
                         max_w_id = w_id
 
@@ -1065,10 +1065,10 @@ with app.app_context():
                             max_f_id = f_id
 
                         # Always link to word
-                        blk_wf_data.append((w_id, f_id, src_id, 
+                        blk_wf_data.append((w_id, f_id, src_id,
                                             le_conf, u))
 
- 
+
                     # ADD SENSES
                     for (sens_id, sens_synset) in wn_le['senses'].keys():
                         wn_sens = wn_le['senses'][(sens_id, sens_synset)]
@@ -1091,7 +1091,7 @@ with app.app_context():
                     # FIXME! ADD Form.Script
                     # FIXME! ADD SenseRels, SenseExamples, Counts
                     # FIXME! ADD SyntacticBehaviour
- 
+
                 ################################################################
                 # INSERT LEXICAL ENTRIES IN DB
                 ################################################################
@@ -1141,7 +1141,7 @@ with app.app_context():
             ############################################################
             # 2nd ITTERATION: AFTER ALL SYNSETS WERE CREATED
             ############################################################
-            # SSREL (SYNSET RELATIONS)   + SRELS (FIXME)
+            # SSREL (SYNSET RELATIONS)   FIXME, ADD SENSE-RELS
             ############################################################
             sslinks = fetch_all_ssrels_by_ss_rel_trgt()
             blk_sslinks_data = list()
@@ -1172,7 +1172,7 @@ with app.app_context():
 
 
                         sslink_id = max_sslink_id + 1
-                        blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id, 
+                        blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
                                                  ss2_id, u))
                         # sslink_id = insert_omw_sslink(ss1_id, ssrel_id, ss2_id, u)
 
@@ -1230,12 +1230,13 @@ with app.app_context():
                         # sslink_src = insert_omw_sslink_src(sslink_id, src_id,
                         #                                    sslink_conf, lang_id, u)
 
-
             ################################################################
-            # INSERT THE REST OF THE WORDNET
+            # INSERT SSRELS INTO THE DB
             ################################################################
-
-
+            sys.stderr.write(str(blk_sslinks_data))
+            sys.stderr.write(str(blk_sslinks_src_data))
+            blk_insert_omw_sslink(blk_sslinks_data)
+            blk_insert_omw_sslink_src(blk_sslinks_src_data)
 
 
 

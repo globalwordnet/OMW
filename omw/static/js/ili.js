@@ -92,7 +92,7 @@ $(function() {
 
 $(function() {
     $("#confirm_wn_upload").click(function() {
-	
+
 	swal({
 	    title: 'Are you sure?',
 	    text: "The upload of this wordnet cannot be reverted! Please wait after confirming. It may take a while to refresh the page.",
@@ -105,7 +105,7 @@ $(function() {
 	}).then(function() {
 
 	    var valid = document.getElementById("validation_div");
-	    valid.innerHTML = "<i class='fa fa-spinner fa-pulse fa-5x fa-fw'></i><span class='sr-only'><br>This will probably take a while (~1 hr)... Just hang in there. Feel free to close the browser and come and check the OMW later.</span>";
+	    valid.innerHTML = "<i class='fa fa-spinner fa-pulse fa-5x fa-fw'></i><span class='sr-only'><br><br> This process can take a little while (depending how big is the uploaded wordnet)... Just hang in there.</span>";
 
 	    $.getJSON($SCRIPT_ROOT + '/_confirm_wn_upload', {
 		user: $('input[name="current_user"]').val(),
@@ -117,9 +117,6 @@ $(function() {
 
 		if (data.result) {
 		    r = String(data.result);
-		    // swal('Congratulations ' + u + '!',
-		    // 	'Your file has been uploaded into ILI and OMW.' + r,
-		    // 	'success');
 		    window.location.replace("/temporary");
 
 		} else {
@@ -149,18 +146,18 @@ $(function() {
        var elem = event.target;
        var elem = elem.parentNode;
        var ili = elem.dataset.ili;
-       
-       swal({   
-	   title: "Leave your comment below!",   
+
+       swal({
+	   title: "Leave your comment below!",
 	   input: "textarea",
 	   showCancelButton: true,
 	   allowOutsideClick: true,
-	   closeOnConfirm: false,   
-	   animation: "slide-from-top",   
+	   closeOnConfirm: false,
+	   animation: "slide-from-top",
 	   inputPlaceholder: "Your comment goes here",
 	   buttonsStyling: false
 	   }).then(function(inputValue){
-	       if (inputValue === false) return false;      
+	       if (inputValue === false) return false;
 	       if (inputValue === "") {
 	    	   swal.showInputError("You need to write something!");
 	    	   return false
@@ -173,7 +170,7 @@ $(function() {
 	       }, function(data) {
 
 		   if (data.result) {
-		       swal("The comment was saved!", "You wrote: " + inputValue , "success");
+		       swal("The comment was saved!", "" , "success");
 		   }
 
 	       });
@@ -188,17 +185,17 @@ $(function() {
 $(function() {
    $("#add-new-project").click(function (event) {
 
-       swal({   
-	   title: "You can add a new project code below!",   
+       swal({
+	   title: "You can add a new project code below!",
 	   input: "text",
 	   showCancelButton: true,
 	   allowOutsideClick: true,
-	   closeOnConfirm: false,   
-	   animation: "slide-from-top",   
+	   closeOnConfirm: false,
+	   animation: "slide-from-top",
 	   inputPlaceholder: "New project code",
 	   buttonsStyling: false
 	   }).then(function(inputValue){
-	       if (inputValue === false) return false;      
+	       if (inputValue === false) return false;
 	       if (inputValue === "") {
 	    	   swal.showInputError("You need to write something!");
 	    	   return false
@@ -210,7 +207,7 @@ $(function() {
 	       }, function(data) {
 
 		   if (data.result) {
-		       swal("The new project was saved!", "New project: " + inputValue , "success");
+		       swal("The new project was saved!", "" , "success");
 		   }
 	       });
 	   });
@@ -246,7 +243,7 @@ $(function() {
 	   }
        }).then(function(result) {
 
-	   
+
 	   $.getJSON($SCRIPT_ROOT + '/_add_new_language', {
 	       user: $('input[name="current_user"]').val(),
 	       bcp: result[0],
@@ -255,13 +252,13 @@ $(function() {
 	   }, function(data) {
 
 	       if (data.result) {
-		   swal("The new language was added!", "New language: " + result , "success");
+		   swal("The new language was added!", "" , "success");
 	       } else {
 		   swal("Something went wrong.", "You need to provide at least the BPC47"+
 			"code and the English name to add a new language." , "error");
 
 		   }
-	   });  
+	   });
        })
        return false;
    });
