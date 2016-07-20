@@ -1,0 +1,70 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<h4>User Admin</h4>
+
+<p>
+  This is a list of current users. This should only be seen by people 
+  in the admin group, with access level of 99.
+</p>
+
+
+<table class="sortable hoverTable">  
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>UserName</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Affiliation</th>
+      <th>Group</th>
+      <th>Level</th>
+    </tr>
+  </thead>
+
+
+{% for id, u in users.items() %}
+  <tr>
+
+    <!-- ID -->
+    <td>
+      <br>{{ id }}
+    </td>
+
+    <!-- USER NAME -->
+    <td>
+      {{ u['userID'] }}
+    </td>
+
+    <!-- NAME -->
+    <td>
+      {{ u['full_name'] }}
+    </td>
+
+    <!-- EMAIL -->
+    <td>
+      {{ u['email'] }}
+    </td>
+
+    <!-- AFFILIATION -->
+    <td>
+      {{ u['affiliation'] }}
+    </td>
+
+    <!-- GROUP -->
+    <td>
+      {{ u['access_group'] }}
+    </td>
+
+    <!-- LEVEL -->
+    <td>
+      {{ u['access_level'] }}
+    </td>
+
+  </tr>
+
+{% endfor %}
+</table>
+
+
+{% endblock %}

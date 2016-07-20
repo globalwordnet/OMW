@@ -1,0 +1,136 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<input type="hidden" name="current_user" value={{ current_user.id }}>
+
+<table class="sortable">
+  <thead>
+    <tr>
+      <th>iliID</th>
+      <th>Kind</th>
+      <th>Definition</th>
+      <th>Origin</th>
+      <th>OriginKey</th>
+      <th>Status</th>
+      <th>Superseed</th>
+
+      {% if current_user.id %}
+        <th><i class="fa fa-star" aria-hidden="true"></i></th>
+        <th>Actions</th>
+      {% endif %}
+
+    </tr>
+  </thead>
+
+{%- for ili_id, row in ili.items() %}
+  <tr>
+
+    <!-- ili ID -->
+    <td>
+      <!-- <a href='/omw/ili/concepts/{{ ili_id }}'>{{ ili_id }}</a> -->
+      <span class="synset"><a href="/omw/ili/concepts/{{ ili_id }}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
+
+    </td>
+
+    <!-- ili Kind -->
+    <td>
+      {{ row[0] }}
+    </td>
+
+    <!-- ili Definition -->
+    <td> 
+      {{ row[1] }} 
+    </td>
+
+    <!-- Origin (Project) -->
+    <td>
+     <nobr>{{ row[2][0] }}-{{ row[2][1] }}</nobr>
+    </td>
+
+    <!-- Origin Key -->
+    <td>
+      <nobr>{{ row[3] }}</nobr>
+    </td>
+
+    <!-- Status -->
+    <td>
+      {% if row[4] == "temporary" %}
+      {{ row[4] }}<br>
+      ({{ row[6].split()[0] }}) 
+      {% else %}
+      {{ row[4] }}
+      {% endif %}
+    </td>
+
+    <!-- Superseed -->
+    <td>
+      {{ row[5] }}
+    </td>
+
+    <!-- ACTIONS (IF LOGGED IN) -->
+    {% if current_user.id %}
+
+    <td>
+      <span id="rating{{ ili_id }}">
+	<span style="color:green" title="{{ up_who[ili_id] }}">+{{ rsumm[ili_id]['up']  }}</span><br>
+        <span style="color:red"  title="{{ down_who[ili_id]  }}">-{{ rsumm[ili_id]['down'] }}</span>
+      </span>
+    </td>
+
+    <td>
+
+      {% if current_user.id in up_who[ili_id] %}
+      <span class="thumbup" id="thumbup{{ ili_id }}" data-ili="{{ ili_id }}">
+	 <i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:green"></i>
+      </span>
+      {% else %}
+      <span class="thumbup" id="thumbup{{ ili_id }}" data-ili="{{ ili_id }}">
+	 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+      </span>
+      {% endif %}
+
+
+      {% if current_user.id in down_who[ili_id] %}
+      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}"> 
+      <i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:red"></i>
+      </span>
+      {% else %}
+      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}">
+      <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+      </span>
+      {% endif %}
+
+
+      <span class="comment" id="comment{{ ili_id }}" data-ili="{{ ili_id }}"> 
+	<i class="fa fa-comments-o" aria-hidden="true"></i>
+      </span>
+
+
+      <span class="detailed" id="detailed{{ ili_id }}" data-ili="{{ ili_id }}"><i class="fa fa-toggle-off" aria-hidden="true"></i></span>
+
+
+    </td>
+
+    {% endif %}
+
+  </tr>
+
+
+
+  <!-- Detailed View   (IF LOGGED IN) -->
+  {% if current_user.id %}
+  <tr id="seedetailed{{ ili_id }}">
+  </tr>
+  {% endif %}
+
+
+
+
+{%- endfor %}   
+</table>
+
+
+{% block detailed %}{% endblock %}
+
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "omw.html" %}
+{% block body %}
+
+<h6> Your query returned {{ ss.keys()|length }} results!</h6>
+
+
+<table class="sortable hoverTable">  
+  <thead>
+    <tr>
+      <th style="text-align:center">ID</th>
+      <th>Senses</th>
+      <th>Definitions</th>
+      <th>Examples</th>
+    </tr>
+  </thead>
+
+
+{%- for ss_id, sense in sense.items() %}
+  <tr>
+
+    <!-- CONCEPT -->
+    <td style="text-align:center">
+      <a href="/omw/concepts/{{ ss_id }}">
+	<nobr>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</nobr></a>
+      {% if ss[ss_id][0] %}
+      <br><nobr><a href="/ili/concepts/{{ss[ss_id][0]}}">
+	  i{{ ss[ss_id][0] }}</a></nobr>
+      {% endif %}
+    </td>
+
+    <!-- SENSES -->
+    <td>
+      {% if senses[ss_id][langsel] %}
+      <u>{{lang_dct[langsel]["bcp47"]}}</u>:
+      {{ '; '.join(senses[ss_id][langsel]) }}<br>
+      {% endif %}
+      {% if langsel != langsel2 and senses[ss_id][langsel2]  %}
+      <u>{{lang_dct[langsel2]["bcp47"]}}</u>:
+      {{ '; '.join(senses[ss_id][langsel2]) }}<br>
+      {% endif %}
+    </td>
+
+    <!-- DEFINITIONS -->
+    <td>
+      {% if defs[ss_id][langsel] %}
+      <u>{{lang_dct[langsel]["bcp47"]}}</u>:
+      {{ '; '.join(defs[ss_id][langsel]) }}<br>
+      {% endif %}
+      {% if  langsel != langsel2 and defs[ss_id][langsel2] %}
+      <u>{{lang_dct[langsel2]["bcp47"]}}</u>:
+      {{ '; '.join(defs[ss_id][langsel2]) }}<br>
+      {% endif %}
+    </td>
+
+
+    <!-- EXAMPLES -->
+    <td>
+      {% if exes[ss_id][langsel] %}
+      <u>{{lang_dct[langsel]["bcp47"]}}</u>:
+      {{ '; '.join(exes[ss_id][langsel]) }}<br>
+      {% endif %}
+      {% if langsel != langsel2 and exes[ss_id][langsel2] %}
+      <u>{{lang_dct[langsel2]["bcp47"]}}</u>:
+      {{ '; '.join(exes[ss_id][langsel2]) }}<br>
+      {% endif %}
+    </td>
+
+  </tr>
+
+{%- endfor %}   
+</table>
+
+{% endblock %}

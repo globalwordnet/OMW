@@ -1,0 +1,85 @@
+<!doctype html>
+<head>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='HTML-KickStart-master/js/kickstart.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
+
+
+  <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script> 
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sweetalert2/sweetalert2.css') }}">
+
+  <script src="{{ url_for('static', filename='ili.js') }}"></script> 
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='gwg.css') }}" />
+
+
+  <title>OMW-CILI</title>
+</head>
+
+<body>
+
+
+
+<div id="container">
+   <div id="header">
+
+     <div id="headerL">
+     </div>
+
+     <div id="headerR">
+     {% if not current_user.id %}
+     <!-- <a href="{{ url_for('login') }}" title="Login"><i class="fa fa-user" aria-hidden="true"></i></a> -->
+     <!--   &nbsp;&nbsp; -->
+
+     {% else %}
+     <!-- Logged in as: {{current_user.id}}  ({{current_user.group}}) -->
+     <!-- <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green"> -->
+     <!--   <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp; -->
+
+     <!-- <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout"> -->
+     <!--   <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
+
+     {% endif %}
+     <!-- <a href="/"><i class="fa fa-home" aria-hidden="true"></i></a> -->
+     </div>
+
+   </div>
+
+
+   <div id="body">
+
+     <p><a href="/omw">GO TO OMW</a></p>
+     <p><a href="/ili">GO TO CILI</a></p>
+
+     <!-- {% block welcome %}{% endblock %} -->
+     
+     <!-- {% block body %}{% endblock %} -->
+   </div>
+
+
+
+   <div id="footer">
+
+     <!-- <hr class="footer"> -->
+     <p>This is some footer...
+       <br>
+       <a href="https://github.com/globalwordnet/CILI" target="_blank" style="text-decoration: none; color: black;">
+	 <i class="fa fa-github"></i></a>
+       &nbsp;&nbsp;
+       <i class="fa fa-google-plus-square"></i>&nbsp;&nbsp;
+     </p>
+
+   </div>
+</div>
+
+
+
+
+
+</body>

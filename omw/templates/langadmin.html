@@ -1,0 +1,75 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<input type="hidden" name="current_user" value={{ current_user.id }}>
+
+
+<h4>Language Admin</h4>
+
+<p>
+  This is a list of current languages.
+</p>
+
+<p><span id="add_new_language" name="add_new_language"><a href="">Add New Language</a></span></p>
+<table class="sortable">  
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>BCP47</th>
+      <th>ISO639</th>
+      <th>English Name</th>
+      <th>All Translations</th>
+    </tr>
+  </thead>
+
+
+{% for id, more in langs.items() %}
+{% if 'code' in more.keys() %}
+{% else %}
+  <tr>
+
+    <!-- ID -->
+    <td>
+      {{ id }}
+    </td>
+
+    <!-- BCP47 -->
+    <td>
+      {{ more['bcp47'] }}
+    </td>
+
+    <!-- ISO 639 -->
+    <td>
+      {{ more['iso639'] }}
+    </td>
+
+    <!-- ENGLISH NAME -->
+    <td>
+      {{ more[1] }}
+    </td>
+
+    <!-- ALL TRANSLATIONS -->
+    <td>
+      {% for i in more.keys() %}
+      
+        {% if i not in ['bcp47', 'iso639'] %}
+      
+          {% if langs[i]['bcp47'] %}
+            {{ langs[i]['bcp47']  }}: {{ more[i]  }}
+          {% else %}
+            {{ langs[i]['iso639']  }}: {{ more[i]  }}      
+          {% endif %}
+      
+        {% endif %}
+
+      {% endfor %}
+    </td>
+
+
+  </tr>
+{% endif %}
+{% endfor %}
+</table>
+
+
+{% endblock %}

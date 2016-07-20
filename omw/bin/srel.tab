@@ -1,0 +1,13 @@
+antonym	antonym
+also	also
+participle	participle
+pertainym	pertainym
+derivation	derivation
+domain_topic	domain_topic
+has_domain_topic	has_domain_topic
+domain_region	domain_region
+has_domain_region	has_domain_region
+exemplifies	exemplifies
+is_exemplified_by	is_exemplified_by
+similar	similar
+other	other

@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="{{ url_for('static', filename='HTML-KickStart-master/js/kickstart.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
+
+
+  <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script> 
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sweetalert2/sweetalert2.css') }}">
+
+
+  <script src="{{ url_for('static', filename='js/omw.js') }}"></script> 
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script> 
+  <script src="{{ url_for('static', filename='js/jquery.quicksearch.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery.multi-select.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/multi-select.css') }}" media="all" /> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" />
+
+
+
+<script>
+$(document).ready(function(){
+    $("#settings").toggle();
+    $("#togglesettings").click(function(){
+        $("#settings").slideToggle();
+    });
+
+
+    <!-- Language Selector With Search Function-->
+    $("#select-all").click(function(){
+      $("#woo2").multiSelect("select_all");
+      return false;
+    });
+    $("#deselect-all").click(function(){
+      $("#woo2").multiSelect("deselect_all");
+      return false;
+    });
+    $(".searchable").multiSelect({
+      selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Find Language'>",
+      selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='Find Language'>",
+      afterInit: function(ms){
+	var that = this,
+	    $selectableSearch = that.$selectableUl.prev(),
+	    $selectionSearch = that.$selectionUl.prev(),
+	    selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+	    selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+	that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+	.on('keydown', function(e){
+	  if (e.which === 40){
+	    that.$selectableUl.focus();
+	    return false;
+	  }
+	});
+
+	that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+	.on('keydown', function(e){
+	  if (e.which == 40){
+	    that.$selectionUl.focus();
+	    return false;
+	  }
+	});
+      },
+      afterSelect: function(){
+	this.qs1.cache();
+	this.qs2.cache();
+      },
+      afterDeselect: function(){
+	this.qs1.cache();
+	this.qs2.cache();
+      }
+    });
+
+
+
+});
+</script>
+
+
+  <title>OMW</title>
+</head>
+
+<body>
+
+
+
+<div id="container">
+   <div id="header">
+
+     <div id="headerL">
+
+
+       <form method="POST" action="/omw/search">
+	  <span style="display:inline-block; vertical-align:middle">
+	    <table style="padding:0;margin:0;font-size:85%;">
+	      <tr><td style="padding:0;border:none">Search</td></tr>
+	      <tr><td style="padding:0;border:none">Lemmas:</td></tr></table>
+	  </span><input class="small" type="text" name="query">
+	  <span class='tooltip' title='This is a basic regular expression search function to search through OMW lemmas (i.e. you can make use of * for wild cards, and other basic GLOB regular expressions).'><i class="fa fa-info-circle"></i></span>
+	  <span style="display:inline-block; vertical-align:middle" id="LangSelector"></span>
+
+       </form>
+
+
+
+     </div>
+
+
+     <div id="headerR">
+     {% if not current_user.id %}
+     <a href="{{ url_for('login') }}" title="Login"><i class="fa fa-user" aria-hidden="true"></i></a>
+       &nbsp;&nbsp;
+
+     {% else %}
+     <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green">
+       <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;
+
+     <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout">
+       <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
+
+     {% endif %}
+     <a href="/ili">CILI</a>&nbsp;&nbsp;
+     <a href="/omw">OMW</a>&nbsp;&nbsp;
+
+
+     </div>
+
+   </div>
+
+
+   <div id="body">
+
+       <!-- <button class="small" id="togglesettings">Toggle Settings</button> -->
+       <!-- <div id="settings"> -->
+       <!-- 	 <a href='#' id='select-all'>select all</a> -->
+       <!-- 	 <a href='#' id='deselect-all'>deselect all</a> -->
+       <!-- 	 <div class='span12'> -->
+       <!-- 	   <select multiple class="searchable" name="searchable[]" id="woo2"> -->
+       <!-- 	     <option value='eng'>English</option> -->
+       <!-- 	     <option value='jpn'>Japanese</option> -->
+       <!-- 	     <option value='cmn'>Chinese</option> -->
+       <!-- 	     <option value='ind'>Indonesian</option> -->
+       <!-- 	     <option value="elem_99">elem 99</option> -->
+       <!-- 	     <option value="elem_100">elem 100</option></select> -->
+       <!-- 	   <br/> -->
+       <!-- 	 </div> -->
+       <!-- </div> -->
+
+     {% block welcome %}{% endblock %}
+     
+     {% block body %}{% endblock %}
+   </div>
+
+
+
+   <div id="footer">
+
+     <p>This is (currently experimental) web site for the Open Multilingual Wordnet
+       <br>
+       <a href="https://github.com/globalwordnet/CILI" target="_blank" style="text-decoration: none; color: black;">
+	<i class="fa fa-github"></i></a>
+       &nbsp;&nbsp;
+       <i class="fa fa-google-plus-square"></i>&nbsp;&nbsp;
+       <br>Questions, comments and kudos to <a href='mailto:bond@ieee.org'>Francis Bond</a>.
+       <br>Many thanks to Luís Morgado da Costa and all who have commented and helped.
+     </p>
+   </div>
+</div>
+
+
+
+
+<!-- <h6>jQuery Examples</h6> -->
+<script type="text/javascript">
+  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script> 
+
+
+
+
+<div id="divtooltip"></div>
+</body>
+</html>

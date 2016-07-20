@@ -1,0 +1,87 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<h3>Description of the Metada for Wordnet LMF (used by CILI)</h3>
+
+<p>This is a human readable description of the metadata with
+explanations. The <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd"
+target="_blank">Wordnet LMF document type definition (DTD)</a> is available from github.
+
+
+<h6>id</h6>
+<p>A short name for the resource.  It should
+    be 3–7 lowercase ASCII letters that identifies the project and
+    lexicon, e.g. “mcrcat”
+      <br>e.g. <tt>pwn</tt>;  <tt>bhsind</tt>
+      <ul>
+	<li> The ILI maintainers will keep a list of these IDs: these
+	identify wordnets in the wordnet grid: wordnets linked to the
+	ILI released under an open license
+	<li>Lexicon ids are persistent across versions, and will be
+	rejected if unkown; (contact us if you don't have/know
+	yours)</li>
+      </ul>
+<h6>label</h6>
+<p>The full name for the resource
+      <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa Indonesia</tt>,	<tt>Wordnet Bahasa Malaysia</tt>`
+<h6>language</h6>
+<p>Please follow <a href='https://tools.ietf.org/html/bcp47'>BCP-47</a> for the <a href='https://www.w3.org/International/articles/language-tags/'>language tag</a>
+                      tl;dr:  use a two-letter code if available else a
+                      three-letter code
+      <br>e.g. <tt>en</tt>; <tt>id</tt>, <tt>zsm</tt>
+<p>There is a good tool for looking things up <a href="https://r12a.github.io/apps/subtags/">here</a>.
+
+<h6>email</h6>
+<p>Please give a contact email address
+
+<h6>license</h6>
+<p>The license of your resource (please provide URL)
+
+<p>Licenses should be open according to either the <a href='https://opensource.org/licenses'>Open Source Initiative</a> or the <a href="http://opendefinition.org/licenses/">Open Definition</a> or the <i>wordnet</i> license.
+
+<p>Currently we recognize and recommend:
+<ul>
+  <li>Wordnet: <tt>wordnet</tt>
+  <li>CC BY: <tt>http://opendefinition.org/licenses/cc-by/</tt>
+  <li>ODC BY: <tt>http://opendefinition.org/licenses/odc-by/</tt>
+  <li>CC BY SA: <tt>http://opendefinition.org/licenses/cc-by-sa/</tt>
+</ul>
+<p>We also recognize:
+<ul>
+  <li>MIT <tt>https://opensource.org/licenses/MIT/</tt>  
+  <li>Apache 2.0 <tt>https://opensource.org/licenses/Apache-2.0</tt>
+</ul>
+
+<!-- Apache 2.0 -->
+<!-- Freetouse -->
+<!-- CeCILL-C -->
+
+
+<h6>version</h6>
+<p>A string identifying this version (following
+                     major.minor format)
+      	<br>e.g. 3.0; 1.3
+<h6>url</h6>
+<p>A URL for your project homepage
+      <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
+<h6>citation</h6>
+<p>The paper to cite for this resource
+
+<h6>status</h6>
+<p>The status of the resource, e.g., "valid", "checked", "unchecked"
+<h6>confidenceScore</h6>
+<p>A numeric value between 0 and 1
+      giving the confidence in the correctness of the element.  Only
+      entries with a value of 1 will be considered for the ILI.
+</ul>
+
+<br><br>
+<h5>Usage Notes</h5>
+
+<p>The id and version will be used for the restful interface: by
+default we will have <tt>http://path.to.omw/ID/Version/synset-id</tt>
+<br>
+e.g.   <tt>http://path.to.omw/pwn/3.0/012345678-n</tt>
+
+
+{% endblock %}

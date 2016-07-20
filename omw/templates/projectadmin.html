@@ -1,0 +1,27 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<input type="hidden" name="current_user" value={{ current_user.id }}>
+
+<h4>Projects and Sources Admin</h4>
+
+Select Project to see details:
+<select id="proj-selector" name="proj-selector">
+<option value=""></option>
+{% for id in projs.keys() %}
+<option value="{{ id }}">{{ projs[id] }}</option>
+{% endfor %}
+</select>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span id="add-new-project" name="add-new-project">
+Add New Project
+</span>
+
+<br>
+<div id="proj-details" name="proj-details">
+</div>
+
+
+
+
+{% endblock %}

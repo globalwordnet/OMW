@@ -1,0 +1,364 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<input type="hidden" name="current_user" value="{{ current_user.id }}">
+<input type="hidden" name="fn" value="{{ filename }}">
+
+<div id="validation_div">
+<div class="b_float_left">
+  <h5>Validation Report:</h5>
+
+  <p><b>Stage 0: Upload and Read File</b></p>
+  {% if vr['upload'] %}
+  <p><i class="fa fa-check" aria-hidden="true"></i> The file "{{ filename }}" was uploaded successfully.</p>
+  {% else %}
+  <p><i class="fa fa-times" aria-hidden="true"></i> The file failed to upload.</p>
+  {% endif %}
+  {% if vr['read'] %}
+  <p><i class="fa fa-check" aria-hidden="true"></i> The file was read  successfully.</p>
+  {% else %}
+  <p><i class="fa fa-times" aria-hidden="true"></i> The file could not be read! Make sure the file is in a valid format.</p>
+  {% endif %}
+  
+  
+  <br><p><b>Stage 1: DTD validation</b></p>
+  {% if vr['dtd_val'] %}
+  <p><i class="fa fa-check" aria-hidden="true"></i> The structure of the wordnet file was 
+    successfully validated against the Wordnet LMF document type definition (DTD).</p>
+  {% else %}
+  <p><i class="fa fa-times" aria-hidden="true"></i> Your wordnet file failed to validate 
+    against the Wordnet LMF document type definition (DTD).</p>
+  <p>Errors: {{ vr['dtd_val_errors'] }} </p>
+  {% endif %}
+  {% if vr['lexicons_found'] %}
+  <p><i class="fa fa-check" aria-hidden="true"></i> {{ vr['num_lexicons_found'] }} Lexicon(s) was/were found. {{ vr['lexicons_found'] }}</p>
+  {% else %}
+  <p><i class="fa fa-times" aria-hidden="true"></i> No lexicons were found.</p>
+  {% endif %}
+
+
+  <br><p><b>Stage 2: Checking Lexicon Meta-Data</b></p>
+
+  {%- for lexicon in vr['lexicon'].keys() %}
+
+  <p><u>Lexicon: {{ lexicon }}</u></p>
+
+      {% if vr['lexicon'][lexicon]['lex_lbl'] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>  
+	The project label "{{ vr['lexicon'][lexicon]['lex_lbl_val'] }}" was matched.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	The project label "{{ vr['lexicon'][lexicon]['lex_lbl_val'] }}" could <u>not</u> be matched.</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['lang_lbl'] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" was matched.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" could <u>not</u> be matched.</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['version_lbl'] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	"{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" is a new version of this resource.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	There is already a record with version "{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" for this resource.</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['confidence_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	The confidence score of "{{ vr['lexicon'][lexicon]['confidence_lbl_val'] }}" was validated for this resource.</p>
+      {% elif vr['lexicon'][lexicon]['confidence_lbl'] == 'warning' %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+	The confidence score of "{{ vr['lexicon'][lexicon]['confidence_lbl_val'] }}" is acceptable but not ideal. 
+	Individual synsets inherit the confidenceScore from the lexicon if no further score is provided. 
+	Only synsets with confidenceScore of '1.0' will be considered to expand the ILI.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	The confidence score of "{{ vr['lexicon'][lexicon]['confidence_lbl_val'] }}" is <u>not</u> acceptable.</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['license_lbl'] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	"{{ vr['lexicon'][lexicon]['license_lbl_val'] }}" is an acceptable license for your resource.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	"{{ vr['lexicon'][lexicon]['license_lbl_val'] }}" is <u>not</u> an acceptable license for your resource.</p>
+      {% endif %}
+
+
+  {%- endfor %}
+
+
+
+  <br><p><b>Stage 3: Checking a few things for all synsets:</b></p>
+
+  {%- for lexicon in vr['lexicon'].keys() %}
+
+  <p><u>Lexicon: {{ lexicon }}</u></p>
+
+      {% if vr['lexicon'][lexicon]['synsets_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	{{ vr['lexicon'][lexicon]['synsets_lbl_val'] }} synset(s) found in this resource.</p>
+      {% elif vr['lexicon'][lexicon]['synsets_lbl'] == 'warning' %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+	No synsets were found in this resource. This is acceptable but unexpected.</p>
+      {% endif %}
+
+      <!-- POS -->
+      {% if vr['lexicon'][lexicon]['synsets_bad_pos_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All synsets found in this resource seem to have a single consistent POS from their lemmas.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	There are synsets with either multiple or no POS information from their lemmas:</p>
+       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_pos_val'] }}</p>
+      {% endif %}
+
+      <!-- Sense Example Language Mismatch -->
+      {% if vr['lexicon'][lexicon]['synsets_bad_sensExe_lang_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	All sense examples seem to have the language consistent with their lexicon.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	There are sense examples showing a language mismatch with their lexicon:</p>
+       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_sensExe_lang_val'] }}</p>
+      {% endif %}
+
+
+      {% if vr['lexicon'][lexicon]['synsets_bad_id_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All synsets passed the id-convention check in this resource.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	 Some synsets are violating the adopted id-convention in this resource:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_id_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_with_ili_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	{{ vr['lexicon'][lexicon]['synsets_with_ili_lbl_val'] }} synsets had a valid ILI key.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+	 There seem to be no synsets with an ILI key. This is acceptable but unexpected.</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_bad_ili_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All ILI keys refered by synsets were checked to exist.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some synsets refer ILI keys that either don't exist or don't look like ILI keys:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_ili_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_out_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All synsets either provided an ILI key or were requested to be included.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+	Some ({{ vr['lexicon'][lexicon]['synsets_ili_out_lbl_val'] }}) synsets neither provide an ILI key nor request to be included. This is completely valid (since they will be ignored by ILI), but you should be aware if this fact.</p>
+      {% endif %}
+
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_new_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	{{ vr['lexicon'][lexicon]['synsets_ili_new_lbl_val'] }} synsets were proposed as new canditates to ILI.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+	No synsets seemed to have been proposed as new ILI candidates.
+	This is valid, but unexpected.</p>
+      {% endif %}
+
+
+      <!-- From here I only show them if the error exists -->
+      {% if vr['lexicon'][lexicon]['synsets_ss_def_lang_lbl'] == False %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some synsets provided a definition language code that was not recognized.</p>
+      <p>{{ vr['lexicon'][lexicon]['synsets_ss_def_lang_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ss_ex_lang_lbl'] == False %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some synsets provided an example language code that was not recognized.</p>
+      <p>{{ vr['lexicon'][lexicon]['synsets_ss_ex_lang_lbl_val'] }}</p>
+      {% endif %}
+
+
+
+  {%- endfor %}
+
+
+
+  <br><p><b>Stage 4: Checking New ILI Candidates</b></p>
+
+  {%- for lexicon in vr['lexicon'].keys() %}
+
+  <p><u>Lexicon: {{ lexicon }}</u></p>
+
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_def_notexists_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	An ILI definition was found to each new ILI candidate.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some new ILI candidates did not contain a ILI definition:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_notexists_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['ili_def_conf_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	An ILI definition seem to have a valid confidenceScore.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some new ILI did not contain a valid ILI definition confidenceScore:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['ili_def_conf_lbl_val'] }}</p>
+      {% endif %}
+
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_def_length_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All ILI definitions seem to respect the required minimum length.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some ILI definitions have failed the minimum length requirement:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_length_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_def_nonuniq_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	No ILI definition found to overlap with existing ILI definitions.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some of your proposed ILI definitions already exist within ILI:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_nonuniq_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_def_nonuniq2_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	No ILI definitions were found to overlap within your resource.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i> 
+	Some of your proposed ILI definitions were were found to overlap within your resource:</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_nonuniq2_lbl_val'] }}</p>
+      {% endif %}
+
+
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_rel_bad_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All new ILI candidates seem to be properly linked.
+      </p>
+      {% else  %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	Some new ILI candidates could not be properly linked within the allowed set of synsetRelations.</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_rel_bad_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ili_rel_warn_lbl'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i> 
+	All linked new ILI candidates have strong synsetRelations.
+      </p>
+      {% else  %}
+      <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+	Some new ILI candidates seem to be linked only with weak synsetRelations. 
+	This is acceptable but not desirable.  You should check them:</p>
+	<p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_rel_warn_lbl_val'] }}</p>
+      {% endif %}
+
+  {%- endfor %}  
+</div>
+
+
+
+<div class="b_float_right">
+  <h5>Summary of changes to ILI:</h5>
+
+  {% if vr['final_validation'] %}
+
+
+<table class="sortable">
+  <thead>
+    <tr>
+      <th>iliID</th>
+      <th>Kind</th>
+      <th>Definition</th>
+      <th>Origin</th>
+      <th>OriginKey</th>
+    </tr>
+  </thead>
+
+
+
+  {%- for lexicon in vr['lexicon'].keys() %}
+
+  {%- for new_ili_synset in wn_dtls['ss_ili_new'][lexicon] %}
+
+
+
+  <tr>
+    <!-- ili ID -->
+    <td><b>*</b></td>
+
+    <!-- ili Kind -->
+    <td>
+      {{wn[lexicon]['syns'][new_ili_synset]['ili_kind_str']}}
+    </td>
+
+    <!-- ili Definition -->
+    <td> 
+    {%- for (ili_def_lang, ili_def) in wn[lexicon]['syns'][new_ili_synset]['ili_def'].keys() %}
+    {{ ili_def }}
+    {%- endfor %}
+    </td>
+
+    <!-- Origin (Project) -->
+    <td>
+     <nobr>{{lexicon}}-{{vr['lexicon'][lexicon]['version_lbl_val']}}</nobr>
+    </td>
+
+    <!-- Origin Key -->
+    <td>
+      <nobr>{{wn[lexicon]['syns'][new_ili_synset]['ili_origin_key']}}</nobr>
+    </td>
+  </tr>
+
+  
+  {%- endfor %}
+  {%- endfor %}
+
+</table>
+<b>* New iliIDs will only be assigned upon upload confirmation (below)</b>
+
+  <br><br>
+  <h6>Besides the changes to ILI, this wordnet will also be 
+    imported and made available in the OMW browser.</h6>
+
+  {% else %}
+  No changes can be made to ili until the wordnet LMF file has been properly validated.
+  {% endif %}
+
+
+</div>
+
+<div style="clear: both;"></div>
+
+
+
+
+{% if vr['final_validation'] %}
+<div id="confirm_wn_upload" style="background-color:#009900;text-align:center; padding:5px;">
+<h5>Validation Passed! (Click here to confirm upload)</h5>
+</div>
+{% else %}
+<div style="background-color:#cc0000;text-align:center; padding:5px;">
+<h5>Validation Failed!</h5>
+</div>
+{% endif %}
+</div>
+
+
+
+{% endblock %}

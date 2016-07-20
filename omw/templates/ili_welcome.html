@@ -1,0 +1,55 @@
+{% extends "ili.html" %}
+{% block welcome %}
+
+<h3> Welcome to CILI</h3>
+
+
+<br>
+<br>
+<p><a href='https://github.com/globalwordnet/'>Find out more on Github</a></p>
+
+<p><a href='temporary'> See temporary ILI concepts</a></p>
+
+<p><a href='deprecated'> See deprecated ILI concepts</a></p>
+
+<hr>
+
+
+
+{% if current_user.id %}
+<div id="UserPanel">
+<h5>User Panel</h5>
+    <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
+</div>
+<hr>
+{% endif %}
+
+
+{% if current_user.group == 'admin' %}
+<div id="AdminPanel">
+<h5>Admin Panel</h5>
+    <p><a href="{{ url_for('useradmin') }}">User Administration</a></p>
+    <p><a href="{{ url_for('projectadmin') }}">Project and Source Administration</a></p>
+    <p><a href="{{ url_for('langadmin') }}">Language Administration</a></p>
+</div>
+<hr>
+{% endif %}
+
+
+
+
+
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
+

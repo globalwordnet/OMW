@@ -1,0 +1,89 @@
+
+#line{
+  border-bottom:1px #aaaaaa solid;
+  overflow: visible;
+  height: 9px;
+  margin: 15px 0 20px 0;  
+}
+
+#line span{
+background-color: #aaaaaa;
+border-radius: 5px 5px 5px 3px;  //rounds corners 
+font-weight: normal;
+font-size:small;
+color: white;
+padding: 0 5px;
+}
+
+
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#container {
+    min-height:100%;
+    position:relative;
+}
+#header {
+    padding:10px;
+    padding-bottom:45px;  /* Height of the header */
+    border-bottom: 3px double #8c8c8c;
+}
+#headerL {
+    width: 80%; 
+    float:left;
+}
+#headerR {
+    width: 20%;
+    float:right;
+    text-align: right;
+    padding-right:10px;
+}
+#body {
+    padding:10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 90px;   /* Height of the footer */
+}
+.b_float_left {
+    width: 49%; 
+    float: left;
+    overflow-y: scroll;
+    padding: 10px;
+    padding-bottom:90px;   /* Height of the footer */
+}
+.b_float_right {
+    width: 49%; 
+    float: right;
+    overflow-y: scroll;
+    padding: 10px;
+    padding-bottom:90px;   /* Height of the footer */
+}
+#footer {
+    text-align: center;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:90px;   /* Height of the footer */
+    background: #D3D3D3;
+}
+
+
+
+
+
+
+
+ /* This the class for a hidden tooltip div to populate and show on hover of elements */
+#divtooltip {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: 1px solid black;
+    padding: 5px;
+    z-index: 100;
+    background-color: white;
+    display: none;
+}

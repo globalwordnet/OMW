@@ -1,0 +1,126 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<input type="hidden" name="current_user" value={{ current_user.id }}>
+
+<h4>Upload a new Wordnet to the Grid</h4>
+
+<p>This interface can be used to upload a Wordnet, in the Wordnet LMF
+format, to the Global Wordnet Grid.  This has two effects:
+<ul>
+  <li>The wordnet is added to the Open Multilingual Wordnet (OMW)
+  <li>New concepts can be added to the Collaborative Inter-lingual Index (CILI)
+</ul>
+Uploading can be done through a file or by providing a url pointing to a valid Wordnet LMF file.</p>
+
+<p>This file will be matched against the public <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd" target="_blank">Wordnet LMF document type definition (DTD)</a>, along with other sanity checks.</p>
+
+<p>The ultimate responsibility for the quality of the content is the individual projects.
+
+<br><p>Please <b><u>read the guidelines provided below carefully</u></b> before proceeding.</p><br>
+
+<h5>Wordnet Metadata</h5>
+
+<p>Each lexicon must have correct metadata 
+  (<a href='/metadata'>see here for more detail</a>)
+    Extra properties may be included from the 
+    <a href='http://dublincore.org/documents/dces/'>Dublin core</a>
+
+  <ul>   
+    <li><strong>id</strong> A short name for the resource
+      <br>e.g. <tt>pwn</tt>;  <tt>bahasa</tt>		    
+    <li><strong>label</strong> The full name for the resource
+      <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa</tt>	
+    <li><strong>language</strong> Please follow BCP-47, i.e., use a two-letter
+                      code if available else a three-letter code
+      <br>e.g. <tt>en</tt>; <tt>id</tt>, <tt>zsm</tt>
+    <li><strong>email</strong> Please give a contact email address
+    <li><strong>license</strong> The license of your resource (please provide URL)
+	<br>e.g. <tt>https://opensource.org/licenses/MIT</tt>
+    <li><strong>version</strong> A string identifying this version (following
+                     major.minor format)
+      	<br>e.g. 3.0; 1.3
+    <li><strong>url</strong> A URL for your project homepage
+      <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
+    <li><strong>citation</strong> The paper to cite for this resource
+
+    <li><strong>status</strong> The status of the resource, e.g., "valid", "checked", "unchecked"
+    <li><strong>confidenceScore</strong> A numeric value between 0 and 1
+      giving the confidence in the correctness of the element.  Only
+      entries with a value of 1 will be considered for the ILI.
+</ul>
+<h5>Synset Identifiers and adding Synsets to CILI</h5>
+<ul>
+  <li>Synset ids in your LMF file should take the project id followed
+  by an hyphen preceeding the id that will be considered original
+  (e.g. <tt>pwn-00001740-n</tt> for original id <tt>00001740-n</tt> in
+  lexicon with id <tt>pwn</tt>)</li>  This is because xml ids cannot start with numbers
+
+  <li>Synsets in your LMF file must make an explicit reference to
+  their ILI status: an ILI id preceeded by the letter 'i'
+  (e.g. i78871) indicating full equivalance, the string 'in'
+  indicating the suggestion of a new concept to ILI, or the empty
+  string indicating agnosticity to ILI equivalences while deferring
+  from suggesting it as a new concept.</li>
+  
+  <li>All new ILI candidates must have been hand checked by a human;</li>
+
+  <li>Newly suggested concepts must provide a unique English
+  definition within the ILI repository, with at least 20 characters or
+  5 words;</li>
+
+  <li>By uploading your Wordnet LMF in this interface, you agree to
+  release the English definitions accompanying new ILI candidates
+  under a <a href="https://creativecommons.org/licenses/by/4.0/"
+  target="_blank">CC BY 4.0</a> license</li> or a later version
+
+  <li>New concepts must be linked, directly or indirectly (through new synsets), to an existing ILI concept.</li>
+  <li>The list of available relations is available under
+  SynsetRelation.relType in the DTD link provided above, <b>but
+  excluding see_also</b>;</li>
+  <li>Your LMF file must include all targets of relations to be valid.</li>
+</ul>
+
+
+<br>
+
+<p>Before the upload takes place, we will provide you with a small report indicating if the syntax of your LMF file seems to be in order.</p>
+<p>You can upload or link to any Wordnet LMF file with the following extensions (.xml, .xml.gz).</p>
+
+<form enctype="multipart/form-data" action="/ili/validation-report" method="post">
+<p><i class="fa fa-file-archive-o"></i> FILE:<input type="file" name="file" required><input type="submit" value="Validate"></p>
+</form>
+
+
+<form action="/ili/validation-report" method="post">
+<p><i class="fa fa-cloud-upload"></i> URL: <input type="text" size=41 name="url" required><input type="submit" value="Validate"></p>
+</form>
+
+<br><br>
+<h6>References</h6>
+<p>The basic structure is described here (this web page is more up-to-date):
+
+<dl>
+  <dt><a name="Vossen:Bond:McCrae:2016">Piek Vossen, Francis Bond and John P. McCrae (2016)</a></dt>
+  <dd><a href="http://gwc2016.racai.ro/procedings.pdf">Toward a truly multilingual Global Wordnet Grid</a>.
+    In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
+  </dd>
+  <dt><a name="Bond:Vossen:McCrae:Fellbaum:2016">Piek Vossen, Francis Bond, 
+      John P. McCrae and Christiane Fellbaum (2016)</a></dt>
+  <dd><a href="http://gwc2016.racai.ro/procedings.pdf">CILI: the Collaborative Interlingual Index</a>.
+    In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
+  </dd>
+</dl>
+
+
+<h6>Disclaimer</h6>
+
+<p>The Open Multilingual Wordnet may not contain all of the
+information in the component wordnets.  It is the (large and we hope
+useful) subset of information we know how to represent.
+
+</body></html>
+
+{% endblock %}
+
+
