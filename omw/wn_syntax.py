@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 from lxml import etree
 
 from common_sql import *
-from ili_sql import *
+from omw_sql import *
 
 
 ILI_DTD = 'db/WN-LMF.dtd'

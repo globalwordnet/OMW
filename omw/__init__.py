@@ -85,7 +85,7 @@ def thumb_up_id():
     counts, up_who, down_who = f_rate_summary([ili_id])
     html = """ <span style="color:green" title="{}">+{}</span><br>
                <span style="color:red"  title="{}">-{}</span>
-           """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'], 
+           """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'],
                       down_who[int(ili_id)], counts[int(ili_id)]['down'])
     return jsonify(result=html)
 
@@ -100,7 +100,7 @@ def thumb_down_id():
     counts, up_who, down_who = f_rate_summary([ili_id])
     html = """ <span style="color:green" title="{}">+{}</span><br>
                <span style="color:red"  title="{}">-{}</span>
-           """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'], 
+           """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'],
                       down_who[int(ili_id)], counts[int(ili_id)]['down'])
     return jsonify(result=html)
 
@@ -195,8 +195,11 @@ def add_new_language():
     iso = request.args.get('iso', None)
     name = request.args.get('name', None)
 
-    dbinsert = insert_new_language(bcp, iso, name, user)
-    return jsonify(result=dbinsert)
+    if bcp and name:
+        dbinsert = insert_new_language(bcp, iso, name, user)
+        return jsonify(result=dbinsert)
+    else:
+        return jsonify(result=False)
 
 
 @app.route('/_load_proj_details')
@@ -210,7 +213,7 @@ def load_proj_details():
     projs = fetch_proj()
     srcs = fetch_src()
     srcs_meta = fetch_src_meta()
-    
+
     html = str()
 
     if proj_id:
@@ -219,7 +222,7 @@ def load_proj_details():
 
             if srcs[src_id][0] == projs[proj_id]:
                 i += 1
-                html += "<br><p><b>Source {}: {}-{}</b></p>".format(i, 
+                html += "<br><p><b>Source {}: {}-{}</b></p>".format(i,
                         projs[proj_id],srcs[src_id][1])
 
                 for attr_val in srcs_meta[src_id]:
@@ -399,20 +402,20 @@ def search_omw(lang=None, q=None):
 
     # GO FROM FORM TO SENSE
     for s in query_omw("""
-        SELECT s.id as s_id, ss_id,  wid, fid, lang_id, pos_id, lemma 
-        FROM (SELECT w_id as wid, form.id as fid, lang_id, pos_id, lemma 
-              FROM (SELECT id, lang_id, pos_id, lemma 
-                    FROM f WHERE lemma GLOB ? AND lang_id in (?,?)) as form 
-              JOIN wf_link ON form.id = wf_link.f_id) word 
+        SELECT s.id as s_id, ss_id,  wid, fid, lang_id, pos_id, lemma
+        FROM (SELECT w_id as wid, form.id as fid, lang_id, pos_id, lemma
+              FROM (SELECT id, lang_id, pos_id, lemma
+                    FROM f WHERE lemma GLOB ? AND lang_id in (?,?)) as form
+              JOIN wf_link ON form.id = wf_link.f_id) word
         JOIN s ON wid=w_id
         """, [query,lang_id,lang_id2]):
 
 
-        sense[s['ss_id']] = [s['s_id'], s['wid'], s['fid'], 
+        sense[s['ss_id']] = [s['s_id'], s['wid'], s['fid'],
                              s['lang_id'], s['pos_id'], s['lemma']]
 
 
-        lang_sense[s['lang_id']][s['ss_id']] = [s['s_id'], s['wid'], s['fid'], 
+        lang_sense[s['lang_id']][s['ss_id']] = [s['s_id'], s['wid'], s['fid'],
                                                 s['pos_id'], s['lemma']]
 
 

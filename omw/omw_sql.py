@@ -12,8 +12,8 @@ with app.app_context():
     def fetch_langs():
         lang_id = dd(lambda: dd())
         lang_code = dd(lambda: dd())
-        for r in query_omw("""SELECT id, bcp47, iso639, in_lang_id, name 
-                             FROM lang JOIN lang_name 
+        for r in query_omw("""SELECT id, bcp47, iso639, in_lang_id, name
+                             FROM lang JOIN lang_name
                              ON id = lang_id"""):
             lang_id[r['id']]['bcp47'] = r['bcp47']
             lang_id[r['id']]['iso639'] = r['iso639']
@@ -22,11 +22,11 @@ with app.app_context():
             lang_code['code'][r['iso639']] = r['id']
         return lang_id, lang_code
 
-    def fetch_key_lang_code(lang):
+    def fetch_key_bcp_lang_code(lang):
         """ There should be only one id for either lang code """
-        for r in query_omw("""SELECT id, bcp47, iso639
+        for r in query_omw("""SELECT id
                               FROM lang
-                              WHERE (bcp47 = ? OR iso639 = ?)""", [lang,lang]):
+                              WHERE (bcp47 = ?)""", [lang]):
             return r['id']
 
     def fetch_proj():
@@ -46,7 +46,7 @@ with app.app_context():
             return False
 
     def f_proj_id_by_code(code):
-        for r in query_omw("""SELECT id, code 
+        for r in query_omw("""SELECT id, code
                               FROM proj
                               WHERE code = ?""", [code]):
             return r['id']
@@ -65,9 +65,9 @@ with app.app_context():
                          [proj_id, version, u])
 
     def f_src_id_by_proj_ver(proj_id, version):
-        for r in query_omw("""SELECT id, proj_id, version 
+        for r in query_omw("""SELECT id, proj_id, version
                               FROM src
-                              WHERE proj_id = ? AND version = ?""", 
+                              WHERE proj_id = ? AND version = ?""",
                            [proj_id, version]):
 
             return r['id']
@@ -84,7 +84,7 @@ with app.app_context():
                          [src_id, attr, val, u])
 
     def blk_insert_src_meta(tuple_list):
-        """ tupple_list must of of format [(src_id, attr, val, u), ...] """ 
+        """ tupple_list must of of format [(src_id, attr, val, u), ...] """
         return blk_write_omw("""INSERT INTO src_meta (src_id, attr, val, u)
                                 VALUES (?,?,?,?)""", tuple_list)
 
@@ -156,7 +156,7 @@ with app.app_context():
         ili_list = (",".join("?" for s in ili_ids), ili_ids)
         if u:
             # sys.stderr.write('\n USER MODE \n') #TEST
-            for r in query_omw("""SELECT id, ili_id, rating, u, t 
+            for r in query_omw("""SELECT id, ili_id, rating, u, t
                                   FROM ili_rating
                                   WHERE ili_id in ({})
                                   AND   u = ?""".format(ili_list[0]),
@@ -164,7 +164,7 @@ with app.app_context():
                 rating[r['ili_id']].append((r['rating'], r['u'], r['t']))
         else:
             # sys.stderr.write('\n NON USER MODE \n') #TEST
-            for r in query_omw("""SELECT id, ili_id, rating, u, t 
+            for r in query_omw("""SELECT id, ili_id, rating, u, t
                                   FROM ili_rating
                                   WHERE ili_id in ({})
                                """.format(ili_list[0]),
@@ -175,7 +175,7 @@ with app.app_context():
 
     def f_rate_summary(ili_ids):
         """
-        This function takes a list of ili ids and returns a dictionary with the 
+        This function takes a list of ili ids and returns a dictionary with the
         cumulative ratings filtered by the ids.
         """
         counts = dd(lambda: dd(int))
@@ -197,8 +197,8 @@ with app.app_context():
 
     def rate_ili_id(ili_id, rate, u):
         """
-        This function is used to give a +1 or -1 rating to ili ids. It only updates 
-        these values when necessary, overwritting the previous rating if it was 
+        This function is used to give a +1 or -1 rating to ili ids. It only updates
+        these values when necessary, overwritting the previous rating if it was
         different. Returns True on update and None if no changes were necessary.
         """
         ili_id = int(ili_id)
@@ -228,7 +228,7 @@ with app.app_context():
         """
         ili_id = int(ili_id)
         comment = comment.strip() if comment else comment
-        
+
         write_omw("""INSERT INTO ili_com (ili_id, com, u)
                            VALUES (?,?,?)
                       """, [ili_id, comment, u])
@@ -244,14 +244,14 @@ with app.app_context():
         comments = dd(list)
         ili_list = (",".join("?" for s in ili_ids), ili_ids)
         if u:
-            for r in query_omw("""SELECT id, ili_id, com, u, t 
+            for r in query_omw("""SELECT id, ili_id, com, u, t
                                   FROM ili_com
                                   WHERE ili_id in ({})
                                   AND   u = ?""".format(ili_list[0]),
                                ili_list[1]+[u]):
                 comments[r['ili_id']].append((r['com'], r['u'], r['t']))
         else:
-            for r in query_omw("""SELECT id, ili_id, com, u, t 
+            for r in query_omw("""SELECT id, ili_id, com, u, t
                                   FROM ili_com
                                   WHERE ili_id in ({})
                                """.format(ili_list[0]),
@@ -313,21 +313,20 @@ with app.app_context():
     def insert_new_language(bcp, iso, name, u):
         """
         This function is used to add a new language to the system.
+        Only the bcp47 code and the language name are required.
         """
-
-        if ((iso or bcp) and name and u \
-            and (not fetch_key_lang_code(bcp)) \
-            and (not fetch_key_lang_code(iso))):
+        if (bcp and name and u \
+            and (not fetch_key_bcp_lang_code(bcp))):
 
             try:
                 bcp = bcp.strip() if bcp else bcp
                 iso = iso.strip() if iso else iso
                 name = name.strip() if name else name
-
                 lastid = write_omw("""INSERT INTO lang (bcp47, iso639, u)
                                       VALUES (?,?,?)
                                    """, [bcp, iso, u])
-                write_omw("""INSERT INTO lang_name (lang_id, in_lang_id, name, u)
+                write_omw("""INSERT INTO lang_name (lang_id, in_lang_id,
+                                                    name, u)
                              VALUES (?,?,?,?)
                           """, [lastid, 1, name, u])
 
@@ -341,7 +340,7 @@ with app.app_context():
 
 
 
-    # OMW 
+    # OMW
 
     def fetch_pos():
         pos_id = dd(lambda: dd())
@@ -362,7 +361,7 @@ with app.app_context():
         for r in query_omw(""" SELECT id, ss_id, lang_id, def FROM def
                               WHERE ss_id = ?
                               AND lang_id = ?
-                              AND def = ?""", 
+                              AND def = ?""",
                           [ss_id, lang_id, d]):
             return r['id']
 
@@ -370,7 +369,7 @@ with app.app_context():
         for r in query_omw(""" SELECT id, ss_id, lang_id, ssexe FROM ssexe
                               WHERE ss_id = ?
                               AND lang_id = ?
-                              AND ssexe = ?""", 
+                              AND ssexe = ?""",
                           [ss_id, lang_id, e]):
             return r['id']
 
@@ -388,11 +387,11 @@ with app.app_context():
 
 
         senses = dd(lambda: dd(list)) # senses[ss_id][lang] = [sense, sense2]
-        for r in query_omw(""" 
+        for r in query_omw("""
                 SELECT lang_id, lemma, w_id, canon, ss_id
-                FROM ( SELECT w_id, canon, ss_id 
+                FROM ( SELECT w_id, canon, ss_id
                        FROM ( SELECT ss_id, w_id FROM s
-                              WHERE ss_id in (%s)) as sense 
+                              WHERE ss_id in (%s)) as sense
                        JOIN w ON w_id = w.id ) as word
                 JOIN f ON canon = f.id
                  """ % (ss_list[0]), ss_list[1]):
@@ -421,13 +420,13 @@ with app.app_context():
 
 
     def fetch_all_defs_by_ss_lang_text():
-        defs = dd(lambda: dd()) 
+        defs = dd(lambda: dd())
         for r in query_omw("""SELECT id, ss_id, lang_id, def FROM def"""):
             defs[r['ss_id']][(r['lang_id'],r['def'])]=r['id']
         return defs
 
     def fetch_all_ssexe_by_ss_lang_text():
-        ssexes = dd(lambda: dd()) 
+        ssexes = dd(lambda: dd())
         for r in query_omw("""SELECT id, ss_id, lang_id, ssexe FROM ssexe"""):
             ssexes[r['ss_id']][(r['lang_id'],r['ssexe'])]=r['id']
         return ssexes
@@ -641,4 +640,3 @@ with app.app_context():
     def blk_insert_omw_s_src(tuple_list):
         return blk_write_omw("""INSERT INTO s_src (s_id, src_id, conf, u)
                                 VALUES (?,?,?,?)""", tuple_list)
-
