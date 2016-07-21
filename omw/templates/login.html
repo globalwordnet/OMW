@@ -3,7 +3,7 @@
 
       <h3>Please login</h3>
       <br>
-      <form action="" method="post">
+      <form action="{{url_for("index")}}" method="post">
         <input type="text" placeholder="Username" name="username" value="{{
           request.form.username }}">
          <input type="password" placeholder="Password" name="password" value="{{
@@ -18,11 +18,11 @@
 	  {% endfor %}
 	{% endif %}
       {% endwith %}
-     
+
       <p>
-      If the above message states that you have logged in and you still 
-      see this page, this may mean that you do not have the adequate 
-      level of user permission to see the content you're trying to access. 
+      If the above message states that you have logged in and you still
+      see this page, this may mean that you do not have the adequate
+      level of user permission to see the content you're trying to access.
       Please contact us if you think there is a problem.
       </p>
 
