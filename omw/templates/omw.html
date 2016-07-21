@@ -12,17 +12,20 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
 
 
-  <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script> 
+  <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sweetalert2/sweetalert2.css') }}">
 
 
-  <script src="{{ url_for('static', filename='js/omw.js') }}"></script> 
-  <script src="{{ url_for('static', filename='js/common.js') }}"></script> 
+  <script src="{{ url_for('static', filename='js/omw.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.quicksearch.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.multi-select.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/multi-select.css') }}" media="all" /> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/multi-select.css') }}" media="all" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" />
 
+  <script type="text/javascript">
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
 
 
 <script>
@@ -97,7 +100,7 @@ $(document).ready(function(){
      <div id="headerL">
 
 
-       <form method="POST" action="/omw/search">
+       <form method="POST" action="{{ url_for('search_omw') }}">
 	  <span style="display:inline-block; vertical-align:middle">
 	    <table style="padding:0;margin:0;font-size:85%;">
 	      <tr><td style="padding:0;border:none">Search</td></tr>
@@ -126,8 +129,8 @@ $(document).ready(function(){
        <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
 
      {% endif %}
-     <a href="/ili">CILI</a>&nbsp;&nbsp;
-     <a href="/omw">OMW</a>&nbsp;&nbsp;
+     <a href="{{ url_for('ili_welcome') }}">CILI</a>&nbsp;&nbsp;
+     <a href="{{ url_for('omw_welcome') }}">OMW</a>&nbsp;&nbsp;
 
 
      </div>
@@ -154,7 +157,7 @@ $(document).ready(function(){
        <!-- </div> -->
 
      {% block welcome %}{% endblock %}
-     
+
      {% block body %}{% endblock %}
    </div>
 
@@ -177,10 +180,6 @@ $(document).ready(function(){
 
 
 
-<!-- <h6>jQuery Examples</h6> -->
-<script type="text/javascript">
-  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script> 
 
 
 

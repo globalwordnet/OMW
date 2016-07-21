@@ -1,9 +1,7 @@
 $(function() {
     $("#proj-selector").change(function () {
-
 	var target = '#proj-details';
-
-	$.getJSON($SCRIPT_ROOT + '/_load_proj_details', {
+    $.getJSON($SCRIPT_ROOT + '/_load_proj_details', {
 	    proj: $('select[name="proj-selector"]').val()
 	}, function(data) {
 	    $(target).html(data.result);
@@ -16,23 +14,23 @@ $(function() {
 $(function() {
    $("#add-new-project").click(function (event) {
 
-       swal({   
-	   title: "You can add a new project code below!",   
+       swal({
+	   title: "You can add a new project code below!",
 	   input: "text",
 	   showCancelButton: true,
 	   allowOutsideClick: true,
-	   closeOnConfirm: false,   
-	   animation: "slide-from-top",   
+	   closeOnConfirm: false,
+	   animation: "slide-from-top",
 	   inputPlaceholder: "New project code",
 	   buttonsStyling: false
 	   }).then(function(inputValue){
-	       if (inputValue === false) return false;      
+	       if (inputValue === false) return false;
 	       if (inputValue === "") {
 	    	   swal.showInputError("You need to write something!");
 	    	   return false
 	       }
 
-	       $.getJSON($SCRIPT_ROOT + '/_add_new_project', {
+           $.getJSON($SCRIPT_ROOT + "/_add_new_project", {
 		   user: $('input[name="current_user"]').val(),
 		   proj_code: inputValue
 	       }, function(data) {
@@ -74,7 +72,7 @@ $(function() {
 	   }
        }).then(function(result) {
 
-	   
+
 	   $.getJSON($SCRIPT_ROOT + '/_add_new_language', {
 	       user: $('input[name="current_user"]').val(),
 	       bcp: result[0],
@@ -89,7 +87,7 @@ $(function() {
 			"code and the English name to add a new language." , "error");
 
 		   }
-	   });  
+	   });
        })
        return false;
    });
@@ -124,7 +122,7 @@ $(function() {
 		var divtool = document.getElementById("divtooltip");
 		divtool.innerHTML = data.result;
 	    });
-	} else { 
+	} else {
 	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_concept_ili/'+iliid, {
 	    }, function(data) {
 		var divtool = document.getElementById("divtooltip");
@@ -147,5 +145,3 @@ $(function() {
     });
 });
 ////////////////////////////////////////////////////////////////////////////////
-
-

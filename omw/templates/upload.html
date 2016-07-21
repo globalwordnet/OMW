@@ -21,16 +21,16 @@ Uploading can be done through a file or by providing a url pointing to a valid W
 
 <h5>Wordnet Metadata</h5>
 
-<p>Each lexicon must have correct metadata 
+<p>Each lexicon must have correct metadata
   (<a href='/metadata'>see here for more detail</a>)
-    Extra properties may be included from the 
+    Extra properties may be included from the
     <a href='http://dublincore.org/documents/dces/'>Dublin core</a>
 
-  <ul>   
+  <ul>
     <li><strong>id</strong> A short name for the resource
-      <br>e.g. <tt>pwn</tt>;  <tt>bahasa</tt>		    
+      <br>e.g. <tt>pwn</tt>;  <tt>bahasa</tt>
     <li><strong>label</strong> The full name for the resource
-      <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa</tt>	
+      <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa</tt>
     <li><strong>language</strong> Please follow BCP-47, i.e., use a two-letter
                       code if available else a three-letter code
       <br>e.g. <tt>en</tt>; <tt>id</tt>, <tt>zsm</tt>
@@ -62,7 +62,7 @@ Uploading can be done through a file or by providing a url pointing to a valid W
   indicating the suggestion of a new concept to ILI, or the empty
   string indicating agnosticity to ILI equivalences while deferring
   from suggesting it as a new concept.</li>
-  
+
   <li>All new ILI candidates must have been hand checked by a human;</li>
 
   <li>Newly suggested concepts must provide a unique English
@@ -87,12 +87,12 @@ Uploading can be done through a file or by providing a url pointing to a valid W
 <p>Before the upload takes place, we will provide you with a small report indicating if the syntax of your LMF file seems to be in order.</p>
 <p>You can upload or link to any Wordnet LMF file with the following extensions (.xml, .xml.gz).</p>
 
-<form enctype="multipart/form-data" action="/ili/validation-report" method="post">
+<form enctype="multipart/form-data" action="ili/validation-report" method="post">
 <p><i class="fa fa-file-archive-o"></i> FILE:<input type="file" name="file" required><input type="submit" value="Validate"></p>
 </form>
 
 
-<form action="/ili/validation-report" method="post">
+<form action="ili/validation-report" method="post">
 <p><i class="fa fa-cloud-upload"></i> URL: <input type="text" size=41 name="url" required><input type="submit" value="Validate"></p>
 </form>
 
@@ -105,7 +105,7 @@ Uploading can be done through a file or by providing a url pointing to a valid W
   <dd><a href="http://gwc2016.racai.ro/procedings.pdf">Toward a truly multilingual Global Wordnet Grid</a>.
     In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
   </dd>
-  <dt><a name="Bond:Vossen:McCrae:Fellbaum:2016">Piek Vossen, Francis Bond, 
+  <dt><a name="Bond:Vossen:McCrae:Fellbaum:2016">Piek Vossen, Francis Bond,
       John P. McCrae and Christiane Fellbaum (2016)</a></dt>
   <dd><a href="http://gwc2016.racai.ro/procedings.pdf">CILI: the Collaborative Interlingual Index</a>.
     In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
@@ -122,5 +122,3 @@ useful) subset of information we know how to represent.
 </body></html>
 
 {% endblock %}
-
-
