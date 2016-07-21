@@ -18,58 +18,22 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='gwg.css') }}" />
 
-
   <title>OMW-CILI</title>
 </head>
 
 <body>
 
-
-
 <div id="container">
    <div id="header">
-
-     <div id="headerL">
-     </div>
-
-     <div id="headerR">
-     {% if not current_user.id %}
-     <!-- <a href="{{ url_for('login') }}" title="Login"><i class="fa fa-user" aria-hidden="true"></i></a> -->
-     <!--   &nbsp;&nbsp; -->
-
-     {% else %}
-     <!-- Logged in as: {{current_user.id}}  ({{current_user.group}}) -->
-     <!-- <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green"> -->
-     <!--   <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp; -->
-
-     <!-- <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout"> -->
-     <!--   <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp; -->
-
-     {% endif %}
-     <!-- <a href="/"><i class="fa fa-home" aria-hidden="true"></i></a> -->
-     </div>
-
+     <div id="headerL"></div>
+     <div id="headerR"></div>
    </div>
-
-
    <div id="body">
-
      <p><a href="omw">GO TO OMW</a></p>
      <p><a href="ili">GO TO CILI</a></p>
-
-     <!-- {% block welcome %}{% endblock %} -->
-
-     <!-- {% block body %}{% endblock %} -->
+     {% block body %}{% endblock %}
    </div>
-
-
-
-   <div id="footer">
-   </div>
+   <div id="footer"></div>
 </div>
-
-
-
-
 
 </body>

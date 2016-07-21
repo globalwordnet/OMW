@@ -6,9 +6,8 @@
 <p><b>OMW-ID: </b>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</p>
 
 {% if ss[ss_id][0] %}
-<p><b>ILI-ID: </b><a href="/ili/concepts/{{ss[ss_id][0]}}">i{{ ss[ss_id][0] }}</a></p>
+<p><b>ILI-ID: </b><a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a></p>
 {% endif %}
-    
 
 <!-- SENSES -->
 <div id='line'><span>Senses</span></div>
@@ -18,7 +17,7 @@
 
 <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(s) }}</p>
 
-{%- endfor %}   
+{%- endfor %}
 {% endif %}
 
 
@@ -26,7 +25,7 @@
 <div id='line'><span>Definitions</span></div>
 {%- for lang_id, def in defs[ss_id].items() %}
 <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(def) }}</p>
-{%- endfor %}   
+{%- endfor %}
 
 
 <!-- EXAMPLES -->
@@ -34,7 +33,7 @@
 <div id='line'><span>Examples</span></div>
   {%- for lang_id, ex in exes[ss_id].items() %}
   <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(ex) }}</p>
-  {%- endfor %}   
+  {%- endfor %}
 {% endif %}
 
 
@@ -43,13 +42,13 @@
 <div id='line'><span>Synset Relations</span></div>
 
   {%- for rel in links[ss_id] %}
-    <p><b>{{ssrels['id'][rel][1]}}:</b>  
+    <p><b>{{ssrels['id'][rel][1]}}:</b>
 
       {%- for ss2 in links[ss_id][rel] %}
-      <span class="synset" ><a href="/omw/concepts/{{ ss2 }}" data-synsetid="{{ss2}}">{{ss2}}</a></span>
-      {%- endfor %}   
+      <span class="synset" ><a href="{{url_for('concepts_omw',ss=ss2)}}" data-synsetid="{{ss2}}">{{ss2}}</a></span>
+      {%- endfor %}
     </p>
-  {%- endfor %}   
+  {%- endfor %}
 {% endif %}
 
 

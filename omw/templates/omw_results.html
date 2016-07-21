@@ -4,7 +4,7 @@
 <h6> Your query returned {{ ss.keys()|length }} results!</h6>
 
 
-<table class="sortable hoverTable">  
+<table class="sortable hoverTable">
   <thead>
     <tr>
       <th style="text-align:center">ID</th>
@@ -20,10 +20,10 @@
 
     <!-- CONCEPT -->
     <td style="text-align:center">
-      <a href="/omw/concepts/{{ ss_id }}">
+      <a href="{{ url_for('concepts_omw', ss = ss_id) }}">
 	<nobr>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</nobr></a>
       {% if ss[ss_id][0] %}
-      <br><nobr><a href="/ili/concepts/{{ss[ss_id][0]}}">
+      <br><nobr><a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">
 	  i{{ ss[ss_id][0] }}</a></nobr>
       {% endif %}
     </td>
@@ -67,7 +67,7 @@
 
   </tr>
 
-{%- endfor %}   
+{%- endfor %}
 </table>
 
 {% endblock %}

@@ -446,11 +446,11 @@ def search_omw(lang=None, q=None):
 
 
 @app.route('/omw/concepts/<ss>', methods=['GET', 'POST'])
-@app.route('/omw/ili/concepts/<ili_id>', methods=['GET', 'POST'])
-def concepts_omw(ss=None, ili_id=None):
+@app.route('/omw/concepts/ili/<iliID>', methods=['GET', 'POST'])
+def concepts_omw(ss=None, iliID=None):
 
-    if ili_id:
-        ss = f_ss_id_by_ili_id(ili_id)
+    if iliID:
+        ss = f_ss_id_by_ili_id(iliID)
 
     pos = fetch_pos()
     langs_id, langs_code = fetch_langs()

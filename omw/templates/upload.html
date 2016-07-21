@@ -22,9 +22,9 @@ Uploading can be done through a file or by providing a url pointing to a valid W
 <h5>Wordnet Metadata</h5>
 
 <p>Each lexicon must have correct metadata
-  (<a href='/metadata'>see here for more detail</a>)
+  (<a href="{{url_for('metadata')}}">see here for more detail</a>)
     Extra properties may be included from the
-    <a href='http://dublincore.org/documents/dces/'>Dublin core</a>
+    <a href='http://dublincore.org/documents/dces/' target="_blank">Dublin core</a>
 
   <ul>
     <li><strong>id</strong> A short name for the resource
@@ -87,12 +87,12 @@ Uploading can be done through a file or by providing a url pointing to a valid W
 <p>Before the upload takes place, we will provide you with a small report indicating if the syntax of your LMF file seems to be in order.</p>
 <p>You can upload or link to any Wordnet LMF file with the following extensions (.xml, .xml.gz).</p>
 
-<form enctype="multipart/form-data" action="ili/validation-report" method="post">
+<form enctype="multipart/form-data" action="{{url_for('validationReport')}}" method="post">
 <p><i class="fa fa-file-archive-o"></i> FILE:<input type="file" name="file" required><input type="submit" value="Validate"></p>
 </form>
 
 
-<form action="ili/validation-report" method="post">
+<form action="{{url_for('validationReport')}}" method="post">
 <p><i class="fa fa-cloud-upload"></i> URL: <input type="text" size=41 name="url" required><input type="submit" value="Validate"></p>
 </form>
 
@@ -102,12 +102,12 @@ Uploading can be done through a file or by providing a url pointing to a valid W
 
 <dl>
   <dt><a name="Vossen:Bond:McCrae:2016">Piek Vossen, Francis Bond and John P. McCrae (2016)</a></dt>
-  <dd><a href="http://gwc2016.racai.ro/procedings.pdf">Toward a truly multilingual Global Wordnet Grid</a>.
+  <dd><a href="http://gwc2016.racai.ro/procedings.pdf" target="_blank">Toward a truly multilingual Global Wordnet Grid</a>.
     In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
   </dd>
   <dt><a name="Bond:Vossen:McCrae:Fellbaum:2016">Piek Vossen, Francis Bond,
       John P. McCrae and Christiane Fellbaum (2016)</a></dt>
-  <dd><a href="http://gwc2016.racai.ro/procedings.pdf">CILI: the Collaborative Interlingual Index</a>.
+  <dd><a href="http://gwc2016.racai.ro/procedings.pdf" target="_blank">CILI: the Collaborative Interlingual Index</a>.
     In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
   </dd>
 </dl>

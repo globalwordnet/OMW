@@ -27,9 +27,7 @@
 
     <!-- ili ID -->
     <td>
-      <!-- <a href='/omw/ili/concepts/{{ ili_id }}'>{{ ili_id }}</a> -->
-      <span class="synset"><a href="/omw/ili/concepts/{{ ili_id }}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
-
+      <span class="synset"><a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
     </td>
 
     <!-- ili Kind -->
@@ -38,8 +36,8 @@
     </td>
 
     <!-- ili Definition -->
-    <td> 
-      {{ row[1] }} 
+    <td>
+      {{ row[1] }}
     </td>
 
     <!-- Origin (Project) -->
@@ -56,7 +54,7 @@
     <td>
       {% if row[4] == "temporary" %}
       {{ row[4] }}<br>
-      ({{ row[6].split()[0] }}) 
+      ({{ row[6].split()[0] }})
       {% else %}
       {{ row[4] }}
       {% endif %}
@@ -91,7 +89,7 @@
 
 
       {% if current_user.id in down_who[ili_id] %}
-      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}"> 
+      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}">
       <i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:red"></i>
       </span>
       {% else %}
@@ -101,7 +99,7 @@
       {% endif %}
 
 
-      <span class="comment" id="comment{{ ili_id }}" data-ili="{{ ili_id }}"> 
+      <span class="comment" id="comment{{ ili_id }}" data-ili="{{ ili_id }}">
 	<i class="fa fa-comments-o" aria-hidden="true"></i>
       </span>
 
@@ -119,14 +117,13 @@
 
   <!-- Detailed View   (IF LOGGED IN) -->
   {% if current_user.id %}
-  <tr id="seedetailed{{ ili_id }}">
-  </tr>
+  <tr id="seedetailed{{ ili_id }}"></tr>
   {% endif %}
 
 
 
 
-{%- endfor %}   
+{%- endfor %}
 </table>
 
 

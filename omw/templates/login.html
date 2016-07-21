@@ -1,29 +1,25 @@
-{% extends "ili.html" %}
+{% extends "index.html" %}
 {% block body %}
 
-      <h3>Please login</h3>
-      <br>
-      <form action="{{url_for("index")}}" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
-      </form>
+<h3>Please login</h3>
+<br>
+<form method="post">
+    <input type="text" placeholder="Username" name="username" value="{{request.form.username}}">
+    <input type="password" placeholder="Password" name="password" value="{{request.form.password }}">
+    <input class="btn btn-default" type="submit" value="Login">
+</form>
 
-      {% with messages = get_flashed_messages() %}
-	{% if messages %}
-	  {% for message in messages %}
-	    {{ message }}
-	  {% endfor %}
-	{% endif %}
-      {% endwith %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+	    {% endfor %}
+    {% endif %}
+{% endwith %}
 
-      <p>
-      If the above message states that you have logged in and you still
-      see this page, this may mean that you do not have the adequate
-      level of user permission to see the content you're trying to access.
-      Please contact us if you think there is a problem.
-      </p>
+<p>If the above message states that you have logged in and you still
+see this page, this may mean that you do not have the adequate
+level of user permission to see the content you're trying to access.
+Please contact us if you think there is a problem.</p>
 
 {% endblock %}

@@ -3,22 +3,15 @@
 
 <h3> Welcome to OMW</h3>
 
-
-
-
 <br>
 <br>
 <hr>
 
-{% if current_user.id %}
 <div id="UserPanel">
 <h5>User Panel</h5>
 <i>Coming soon...</i>
-    <!-- <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p> -->
 </div>
 <hr>
-{% endif %}
-
 
 {% if current_user.group == 'admin' %}
 <div id="AdminPanel">
@@ -32,11 +25,6 @@
 
 
 
-
-
-
-
-
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
@@ -47,4 +35,3 @@
 
 
 {% endblock %}
-
