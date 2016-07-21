@@ -107,15 +107,9 @@ $(function() {
     $(".synset").hover(function (event) {
 
 	var elem = event.target;
-	// alert(elem);
 	var synsetid = elem.dataset.synsetid;
-	// alert(synsetid);
 	var iliid = elem.dataset.iliid;
-	// alert(iliid);
 
-
-	// @app.route('/_load_min_omw_concept/<ss>')
-	// @app.route('/_load_min_omw_concept_ili/<ili_id>')
 	if (synsetid) {
 	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_concept/'+synsetid, {
 	    }, function(data) {
@@ -129,7 +123,6 @@ $(function() {
 		divtool.innerHTML = data.result;
 	    });
 	}
-
     });
 });
 
