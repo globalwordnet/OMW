@@ -4,8 +4,10 @@ __pycache__/
 *$py.class
 
 
-# Sqlite
+# Sqlite, XML, Gzip
 *.db
+*.xml
+*.gz
 
 # Emacs related stuff
 *~
