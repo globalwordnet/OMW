@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3, datetime
-from flask import Flask, current_app
+from flask import Flask, current_app, url_for
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
 from hashlib import md5
@@ -13,7 +13,7 @@ app = Flask(__name__)
 with app.app_context():
 
     login_manager = LoginManager()
-    login_manager.login_view = "/login"
+    login_manager.login_view = '/login'
     login_manager.login_message = "You don't seem to have permission to see this content."
     app.secret_key = "!$flhgSgngNO%$#SOET!$!"
     app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
@@ -29,7 +29,7 @@ with app.app_context():
     def login_required(role=0, group='open'):
         """
         This is a redefinition of the decorator login_required,
-        to include a 'role' argument to allow users with different 
+        to include a 'role' argument to allow users with different
         roles access different views and a group access to close some
         views by groups. For example:
         @login_required(role=0, group='ntuwn')   0 = for all
@@ -72,7 +72,7 @@ with app.app_context():
             If it does exist then return a User Object. If not then return
             None, as required by Flask-Login.
             """
-            user = fetch_userid(userid) 
+            user = fetch_userid(userid)
 
             if user:
                 return User(user[0], user[1], user[2], user[3])
@@ -126,7 +126,3 @@ with app.app_context():
         if user and data[1] == user.password:
             return user
         return None
-
-
-
-

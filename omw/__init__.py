@@ -271,16 +271,16 @@ def min_omw_concepts(ss=None, ili_id=None):
 # VIEWS
 ################################################################################
 @app.route('/', methods=['GET', 'POST'])
-def index(name=None):
-    return render_template('index.html', name=name)
+def index():
+    return render_template('index.html')
 
 @app.route('/ili', methods=['GET', 'POST'])
 def ili_welcome(name=None):
-    return render_template('ili_welcome.html', name=name)
+    return render_template('ili_welcome.html')
 
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
-    return render_template('omw_welcome.html', name=name)
+    return render_template('omw_welcome.html')
 
 
 @app.route("/useradmin",methods=["GET"])
@@ -328,7 +328,6 @@ def deprecated():
 
 @app.route('/ili/concepts/<c>', methods=['GET', 'POST'])
 def concepts_ili(c=None):
-
     c = c.split(',')
     ili, ili_defs = fetch_ili(c)
     rsumm, up_who, down_who = f_rate_summary(list(ili.keys()))
