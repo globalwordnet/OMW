@@ -86,6 +86,7 @@
 <!ATTLIST Synset
     id ID #REQUIRED
     ili CDATA #REQUIRED
+    partOfSpeech (n|v|a|r|s|t|c|p|x|u) #IMPLIED
     dc:contributor CDATA #IMPLIED
     dc:coverage CDATA #IMPLIED
     dc:creator CDATA #IMPLIED
