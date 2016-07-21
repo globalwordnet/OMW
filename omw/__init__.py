@@ -123,14 +123,15 @@ def detailed_id():
     ili_id = request.args.get('ili_id', None)
     rate_hist = fetch_rate_id([ili_id])
     comm_hist = fetch_comment_id([ili_id])
+    users = fetch_allusers()
 
     r_html = ""
     for r, u, t in rate_hist[int(ili_id)]:
-        r_html += '{} ({}): {} <br>'.format(u, t, r)
+        r_html += '{} ({}): {} <br>'.format(users[u]['userID'], t, r)
 
     c_html = ""
     for c, u, t in comm_hist[int(ili_id)]:
-        c_html += '{} ({}): {} <br>'.format(u, t, c)
+        c_html += '{} ({}): {} <br>'.format(users[u]['userID'], t, c)
 
     html = """
     <td colspan="9">
