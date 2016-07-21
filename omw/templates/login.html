@@ -3,7 +3,7 @@
 
 <h3>Please login</h3>
 <br>
-<form action="{{url_for("index")}}" method="post">
+<form action="{{url_for("login")}}" method="post">
     <input type="text" placeholder="Username" name="username" value="{{request.form.username}}">
     <input type="password" placeholder="Password" name="password" value="{{request.form.password }}">
     <input class="btn btn-default" type="submit" value="Login">

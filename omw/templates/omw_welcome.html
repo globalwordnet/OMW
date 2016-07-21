@@ -7,11 +7,14 @@
 <br>
 <hr>
 
+{% if current_user.id %}
 <div id="UserPanel">
 <h5>User Panel</h5>
 <i>Coming soon...</i>
 </div>
 <hr>
+{% endif %}
+
 
 {% if current_user.group == 'admin' %}
 <div id="AdminPanel">

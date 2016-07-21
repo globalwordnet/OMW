@@ -16,12 +16,15 @@
 
 
 
+{% if current_user.id %}
 
 <div id="UserPanel">
 <h5>User Panel</h5>
     <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
 </div>
 <hr>
+{% endif %}
+
 
 
 {% if current_user.group == 'admin' %}
