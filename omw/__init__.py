@@ -45,7 +45,7 @@ def login():
         # is a slated hash format, so you must hash the password before comparing it.
         if user and hash_pass(password) == user.password:
             login_user(user, remember=True)
-            return redirect(request.args.get("next") or "/")
+            return redirect(request.args.get("next") or url_for("index"))
         else:
             flash(u"Invalid username, please try again.")
     return render_template("login.html")
