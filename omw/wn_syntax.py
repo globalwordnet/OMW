@@ -29,10 +29,11 @@ with app.app_context():
 
         l=lambda:dd(l)
         wn_dtls = l()
+        synset_senses = l()
         wn = l()
 
         ########################################################################
-        # LEXICONS
+        # LEXICONS (1st ITTERATION: LEXICAL ENTRIES)
         ########################################################################
         for lexi in wnlmf.findall('Lexicon'):
             lexicon = lexi.get('id')
@@ -45,7 +46,7 @@ with app.app_context():
                 pass
 
             ####################################################################
-            # LEXICAL ENTRIES
+            # LEXICAL ENTRIES (CAN LINK OVER MULTIPLE LEXICONS)
             ####################################################################
             wn_dtls['bad_sensExe_lang'][lexicon] = []
             for lex_ent in lexi.findall('LexicalEntry'):
@@ -86,8 +87,8 @@ with app.app_context():
                     sens_id = sense.attrib['id']
                     sens_synset = sense.attrib['synset']
 
-                    synset = wn[lexicon]['syns'][sens_synset]
-                    synset['POS'][sens_id] = lem.attrib['partOfSpeech']
+                    # ADD SENSES IN A NON LEXICON DEPENDENT FORMAT
+                    synset_senses[sens_synset][(lexicon,le_id)] = lem.attrib['partOfSpeech']
 
                     wn_sens = le['senses'][(sens_id, sens_synset)]
                     wn_sens['attrs'] = sense.attrib
@@ -136,6 +137,18 @@ with app.app_context():
 
 
 
+        ########################################################################
+        # LEXICONS (2n ITTERATION: SYNSETS)
+        ########################################################################
+        for lexi in wnlmf.findall('Lexicon'):
+            lexicon = lexi.get('id')
+            lexicon_attrs = lexi.attrib
+            wn[lexicon]['attrs'] = lexicon_attrs
+            lexi_lang = wn[lexicon]['attrs']['language']
+            try:
+                lexi_lang = langs_code['code'][lexi_lang]
+            except:
+                pass
 
             ####################################################################
             # SYNSETS
@@ -157,6 +170,7 @@ with app.app_context():
                 synset['attrs'] = ss_attrs
 
 
+
                 # Check Synset id naming convention
                 if not ss_attrs['id'].startswith(lexicon_attrs['id']+'-'):
                     wn_dtls['bad_ss_id'][lexicon].append(ss_id)
@@ -165,15 +179,20 @@ with app.app_context():
                     synset['ili_origin_key'] = ss_id[strip:]
 
 
-                # Check Synset POS  (FROM ALL LEMMAS)
-                syn_pos = set()
-                for sens, pos in wn[lexicon]['syns'][ss_id]['POS'].items():
-                    syn_pos.add(pos)
+                syn_pos = set()  # THERE CAN BE ONLY ONE POS!
+
+                # ADD THE POS OF THE SYNSET
+                if 'partOfSpeech' in synset['attrs'].keys():
+                    syn_pos.add(synset['attrs']['partOfSpeech'])
+
+                # ADD THE POS OF EACH SENSE
+                for lexicon, le_id in synset_senses[ss_id].keys():
+                    syn_pos.add(synset_senses[ss_id][(lexicon,le_id)])
 
                 if len(syn_pos) != 1: # we have a pos problem
                     syn_pos = ', '.join(str(p) for p in syn_pos)
                     syn_pos = None if syn_pos == '' else syn_pos
-                    wn_dtls['bad_ss_pos'][lexicon].append((ss_id,syn_pos))
+                    wn_dtls['bad_ss_pos'][lexicon].append((ss_id, syn_pos))
                 else:
                     wn[lexicon]['syns'][ss_id]['SSPOS'] = list(syn_pos)[0]
 
@@ -770,7 +789,7 @@ with app.app_context():
 
 
                 ################################################################
-                # INSERT NEW ILI CANDIDATES IN ILI
+                # GATHER NEW ILI CANDIDATES
                 ################################################################
                 max_ili_id = fetch_max_ili_id()
                 blk_ili_data = []
@@ -792,12 +811,17 @@ with app.app_context():
                     synset['ili_key'] = ili_key
                     r['new_ili_ids'].append(ili_key)
                     max_ili_id = ili_key
+
+                ################################################################
+                # WRITE NEW ILI CANDIDATES TO DB
+                ################################################################
                 blk_insert_into_ili(blk_ili_data)
+                ################################################################
 
 
 
                 ################################################################
-                # INSERT NEW SYNSETS IN OMW
+                # GATHER NEW SYNSETS: NEW ILI CONCEPTS + OUT OF ILI CONCEPTS
                 ################################################################
                 blk_ss_data = list()
                 blk_ss_src_data = list()
@@ -811,11 +835,13 @@ with app.app_context():
                 for new_ss in wn_dtls['ss_ili_new'][lexicon] + \
                               wn_dtls['ss_ili_out'][lexicon]:
 
-                    ss_id = max_ss_id + 1
                     synset = wn[lexicon]['syns'][new_ss]
                     origin_key = synset['ili_origin_key']
                     ili_id = synset['ili_key']
                     ss_pos = poss['tag'][synset['SSPOS']]
+
+                    ss_id = max_ss_id + 1
+                    synset['omw_ss_key'] = ss_id
 
                     try:
                         ss_conf = float(synset['attrs']['confidenceScore'])
@@ -823,13 +849,9 @@ with app.app_context():
                         ss_conf = lex_conf
 
                     blk_ss_data.append((ss_id, ili_id, ss_pos, u))
-                    # ss_id = insert_omw_ss(ili_id, ss_pos, u)
 
-                    synset['omw_ss_key'] = ss_id
-
-                    blk_ss_src_data.append((ss_id, src_id, origin_key, ss_conf, u))
-                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id,
-                    #                                   origin_key, ss_conf, u)
+                    blk_ss_src_data.append((ss_id, src_id, origin_key,
+                                            ss_conf, u))
 
 
                     ############################################################
@@ -839,7 +861,6 @@ with app.app_context():
 
                         def_id = max_def_id + 1
                         blk_def_data.append((def_id, ss_id, def_lang_id, def_txt, u))
-                        # def_id = insert_omw_def(ss_id, def_lang_id, def_txt, u)
 
                         try:
                             wn_def = synset['def'][(def_lang_id, def_txt)]
@@ -848,7 +869,7 @@ with app.app_context():
                             def_conf = ss_conf
 
                         blk_def_src_data.append((def_id, src_id, def_conf, u))
-                        # def_src = insert_omw_def_src(def_id, src_id, def_conf, u)
+
                         max_def_id = def_id
 
                     ############################################################
@@ -859,7 +880,6 @@ with app.app_context():
 
                         blk_ssexe_data.append((exe_id, ss_id, exe_lang_id,
                                                exe_txt, u))
-                        # exe_id = insert_omw_ssexe(ss_id, exe_lang_id, exe_txt, u)
 
                         try:
                             wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
@@ -868,10 +888,8 @@ with app.app_context():
                             exe_conf = ss_conf
 
                         blk_ssexe_src_data.append((exe_id, src_id, exe_conf, u))
-                        # exe_src = insert_omw_ssexe_src(exe_id, src_id, exe_conf, u)
 
                         max_ssexe_id = exe_id
-
 
                     max_ss_id = ss_id  # Update max_ss_id
 
@@ -890,7 +908,10 @@ with app.app_context():
                 ################################################################
                 # UPDATE OLD SYNSETS IN OMW (E.G. SOURCE, DEFs, EXEs, etc.)
                 ################################################################
-                # blk_ss_data = list()
+                # NOTE: IF THE OLD SYNSET HAS A DIFFERENT POS, IT SHOULD BE
+                #       CONSIDERED A NEW SYNSET, BUT LINKED TO THE SAME ILI.
+                ################################################################
+                blk_ss_data = list()
                 blk_ss_src_data = list()
                 blk_def_data = list()
                 blk_def_src_data = list()
@@ -901,12 +922,13 @@ with app.app_context():
                 defs = fetch_all_defs_by_ss_lang_text()
                 ssexes = fetch_all_ssexe_by_ss_lang_text()
 
-                # max_ss_id = fetch_max_ss_id()
+                max_ss_id = fetch_max_ss_id()
                 max_def_id = fetch_max_def_id()
                 max_ssexe_id = fetch_max_ssexe_id()
-                for old_ss in wn_dtls['ss_ili_linked'][lexicon]:
+                for linked_ss in wn_dtls['ss_ili_linked'][lexicon]:
 
-                    synset = wn[lexicon]['syns'][old_ss]
+                    synset = wn[lexicon]['syns'][linked_ss]
+                    ss_pos = poss['tag'][synset['SSPOS']]
                     origin_key = synset['ili_origin_key']
                     ili_id = synset['ili_key']
 
@@ -915,78 +937,132 @@ with app.app_context():
                     except:
                         ss_conf = lex_conf
 
-                    # Fetch ss_id
-                    ss_id = ili_ss_map['ili'][ili_id]
-                    # ss_id = f_ss_id_by_ili_id(ili_id)
-                    synset['omw_ss_key'] = ss_id
-
-                    blk_ss_src_data.append((ss_id, src_id, origin_key, ss_conf, u))
-                    # update_ss_scr = insert_omw_ss_src(ss_id, src_id,
-                    #                                   origin_key, ss_conf, u)
-
-
+                    ############################################################
+                    # FETCH ALL OMW SYNSETS LINKED TO THIS ILI ID
+                    ############################################################
+                    linked_ss_ids = ili_ss_map['ili'][ili_id]
 
                     ############################################################
-                    # DEFINITIONS
+                    # 2 CASES: SAME POS = SHARE SS, DIFFERENT POS = NEW SS
                     ############################################################
-                    for (def_lang_id, def_txt) in synset['def'].keys():
+                    ss_id = None
+                    for (ss, pos) in linked_ss_ids:
+                        if pos == ss_pos:
+                            ss_id = ss
 
-                        # def_id = fetch_def_by_ssid_lang_text(ss_id, def_lang_id, def_txt)
-                        # if def_id:
-                        #     pass
-                        # else:
-                        #     def_id = insert_omw_def(ss_id, def_lang_id, def_txt, u)
+                    ############################################################
+                    # IF POS MATCH >> UPDATE OLD OMW SYNSET
+                    ############################################################
+                    if ss_id:
 
-                        try:
-                            def_id = defs[ss_id][(def_lang_id, def_txt)]
-                        except:
-                            def_id = None
+                        synset['omw_ss_key'] = ss_id
 
-                        if not def_id:
-                            def_id = max_def_id + 1
-                            blk_def_data.append((def_id, ss_id, def_lang_id,
+                        blk_ss_src_data.append((ss_id, src_id,
+                                                origin_key, ss_conf, u))
+
+                        ########################################################
+                        # DEFINITIONS
+                        ########################################################
+                        for (def_lang_id, def_txt) in synset['def'].keys():
+
+                            try:
+                                def_id = defs[ss_id][(def_lang_id, def_txt)]
+                            except:
+                                def_id = None
+
+                            if not def_id:
+                                def_id = max_def_id + 1
+                                blk_def_data.append((def_id, ss_id, def_lang_id,
                                                  def_txt, u))
+                                max_def_id = def_id
+
+                            try:
+                                wn_def = synset['def'][(def_lang_id, def_txt)]
+                                def_conf = float(wn_def['attrs']['confidenceScore'])
+                            except:
+                                def_conf = ss_conf
+
+                            blk_def_src_data.append((def_id, src_id,
+                                                    def_conf, u))
+
+
+                        ############################################################
+                        # EXAMPLES
+                        ############################################################
+                        for (exe_lang_id, exe_txt) in synset['ex'].keys():
+
+                            exe_id = ssexes[ss_id][(exe_lang_id, exe_txt)]
+
+                            if not exe_id:
+                                exe_id = max_ssexe_id + 1
+                                blk_ssexe_data.append((exe_id, ss_id, exe_lang_id,
+                                                   exe_txt, u))
+                                max_ssexe_id = exe_id
+
+                            try:
+                                wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
+                                exe_conf = float(wn_exe['attrs']['confidenceScore'])
+                            except:
+                                exe_conf = ss_conf
+
+                            blk_ssexe_src_data.append((exe_id, src_id, exe_conf, u))
+
+                    ############################################################
+                    # NO POS MATCH >> CREATE NEW SYNSET
+                    ############################################################
+                    else:
+                        ss_id = max_ss_id + 1
+                        synset['omw_ss_key'] = ss_id
+
+                        blk_ss_data.append((ss_id, ili_id, ss_pos, u))
+                        blk_ss_src_data.append((ss_id, src_id, origin_key,
+                                                ss_conf, u))
+
+                        ############################################################
+                        # DEFINITIONS
+                        ############################################################
+                        for (def_lang_id, def_txt) in synset['def'].keys():
+
+                            def_id = max_def_id + 1
+                            blk_def_data.append((def_id, ss_id, def_lang_id, def_txt, u))
+
+                            try:
+                                wn_def = synset['def'][(def_lang_id, def_txt)]
+                                def_conf = float(wn_def['attrs']['confidenceScore'])
+                            except:
+                                def_conf = ss_conf
+
+                            blk_def_src_data.append((def_id, src_id, def_conf, u))
+
                             max_def_id = def_id
 
-                        try:
-                            wn_def = synset['def'][(def_lang_id, def_txt)]
-                            def_conf = float(wn_def['attrs']['confidenceScore'])
-                        except:
-                            def_conf = ss_conf
-
-                        # def_src = insert_omw_def_src(def_id, src_id, def_conf, u)
-                        blk_def_src_data.append((def_id, src_id, def_conf, u))
-
-
-                    ############################################################
-                    # EXAMPLES
-                    ############################################################
-                    for (exe_lang_id, exe_txt) in synset['ex'].keys():
-
-                        exe_id = ssexes[ss_id][(exe_lang_id, exe_txt)]
-
-                        # exe_id = fetch_ssexe_by_ssid_lang_text(ss_id, exe_lang_id, exe_txt)
-                        if not exe_id:
+                        ############################################################
+                        # EXAMPLES
+                        ############################################################
+                        for (exe_lang_id, exe_txt) in synset['ex'].keys():
                             exe_id = max_ssexe_id + 1
+
                             blk_ssexe_data.append((exe_id, ss_id, exe_lang_id,
                                                    exe_txt, u))
-                            # exe_id = insert_omw_exe(ss_id, exe_lang_id, exe_txt, u)
+
+                            try:
+                                wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
+                                exe_conf = float(wn_exe['attrs']['confidenceScore'])
+                            except:
+                                exe_conf = ss_conf
+
+                            blk_ssexe_src_data.append((exe_id, src_id, exe_conf, u))
+
                             max_ssexe_id = exe_id
 
-                        try:
-                            wn_exe = synset['ex'][(exe_lang_id, exe_txt)]
-                            exe_conf = float(wn_exe['attrs']['confidenceScore'])
-                        except:
-                            exe_conf = ss_conf
+                        max_ss_id = ss_id  # Update max_ss_id
 
-                        blk_ssexe_src_data.append((exe_id, src_id, exe_conf, u))
-                        # exe_src = insert_omw_exe_src(exe_id, src_id, exe_conf, u)
 
 
                 ################################################################
-                # UPDATE OLD SYNSETS IN DB
+                # INSERT/UPDATE ILI LINKED SYNSETS IN DB
                 ################################################################
-                # blk_insert_omw_ss(blk_ss_data)
+                blk_insert_omw_ss(blk_ss_data)
                 blk_insert_omw_ss_src(blk_ss_src_data)
                 blk_insert_omw_def(blk_def_data)
                 blk_insert_omw_def_src(blk_def_src_data)
@@ -994,6 +1070,19 @@ with app.app_context():
                 blk_insert_omw_ssexe_src(blk_ssexe_src_data)
                 ################################################################
 
+
+
+
+            ################################################################
+            # 2nd ITTERATION: LEXICAL ENTRIES
+            ################################################################
+            for lexicon in  wn.keys():
+
+                proj_id = f_proj_id_by_code(lexicon)
+                lang = wn[lexicon]['attrs']['language']
+                lang_id = langs_code['code'][lang]
+                version = wn[lexicon]['attrs']['version']
+                lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
 
 
                 ################################################################
@@ -1010,8 +1099,6 @@ with app.app_context():
                 max_w_id = fetch_max_w_id()
                 max_s_id = fetch_max_s_id()
                 forms = fetch_all_forms_by_lang_pos_lemma()
-                # words = fetch_all_words()
-
 
                 for le_id in wn[lexicon]['le'].keys():
                     wn_le = wn[lexicon]['le'][le_id]
@@ -1081,7 +1168,6 @@ with app.app_context():
                         synset = wn[lexicon]['syns'][sens_synset]
                         ss_id = synset['omw_ss_key']
 
-
                         s_id = max_s_id + 1
                         blk_sense_data.append((s_id, ss_id, w_id, u))
                         max_s_id = s_id
@@ -1103,46 +1189,15 @@ with app.app_context():
                 blk_insert_omw_s_src(blk_sense_src_data)
                 ################################################################
 
-                # # FORMS
-                # form = l.name().replace('_', ' ')
-                # if (pid, form) in fid:
-                #     form_id = fid[(pid, form)]
-                # else:
-                #     c.execute("""INSERT INTO f (lang_id, pos_id, lemma, u)
-                #                  VALUES (?,?,?,?)
-                #               """, (lang_id, pid, form, u))
-                #     form_id = c.lastrowid
-                #     fid[(pid, form)] = form_id
-
-                #     c.execute("""INSERT INTO f_src (f_id, src_id, conf, u)
-                #                  VALUES (?,?,?,?)
-                #               """, (form_id, src_id, 1, u))
-
-                # # WORDS
-                # c.execute("""INSERT INTO w (canon, u)
-                #              VALUES (?,?) """, (form_id, u))
-                # word_id = c.lastrowid
-
-
-                # c.execute("""INSERT INTO wf_link (w_id, f_id, src_id, conf, u)
-                #              VALUES (?,?,?,?,?)
-                #           """, (word_id, form_id, src_id, 1, u))
-
-                # # SENSES
-                # c.execute("""INSERT INTO s (ss_id, w_id, u)
-                #              VALUES (?,?,?) """, (ss_id, word_id, u))
-                # s_id = c.lastrowid
-
-                # c.execute("""INSERT INTO s_src (s_id, src_id, conf, u)
-                #              VALUES (?,?,?,?) """, (s_id, src_id, 1, u))
 
 
 
             ############################################################
-            # 2nd ITTERATION: AFTER ALL SYNSETS WERE CREATED
+            # 3rd ITTERATION: AFTER ALL SYNSETS WERE CREATED
             ############################################################
             # SSREL (SYNSET RELATIONS)   FIXME, ADD SENSE-RELS
             ############################################################
+            ili_ss_map = f_ili_ss_id_map()
             sslinks = fetch_all_ssrels_by_ss_rel_trgt()
             blk_sslinks_data = list()
             blk_sslinks_src_data = list()
@@ -1174,7 +1229,6 @@ with app.app_context():
                         sslink_id = max_sslink_id + 1
                         blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
                                                  ss2_id, u))
-                        # sslink_id = insert_omw_sslink(ss1_id, ssrel_id, ss2_id, u)
 
                         try:
                             sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
@@ -1184,20 +1238,42 @@ with app.app_context():
 
                         blk_sslinks_src_data.append((sslink_id, src_id,
                                                      sslink_conf, lang_id, u))
-                        # sslink_src = insert_omw_sslink_src(sslink_id, src_id,
-                        #                                    sslink_conf, lang_id, u)
 
                         max_sslink_id = sslink_id
 
 
-                for old_ss in wn_dtls['ss_ili_linked'][lexicon]:
-                    synset = wn[lexicon]['syns'][old_ss]
+
+
+                ############################################################
+                # IN THIS CASE WE NEED TO FIND WHICH MAP IT RECEIVED ABOVE
+                ############################################################
+                for linked_ss in wn_dtls['ss_ili_linked'][lexicon]:
+
+                    synset = wn[lexicon]['syns'][linked_ss]
+                    ss_pos = poss['tag'][synset['SSPOS']]
+                    origin_key = synset['ili_origin_key']
+                    ili_id = synset['ili_key']
+
+                    ############################################################
+                    # FETCH ALL OMW SYNSETS LINKED TO THIS ILI ID
+                    ############################################################
+                    linked_ss_ids = ili_ss_map['ili'][ili_id]
+
+                    ss_id = None
+                    for (ss, pos) in linked_ss_ids: # THERE MUST BE ONE!
+                        if pos == ss_pos:
+                            linked_ss = ss
+
+
+                    synset = wn[lexicon]['syns'][linked_ss]
                     ss1_id = synset['omw_ss_key']
 
                     try:
                         ss_conf = float(synset['attrs']['confidenceScore'])
                     except:
                         ss_conf = lex_conf
+
+
 
                     for (rel, trgt) in synset['ssrel'].keys():
 
@@ -1213,11 +1289,7 @@ with app.app_context():
                             blk_sslinks_data.append((sslink_id, ss1_id,
                                                      ssrel_id, ss2_id, u))
                             max_sslink_id = sslink_id
-                        # sslink_id = f_sslink_id_by_ss1_rel_ss2(ss1_id, ssrel_id, ss2_id)
-                        # if sslink_id:
-                        #     pass
-                        # else:
-                        #     sslink_id = insert_omw_sslink(ss1_id, ssrel_id, ss2_id, u)
+
 
                         try:
                             sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
@@ -1227,16 +1299,20 @@ with app.app_context():
 
                         blk_sslinks_src_data.append((sslink_id, src_id,
                                                      sslink_conf, lang_id, u))
-                        # sslink_src = insert_omw_sslink_src(sslink_id, src_id,
-                        #                                    sslink_conf, lang_id, u)
+
 
             ################################################################
             # INSERT SSRELS INTO THE DB
             ################################################################
-            sys.stderr.write(str(blk_sslinks_data))
-            sys.stderr.write(str(blk_sslinks_src_data))
+
+            sys.stderr.write('\n') 
+            sys.stderr.write('\n') 
+            sys.stderr.write(str(blk_sslinks_data)) 
+            sys.stderr.write('\n') 
+            sys.stderr.write('\n') 
             blk_insert_omw_sslink(blk_sslinks_data)
             blk_insert_omw_sslink_src(blk_sslinks_src_data)
+            ################################################################
 
 
 

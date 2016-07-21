@@ -247,11 +247,13 @@ def load_proj_details():
 def min_omw_concepts(ss=None, ili_id=None):
 
     if ili_id:
-        ss = f_ss_id_by_ili_id(ili_id)
+        ss_ids = f_ss_id_by_ili_id(ili_id)
+    else:
+        ss_ids = [ss]
 
     pos = fetch_pos()
     langs_id, langs_code = fetch_langs()
-    ss, senses, defs, exes, links = fetch_ss_basic([ss])
+    ss, senses, defs, exes, links = fetch_ss_basic(ss_ids)
     ssrels = fetch_ssrel()
 
     return jsonify(result=render_template('min_omw_concept.html',
@@ -451,11 +453,13 @@ def search_omw(lang=None, q=None):
 def concepts_omw(ss=None, iliID=None):
 
     if iliID:
-        ss = f_ss_id_by_ili_id(iliID)
+        ss_ids = f_ss_id_by_ili_id(iliID)
+    else:
+        ss_ids = [ss]
 
     pos = fetch_pos()
     langs_id, langs_code = fetch_langs()
-    ss, senses, defs, exes, links = fetch_ss_basic([ss])
+    ss, senses, defs, exes, links = fetch_ss_basic(ss_ids)
     ssrels = fetch_ssrel()
 
     return render_template('omw_concept.html',

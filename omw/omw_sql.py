@@ -446,19 +446,21 @@ with app.app_context():
         return forms
 
     def f_ss_id_by_ili_id(ili_id):
-        "Return ss_id from ili_id"
-
-        for r in query_omw("""SELECT id
-                              FROM ss
+        """ Return a list of ss_ids from an ili_id """
+        ss_ids = list()
+        for r in query_omw("""SELECT id FROM ss
                               WHERE ili_id = ?""", [ili_id]):
-            return r['id']
+            ss_ids.append(r['id'])
+        return ss_ids
 
 
     def f_ili_ss_id_map():
-        "Return ss_id from ili_id"
-        ili_ss_map = dd(lambda: dd())
-        for r in query_omw("""SELECT id, ili_id FROM ss"""):
-            ili_ss_map['ili'][r['ili_id']] = r['id']
+        """ Returns a dictionary linking ili_ids and ss_ids. It is possible
+            that one ili_id links to multiple ss_ids, but one ss_id can only
+            link to a single ili_id. """
+        ili_ss_map = dd(lambda: dd(list))
+        for r in query_omw("""SELECT id, ili_id, pos_id FROM ss"""):
+            ili_ss_map['ili'][r['ili_id']].append((r['id'],r['pos_id']))
             ili_ss_map['ss'][r['id']] = r['ili_id']
 
         return ili_ss_map
