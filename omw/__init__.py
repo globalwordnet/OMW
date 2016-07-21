@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os, sys, sqlite3, datetime, urllib, gzip, requests
 from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
@@ -168,7 +171,6 @@ def omw_lang_selector():
     selected_lang2 = request.cookies.get('selected_lang2')
     lang_id, lang_code = fetch_langs()
     html = '<select name="lang" style="font-size: 18px;" required>'
-    html += '<option value="">Choose Lang</option>'
     for lid in lang_id.keys():
         if selected_lang == str(lid):
             html += """<option value="{}" selected>{}</option>
@@ -178,7 +180,6 @@ def omw_lang_selector():
                     """.format(lid, lang_id[lid][1])
     html += '</select>'
     html += '<select name="lang2" style="font-size: 18px;" required>'
-    html += '<option value="">Choose Lang</option>'
     for lid in lang_id.keys():
         if selected_lang2 == str(lid):
             html += """<option value="{}" selected>{}</option>
