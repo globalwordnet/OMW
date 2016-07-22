@@ -740,7 +740,7 @@ with app.app_context():
 
     def confirmUpload(filename=None, u=None):
 
-            # try:
+        try:
 
             l = lambda:dd(l)
             r = l()  # report
@@ -1304,12 +1304,6 @@ with app.app_context():
             ################################################################
             # INSERT SSRELS INTO THE DB
             ################################################################
-
-            sys.stderr.write('\n')
-            sys.stderr.write('\n')
-            sys.stderr.write(str(blk_sslinks_data))
-            sys.stderr.write('\n')
-            sys.stderr.write('\n')
             blk_insert_omw_sslink(blk_sslinks_data)
             blk_insert_omw_sslink_src(blk_sslinks_src_data)
             ################################################################
@@ -1318,5 +1312,5 @@ with app.app_context():
 
 
             return r
-            # except:
-            # return False
+        except:
+            return False
