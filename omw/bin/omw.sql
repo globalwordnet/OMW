@@ -13,10 +13,7 @@ CREATE TABLE lang
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-
 CREATE UNIQUE INDEX lang_bcp47_index ON lang (bcp47);
-
-CREATE UNIQUE INDEX lang_iso639_index ON lang (iso639);
 
 CREATE TABLE lang_log
        (log_id INTEGER PRIMARY KEY ASC,
