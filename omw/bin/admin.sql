@@ -103,7 +103,13 @@ CREATE TRIGGER users_delete AFTER DELETE ON users
 
        VALUES ('DELETE', 
                 old.id,
-                old.kind,
+		old.userID,
+		old.full_name,
+		old.password,
+		old.email,
+		old.access_level,
+		old.access_group,
+		old.affiliation,
                 old.u, (SELECT MAX(user_id) FROM active_user),
                 old.t, CURRENT_TIMESTAMP);
        END;
