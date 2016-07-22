@@ -673,7 +673,7 @@ with app.app_context():
                             final_validation = False
 
                         # CHECK ILI DEFINITIONS' LENGTH
-                        if len(ili_def) < 20 or len(ili_def.split()) < 5:
+                        if not ili_def or len(ili_def) < 20 or len(ili_def.split()) < 5:
                             vr_lex['synsets_ili_def_length_lbl_val'].append((ss_id,ili_def))
                             vr_lex['synsets_ili_def_length_lbl'] = False
                             final_validation = False
@@ -1305,11 +1305,11 @@ with app.app_context():
             # INSERT SSRELS INTO THE DB
             ################################################################
 
-            sys.stderr.write('\n') 
-            sys.stderr.write('\n') 
-            sys.stderr.write(str(blk_sslinks_data)) 
-            sys.stderr.write('\n') 
-            sys.stderr.write('\n') 
+            sys.stderr.write('\n')
+            sys.stderr.write('\n')
+            sys.stderr.write(str(blk_sslinks_data))
+            sys.stderr.write('\n')
+            sys.stderr.write('\n')
             blk_insert_omw_sslink(blk_sslinks_data)
             blk_insert_omw_sslink_src(blk_sslinks_src_data)
             ################################################################
