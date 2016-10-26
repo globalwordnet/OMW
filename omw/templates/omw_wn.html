@@ -1,0 +1,40 @@
+{% extends "omw.html" %}
+{% block body %}
+{% if src_info.url %}
+<h6><a href='{{src_info.url}}'  title='upstream project homepage'>{{ src_info.label }}</a>
+       ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+{% else %}
+<h6>{{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+{% endif %}
+
+<p>{{ src_info.description }} DESCRIPTION to come here.</p>
+
+{% if src_info.url %}
+  <p>The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
+{% endif %}
+  
+<p>It is licensed by {{ src_info.license }}.</p>
+  
+{% if src_info.citation %}
+<p>Canonical citation for this data:<br>
+  {{src_info.citation}}
+<br>Please attribute the data properly!</p>
+{% endif %}  
+
+<table>
+  <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
+  <tr>
+    <th>Synsets</th> <th>Words</th> <th>Senses</th> <th>Core</th>
+  </tr>
+  <tr>
+    <td align='right'>{{ '{0:,}'.format(src_stats.synsets) }}</td>
+    <td align='right'>{{ '{0:,}'.format(src_stats.words) }}</td>
+    <td align='right'>{{ '{0:,}'.format(src_stats.senses) }}</td>
+  </tr>
+</table>
+
+
+{# list other versions #}
+  
+  
+{% endblock %}

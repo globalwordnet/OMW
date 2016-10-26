@@ -1,0 +1,50 @@
+Overall:
+ * check new code on all wordnets, encourage people to reupload
+
+Interface:
+ * concept-list.html
+ ** check what will happen with supercede
+ ** link src  (project/key 🌐 external if it exists)
+ ** link concept in OMW 🕸
+http://compling.hss.ntu.edu.sg/iliomw/omw/concepts/ili/46360
+
+** link used by
+ ** show time remaining
+(mousing over ILI id shows concept but it flickers)
+
+
+ * concept.html
+
+Label
+things with names:
+ --- most common lemma in L1 (alphabetical for ties)
+ if None
+ --- most common synset name in src (for ILI)
+ if None
+--- most common name in oldest project?
+
+
+Add ILIdef (if it exists)
+(Same with definitions)?
+
+
+ * Global Wordnet Documentation
+Alex --- 
+
+Some symbols:
+
+ILI is in ⟪ ⟫
+External sciency things:〔 〕 scientific names; chemical symbols; ...
+
+Source is: ⏚
+concept/instance: ⊂/∈
+
+OMW node: 🕸 (spider web)
+External node: 🌐 (globe)
+
+Core ✪
+
+Deprecated: ⚠
+Temporary: ⏳
+
+
