@@ -1,0 +1,53 @@
+{% extends "ili.html" %}
+{% block body %}
+
+<script src="{{ url_for('static', filename='js/report.js') }}"></script>
+
+<input type="hidden" name="current_user" value="{{ current_user.id }}">
+<input type="hidden" name="fn" value="{{ filename }}">
+
+<div id="validation_div">
+<div class="b_float_left">
+
+
+  <div> 
+    {% if passed %}
+    <h6>The file "{{ filename }}" was uploaded successfully.</h6>
+    <p>This file will now be examined by the LMF validator. 
+      This process can take a little while (depending how big 
+      is the uploaded wordnet)... Just hang in there.</p>
+    {% else %}
+    <p><i class="fa fa-times" aria-hidden="true"></i>
+      The file failed to upload. Please make sure you're using a 
+      supported file extension.</p>
+    {% endif %} 
+  </div>
+
+
+  <h5>Validation Report:</h5>
+  <p><b>Stage 1: </b></p>
+  <div id="val1"> </div><br>
+
+  <p><b>Stage 2: </b></p>
+  <div id="val2"> </div><br>
+
+  <p><b>Stage 3: </b></p>
+  <div id="val3"> </div><br>
+
+
+
+</div>
+
+
+<div class="b_float_right">
+  <h5>Summary of changes to ILI:</h5>
+</div>
+
+
+<div style="clear: both;"></div>
+
+
+
+
+
+{% endblock %}

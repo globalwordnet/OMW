@@ -297,6 +297,187 @@ with app.app_context():
                filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
+
+
+    def uploadFile(current_user):
+
+        format = "%Y_%b_%d_%H:%M:%S"
+        now = datetime.datetime.utcnow().strftime(format)
+
+        try:
+            file = request.files['file']
+        except:
+            file = None
+        try:
+            url = request.form['url']
+        except:
+            url = None
+
+        if file and allowed_file(file.filename):
+            filename = now + '_' +str(current_user) + '_' + file.filename
+            filename = secure_filename(filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file_uploaded = True
+
+        elif url:
+            file = urllib.urlopen(url)
+            filename = url.split('/')[-1]
+            filename = now + '_' +str(current_user) + '_' + filename
+            filename = secure_filename(fn)
+
+            if file and allowed_file(filename):
+
+                open(os.path.join(app.config['UPLOAD_FOLDER'], filename),
+                     'wb').write(file.read())
+            file_uploaded = True
+
+        return file_uploaded, filename
+
+    def val1_DTD(current_user, filename):  # MATCH WN AGAINST DTD
+
+        l=lambda:dd(l)
+        vr = l()  # validation report
+
+        dtd_f = open(ILI_DTD, 'rb')
+        try:
+            dtd = etree.DTD(dtd_f)
+
+            if filename.endswith('.xml'):
+                wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
+                                       filename), 'rb')
+                wnlmf = etree.XML(wn.read())
+                vr['lmf_dump'] = wn.read()
+
+            elif filename.endswith('.gz'):
+                with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
+                                            filename), 'rb') as wn:
+                    wnlmf = etree.XML(wn.read())
+                    vr['lmf_dump'] = wn.read()
+
+
+            vr['read'] = True
+            if dtd.validate(wnlmf):
+                vr['dtd_val'] = True
+            else:
+                vr['dtd_val'] = False
+                vr['dtd_val_errors'] = str(dtd.error_log.filter_from_errors()[0])
+
+        except:
+            vr['read'] = False
+            vr['dtd_val'] = False
+            vr['final_validation'] = False
+
+        dtd_f.close()
+        return vr
+
+
+    def val2_metadata(vr_master, filename):
+        l=lambda:dd(l)
+        vr = l()  # validation report
+        vr.update(vr_master)
+
+
+        wnlmf = etree.XML(vr['lmf_dump'])
+        # if vr['dtd_val']:
+
+        # if filename and filename.endswith('.xml'):
+        #     wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
+        #                                filename), 'rb')
+        #     wnlmf = etree.XML(wn.read())
+
+        # elif filename and filename.endswith('.gz'):
+        #     with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
+        #                                     filename), 'rb') as wn:
+        #         wnlmf = etree.XML(wn.read())
+
+        if wnlmf is not None and vr['dtd_val']:
+
+            wn, wn_dtls = parse_wn(wnlmf)
+            projs = fetch_proj()
+            langs, langs_code = fetch_langs()
+
+            vr['num_lexicons_found'] = len(wn.keys())
+            vr['lexicons_found'] = list(wn.keys())
+
+
+            invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
+            for lexicon in wn:
+                vr_lex = vr['lexicon'][lexicon]
+
+                ################################################################
+                # CHECK META-DATA
+                ################################################################
+                lexicon_lbl = wn[lexicon]['attrs']['id']
+                lexicon_id =  f_proj_id_by_code(lexicon_lbl)
+                vr_lex['lex_lbl_val'] = lexicon_lbl
+                if wn[lexicon]['attrs']['id'] in projs.values():
+                    vr_lex['lex_lbl'] = True
+                else:
+                    vr_lex['lex_lbl'] = False
+                    final_validation = False
+
+                lang_lbl = wn[lexicon]['attrs']['language']
+                try:
+                    lang_id = langs_code['code'][lang_lbl]
+                except:
+                    lang_id = None
+                vr_lex['lang_lbl_val'] = lang_lbl
+                if lang_id in langs.keys():
+                    vr_lex['lang_lbl'] = True
+                else:
+                    vr_lex['lang_lbl'] = False
+                    final_validation = False
+
+                version = wn[lexicon]['attrs']['version']
+                vr_lex['version_lbl_val'] = version
+                if f_src_id_by_proj_ver(lexicon_id, version):
+                    vr_lex['version_lbl'] = False
+                    final_validation = False
+                else:
+                    vr_lex['version_lbl'] = True
+
+
+                if 'confidenceScore' in wn[lexicon]['attrs'].keys():
+                    confidence = wn[lexicon]['attrs']['confidenceScore']
+                    vr_lex['confidence_lbl_val'] = confidence
+                else:
+                    confidence = None
+                    vr_lex['confidence_lbl_val'] = str(confidence)
+                try:
+                    if float(confidence) == 1.0:
+                        vr_lex['confidence_lbl'] = True
+                    else:
+                        vr_lex['confidence_lbl'] = 'warning'
+                except:
+                        vr_lex['confidence_lbl'] = False
+                        final_validation = False
+
+
+                lic = wn[lexicon]['attrs']['license']
+                vr_lex['license_lbl_val'] = lic
+                acceptable_lics = ['wordnet',
+                                   'http://opendefinition.org/licenses/cc-by/',
+                                   'http://opendefinition.org/licenses/cc-by/3.0',
+                                   'http://opendefinition.org/licenses/cc-by/4.0',
+                                   'http://opendefinition.org/licenses/odc-by/',
+                                   'http://opendefinition.org/licenses/cc-by-sa/',
+                                   'http://opendefinition.org/licenses/cc-by-sa/3.0',
+                                   'http://opendefinition.org/licenses/cc-by-sa/4.0',
+                                   'https://opensource.org/licenses/MIT/',
+                                   'https://opensource.org/licenses/Apache-2.0']
+                if lic in acceptable_lics:
+                    vr_lex['license_lbl'] = True
+                else:
+                    vr_lex['license_lbl'] = False
+                    final_validation = False
+                ################################################################
+        return vr
+
+
+
+
+
+
     def validateFile(current_user):
 
         l=lambda:dd(l)

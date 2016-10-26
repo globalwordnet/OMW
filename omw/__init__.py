@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os, sys, sqlite3, datetime, urllib, gzip, requests
+from time import sleep
 from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
@@ -267,6 +268,39 @@ def min_omw_concepts(ss=None, ili_id=None):
                            exes=exes))
 
 
+l=lambda:dd(l)
+vr = l()  # wn-lmf validation report
+
+@app.route('/_report_val1')
+def report_val1():
+    filename = request.args.get('fn', None)
+    if filename:
+        vr1 = val1_DTD(current_user, filename)
+        vr.update(vr1)
+        if vr1['dtd_val'] == True:
+            html = "DTD PASSED"
+            return jsonify(result=html)
+        else:
+            html = "DTD FAILED" + '<br>' + vr['dtd_val_errors']
+            return jsonify(result=html)
+    else:
+        return jsonify(result="ERROR")
+
+@app.route('/_report_val2')
+def report_val2():
+    # filename = request.args.get('fn', None)
+    # if filename:
+    #     vr = val1_DTD(current_user, filename)
+    #     if vr['dtd_val'] == True:
+    #         html = "DTD PASSED"
+    #         return jsonify(result=html)
+    #     else:
+    #         html = "DTD FAILED" + '<br>' + vr['dtd_val_errors']
+    #         return jsonify(result=html)
+    # else:
+    #     return jsonify(result="ERROR")
+    return jsonify(result="TEST_VAL2")
+
 
 ################################################################################
 
@@ -305,14 +339,12 @@ def projectadmin():
     projs = fetch_proj()
     return render_template("projectadmin.html", projs=projs)
 
-
 @app.route('/allconcepts', methods=['GET', 'POST'])
 def allconcepts():
     ili, ili_defs = fetch_ili()
     rsumm, up_who, down_who = f_rate_summary(list(ili.keys()))
     return render_template('concept-list.html', ili=ili,
                            rsumm=rsumm, up_who=up_who, down_who=down_who)
-
 
 @app.route('/temporary', methods=['GET', 'POST'])
 def temporary():
@@ -386,6 +418,14 @@ def validationReport():
 
     return render_template('validation-report.html',
                            vr=vr, wn=wn, wn_dtls=wn_dtls,
+                           filename=filename)
+
+@app.route('/ili/report', methods=['POST'])
+@login_required(role=0, group='open')
+def report():
+    passed, filename = uploadFile(current_user.id)
+    return render_template('report.html',
+                           passed=passed,
                            filename=filename)
 
 
