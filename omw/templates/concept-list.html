@@ -9,7 +9,7 @@
       <th>ili ID</th>
       <!-- <th>Kind</th> -->
       <th>Definition and Source</th>
-      <th>Status</th>
+      <!-- <th>Status</th> -->
       <!-- <th>Superseed</th> -->
 
       {% if current_user.id %}
@@ -25,6 +25,7 @@
 
     <!-- ili ID -->
     <th>
+      <nobr>
       <span class="synset"><a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
       <!-- Kind: concept or instance -->
       {% if  row[0] == "concept" %}
@@ -40,6 +41,7 @@
       {% if row[6] == 'None' %} <!-- CHECKME -->
       <a title='deprecated'>⚠</a>
       {% endif %}
+      </nobr>
     </th>
 
     <!-- ili Definition -->

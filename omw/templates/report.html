@@ -1,53 +1,80 @@
 {% extends "ili.html" %}
 {% block body %}
 
+
 <script src="{{ url_for('static', filename='js/report.js') }}"></script>
 
 <input type="hidden" name="current_user" value="{{ current_user.id }}">
 <input type="hidden" name="fn" value="{{ filename }}">
 
 <div id="validation_div">
-<div class="b_float_left">
 
-
-  <div> 
+  <div id="msg" style="text-align:center">
     {% if passed %}
     <h6>The file "{{ filename }}" was uploaded successfully.</h6>
-    <p>This file will now be examined by the LMF validator. 
-      This process can take a little while (depending how big 
+    <p>This file will now be examined by the LMF validator.
+      This process can take a little while (depending how big
       is the uploaded wordnet)... Just hang in there.</p>
     {% else %}
     <p><i class="fa fa-times" aria-hidden="true"></i>
-      The file failed to upload. Please make sure you're using a 
+      The file failed to upload. Please make sure you're using a
       supported file extension.</p>
-    {% endif %} 
+    {% endif %}
   </div>
 
-
-  <h5>Validation Report:</h5>
-  <p><b>Stage 1: </b></p>
-  <div id="val1"> </div><br>
-
-  <p><b>Stage 2: </b></p>
   <div id="val2"> </div><br>
 
-  <p><b>Stage 3: </b></p>
-  <div id="val3"> </div><br>
 
+
+<script>
+function uploadlmf() {
+ 	swal({
+ 	    title: 'Are you sure?',
+ 	    text: "The upload of this wordnet cannot be reverted! Please wait after confirming. It may take a while to refresh the page.",
+ 	    type: 'warning',
+ 	    showCancelButton: true,
+ 	    confirmButtonText: 'Yes, upload it!',
+ 	    cancelButtonText: 'No, cancel!',
+ 	    showLoaderOnConfirm: true,
+ 	    buttonsStyling: false
+ 	}).then(function() {
+ 	    var valid = document.getElementById("validation_div");
+ 	    valid.innerHTML = "<div style='text-align:center;'>We're uploading the LMF file. This process can take a little while (depending how big is the uploaded wordnet)...</div><div style='text-align:center; font-size: 250%;'><i class='fa fa-spinner fa-pulse fa-4x fa-fw'></i></div>";
+
+ 	    $.getJSON($SCRIPT_ROOT + '/_confirm_wn_upload', {
+ 		user: $('input[name="current_user"]').val(),
+ 		fn: $('input[name="fn"]').val(),
+
+ 	    }, function(data) {
+
+ 		var u = $('input[name="current_user"]').val();
+
+ 		if (data.result) {
+ 		    r = String(data.result);
+ 		    window.location.replace($SCRIPT_ROOT + "/temporary");
+
+ 		} else {
+ 		    swal('Oh noes!',
+ 			'Something bad happened. Please report this!',
+ 			'error');
+ 		}
+ 	    });
+
+ 	}, function(dismiss) {
+ 	    if (dismiss === 'cancel') {
+ 		swal(
+ 		    'Cancelled',
+ 		    'No changes were made to ILI :)',
+ 		    'error'
+ 		);
+ 	    }
+ 	})
+}
+</script>
 
 
 </div>
-
-
-<div class="b_float_right">
-  <h5>Summary of changes to ILI:</h5>
-</div>
-
 
 <div style="clear: both;"></div>
-
-
-
-
 
 {% endblock %}

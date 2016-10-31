@@ -407,7 +407,7 @@ with app.app_context():
         return vr
 
 
-    def val2_metadata(vr_master, filename):
+    def val2_metadata(vr_master):
         l=lambda:dd(l)
         vr = l()  # validation report
         vr.update(vr_master)
@@ -572,51 +572,52 @@ with app.app_context():
                         
 
 
-    def validateFile(current_user):
+    def validateFile(current_user, filename):
 
         l=lambda:dd(l)
         vr = l()  # validation report
         final_validation = True # assume it will pass
 
+        vr['upload'] = True
         
         ###LOG
         print('Preparing to Validate File\t{}'.format(dt.today().isoformat()))
         ########################################################################
         # FETCH & UPLOAD WN FILE/URL
         ########################################################################
-        if request.method == 'POST':
-            format = "%Y_%b_%d_%H:%M:%S"
-            now = datetime.datetime.utcnow().strftime(format)
+        # if request.method == 'POST':
+        #     format = "%Y_%b_%d_%H:%M:%S"
+        #     now = datetime.datetime.utcnow().strftime(format)
 
-            try:
-                file = request.files['file']
-            except:
-                file = None
-            try:
-                url = request.form['url']
-            except:
-                url = None
+        #     try:
+        #         file = request.files['file']
+        #     except:
+        #         file = None
+        #     try:
+        #         url = request.form['url']
+        #     except:
+        #         url = None
 
-            if file and allowed_file(file.filename):
-                filename = now + '_' +str(current_user) + '_' + file.filename
-                filename = secure_filename(filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #     if file and allowed_file(file.filename):
+        #         filename = now + '_' +str(current_user) + '_' + file.filename
+        #         filename = secure_filename(filename)
+        #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            elif url:
-                file = urllib.urlopen(url)
-                filename = url.split('/')[-1]
-                filename = now + '_' +str(current_user) + '_' + filename
-                filename = secure_filename(fn)  ### FIXME
+        #     elif url:
+        #         file = urllib.urlopen(url)
+        #         filename = url.split('/')[-1]
+        #         filename = now + '_' +str(current_user) + '_' + filename
+        #         filename = secure_filename(fn)  ### FIXME
 
-                if file and allowed_file(filename):
+        #         if file and allowed_file(filename):
 
-                    open(os.path.join(app.config['UPLOAD_FOLDER'], filename),
-                         'wb').write(file.read())
+        #             open(os.path.join(app.config['UPLOAD_FOLDER'], filename),
+        #                  'wb').write(file.read())
 
 
-            vr['upload'] = True
-        ###LOG
-        print('Uploaded file {}\t{}'.format('file', dt.today().isoformat()))
+        #     vr['upload'] = True
+        # ###LOG
+        # print('Uploaded file {}\t{}'.format('file', dt.today().isoformat()))
  
         ########################################################################
         # CHECK WN STRUCTURE (MATCH AGAINST DTD)
