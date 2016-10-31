@@ -64,19 +64,39 @@ with app.app_context():
                             VALUES (?,?,?)""",
                          [proj_id, version, u])
 
-    def f_src_id_by_proj_ver(proj_id, version):
+    def f_src_id_by_proj_id_ver(proj_id, version):
         for r in query_omw("""SELECT id, proj_id, version
                               FROM src
                               WHERE proj_id = ? AND version = ?""",
                            [proj_id, version]):
 
             return r['id']
+        
+    def f_src_id_by_proj_ver(proj, version):
+        for r in query_omw("""SELECT src.id 
+                              FROM src JOIN proj
+                              ON src.proj_id=proj.id 
+                              WHERE proj.code= ? AND src.version = ?""",
+                           [proj, version]):
+            return r['id']   
 
     def fetch_src_meta():
         src_meta_id = dd(list)
         for r in query_omw("""SELECT src_id, attr, val, u, t FROM src_meta"""):
             src_meta_id[r['src_id']].append(r)
         return src_meta_id
+
+    def fetch_src_id_stats(src_id):
+        src_id_stats=dd(int)
+        for r in query_omw("""SELECT count(distinct s.ss_id),
+        count(distinct s.w_id), count(distinct s.id)
+        FROM s JOIN s_src ON s.id=s_src.s_id 
+        WHERE s_src.Src_id=?""", [src_id]):
+             src_id_stats['synsets'] = r['count(distinct s.ss_id)']
+             src_id_stats['words'] = r['count(distinct s.w_id)']
+             src_id_stats['senses'] = r['count(distinct s.id)']
+             return src_id_stats
+        
 
     def insert_src_meta(src_id, attr, val, u):
         return write_omw("""INSERT INTO src_meta (src_id, attr, val, u)
@@ -418,6 +438,11 @@ with app.app_context():
 
         return ss, senses, defs, exes, links
 
+    def fetch_ss_id_by_src_orginalkey(src_id, originalkey):
+        for r in query_omw(""" SELECT ss_id, src_id, src_key FROM ss_src
+                WHERE src_id = ? and src_key = ? """, [src_id, originalkey]):
+            ss = r['ss_id']
+        return ss
 
     def fetch_all_defs_by_ss_lang_text():
         defs = dd(lambda: dd())

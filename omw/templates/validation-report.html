@@ -201,19 +201,19 @@
 
       {% if vr['lexicon'][lexicon]['synsets_ili_def_notexists_lbl'] == True %}
       <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
-	An ILI definition was found to each new ILI candidate.</p>
+	An ILI definition was found for each ILI candidate.</p>
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	Some new ILI candidates did not contain a ILI definition:</p>
+	Some ILI candidates did not have an ILI definition:</p>
       <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_notexists_lbl_val'] }}</p>
       {% endif %}
 
       {% if vr['lexicon'][lexicon]['ili_def_conf_lbl'] == True %}
       <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
-	An ILI definition seem to have a valid confidenceScore.</p>
+	Each new ILI definition has a valid confidenceScore.</p>
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	Some new ILI did not contain a valid ILI definition confidenceScore:</p>
+	Some new ILI definitions did not have a valid ILI confidenceScore:</p>
       <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['ili_def_conf_lbl_val'] }}</p>
       {% endif %}
 
@@ -245,27 +245,39 @@
       <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_def_nonuniq2_lbl_val'] }}</p>
       {% endif %}
 
-
-
-      {% if vr['lexicon'][lexicon]['synsets_ili_rel_bad_lbl'] == True %}
-      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
-	All new ILI candidates seem to be properly linked.
-      </p>
-      {% else  %}
+      <!-- Unlinked synsets -->
+      {% if vr['lexicon'][lexicon]['synsets_ili_lnk_none'] %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	Some new ILI candidates could not be properly linked within the allowed set of synsetRelations.</p>
-      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_rel_bad_lbl_val'] }}</p>
+	Some ILI candidates were not linked at all:</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_lnk_none'] }}</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	No new ILI candidates are not linked at all.
+      </p>
+      {% endif %}
+      
+      <!-- Some linked only by bad -->
+      {% if vr['lexicon'][lexicon]['synsets_ili_lnk_bad'] == True %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	Some new ILI candidates linked through at least one bad synsetRelations.</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_lnk_bad'] }}</p>
+      {% else  %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	No new ILI candidates linked only through at least one bad synsetRelation.
+      </p>
+
       {% endif %}
 
-      {% if vr['lexicon'][lexicon]['synsets_ili_rel_warn_lbl'] == True %}
-      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
-	All linked new ILI candidates have strong synsetRelations.
-      </p>
-      {% else  %}
+      <!-- Some linked only by weak -->
+      {% if vr['lexicon'][lexicon]['synsets_ili_lnk_warn'] %}
       <p style="margin-left: 30px"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
 	Some new ILI candidates seem to be linked only with weak synsetRelations.
-	This is acceptable but not desirable.  You should check them:</p>
-	<p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_rel_warn_lbl_val'] }}</p>
+	This is acceptable but not desirable.  You should maybe check them:</p>
+	<p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ili_lnk_warn'] }}</p>
+      {% else  %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	No new ILI candidates seem to be linked only with weak synsetRelations.
+      </p>
       {% endif %}
 
   {%- endfor %}

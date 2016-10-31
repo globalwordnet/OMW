@@ -2,22 +2,26 @@
 {% block body %}
 
 {%- for ss_id, info in ss.items() %}
-    <h5>Concept Details: {{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</h5>
 
-    <!-- CONCEPT -->
-    <div id='line'><span>Concept</span></div>
-    <p><b>POS: </b>{{ pos['def'][ss[ss_id][1]]|upper }}</p>
-    <p><b>OMW-ID: </b>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</p>
+<strong>L1:label</strong> <small>"Best definition" ({{ pos['def'][ss[ss_id][1]]|lower }})
 
-    {% if ss[ss_id][0] %}  <!--  If linked to ILI -->
-        <p><b>ILI-ID: </b><a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a></p>
-    {% endif %}
+<!-- <h5>Concept Details: {{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</h5> -->
+
+<!--     <\!-- CONCEPT -\-> -->
+<!--     <div id='line'><span>Concept</span></div> -->
+<!--     <p><b>POS: </b>{{ pos['def'][ss[ss_id][1]]|upper }}</p> -->
+<!--     <p><b>OMW-ID: </b>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</p> -->
+
+{% if ss[ss_id][0] %}  <!--  If linked to ILI -->
+⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
+{% endif %} 
+</small>
 
     <!-- SENSES -->
     {% if ss_id in senses.keys() %}
         <div id='line'><span>Senses</span></div>
         {%- for lang_id, s in senses[ss_id].items() %}
-            <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(s) }}</p>
+            <p><b>{{ langs[lang_id][1] }}:</b> {{ ', '.join(s) }}</p>
         {%- endfor %}
     {% endif %}
 

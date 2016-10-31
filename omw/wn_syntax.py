@@ -10,7 +10,9 @@ from lxml import etree
 
 from common_sql import *
 from omw_sql import *
+from datetime import datetime as dt
 
+import json # to print dd
 
 ILI_DTD = 'db/WN-LMF.dtd'
 UPLOAD_FOLDER = 'public-uploads'
@@ -20,10 +22,36 @@ ALLOWED_EXTENSIONS = set(['xml','gz','xml.gz'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+#debug = open ("debug.txt", mode='w')
+debug=sys.stderr
+
 with app.app_context():
+    good_rels = ['eq_synonym','hypernym','hyponym', 'similar', 'antonym']
+    bad_rels = ['also']
+    warn_rels = ['agent', 'attribute', 'be_in_state', 'causes',
+                 'classified_by', 'classifies', 'co_agent_instrument', 'co_agent_patient',
+                 'co_agent_result', 'co_instrument_agent', 'co_instrument_patient',
+                 'co_instrument_result', 'co_patient_agent', 'co_patient_instrument',
+                 'co_result_agent', 'co_result_instrument', 'co_role', 'direction',
+                 'domain_region', 'domain_topic', 'exemplifies', 'entails',
+                 'has_domain_region', 'has_domain_topic', 'is_exemplified_by',
+                 'holo_location', 'holo_member', 'holo_part', 'holo_portion',
+                 'holo_substance', 'holonym', 'in_manner', 'instance_hypernym',
+                 'instance_hyponym', 'instrument', 'involved', 'involved_agent',
+                 'involved_direction', 'involved_instrument', 'involved_location',
+                 'involved_patient', 'involved_result', 'involved_source_direction',
+                 'involved_target_direction', 'is_caused_by', 'is_entailed_by',
+                 'location', 'manner_of', 'mero_location', 'mero_member', 'mero_part',
+                 'mero_portion', 'mero_substance', 'meronym', 'other', 'patient',
+                 'restricted_by', 'restricts', 'result', 'role', 'source_direction',
+                 'state_of', 'target_direction', 'subevent', 'is_subevent_of']
+    ## FCB must be a better way
+    ilis=set()
 
     def parse_wn(wnlmf):
 
+        ### LOG     
+        print('Starting to parse data\t{}'.format(dt.today().isoformat()))   
         langs, langs_code = fetch_langs()
         ili, ili_defs = fetch_ili()
 
@@ -33,7 +61,7 @@ with app.app_context():
         wn = l()
 
         ########################################################################
-        # LEXICONS (1st ITTERATION: LEXICAL ENTRIES)
+        # LEXICONS (1st ITERATION: LEXICAL ENTRIES)
         ########################################################################
         for lexi in wnlmf.findall('Lexicon'):
             lexicon = lexi.get('id')
@@ -44,7 +72,11 @@ with app.app_context():
                 lexi_lang = langs_code['code'][lexi_lang]
             except:
                 pass
-
+            ### LOG
+            print("Reading Lexicon {} for Language {} ({})\t{}".format(lexicon,
+                                                                       lexi_lang,
+                                                                       lexicon_attrs,
+                                                                       dt.today().isoformat()))
             ####################################################################
             # LEXICAL ENTRIES (CAN LINK OVER MULTIPLE LEXICONS)
             ####################################################################
@@ -135,8 +167,10 @@ with app.app_context():
             ####################################################################
 
 
-
-
+        ### LOG     
+        print('Lexemes and senses read for {}\t{}'.format(lexicon,
+                                                        dt.today().isoformat()))
+        
         ########################################################################
         # LEXICONS (2n ITTERATION: SYNSETS)
         ########################################################################
@@ -209,9 +243,10 @@ with app.app_context():
                 elif re.search(ili_pattern, ss_attrs['ili']):
                     ili_id = int(ss.get('ili')[1:])
 
-                    if ili_id in ili.keys():
+                    if ili_id in ili:
                         wn_dtls['ss_ili_linked'][lexicon].append(ss_id)
                         synset['ili_key'] = ili_id
+                        ilis.add(ss_id)   ### FCB
                     else:
                         wn_dtls['bad_ss_ili'][lexicon].append(ss_id)
                         synset['ili_key'] = False
@@ -285,6 +320,9 @@ with app.app_context():
                     else:
                         synset['ili_kind'] = 1
                         synset['ili_kind_str'] = 'concept'
+        ### LOG     
+        print('Synsets read for {}\t{}'.format(lexicon,
+                                               dt.today().isoformat()))
 
 
         return wn, wn_dtls
@@ -295,8 +333,6 @@ with app.app_context():
     def allowed_file(filename):
         return '.' in filename and \
                filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
 
 
     def uploadFile(current_user):
@@ -375,7 +411,6 @@ with app.app_context():
         l=lambda:dd(l)
         vr = l()  # validation report
         vr.update(vr_master)
-
 
         wnlmf = etree.XML(vr['lmf_dump'])
         # if vr['dtd_val']:
@@ -475,7 +510,66 @@ with app.app_context():
 
 
 
+        
+    # def load_all_rels(wn, unlinked, starting_rels, list_of_rels, i):
+    #     """
+    #     This takes in a dictionary of synsets and populates it with
+    #     a set of relations each synset is involved with, taking the
+    #     whole wordnet.
+    #     It produces a dictionary of synsets and a set of synsets
+    #     that it links to, using a given list of relations.
+    #     """
+    #     all_rels = dd(set)
+    #     for key, item in starting_rels.items():
+    #         all_rels[key] = item
 
+    #     for c in list(all_rels.keys()):
+    #         for (typ, trgt) in wn['syns'][c]['ssrel']:
+
+    #             # filter by rels & excluding synsets not linked to ILI
+    #             if typ in list_of_rels and \
+    #                c not in unlinked and \
+    #                trgt not in unlinked:
+
+    #                 all_rels[c].add(trgt)
+    #                 all_rels[trgt].add(c)
+
+    #     # expand relations (add links of links)
+    #     for concept in list(all_rels.keys()):
+    #         for target in all_rels[concept]:
+    #             all_rels[concept] = all_rels[concept] | all_rels[target]
+
+    #     if starting_rels == all_rels: # being exaustive, not limiting i
+    #         return all_rels
+    #     else:
+    #         ###LOG
+    #         print ("Checking one level deeper: {}\t{}".format(i+1,dt.today().isoformat()))
+    #         return load_all_rels(wn, unlinked, all_rels, list_of_rels, i+1)
+
+
+    def checkLinked(lnks, rels, ilis, ss, visited):
+        """take a dict of links: lnks[src][lnk][trg] = conf
+        a set of ok relations (rels)
+        a list of synsets linked to ili: ilis = set()
+        check if a new synset (ss) is linked up
+        visited is a list of synsets that have been checked (and found wanting)
+        if a linked synset is found, return True and stop
+        """
+        if not visited:
+            visited.add(ss) 
+        for lnk in lnks[ss]:
+            if lnk in rels:
+                for trg in set(lnks[ss][lnk].keys()) - visited: ### confidence?
+                    if trg in ilis:
+                        print('CHECKED:', ss, lnk, trg, file=debug)  ##DEBUG
+                        return True
+                    else:
+                        print('CHECKING:', ss, lnk, trg, file=debug)  ##DEBUG
+                        visited.add(trg)
+                        return checkLinked(lnks,rels,ilis,trg,visited)
+        ## if we run out of things to visit then it is not linked
+        return False
+                        
 
 
     def validateFile(current_user):
@@ -484,6 +578,9 @@ with app.app_context():
         vr = l()  # validation report
         final_validation = True # assume it will pass
 
+        
+        ###LOG
+        print('Preparing to Validate File\t{}'.format(dt.today().isoformat()))
         ########################################################################
         # FETCH & UPLOAD WN FILE/URL
         ########################################################################
@@ -509,7 +606,7 @@ with app.app_context():
                 file = urllib.urlopen(url)
                 filename = url.split('/')[-1]
                 filename = now + '_' +str(current_user) + '_' + filename
-                filename = secure_filename(fn)
+                filename = secure_filename(fn)  ### FIXME
 
                 if file and allowed_file(filename):
 
@@ -518,7 +615,9 @@ with app.app_context():
 
 
             vr['upload'] = True
-
+        ###LOG
+        print('Uploaded file {}\t{}'.format('file', dt.today().isoformat()))
+ 
         ########################################################################
         # CHECK WN STRUCTURE (MATCH AGAINST DTD)
         ########################################################################
@@ -564,12 +663,17 @@ with app.app_context():
 
 
         dtd_f.close()
+        ###LOG
+        print('Validated DTD {} ({})\t{}'.format(final_validation, filename,
+              dt.today().isoformat()))
 
 
         ########################################################################
         # CHECK WN DATA INTEGRITY
         ########################################################################
-        if wnlmf is not None and dtd.validate(wnlmf):
+        ### why do we validate again?  haven't we done that? CHECKME (save 8s!)
+        
+        if final_validation: #wnlmf is not None and dtd.validate(wnlmf):
 
             wn, wn_dtls = parse_wn(wnlmf)
             projs = fetch_proj()
@@ -581,6 +685,10 @@ with app.app_context():
 
             invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
             for lexicon in wn:
+                ### LOG     
+                print('Checking {}\t{}'.format(lexicon,
+                                               dt.today().isoformat()))
+
                 vr_lex = vr['lexicon'][lexicon]
 
                 ################################################################
@@ -609,7 +717,7 @@ with app.app_context():
 
                 version = wn[lexicon]['attrs']['version']
                 vr_lex['version_lbl_val'] = version
-                if f_src_id_by_proj_ver(lexicon_id, version):
+                if f_src_id_by_proj_id_ver(lexicon_id, version):
                     vr_lex['version_lbl'] = False
                     final_validation = False
                 else:
@@ -650,8 +758,11 @@ with app.app_context():
                     vr_lex['license_lbl'] = False
                     final_validation = False
                 ################################################################
-
-
+                ### LOG     
+                if final_validation:
+                    print('Meta Data OK for {}\t{}'.format(lexicon,
+                                                           dt.today().isoformat()))
+        
                 ################################################################
                 # CHECK ALL CONCEPTS
                 ################################################################
@@ -733,9 +844,11 @@ with app.app_context():
                 else:
                     vr_lex['synsets_ili_new_lbl'] = 'warning'
                 ################################################################
-
-
-
+                ### LOG     
+                if final_validation:
+                    print('Synsets well formed {}\t{}'.format(lexicon,
+                                                              dt.today().isoformat()))
+                    print("Let's check the new candidates, ...")
 
                 ################################################################
                 # CHECK NEW ILI CANDIDATES
@@ -757,72 +870,37 @@ with app.app_context():
 
 
                 new_wn_rels = dd(set)
-                unlinked_concepts = dd(set)
-                vr_lex['synsets_ili_rel_warn_lbl'] = True
-                vr_lex['synsets_ili_rel_warn_lbl_val'] = []
-                vr_lex['synsets_ili_rel_bad_lbl'] = True
-                vr_lex['synsets_ili_rel_bad_lbl_val'] = []
+                vr_lex['synsets_ili_lnk_none'] = []  # not linked
+                vr_lex['synsets_ili_lnk_bad'] = []  # linked only by bad 
+                vr_lex['synsets_ili_lnk_warn'] = [] # linked only by weak
 
 
-                good_rels = ['eq_synonym','hypernym','hyponym', 'similar', 'antonym']
-                bad_rels = ['also']
-                warn_rels = ['agent', 'attribute', 'be_in_state', 'causes',
-                'classified_by', 'classifies', 'co_agent_instrument', 'co_agent_patient',
-                'co_agent_result', 'co_instrument_agent', 'co_instrument_patient',
-                'co_instrument_result', 'co_patient_agent', 'co_patient_instrument',
-                'co_result_agent', 'co_result_instrument', 'co_role', 'direction',
-                'domain_region', 'domain_topic', 'exemplifies', 'entails',
-                'has_domain_region', 'has_domain_topic', 'is_exemplified_by',
-                'holo_location', 'holo_member', 'holo_part', 'holo_portion',
-                'holo_substance', 'holonym', 'in_manner', 'instance_hypernym',
-                'instance_hyponym', 'instrument', 'involved', 'involved_agent',
-                'involved_direction', 'involved_instrument', 'involved_location',
-                'involved_patient', 'involved_result', 'involved_source_direction',
-                'involved_target_direction', 'is_caused_by', 'is_entailed_by',
-                'location', 'manner_of', 'mero_location', 'mero_member', 'mero_part',
-                'mero_portion', 'mero_substance', 'meronym', 'other', 'patient',
-                'restricted_by', 'restricts', 'result', 'role', 'source_direction',
-                'state_of', 'target_direction', 'subevent', 'is_subevent_of']
 
 
-                def load_all_rels(starting_rels, list_of_rels, i):
-                    """
-                    This takes in a dictionary of synsets and populates it with
-                    a set of relations each synset is involved with, taking the
-                    whole wordnet.
-                    It produces a dictionary of synsets and a set of synsets
-                    that it links to, using a given list of relations.
-                    """
 
-                    all_rels = dd(set)
-                    for key, item in starting_rels.items():
-                        all_rels[key] = item
 
-                    for c in list(all_rels.keys()):
-                        for (typ, trgt) in wn[lexicon]['syns'][c]['ssrel']:
-
-                            # filter by rels & excluding synsets not linked to ILI
-                            if typ in list_of_rels and \
-                               c not in wn_dtls['ss_ili_out'][lexicon] and \
-                               trgt not in wn_dtls['ss_ili_out'][lexicon]:
-
-                                all_rels[c].add(trgt)
-                                all_rels[trgt].add(c)
-
-                    # expand relations (add links of links)
-                    for concept in list(all_rels.keys()):
-                        for target in all_rels[concept]:
-                            all_rels[concept] = all_rels[concept] | all_rels[target]
-
-                    if starting_rels == all_rels: # being exaustive, not limiting i
-                        return all_rels
-                    else:
-                        return load_all_rels(all_rels, list_of_rels, i+1)
-
-                new_ili_ss = dict((ss_id, set()) for ss_id in wn_dtls['ss_ili_new'][lexicon])
-                all_rels_good = load_all_rels(new_ili_ss, good_rels, 0)
-                all_rels_warn = load_all_rels(new_ili_ss, good_rels+warn_rels, 0)
-
+                ###new_ili_ss = dict((ss_id, set()) for ss_id in wn_dtls['ss_ili_new'][lexicon])
+                #all_rels_good = load_all_rels(wn[lexicon],wn_dtls['ss_ili_out'][lexicon],
+                #                              new_ili_ss, good_rels, 0)
+                #all_rels_warn = load_all_rels(wn[lexicon],wn_dtls['ss_ili_out'][lexicon],
+                #
+                #new_ili_ss, good_rels+warn_rels, 0)
+                ###  dict of links: lnks[src][lnk][trg] = conf
+                lnks = dd(lambda: dd(lambda: dd(float)))
+                for s in wn[lexicon]['syns']:
+                    for  (typ, trg) in wn[lexicon]['syns'][s]['ssrel']:
+                        lnks[s][typ][trg] = 1.0
+                ###
+                ### this only gets ilis from this resource!
+                ### should do better
+                ###
+                #ilis = set(wn[lex]['syns'][target]['ili_key'] for i in ili.keys())
+                ### DEBUG
+                #print ('LNKS: ' + json.dumps(lnks, indent=2), file=debug)
+                #print ('ILIS: ' + ", ".join(str(i) for i in ilis), file=debug)
+                ###LOG
+                print('Loaded all rels {}\t{}'.format(lexicon,
+                                                      dt.today().isoformat()))
                 for ss_id in wn_dtls['ss_ili_new'][lexicon]:
                     synset = wn[lexicon]['syns'][ss_id]
 
@@ -860,14 +938,14 @@ with app.app_context():
                             final_validation = False
 
                         # CHECK ILI DEFINITIONS' NON UNIQUE WITH PREVIOUS DEFS
-                        elif ili_def in ili_defs.keys():
+                        elif ili_def in ili_defs:
                             val = ('ili'+str(ili_defs[ili_def]), ss_id, ili_def)
                             vr_lex['synsets_ili_def_nonuniq_lbl_val'].append(val)
                             vr_lex['synsets_ili_def_nonuniq_lbl'] = False
                             final_validation = False
 
                         # CHECK ILI DEFINITIONS' NON UNIQUE WITHIN PROPOSED ILI DEFS
-                        elif ili_def in new_ili_defs.keys():
+                        elif ili_def in new_ili_defs:
                             val = (new_ili_defs[ili_def], ss_id, ili_def)
                             vr_lex['synsets_ili_def_nonuniq2_lbl_val'].append(val)
                             vr_lex['synsets_ili_def_nonuniq2_lbl'] = False
@@ -876,6 +954,11 @@ with app.app_context():
                         else:
                             new_ili_defs[ili_def] = ss_id
 
+                    ### check for closeness!    
+                    ### LOG
+                    print('ILI def checked {}: {} {}\t{}'.format(lexicon, ss_id,
+                                                                 final_validation,
+                                                                 dt.today().isoformat()))
 
 
                     ########################################################
@@ -883,39 +966,62 @@ with app.app_context():
                     ########################################################
                     # FIXME! CHECK LINKS' CONFIDENCE = 1.0 (?)
 
-                    good_link_to_ili = False
-                    weak_link_to_ili = False
+                    link_to_ili = 'None'
+                    if checkLinked(lnks, good_rels, ilis, ss_id, set()):
+                        link_to_ili = 'good'
+                        print("LINKED g:",  link_to_ili, ss_id, file=debug)
+                    elif checkLinked(lnks, good_rels+warn_rels, ilis, ss_id, set()):
+                        link_to_ili = 'weak'
+                        vr_lex['synsets_ili_lnk_warn'].append(ss_id)
+                        print("LINKED w:",  link_to_ili, ss_id, file=debug)
+                    elif checkLinked(lnks, good_rels+warn_rels+bad_rels,
+                                     ilis, ss_id, set()):
+                        link_to_ili = 'bad'
+                        vr_lex['synsets_ili_lnk_bad'].append(ss_id)
+                        final_validation = False
+                        print("LINKED b:",  link_to_ili, ss_id, file=debug)
+                    else:
+                        vr_lex['synsets_ili_lnk_none'].append(ss_id)
+                        final_validation = False
+                        print("LINKED n:",  link_to_ili, ss_id, file=debug)
+                    print("LINK:",  link_to_ili, ss_id, file=debug)
 
+                    #print("VALID:",  ss_id, final_validation, file=debug)
                     # Synsets don't need to be in the same lexicon
-                    for target in all_rels_good[ss_id]:
-                        for lex in wn.keys():
-                            if wn[lex]['syns'][target]['ili_key']:
-                                good_link_to_ili = True
+                    # for target in all_rels_good[ss_id]:
+                    #     for lex in wn.keys():
+                    #         if wn[lex]['syns'][target]['ili_key']:
+                    #             good_link_to_ili = True
 
-                    for target in all_rels_warn[ss_id]:
-                        for lex in wn.keys():
-                            if wn[lex]['syns'][target]['ili_key']:
-                                weak_link_to_ili = True
+                    # for target in all_rels_warn[ss_id]:
+                    #     for lex in wn.keys():
+                    #         if wn[lex]['syns'][target]['ili_key']:
+                    #             weak_link_to_ili = True
 
-                    if good_link_to_ili == False and weak_link_to_ili == True:
-                        vr_lex['synsets_ili_rel_warn_lbl_val'].append(ss_id)
-                        vr_lex['synsets_ili_rel_warn_lbl'] = False
-                        final_validation = False
+                    # if good_link_to_ili == False and weak_link_to_ili == True:
+                    #     vr_lex['synsets_ili_lnk_warn_lbl_val'].append(ss_id)
+                    #     vr_lex['synsets_ili_lnk_warn_lbl'] = False
+                    #     final_validation = False
 
-                    elif good_link_to_ili == False and weak_link_to_ili == False:
-                        vr_lex['synsets_ili_rel_bad_lbl_val'].append(ss_id)
-                        vr_lex['synsets_ili_rel_bad_lbl'] = False
-                        final_validation = False
+                    # elif good_link_to_ili == False and weak_link_to_ili == False:
+                    #     vr_lex['synsets_ili_lnk_bad_lbl_val'].append(ss_id)
+                    #     vr_lex['synsets_ili_lnk_bad_lbl'] = False
+                    #     final_validation = False
                 ################################################################
 
 
             # FINAL VALIDATION
             vr['final_validation'] = final_validation
+            ### LOG     
+            print("""ILI defs and links checked for {}
+            \tResult is {}\t{}""".format(lexicon,
+                                         final_validation,
+                                         dt.today().isoformat()))
+
 
         else:
             wn = None
             wn_dtls = None
-
         return vr, filename, wn, wn_dtls
 
 

@@ -1,0 +1,30 @@
+Dependencies:
+
+install nltk (and download WN), flask, flask-login
+
+(for ubuntu)
+
+sudo apt-get install python3-flask
+#  maybe fix broken pip3  (ok in latest ubuntu)
+curl https://bootstrap.pypa.io/get-pip.py | python3  
+sudo pip3 install flask-login
+
+--------------------------------
+Set up:
+
+#Create DB (slowish)
+omw/bin$ bash doall.bash 
+# only once
+omw/bin$ python3 make-admin-db.py  
+omw/bin$ python3 load-admin-users.py  admin.db
+
+omw/bin$ mv {omw,admin}.db ../db/.
+         chmod -R go+w ../db
+------------------------------------------------------------------------
+Run:
+
+# start server
+omw$ python3 __init__.py 
+
+
+Service should be at: http://0.0.0.0:5000/

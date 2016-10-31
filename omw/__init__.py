@@ -513,6 +513,47 @@ def concepts_omw(ss=None, iliID=None):
                            exes=exes)
 
 
+# URIs FOR ORIGINAL CONCEPT KEYS, BY INDIVIDUAL SOURCES
+@app.route('/omw/src/<src>/<originalkey>', methods=['GET', 'POST'])
+def src_omw(src=None, originalkey=None):
+
+    try:
+        (proj, ver) = src.split('-')
+        src_id = f_src_id_by_proj_ver(proj, ver)
+    except:
+        src_id = None
+
+    if src_id:
+        ss = fetch_ss_id_by_src_orginalkey(src_id, originalkey)
+    else:
+        ss = None
+
+    return concepts_omw(ss)
+
+
+## show wn statistics
+##
+## slightly brittle :-)
+##
+@app.route('/omw/wns/<w>', methods=['GET', 'POST'])
+def omw_wn(w=None):
+    if w:
+        (proj, ver) = w.split('-')
+        src_id = f_src_id_by_proj_ver(proj, ver)
+        srcs_meta = fetch_src_meta()
+        src_info = dd(str)
+        for d in srcs_meta[src_id]:
+            src_info[d['attr']]=d['val']
+
+    return render_template('omw_wn.html',
+                           wn = w,
+                           src_id=src_id,
+                           src_info=src_info,
+                           src_stats=fetch_src_id_stats(src_id))
+
+## show proj statistics
+#for proj in fetch_proj/
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

@@ -6,13 +6,11 @@
 <table class="sortable">
   <thead>
     <tr>
-      <th>iliID</th>
-      <th>Kind</th>
-      <th>Definition</th>
-      <th>Origin</th>
-      <th>OriginKey</th>
+      <th>ili ID</th>
+      <!-- <th>Kind</th> -->
+      <th>Definition and Source</th>
       <th>Status</th>
-      <th>Superseed</th>
+      <!-- <th>Superseed</th> -->
 
       {% if current_user.id %}
         <th><i class="fa fa-star" aria-hidden="true"></i></th>
@@ -26,43 +24,35 @@
   <tr>
 
     <!-- ili ID -->
-    <td>
+    <th>
       <span class="synset"><a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
-    </td>
-
-    <!-- ili Kind -->
-    <td>
-      {{ row[0] }}
-    </td>
+      <!-- Kind: concept or instance -->
+      {% if  row[0] == "concept" %}
+      <a title='concept'>⊂</a>
+      {% else %}
+      <a title='instance'>∈</a>
+      {% endif %}
+       <!-- Status: probationary -->
+      {% if row[4] == "temporary" %}
+      <a title='temporary'>⏳</a>
+      {% endif %}
+      <!-- Status: deprecated/superceded -->
+      {% if row[6] == 'None' %} <!-- CHECKME -->
+      <a title='deprecated'>⚠</a>
+      {% endif %}
+    </th>
 
     <!-- ili Definition -->
     <td>
-      {{ row[1] }}
-    </td>
-
-    <!-- Origin (Project) -->
-    <td>
-     <nobr>{{ row[2][0] }}-{{ row[2][1] }}</nobr>
-    </td>
-
-    <!-- Origin Key -->
-    <td>
-      <nobr>{{ row[3] }}</nobr>
-    </td>
-
-    <!-- Status -->
-    <td>
-      {% if row[4] == "temporary" %}
-      {{ row[4] }}<br>
-      ({{ row[6].split()[0] }})
-      {% else %}
-      {{ row[4] }}
-      {% endif %}
-    </td>
-
-    <!-- Superseed -->
-    <td>
-      {{ row[5] }}
+      “{{ row[1] }}”
+      <!-- Origin (Project) -->
+      <nobr>(<a href='' title='in OMW'>🕸</a>
+	src <a href=''>{{ row[2][0] }}-{{ row[2][1] }}:{{ row[3] }}</a>
+	)
+	<!-- {{ row[4] }}<br> -->
+	{% if row[4] == "temporary" %}
+	(added {{ row[6].split()[0] }})
+	{% endif %}
     </td>
 
     <!-- ACTIONS (IF LOGGED IN) -->
@@ -108,9 +98,7 @@
 
 
     </td>
-
     {% endif %}
-
   </tr>
 
 
