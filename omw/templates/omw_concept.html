@@ -36,7 +36,8 @@
     {%- for lang_id in senses[ss_id] %}
       <p><span class ='lang'>{{ langs[lang_id][1] }}:</span>
         {% for s in senses[ss_id][lang_id] %}
-        <a class='sense' style='font-size: {{scale_freq(s[2])}}%;' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{% if not loop.last %}{{'; '}}{% endif %}
+        <a class='sense' style='font-size: {{scale_freq(s[2])}}%;' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>
+	{%- if not loop.last %}{{'; '}}{% endif %}
         {% endfor %}
      {% endfor %}
   {% endif %}
@@ -68,9 +69,14 @@
             <span class="synset" ><a href="{{url_for('concepts_omw',ssID=ss2)}}" data-synsetid="{{ss2}}">{{labels[ss2]}}</a></span>
             {%- endfor %}
         </p>
-        {%- endfor %}
-    {% endif %}
-
-
+    {%- endfor %}
+  {% endif %}
+  <div id='line'><span>Synset Sources</span></div>
+      {%- for src, key, conf in ss_srcs[ss_id|int] %}
+    <span title='{{src_meta[src]['id']}}-{{src_meta[src]['version']}}:{{key}}'>{{src_meta[src]['label']}}
+    ({{src_meta[src]['version']}})</span> with confidence {{conf}}
+      {%- if not loop.last %}{{'; '}}{% endif %}
+      {%- endfor %}
+    
 {%- endfor %}
 {% endblock %}

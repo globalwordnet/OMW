@@ -13,7 +13,7 @@
 <small>
   <span class='pos' title='{{pos['def'][sense[1]]}}'>{{pos['id'][sense[1]]|lower}}</span> <!--  POS -->
   {% if sense[5] %}  <!--  If linked to ILI -->
-  ⟪<a href="{{url_for('concepts_ili',c=sense[5])}}">i{{ sense[5] }}</a>⟫
+  ⟪<a href="{{url_for('concepts_omw',iliID=sense[5])}}">i{{ sense[5] }}</a>⟫
   {% else %}
   <a href="{{url_for('concepts_omw',ssID=sense[4])}}">{{ labels[sense[4]] }}</a>
   {% endif %}
@@ -24,10 +24,11 @@
 </small>
 
 <ul>
-  <li>Sources
-      {%- for src, conf in src_sid[s_id|int] %}
-      <br>*  {{src_meta[src]['label']}} with confidence {{conf}}</li>
-      {%- endfor %}
+  <li>Source:
+    {%- for src, conf in src_sid[s_id|int] %}
+      {{src_meta[src]['label']}} ({{src_meta[src]['version']}}) with confidence {{conf}}
+      {%- if not loop.last %}{{'; '}}{% endif %}
+    {%- endfor %}
   <li>Sense Definition || Full definition  ToDo
   <li>Variants (and freq and conf and meta)  ToDo
   <li>Sense links (and synset links)  ToDo

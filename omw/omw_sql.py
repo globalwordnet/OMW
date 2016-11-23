@@ -111,6 +111,16 @@ with app.app_context():
         FROM s_src WHERE s_id in (%s)""" % qs(s_ids), s_ids):
             src_sid[r['s_id']].append((r['src_id'], r['conf']))
         return src_sid
+    
+    def fetch_src_for_ss_id(s_ids):
+        """return a dict of lists of (src_ids, conf)  per synset id
+           src_id[ss_id] = [(src_id, src_key, conf), ... ]
+        """
+        src_ssid = dd(list)
+        for r in query_omw("""SELECT ss_id, src_key, src_id, conf 
+        FROM ss_src WHERE ss_id in (%s)""" % qs(s_ids), s_ids):
+            src_ssid[r['ss_id']].append((r['src_id'], r['src_key'], r['conf']))
+        return src_ssid
 
          
     def insert_src_meta(src_id, attr, val, u):

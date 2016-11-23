@@ -539,8 +539,10 @@ def concepts_omw(ssID=None, iliID=None):
     selected_lang = request.cookies.get('selected_lang')
     labels = fetch_labels(selected_lang, set(sss))
 
-    ssrels = fetch_ssrel() 
+    ssrels = fetch_ssrel()
 
+    ss_srcs=fetch_src_for_ss_id(ss_ids)
+    src_meta=fetch_src_meta()
     return render_template('omw_concept.html',
                            ssID=ssID,
                            iliID=iliID,
@@ -555,7 +557,9 @@ def concepts_omw(ssID=None, iliID=None):
                            ili=ili,
                            selected_lang = selected_lang,
                            selected_lang2 = request.cookies.get('selected_lang2'),
-                           labels=labels)
+                           labels=labels,
+                           ss_srcs=ss_srcs,
+                           src_meta=src_meta)
 
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
