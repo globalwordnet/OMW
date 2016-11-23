@@ -23,8 +23,7 @@
       <a class='concept' href="{{ url_for('concepts_omw', ssID = ss_id) }}">
 	<nobr>{{labels[ss_id]}}<sub>{{ pos['id'][ss[ss_id][1]] }}</sub></nobr></a>
       {% if ss[ss_id][0] %}
-      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">
-	  i{{ ss[ss_id][0] }}</a>⟫</nobr>
+      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫</nobr>
       {% endif %}
     </td>
 
