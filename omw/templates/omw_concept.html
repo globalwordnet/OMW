@@ -1,41 +1,61 @@
 {% extends "omw.html" %}
 {% block body %}
 
+{% if ss|length == 0 %}
+<p>I am confused, I don't know the node {{ssID}}.
+   This should not happen.</p>
+{%  endif %}
+
 {%- for ss_id, info in ss.items() %}
 
-<strong>L1:label</strong> <small>"Best definition" ({{ pos['def'][ss[ss_id][1]]|lower }})
+<span class='concept_name'>{{labels[ss_id]}}</span>  <!-- FIXME -->
+<small>  <!-- data -->
+  <!-- part of speech  -->
+  <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 
 
-<!-- <h5>Concept Details: {{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</h5> -->
+  {% if ss[ss_id][0] %}  <!--  If linked to ILI -->
+  ⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
+  {% endif %}
+  <!-- definition -->
+  {% if defs[ss_id][selected_lang|int] %}
+    {{ '; '.join(defs[ss_id][selected_lang|int]) }}
+  {% elif defs[ss_id][selected_lang2|int] %}
+    {{ '; '.join(defs[ss_id][selected_lang2|int]) }}
+  {% elif iliID %}
+    {{ ili[iliID|int][1] }}
+  {% endif %}
+<!-- {{selected_lang}} {{selected_lang2}} -->
 
-<!--     <\!-- CONCEPT -\-> -->
-<!--     <div id='line'><span>Concept</span></div> -->
-<!--     <p><b>POS: </b>{{ pos['def'][ss[ss_id][1]]|upper }}</p> -->
-<!--     <p><b>OMW-ID: </b>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</p> -->
-
-{% if ss[ss_id][0] %}  <!--  If linked to ILI -->
-⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
-{% endif %} 
 </small>
+
+
 
     <!-- SENSES -->
     {% if ss_id in senses.keys() %}
-        <div id='line'><span>Senses</span></div>
-        {%- for lang_id, s in senses[ss_id].items() %}
-            <p><b>{{ langs[lang_id][1] }}:</b> {{ ', '.join(s) }}</p>
-        {%- endfor %}
-    {% endif %}
+    <div id='line'><span>Senses</span></div>
+    {%- for lang_id in senses[ss_id] %}
+      <p><span class ='lang'>{{ langs[lang_id][1] }}:</span>
+        {% for s in senses[ss_id][lang_id] %}
+        <a class='sense' style='font-size: {{scale_freq(s[2])}}%;' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{% if not loop.last %}{{'; '}}{% endif %}
+        {% endfor %}
+     {% endfor %}
+  {% endif %}
 
     <!-- DEFINITIONS -->
     <div id='line'><span>Definitions</span></div>
     {%- for lang_id, def in defs[ss_id].items() %}
-        <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(def) }}</p>
+        <p><span class ='lang'>{{ langs[lang_id][1] }}:</span> {{ '; '.join(def) }}</p>
     {%- endfor %}
+
+    {% if  iliID %}
+    <p><span class ='lang'>ILI:</span> {{ ili[iliID|int][1]}}</p> 	
+    {% endif %}	
 
     <!-- EXAMPLES -->
     {% if ss_id in exes.keys() %}
         <div id='line'><span>Examples</span></div>
         {%- for lang_id, ex in exes[ss_id].items() %}
-            <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(ex) }}</p>
+            <p><span class ='lang'>{{ langs[lang_id][1]}}: </span> {{ '; '.join(ex) }}</p>
         {%- endfor %}
     {% endif %}
 
@@ -43,9 +63,9 @@
     {% if ss_id in links.keys() %}
         <div id='line'><span>Synset Relations</span></div>
         {%- for rel in links[ss_id] %}
-            <p><b>{{ssrels['id'][rel][1]}}:</b>
+            <p><span class ='rel'>{{ssrels['id'][rel][1]}}:</span>
             {%- for ss2 in links[ss_id][rel] %}
-            <span class="synset" ><a href="{{url_for('concepts_omw',ss=ss2)}}" data-synsetid="{{ss2}}">{{ss2}}</a></span>
+            <span class="synset" ><a href="{{url_for('concepts_omw',ssID=ss2)}}" data-synsetid="{{ss2}}">{{labels[ss2]}}</a></span>
             {%- endfor %}
         </p>
         {%- endfor %}

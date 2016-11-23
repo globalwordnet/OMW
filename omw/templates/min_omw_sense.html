@@ -1,0 +1,37 @@
+{% extends "omw.html" %}
+{% block body %}
+
+{% if s_id == None %}
+<p>I am confused, I don't know the sense node {{s_id}}.
+   This should not happen.</p>
+{%  endif %}
+
+
+  <!-- LEMMA -->
+<strong>{{sense[0]}}</strong>
+
+<small>
+  <span class='pos' title='{{pos['def'][sense[1]]}}'>{{pos['id'][sense[1]]|lower}}</span> <!--  POS -->
+  {% if sense[5] %}  <!--  If linked to ILI -->
+  ⟪<a href="{{url_for('concepts_ili',c=sense[5])}}">i{{ sense[5] }}</a>⟫
+  {% else %}
+  <a href="{{url_for('concepts_omw',ssID=sense[4])}}">{{ labels[sense[4]] }}</a>
+  {% endif %}
+
+  
+  <i>freq</i>={{ sense[2]}} <!--  If frequency -->
+
+</small>
+
+<ul>
+  <li>Sources
+      {%- for src, conf in src_sid[s_id|int] %}
+      <br>*  {{src_meta[src]['label']}} with confidence {{conf}}</li>
+      {%- endfor %}
+  <li>Sense Definition || Full definition  ToDo
+  <li>Variants (and freq and conf and meta)  ToDo
+  <li>Sense links (and synset links)  ToDo
+</ul>
+
+
+{% endblock %}

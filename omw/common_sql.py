@@ -5,6 +5,10 @@ import sqlite3
 from flask import Flask, current_app, g
 from collections import defaultdict as dd
 
+def qs(ll):
+    """return len(l) ?s sepeated by ','  to use in queries"""
+    return ','.join('?' for l  in ll)
+
 app = Flask(__name__)
 with app.app_context():
 

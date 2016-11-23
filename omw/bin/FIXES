@@ -1,0 +1,1 @@
+INSERT INTO src_meta (src_id, attr, val, u) VALUES (1, 'id', 'pwn', 'fcbond');

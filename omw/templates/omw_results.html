@@ -20,11 +20,11 @@
 
     <!-- CONCEPT -->
     <td style="text-align:center">
-      <a href="{{ url_for('concepts_omw', ss = ss_id) }}">
-	<nobr>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</nobr></a>
+      <a class='concept' href="{{ url_for('concepts_omw', ssID = ss_id) }}">
+	<nobr>{{labels[ss_id]}}<sub>{{ pos['id'][ss[ss_id][1]] }}</sub></nobr></a>
       {% if ss[ss_id][0] %}
-      <br><nobr><a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">
-	  i{{ ss[ss_id][0] }}</a></nobr>
+      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">
+	  i{{ ss[ss_id][0] }}</a>⟫</nobr>
       {% endif %}
     </td>
 
@@ -32,11 +32,17 @@
     <td>
       {% if senses[ss_id][langsel] %}
       <u>{{lang_dct[langsel]["bcp47"]}}</u>:
-      {{ '; '.join(senses[ss_id][langsel]) }}<br>
+      {% for s in senses[ss_id][langsel] %}
+ <!-- FIXME: add link to sense -->
+         <a class='sense' href='senses/{{s[0]}}'>{{ s[1]}}</a>{% if not loop.last %}{{'; '}}{% endif %}
+      {% endfor %}
       {% endif %}
       {% if langsel != langsel2 and senses[ss_id][langsel2]  %}
-      <u>{{lang_dct[langsel2]["bcp47"]}}</u>:
-      {{ '; '.join(senses[ss_id][langsel2]) }}<br>
+      <br><u>{{lang_dct[langsel2]["bcp47"]}}</u>:
+      {% for s in senses[ss_id][langsel2] %}
+       <!-- FIXME: add link to sense -->
+        {{ s[1]}}{% if not loop.last %}{{'; '}}{% endif %} 
+      {% endfor %}
       {% endif %}
     </td>
 
