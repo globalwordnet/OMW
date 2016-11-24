@@ -26,7 +26,7 @@
     <!-- ili ID -->
     <th>
       <nobr>
-      <span class="synset"><a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">{{ili_id}}</a></span>
+      <span class="synset">⟪<a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">i{{ili_id}}</a>⟫</span>
       <!-- Kind: concept or instance -->
       {% if  row[0] == "concept" %}
       <a title='concept'>⊂</a>
@@ -48,13 +48,8 @@
     <td>
       “{{ row[1] }}”
       <!-- Origin (Project) -->
-      <nobr>(<a href='' title='in OMW'>🕸</a>
-	src <a href=''>{{ row[2][0] }}-{{ row[2][1] }}:{{ row[3] }}</a>
-	)
-	<!-- {{ row[4] }}<br> -->
-	{% if row[4] == "temporary" %}
-	(added {{ row[6].split()[0] }})
-	{% endif %}
+      <nobr>(<a href='/omw/src/{{ row[2][0] }}-{{ row[2][1] }}/{{ row[3] }}'>{{ row[2][0] }}-{{ row[2][1] }}:{{ row[3] }}</a>{% if row[4] == "temporary" %}; added {{ row[6].split()[0] }}){% else %}){% endif %}
+	
     </td>
 
     <!-- ACTIONS (IF LOGGED IN) -->

@@ -3646,3 +3646,17 @@ CREATE TRIGGER ss_com_delete AFTER DELETE ON ss_com
                 old.u, (SELECT MAX(user_id) FROM active_user),
                 old.t, CURRENT_TIMESTAMP);
        END;
+
+/* labels for the synsets 
+   not worth logging as they are often updated
+   whenever frequencies change or languages are added
+*/
+CREATE TABLE label
+       (id INTEGER PRIMARY KEY ASC,
+        ss_id INTEGER NOT NULL,
+        lang_id INTEGER NOT NULL,
+        label TEXT NOT NULL,
+        u INTEGER NOT NULL,
+        t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY(lang_id) REFERENCES lang(id),
+        FOREIGN KEY(ss_id) REFERENCES ss(id));

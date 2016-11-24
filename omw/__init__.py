@@ -16,6 +16,7 @@ from common_sql import *
 from omw_sql import *
 from wn_syntax import *
 
+from math import log
 
 app = Flask(__name__)
 app.secret_key = "!$flhgSgngNO%$#SOET!$!"
@@ -233,9 +234,9 @@ def load_proj_details():
                 html += "<br><p><b>Source {}: {}-{}</b></p>".format(i,
                         projs[proj_id],srcs[src_id][1])
 
-                for attr_val in srcs_meta[src_id]:
+                for attr, val in srcs_meta[src_id].items():
                     html += "<p style='margin-left: 40px'>"
-                    html += attr_val['attr'] + ": " + attr_val['val']
+                    html += attr + ": " + val['val']
                     html += "</p>"
 
 
@@ -266,6 +267,19 @@ def min_omw_concepts(ss=None, ili_id=None):
                            ssrels=ssrels,
                            defs=defs,
                            exes=exes))
+
+@app.route('/_load_min_omw_sense/<sID>')
+def omw_sense_min(sID=None):
+    langs_id, langs_code = fetch_langs()
+    pos = fetch_pos()
+    sense =  fetch_sense(sID)
+    
+    #    return jsonify(result=render_template('omw_sense.html',
+    return jsonify(result=render_template('min_omw_sense.html',
+                           s = sID,
+                           sense = sense,
+                           langs = langs_id,
+                           pos = pos))
 
 
 # l=lambda:dd(l)
@@ -453,9 +467,6 @@ def search_omw(lang=None, q=None):
         lang_id = request.form['lang']
         lang_id2 = request.form['lang2']
         query = request.form['query']
-
-
-
     sense = dd(list)
     lang_sense = dd(lambda: dd(list))
 
@@ -482,6 +493,9 @@ def search_omw(lang=None, q=None):
     lang_dct, lang_code = fetch_langs()
     ss, senses, defs, exes, links = fetch_ss_basic(sense.keys())
 
+    labels = fetch_labels(lang_id, set(senses.keys()))
+
+
     resp = make_response(render_template('omw_results.html',
                                          langsel = int(lang_id),
                                          langsel2 = int(lang_id2),
@@ -492,28 +506,46 @@ def search_omw(lang=None, q=None):
                                          ss=ss,
                                          links=links,
                                          defs=defs,
-                                         exes=exes))
+                                         exes=exes,
+                                         labels=labels))
 
     resp.set_cookie('selected_lang', lang_id)
     resp.set_cookie('selected_lang2', lang_id2)
     return resp
 
 
-@app.route('/omw/concepts/<ss>', methods=['GET', 'POST'])
+@app.route('/omw/concepts/<ssID>', methods=['GET', 'POST'])
 @app.route('/omw/concepts/ili/<iliID>', methods=['GET', 'POST'])
-def concepts_omw(ss=None, iliID=None):
+def concepts_omw(ssID=None, iliID=None):
 
     if iliID:
         ss_ids = f_ss_id_by_ili_id(iliID)
+        ili, ilidefs = fetch_ili([iliID])
     else:
-        ss_ids = [ss]
-
+        ss_ids = [ssID]
+        ili, ili_defs = dict(), dict()
     pos = fetch_pos()
     langs_id, langs_code = fetch_langs()
+    
     ss, senses, defs, exes, links = fetch_ss_basic(ss_ids)
+    if (not iliID) and int(ssID) in ss:
+        iliID = ss[int(ssID)][0]
+        ili, ilidefs = fetch_ili([iliID])
+        
+    sss = list(ss.keys())
+    for s in links:
+        for l in links[s]:
+            sss.extend(links[s][l])
+    selected_lang = request.cookies.get('selected_lang')
+    labels = fetch_labels(selected_lang, set(sss))
+
     ssrels = fetch_ssrel()
 
+    ss_srcs=fetch_src_for_ss_id(ss_ids)
+    src_meta=fetch_src_meta()
     return render_template('omw_concept.html',
+                           ssID=ssID,
+                           iliID=iliID,
                            pos = pos,
                            langs = langs_id,
                            senses=senses,
@@ -521,9 +553,35 @@ def concepts_omw(ss=None, iliID=None):
                            links=links,
                            ssrels=ssrels,
                            defs=defs,
-                           exes=exes)
+                           exes=exes,
+                           ili=ili,
+                           selected_lang = selected_lang,
+                           selected_lang2 = request.cookies.get('selected_lang2'),
+                           labels=labels,
+                           ss_srcs=ss_srcs,
+                           src_meta=src_meta)
 
 
+@app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
+def omw_sense(sID=None):
+    langs_id, langs_code = fetch_langs()
+    pos = fetch_pos()
+    sense =  fetch_sense(sID)
+    selected_lang = request.cookies.get('selected_lang')
+    labels= fetch_labels(selected_lang,[sense[4]])
+    src_meta= fetch_src_meta()
+    src_sid=fetch_src_for_s_id([sID])
+    #    return jsonify(result=render_template('omw_sense.html',
+    return render_template('min_omw_sense.html',
+                           s_id = sID,
+                           sense = sense,
+                           langs = langs_id,
+                           pos = pos,
+                           labels = labels,
+                           src_sid = src_sid,
+                           src_meta = src_meta)
+
+    
 # URIs FOR ORIGINAL CONCEPT KEYS, BY INDIVIDUAL SOURCES
 @app.route('/omw/src/<src>/<originalkey>', methods=['GET', 'POST'])
 def src_omw(src=None, originalkey=None):
@@ -561,6 +619,17 @@ def omw_wn(w=None):
                            src_id=src_id,
                            src_info=src_info,
                            src_stats=fetch_src_id_stats(src_id))
+
+@app.context_processor
+def utility_processor():
+    def scale_freq(f, maxfreq=1000):
+        if f > 0:
+            return 100 + 100 * log(f)/log(maxfreq)
+        else:
+            return 100
+    return dict(scale_freq=scale_freq)
+
+
 
 ## show proj statistics
 #for proj in fetch_proj/

@@ -87,3 +87,38 @@ body {
     background-color: white;
     display: none;
 }
+/*  links for senses */
+
+a.sense:link {
+    color:#000000;
+    text-decoration: none;
+}
+a.sense:visited {
+    color:#000000;
+    text-decoration:none;
+}
+
+a.concept:link {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
+a.concept:visited {
+    color:#000000;
+    font-weight:bold;
+    text-decoration:none;
+}
+/* FIXME make the tooltip nicer */
+span.pos {
+    font-style: italic;
+}
+span.lang {
+    font-variant: small-caps
+}
+span.rel {
+    font-variant: small-caps
+}
+span.concept_name {
+    font-weight: bold;
+    font-size: 150%;
+}

@@ -20,6 +20,12 @@ omw/bin$ python3 load-admin-users.py  admin.db
 
 omw/bin$ mv {omw,admin}.db ../db/.
          chmod -R go+w ../db
+
+Then add frequency and update frequency and labels:
+omw/bin$ python3 load-pwn-freq.py
+omw/bin$ python3 update-freq.py
+omw/bin$ python3 update-label.py
+
 ------------------------------------------------------------------------
 Run:
 
