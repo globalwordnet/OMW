@@ -138,3 +138,36 @@ $(function() {
     });
 });
 ////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////
+// These next three functions show the divtooltip with sense details
+////////////////////////////////////////////////////////////////////////////////
+$(function() {
+    $(".sense").hover(function (event) {
+
+	var elem = event.target;
+	var sid = elem.dataset.sid;
+
+	if (sid) {
+	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_sense/'+sid, {
+	    }, function(data) {
+		var divtool = document.getElementById("divtooltip");
+		divtool.innerHTML = data.result;
+	    });
+	}
+    });
+});
+
+$(function() {
+    $(".sense").mouseenter( function() {
+	$("#divtooltip").show();
+    });
+});
+
+$(function() {
+    $(".sense").mouseleave( function() {
+	$("#divtooltip").hide();
+    });
+});
+////////////////////////////////////////////////////////////////////////////////
