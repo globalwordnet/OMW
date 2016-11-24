@@ -269,17 +269,24 @@ def min_omw_concepts(ss=None, ili_id=None):
                            exes=exes))
 
 @app.route('/_load_min_omw_sense/<sID>')
-def omw_sense_min(sID=None):
+def min_omw_sense(sID=None):
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
     sense =  fetch_sense(sID)
-    
+    selected_lang = request.cookies.get('selected_lang')
+    labels= fetch_labels(selected_lang,[sense[4]])
+    src_meta= fetch_src_meta()
+    src_sid=fetch_src_for_s_id([sID])
+ 
     #    return jsonify(result=render_template('omw_sense.html',
     return jsonify(result=render_template('min_omw_sense.html',
-                           s = sID,
+                           s_id = sID,
                            sense = sense,
                            langs = langs_id,
-                           pos = pos))
+                           pos = pos,
+                           labels = labels,
+                           src_sid = src_sid,
+                           src_meta = src_meta))
 
 
 # l=lambda:dd(l)

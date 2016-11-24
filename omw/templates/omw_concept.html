@@ -36,7 +36,7 @@
     {%- for lang_id in senses[ss_id] %}
       <p><span class ='lang'>{{ langs[lang_id][1] }}:</span>
         {% for s in senses[ss_id][lang_id] %}
-        <a class='sense' style='font-size: {{scale_freq(s[2])}}%;' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>
+        <a class='sense' data-sid='{{s[0]}}' style='font-size: {{scale_freq(s[2])}}%;' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>
 	{%- if not loop.last %}{{'; '}}{% endif %}
         {% endfor %}
      {% endfor %}
