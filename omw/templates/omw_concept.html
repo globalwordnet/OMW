@@ -44,11 +44,11 @@
 
     <!-- DEFINITIONS -->
     <div id='line'><span>Definitions</span></div>
-    {%- for lang_id, def in defs[ss_id].items() %}
-        <p><span class ='lang'>{{ langs[lang_id][1] }}:</span> {{ '; '.join(def) }}</p>
+    {%- for lang_id, def in defs[ss_id].items() if (lang_id and def) %}
+      <p><span class ='lang'>{{ langs[lang_id][1] }}:</span> {{ '; '.join(def) }}</p>
     {%- endfor %}
-
-    {% if  iliID %}
+    <!-- Show the ILI Definition if it is not the same as the English definition -->
+    {% if  iliID and ili[iliID|int][1] != '; '.join(defs[ss_id][1]) %}
     <p><span class ='lang'>ILI:</span> {{ ili[iliID|int][1]}}</p> 	
     {% endif %}	
 
