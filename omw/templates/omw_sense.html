@@ -1,3 +1,6 @@
+{% extends "omw.html" %}
+{% block body %}
+
 {% if s_id == None %}
 <p>I am confused, I don't know the sense node {{s_id}}.
    This should not happen.</p>
@@ -32,4 +35,4 @@
 </ul>
 
 
-
+{% endblock %}

@@ -578,8 +578,7 @@ def omw_sense(sID=None):
     labels= fetch_labels(selected_lang,[sense[4]])
     src_meta= fetch_src_meta()
     src_sid=fetch_src_for_s_id([sID])
-    #    return jsonify(result=render_template('omw_sense.html',
-    return render_template('min_omw_sense.html',
+    return render_template('omw_sense.html',
                            s_id = sID,
                            sense = sense,
                            langs = langs_id,

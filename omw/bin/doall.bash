@@ -38,6 +38,10 @@ python3 load-ssrels.py omw.db
 echo "Loading SREL data..."
 python3 load-srels.py omw.db
 
+# Seed Langauges
+echo "Seeding language data"
+python3 seeding-languages.py omw.db
+
 
 ###############################################################################
 # LOAD PWN3.0+ILI
