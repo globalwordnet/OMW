@@ -502,6 +502,19 @@ with app.app_context():
 
         return sense
 
+    def fetch_forms(w_id):
+        """return the forms of all variants
+        FIXME: should include meta data
+        """
+        # variant = [lemma]
+        forms=[]
+        for r in query_omw("""
+        SELECT lemma, id as f_id
+        FROM (SELECT f_id FROM wf_link
+	      WHERE w_id = ?)
+        JOIN f on f.id=f_id""", (w_id,)):
+            forms.append(r['lemma'])
+        return forms
 
     def fetch_labels(lang_id, sss):
         """return a dict with lang_id labels for the synsets in sss"""

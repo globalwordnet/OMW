@@ -20,16 +20,16 @@
 
 </small>
 
-<ul>
-  <li>Source:
-    {%- for src, conf in src_sid[s_id|int] %}
-      {{src_meta[src]['label']}} ({{src_meta[src]['version']}}) with confidence {{conf}}
-      {%- if not loop.last %}{{'; '}}{% endif %}
-    {%- endfor %}
-  <li>Sense Definition || Full definition  ToDo
-  <li>Variants (and freq and conf and meta)  ToDo
-  <li>Sense links (and synset links)  ToDo
-</ul>
+<br><span class='rel'>Variants:</span>
+  {{forms|join(', ')}}
+<br><span class='rel'>Source:</span>
+  {%- for src, conf in src_sid[s_id|int] %}
+    {{src_meta[src]['label']}} ({{src_meta[src]['version']}}) with confidence {{conf}}
+    {%- if not loop.last %}{{'; '}}{% endif %}
+  {%- endfor %}
+<br>Sense Definition || Full definition  ToDo
+<br>Sense links (and synset links)  ToDo
+
 
 
 

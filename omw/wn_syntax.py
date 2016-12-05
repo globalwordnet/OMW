@@ -495,9 +495,17 @@ with app.app_context():
                                    'http://opendefinition.org/licenses/cc-by/3.0',
                                    'http://opendefinition.org/licenses/cc-by/4.0',
                                    'http://opendefinition.org/licenses/odc-by/',
+                                   'http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html',
                                    'http://opendefinition.org/licenses/cc-by-sa/',
                                    'http://opendefinition.org/licenses/cc-by-sa/3.0',
                                    'http://opendefinition.org/licenses/cc-by-sa/4.0',
+                                   "https://creativecommons.org/licenses/by/",
+                                   "https://creativecommons.org/licenses/by-sa/",
+                                   "https://creativecommons.org/licenses/by/3.0/",
+                                   "https://creativecommons.org/licenses/by-sa/3.0/",
+                                   "https://creativecommons.org/licenses/by/4.0/",
+                                   "https://creativecommons.org/licenses/by-sa/4.0/",
+                                   "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html",
                                    'https://opensource.org/licenses/MIT/',
                                    'https://opensource.org/licenses/Apache-2.0']
                 if lic in acceptable_lics:

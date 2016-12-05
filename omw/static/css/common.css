@@ -101,12 +101,12 @@ a.sense:visited {
 }
 
 a.concept:link {
-    color:#000000;
+    color: #0000A0;
     font-weight:bold;
     text-decoration:none;
 }
 a.concept:visited {
-    color:#000000;
+    color:#8B0000;  
     font-weight:bold;
     text-decoration:none;
 }
