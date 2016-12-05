@@ -273,20 +273,21 @@ def min_omw_sense(sID=None):
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
     sense =  fetch_sense(sID)
+    forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
     src_meta= fetch_src_meta()
     src_sid=fetch_src_for_s_id([sID])
- 
     #    return jsonify(result=render_template('omw_sense.html',
     return jsonify(result=render_template('min_omw_sense.html',
-                           s_id = sID,
-                           sense = sense,
-                           langs = langs_id,
-                           pos = pos,
-                           labels = labels,
-                           src_sid = src_sid,
-                           src_meta = src_meta))
+                                          s_id = sID,
+                                          sense = sense,
+                                          forms=forms,
+                                          langs = langs_id,
+                                          pos = pos,
+                                          labels = labels,
+                                          src_sid = src_sid,
+                                          src_meta = src_meta))
 
 
 # l=lambda:dd(l)
@@ -574,6 +575,7 @@ def omw_sense(sID=None):
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
     sense =  fetch_sense(sID)
+    forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
     src_meta= fetch_src_meta()
@@ -581,6 +583,7 @@ def omw_sense(sID=None):
     return render_template('omw_sense.html',
                            s_id = sID,
                            sense = sense,
+                           forms=forms,
                            langs = langs_id,
                            pos = pos,
                            labels = labels,
