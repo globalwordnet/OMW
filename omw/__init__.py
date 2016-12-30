@@ -175,7 +175,7 @@ def omw_lang_selector():
     selected_lang = request.cookies.get('selected_lang')
     selected_lang2 = request.cookies.get('selected_lang2')
     lang_id, lang_code = fetch_langs()
-    html = '<select name="lang" style="font-size: 18px;" required>'
+    html = '<select name="lang" style="font-size: 85%; width: 9em" required>'
     for lid in lang_id.keys():
         if selected_lang == str(lid):
             html += """<option value="{}" selected>{}</option>
@@ -184,7 +184,7 @@ def omw_lang_selector():
             html += """<option value="{}">{}</option>
                     """.format(lid, lang_id[lid][1])
     html += '</select>'
-    html += '<select name="lang2" style="font-size: 18px;" required>'
+    html += '<select name="lang2" style="font-size: 85%; width: 9em" required>'
     for lid in lang_id.keys():
         if selected_lang2 == str(lid):
             html += """<option value="{}" selected>{}</option>
@@ -437,9 +437,12 @@ def upload():
     return render_template('upload.html')
 
 @app.route('/metadata', methods=['GET', 'POST'])
-@login_required(role=0, group='open')
 def metadata():
     return render_template('metadata.html')
+
+@app.route('/join', methods=['GET', 'POST'])
+def join():
+    return render_template('join.html')
 
 
 @app.route('/ili/validation-report', methods=['GET', 'POST'])
