@@ -51,7 +51,7 @@ with app.app_context():
     def parse_wn(wnlmf):
 
         ### LOG     
-        print('Starting to parse data\t{}'.format(dt.today().isoformat()))   
+        #print('Starting to parse data\t{}'.format(dt.today().isoformat()))   
         langs, langs_code = fetch_langs()
         ili, ili_defs = fetch_ili()
 
@@ -73,10 +73,10 @@ with app.app_context():
             except:
                 pass
             ### LOG
-            print("Reading Lexicon {} for Language {} ({})\t{}".format(lexicon,
-                                                                       lexi_lang,
-                                                                       lexicon_attrs,
-                                                                       dt.today().isoformat()))
+            # print("Reading Lexicon {} for Language {} ({})\t{}".format(lexicon,
+            #                                                            lexi_lang,
+            #                                                            lexicon_attrs,
+            #                                                            dt.today().isoformat()))
             ####################################################################
             # LEXICAL ENTRIES (CAN LINK OVER MULTIPLE LEXICONS)
             ####################################################################
@@ -168,8 +168,8 @@ with app.app_context():
 
 
         ### LOG     
-        print('Lexemes and senses read for {}\t{}'.format(lexicon,
-                                                        dt.today().isoformat()))
+        # print('Lexemes and senses read for {}\t{}'.format(lexicon,
+        #                                                 dt.today().isoformat()))
         
         ########################################################################
         # LEXICONS (2n ITTERATION: SYNSETS)
@@ -321,8 +321,8 @@ with app.app_context():
                         synset['ili_kind'] = 1
                         synset['ili_kind_str'] = 'concept'
         ### LOG     
-        print('Synsets read for {}\t{}'.format(lexicon,
-                                               dt.today().isoformat()))
+        # print('Synsets read for {}\t{}'.format(lexicon,
+        #                                        dt.today().isoformat()))
 
 
         return wn, wn_dtls
@@ -569,10 +569,10 @@ with app.app_context():
             if lnk in rels:
                 for trg in set(lnks[ss][lnk].keys()) - visited: ### confidence?
                     if trg in ilis:
-                        print('CHECKED:', ss, lnk, trg, file=debug)  ##DEBUG
+                        #print('CHECKED:', ss, lnk, trg, file=debug)  ##DEBUG
                         return True
                     else:
-                        print('CHECKING:', ss, lnk, trg, file=debug)  ##DEBUG
+                        #print('CHECKING:', ss, lnk, trg, file=debug)  ##DEBUG
                         visited.add(trg)
                         return checkLinked(lnks,rels,ilis,trg,visited)
         ## if we run out of things to visit then it is not linked
@@ -673,8 +673,8 @@ with app.app_context():
 
         dtd_f.close()
         ###LOG
-        print('Validated DTD {} ({})\t{}'.format(final_validation, filename,
-              dt.today().isoformat()))
+        # print('Validated DTD {} ({})\t{}'.format(final_validation, filename,
+        #       dt.today().isoformat()))
 
 
         ########################################################################
@@ -695,8 +695,8 @@ with app.app_context():
             invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
             for lexicon in wn:
                 ### LOG     
-                print('Checking {}\t{}'.format(lexicon,
-                                               dt.today().isoformat()))
+                # print('Checking {}\t{}'.format(lexicon,
+                #                                dt.today().isoformat()))
 
                 vr_lex = vr['lexicon'][lexicon]
 
@@ -768,9 +768,9 @@ with app.app_context():
                     final_validation = False
                 ################################################################
                 ### LOG     
-                if final_validation:
-                    print('Meta Data OK for {}\t{}'.format(lexicon,
-                                                           dt.today().isoformat()))
+                # if final_validation:
+                #     print('Meta Data OK for {}\t{}'.format(lexicon,
+                #                                            dt.today().isoformat()))
         
                 ################################################################
                 # CHECK ALL CONCEPTS
@@ -854,10 +854,10 @@ with app.app_context():
                     vr_lex['synsets_ili_new_lbl'] = 'warning'
                 ################################################################
                 ### LOG     
-                if final_validation:
-                    print('Synsets well formed {}\t{}'.format(lexicon,
-                                                              dt.today().isoformat()))
-                    print("Let's check the new candidates, ...")
+                # if final_validation:
+                #     print('Synsets well formed {}\t{}'.format(lexicon,
+                #                                               dt.today().isoformat()))
+                #     print("Let's check the new candidates, ...")
 
                 ################################################################
                 # CHECK NEW ILI CANDIDATES
@@ -908,8 +908,8 @@ with app.app_context():
                 #print ('LNKS: ' + json.dumps(lnks, indent=2), file=debug)
                 #print ('ILIS: ' + ", ".join(str(i) for i in ilis), file=debug)
                 ###LOG
-                print('Loaded all rels {}\t{}'.format(lexicon,
-                                                      dt.today().isoformat()))
+                # print('Loaded all rels {}\t{}'.format(lexicon,
+                #                                       dt.today().isoformat()))
                 for ss_id in wn_dtls['ss_ili_new'][lexicon]:
                     synset = wn[lexicon]['syns'][ss_id]
 
@@ -965,9 +965,9 @@ with app.app_context():
 
                     ### check for closeness!    
                     ### LOG
-                    print('ILI def checked {}: {} {}\t{}'.format(lexicon, ss_id,
-                                                                 final_validation,
-                                                                 dt.today().isoformat()))
+                    # print('ILI def checked {}: {} {}\t{}'.format(lexicon, ss_id,
+                    #                                              final_validation,
+                    #                                              dt.today().isoformat()))
 
 
                     ########################################################
@@ -978,22 +978,22 @@ with app.app_context():
                     link_to_ili = 'None'
                     if checkLinked(lnks, good_rels, ilis, ss_id, set()):
                         link_to_ili = 'good'
-                        print("LINKED g:",  link_to_ili, ss_id, file=debug)
+                        #print("LINKED g:",  link_to_ili, ss_id, file=debug)
                     elif checkLinked(lnks, good_rels+warn_rels, ilis, ss_id, set()):
                         link_to_ili = 'weak'
                         vr_lex['synsets_ili_lnk_warn'].append(ss_id)
-                        print("LINKED w:",  link_to_ili, ss_id, file=debug)
+                        #print("LINKED w:",  link_to_ili, ss_id, file=debug)
                     elif checkLinked(lnks, good_rels+warn_rels+bad_rels,
                                      ilis, ss_id, set()):
                         link_to_ili = 'bad'
                         vr_lex['synsets_ili_lnk_bad'].append(ss_id)
                         final_validation = False
-                        print("LINKED b:",  link_to_ili, ss_id, file=debug)
+                        #print("LINKED b:",  link_to_ili, ss_id, file=debug)
                     else:
                         vr_lex['synsets_ili_lnk_none'].append(ss_id)
                         final_validation = False
-                        print("LINKED n:",  link_to_ili, ss_id, file=debug)
-                    print("LINK:",  link_to_ili, ss_id, file=debug)
+                        #print("LINKED n:",  link_to_ili, ss_id, file=debug)
+                    # print("LINK:",  link_to_ili, ss_id, file=debug)
 
                     #print("VALID:",  ss_id, final_validation, file=debug)
                     # Synsets don't need to be in the same lexicon
@@ -1022,10 +1022,10 @@ with app.app_context():
             # FINAL VALIDATION
             vr['final_validation'] = final_validation
             ### LOG     
-            print("""ILI defs and links checked for {}
-            \tResult is {}\t{}""".format(lexicon,
-                                         final_validation,
-                                         dt.today().isoformat()))
+            # print("""ILI defs and links checked for {}
+            # \tResult is {}\t{}""".format(lexicon,
+            #                              final_validation,
+            #                              dt.today().isoformat()))
 
 
         else:

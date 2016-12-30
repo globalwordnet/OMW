@@ -1,3 +1,6 @@
+body {
+    font-family: "Noto Serif", "Noto Sans {Japanese, SC, Korean, TC} ", serif;
+}
 
 #line{
   border-bottom:1px #aaaaaa solid;

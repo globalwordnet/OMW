@@ -1,1 +1,36 @@
 INSERT INTO src_meta (src_id, attr, val, u) VALUES (1, 'id', 'pwn', 'fcbond');
+
+UPDATE lang_name SET name= "Interlingua (IALA)" WHERE name = "Interlingua (International Auxiliary Language Association)";
+UPDATE lang_name SET name= "Mandarin (简)" WHERE name = "Mandarin Chinese (simplified)";
+
+UPDATE lang_name SET name= "Nepali (macro)" WHERE name = "Nepali (macrolanguage)";
+UPDATE lang_name SET name= "Oriya (macro)" WHERE name = "Oriya (macrolanguage)";
+UPDATE lang_name SET name= "Swahili (macro)" WHERE name = "Swahili (macrolanguage)";
+UPDATE lang_name SET name= "Old English" WHERE name = "Old English (ca. 450-1100)";
+UPDATE lang_name SET name= "Ancient Greek" WHERE name = "Ancient Greek (to 1453)";
+UPDATE lang_name SET name= "" WHERE name = "";
+
+DELETE mcn (that doesn't say script type)  be careful importing wiki
+ * or don't I think we checked them all.
+
+ToDo: s/macrolanguage/macro/; remove dates; Mandarin Chinese -> Mandarin?
+
+? add long_name column ?
+
+sqlite> .mode tab
+sqlite> select name from lang_name where length(name) > 15;
+name
+Mandarin Chinese
+Modern Greek (1453-)
+Norwegian Nynorsk
+Norwegian Bokmål
+Interlingua (IALA)
+Nepali (macrolanguage)
+Occitan (post 1500)
+Oriya (macrolanguage)
+Swahili (macrolanguage)
+Tonga (Tonga Islands)
+Old English (ca. 450-1100)
+Ancient Greek (to 1453)
+Mandarin Chinese (simplified)
+Run Time: real 0.000 user 0.000000 sys 0.000000

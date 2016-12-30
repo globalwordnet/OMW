@@ -1,23 +1,39 @@
-{% extends "ili.html" %}
+{% extends "omw.html" %}
 {% block body %}
 
 <input type="hidden" name="current_user" value={{ current_user.id }}>
 
-<h4>How to add a new Wordnet to the Grid</h4>
+<h4>How to join the Open Multilingual Wordnet</h4>
 
-<p>This interface can be used to upload a Wordnet, in the Wordnet LMF
-format, to the Global Wordnet Grid.  This has two effects:
+<p>We welcome anyone who has made a wordnet that is available under an
+  open license to join the Open Multilingual Wordnet (OMW).  This links
+  your wordnet to wordnets in other languages and makes it more easily
+  accessible.  Wordnets in OMW are used by other projects such as the
+  <a href='http://www.nltk.org/'>Natural Language Toolkit</a>.  We
+  also provide a restful interface.
+
+<p>To join the Open Multilingual Wordnet you must:
 <ul>
-  <li>The wordnet is added to the Open Multilingual Wordnet (OMW)
-  <li>New concepts can be added to the Collaborative Inter-lingual Index (CILI)
+  <li>Convert your wordnet to the
+  public <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd"
+  target="_blank">Wordnet LMF document type definition (DTD)</a>.  We can help if needed.
+
+  <li>Let us know that you would like to join
+    (email <a href='mailto:bond@ieee.org'>Francis Bond</a>) so we can add your project.
+
+  <li>You can then add your wordnet either by uploading a file or by
+  providing a url pointing to a valid Wordnet LMF file.  We will then
+  validate it against
+  the <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd"
+  target="_blank">Wordnet LMF document type definition (DTD)</a> and
+  run some other sanity checks.</p>
+
+<li>We will do some checking of formatting, but the ultimate
+responsibility for the quality of the content is the individual
+projects.
 </ul>
-Uploading can be done through a file or by providing a url pointing to a valid Wordnet LMF file.</p>
 
-<p>This file will be matched against the public <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd" target="_blank">Wordnet LMF document type definition (DTD)</a>, along with other sanity checks.</p>
-
-<p>The ultimate responsibility for the quality of the content is the individual projects.
-
-<br><p>Please <b><u>read the guidelines provided below carefully</u></b> before proceeding.</p><br>
+<h4>Guidelines for preparing the LMF</h4>
 
 <h5>Wordnet Metadata</h5>
 
@@ -72,10 +88,12 @@ https://opensource.org/licenses/Apache-2.0
 </ul>
 <h5>Synset Identifiers and adding Synsets to CILI</h5>
 <ul>
+  <li>You can also add new synsets to the Collaborative Interlingual Index (CILI).
+    
   <li>Synset ids in your LMF file should take the project id followed
   by an hyphen preceeding the id that will be considered original
   (e.g. <tt>pwn-00001740-n</tt> for original id <tt>00001740-n</tt> in
-  lexicon with id <tt>pwn</tt>)</li>  This is because xml ids cannot start with numbers
+  lexicon with id <tt>pwn</tt>)</li>  This is because xml ids cannot start with numbers.
 
   <li>Synsets in your LMF file must make an explicit reference to
   their ILI status: an ILI id preceeded by the letter 'i'
@@ -89,7 +107,7 @@ https://opensource.org/licenses/Apache-2.0
   definition within the ILI repository, with at least 20 characters or
   5 words;</li>
 
-  <li>By uploading your Wordnet LMF in this interface, you agree to
+  <li>By uploading your Wordnet LMF to the OMW, you agree to
   release the English definitions accompanying new ILI candidates
   under a <a href="https://creativecommons.org/licenses/by/4.0/"
   target="_blank">CC BY 4.0</a> license</li> or later version
@@ -102,23 +120,9 @@ https://opensource.org/licenses/Apache-2.0
 </ul>
 
 
-<br>
-
-<p>Before the upload takes place, we will provide you with a small report indicating if the syntax of your LMF file seems to be in order.</p>
-<p>You can upload or link to any Wordnet LMF file with the following extensions (.xml, .xml.gz).</p>
-
-<form enctype="multipart/form-data" action="{{url_for('report')}}" method="post">
-<p><i class="fa fa-file-archive-o"></i> FILE:<input type="file" name="file" required><input type="submit" value="Validate"></p>
-</form>
-
-
-<form action="{{url_for('report')}}" method="post">
-<p><i class="fa fa-cloud-upload"></i> URL: <input type="text" size=41 name="url" required><input type="submit" value="Validate"></p>
-</form>
-
 <br><br>
 <h6>References</h6>
-<p>The basic structure is described here (this web page is more up-to-date):
+<p>The basic structure of the OMW and CILI is described here (this web page is more up-to-date):
 
 <dl>
   <dt><a name="Vossen:Bond:McCrae:2016">Piek Vossen, Francis Bond and John P. McCrae (2016)</a></dt>
