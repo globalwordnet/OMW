@@ -1,28 +1,37 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3> Welcome to OMW</h3>
+<h3> Welcome to the Open Multilingual Wordnet (2.0)</h3>
 
-<p>This page provides access to open wordnets in a variety of
-languages, all linked through the Collaborative Interlingual Index
-(CILI). The goal is to make it easy to use wordnets in multiple
-languages.  The individual wordnets have been made by many different
-projects and vary greatly in size and accuracy.  We have (i) extracted
-and normalized the data, (ii) linked it to Princeton WordNet 3.0 and
-(iii) put it in one place.  The Open Multilingual Wordnet and its
-components are
+<p>This page provides access to a large multilingual semantic lexicon.
+Words in each language are grouped into groups that overlap in meaning
+(synsets) and these synsets are linked by typed semantic relations
+(such as <tt>is-a (hypernymy)</tt> and <tt>part-whole
+(meronomy)</tt>).  These synsets then linked to a shared index of
+concepts.  The basic structure is called a <b>wordnet</b>, based on the
+Princeton WordNet of English.
+
+
+<p>The data comes from open wordnets in a variety of languages, all
+linked through the Collaborative Interlingual Index (CILI). The goal
+is to make it easy to use wordnets across multiple languages.  The
+individual wordnets have been made by many different projects and vary
+greatly in size and accuracy.  We have defined a shared
+representation, merged different versions and projects and put it in
+one place with a variety of useful interfaces.  The Open Multilingual
+Wordnet and its components are
 <a href='http://opendefinition.org/'>open</a>: they can be freely
 used, modified, and shared by anyone for any purpose.  There is
 a fuller list of wordnets at the Global Wordnet Association's
 <a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
-in the World page</a>.
+in the World page</a>.  
   
 <p><a href="{{ url_for('join') }}">How to join the Open Multilingual Wordnet</a>.
 
 <p><a href="http://compling.hss.ntu.edu.sg/omw/">Open Multilingual
 Wordnet 1.0</a>.  Currently still more functional.
   
-<br>
+<br>List of all wordnets (coming soon)
 <br>
 <hr>
 
