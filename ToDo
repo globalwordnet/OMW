@@ -15,6 +15,10 @@ http://compling.hss.ntu.edu.sg/iliomw/omw/concepts/ili/46360
 
  * concept.html
 
+return non-html for search
+
+better search: +pos, +sf, +hypernym, +two words
+
 Label
 things with names:
  --- most common lemma in L1 (alphabetical for ties)

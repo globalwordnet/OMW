@@ -48,6 +48,28 @@ with app.app_context():
     ## FCB must be a better way
     ilis=set()
 
+    acceptable_lics = ['wordnet', 
+                       'http://opendefinition.org/licenses/cc-by/',
+                       'http://opendefinition.org/licenses/cc-by/3.0',
+                       'http://opendefinition.org/licenses/cc-by/4.0',
+                       'http://opendefinition.org/licenses/odc-by/',
+                       'http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html',
+                       'http://opendefinition.org/licenses/cc-by-sa/',
+                       'http://opendefinition.org/licenses/cc-by-sa/3.0',
+                       'http://opendefinition.org/licenses/cc-by-sa/4.0',
+                       "https://creativecommons.org/licenses/by/",
+                       "https://creativecommons.org/licenses/by-sa/",
+                       "https://creativecommons.org/licenses/by/3.0/",
+                       "https://creativecommons.org/licenses/by-sa/3.0/",
+                       "https://creativecommons.org/licenses/by/4.0/",
+                       "https://creativecommons.org/licenses/by-sa/4.0/",
+                       "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html",
+                       'https://opensource.org/licenses/MIT/',
+                       'https://opensource.org/licenses/Apache-2.0']
+    mindefchars=20
+    mindefwords=4
+    
+    
     def parse_wn(wnlmf):
 
         ### LOG     
@@ -490,24 +512,6 @@ with app.app_context():
 
                 lic = wn[lexicon]['attrs']['license']
                 vr_lex['license_lbl_val'] = lic
-                acceptable_lics = ['wordnet',
-                                   'http://opendefinition.org/licenses/cc-by/',
-                                   'http://opendefinition.org/licenses/cc-by/3.0',
-                                   'http://opendefinition.org/licenses/cc-by/4.0',
-                                   'http://opendefinition.org/licenses/odc-by/',
-                                   'http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html',
-                                   'http://opendefinition.org/licenses/cc-by-sa/',
-                                   'http://opendefinition.org/licenses/cc-by-sa/3.0',
-                                   'http://opendefinition.org/licenses/cc-by-sa/4.0',
-                                   "https://creativecommons.org/licenses/by/",
-                                   "https://creativecommons.org/licenses/by-sa/",
-                                   "https://creativecommons.org/licenses/by/3.0/",
-                                   "https://creativecommons.org/licenses/by-sa/3.0/",
-                                   "https://creativecommons.org/licenses/by/4.0/",
-                                   "https://creativecommons.org/licenses/by-sa/4.0/",
-                                   "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html",
-                                   'https://opensource.org/licenses/MIT/',
-                                   'https://opensource.org/licenses/Apache-2.0']
                 if lic in acceptable_lics:
                     vr_lex['license_lbl'] = True
                 else:
@@ -751,16 +755,6 @@ with app.app_context():
 
                 lic = wn[lexicon]['attrs']['license']
                 vr_lex['license_lbl_val'] = lic
-                acceptable_lics = ['wordnet',
-                                   'http://opendefinition.org/licenses/cc-by/',
-                                   'http://opendefinition.org/licenses/cc-by/3.0',
-                                   'http://opendefinition.org/licenses/cc-by/4.0',
-                                   'http://opendefinition.org/licenses/odc-by/',
-                                   'http://opendefinition.org/licenses/cc-by-sa/',
-                                   'http://opendefinition.org/licenses/cc-by-sa/3.0',
-                                   'http://opendefinition.org/licenses/cc-by-sa/4.0',
-                                   'https://opensource.org/licenses/MIT/',
-                                   'https://opensource.org/licenses/Apache-2.0']
                 if lic in acceptable_lics:
                     vr_lex['license_lbl'] = True
                 else:
@@ -941,7 +935,8 @@ with app.app_context():
                             final_validation = False
 
                         # CHECK ILI DEFINITIONS' LENGTH
-                        if not ili_def or len(ili_def) < 20 or len(ili_def.split()) < 5:
+                        if not (ili_def or len(ili_def) < mindefchars or \
+                           len(ili_def.split()) < mindefwords):
                             vr_lex['synsets_ili_def_length_lbl_val'].append((ss_id,ili_def))
                             vr_lex['synsets_ili_def_length_lbl'] = False
                             final_validation = False
