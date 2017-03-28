@@ -4,7 +4,15 @@
 ### load it into the xlink table
 ###
 import sys, sqlite3
-dbfile = "../db/omw.db"
+
+# It takes one argument: the name of the db
+if (len(sys.argv) < 2):
+    sys.stderr.write('You need to give the name of the DB\n')
+    sys.exit(1)
+else:
+    uname =  sys.argv[0]
+    dbfile = sys.argv[1]
+
 con = sqlite3.connect(dbfile)
 c = con.cursor()
 
@@ -42,7 +50,7 @@ for line in f:
 # Enter core data
 ################################################################
 rname='core'
-uname='load-core.py'
+#uname='load-core.py'
 values=list()
 
 c.execute('select id, ili_id from ss')

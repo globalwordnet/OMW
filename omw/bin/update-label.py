@@ -10,7 +10,7 @@ import sys, sqlite3
 from warnings import warn
 
 from collections import defaultdict as dd
-dbfile = "../db/omw.db"
+dbfile = "omw.db"
 con = sqlite3.connect(dbfile)
 c = con.cursor()
 ###
