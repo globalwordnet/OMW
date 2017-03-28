@@ -28,7 +28,8 @@
   {{forms|join(', ')}}
   <li><span class='rel'>Source:</span>
     {%- for src, conf in src_sid[s_id|int] %}
-      {{src_meta[src]['label']}} ({{src_meta[src]['version']}}) with confidence {{conf}}
+      {% set proj = src_meta[src]['id'] + '-'  +  src_meta[src]['version'] %}
+        <a href="{{url_for('omw_wn', src=proj)}}">{{src_meta[src]['label']}} ({{src_meta[src]['version']}})</a> with confidence {{conf}}
       {%- if not loop.last %}{{'; '}}{% endif %}
     {%- endfor %}
   <!-- <li>Sense Definition || Full definition  ToDo -->
