@@ -16,6 +16,7 @@ from common_sql import *
 from omw_sql import *
 from wn_syntax import *
 
+
 from math import log
 
 app = Flask(__name__)
@@ -524,6 +525,10 @@ def search_omw(lang=None, q=None):
     resp.set_cookie('selected_lang2', lang_id2)
     return resp
 
+@app.route('/omw/core', methods=['GET', 'POST'])
+def omw_core():  ### FIXME add lang as a paramater?
+    return render_template('omw_core.html')
+
 
 @app.route('/omw/concepts/<ssID>', methods=['GET', 'POST'])
 @app.route('/omw/concepts/ili/<iliID>', methods=['GET', 'POST'])
@@ -554,6 +559,7 @@ def concepts_omw(ssID=None, iliID=None):
 
     ss_srcs=fetch_src_for_ss_id(ss_ids)
     src_meta=fetch_src_meta()
+    core_ss, core_ili = fetch_core()
     return render_template('omw_concept.html',
                            ssID=ssID,
                            iliID=iliID,
@@ -570,7 +576,8 @@ def concepts_omw(ssID=None, iliID=None):
                            selected_lang2 = request.cookies.get('selected_lang2'),
                            labels=labels,
                            ss_srcs=ss_srcs,
-                           src_meta=src_meta)
+                           src_meta=src_meta,
+                           core=core_ss)
 
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
@@ -614,23 +621,44 @@ def src_omw(src=None, originalkey=None):
 
 ## show wn statistics
 ##
-## slightly brittle :-)
 ##
-@app.route('/omw/wns/<w>', methods=['GET', 'POST'])
-def omw_wn(w=None):
-    if w:
-        (proj, ver) = w.split('-')
+@app.route('/omw/src/<src>', methods=['GET', 'POST'])
+def omw_wn(src=None):
+    if src:
+        try:
+            (proj, ver) = src.split('-')
+            src_id = f_src_id_by_proj_ver(proj, ver)
+        except:
+            src_id = None
         src_id = f_src_id_by_proj_ver(proj, ver)
         srcs_meta = fetch_src_meta()
-        src_info = dd(str)
-        for d in srcs_meta[src_id]:
-            src_info[d['attr']]=d['val']
+        src_info = srcs_meta[src_id]
 
     return render_template('omw_wn.html',
-                           wn = w,
+                           wn = src,
                            src_id=src_id,
                            src_info=src_info,
                            src_stats=fetch_src_id_stats(src_id))
+
+@app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
+def omw_wn_latex(src=None):
+    if src:
+        try:
+            (proj, ver) = src.split('-')
+            src_id = f_src_id_by_proj_ver(proj, ver)
+        except:
+            src_id = None
+        src_id = f_src_id_by_proj_ver(proj, ver)
+        srcs_meta = fetch_src_meta()
+        src_info = srcs_meta[src_id]
+
+    return render_template('omw_wn_latex.html',
+                           wn = src,
+                           src_id=src_id,
+                           src_info=src_info,
+                           src_stats=fetch_src_id_stats(src_id))
+
+
 
 @app.context_processor
 def utility_processor():

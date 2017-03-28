@@ -9,6 +9,10 @@
 {%- for ss_id, info in ss.items() %}
 
 <span class='concept_name'>{{labels[ss_id]}}</span>  <!-- FIXME -->
+{% if ss_id in core %}
+<a  href='{{url_for('omw_core')}}' title= 'One of the 4,960 core concepts'>✪</a>
+{% endif %}  <!--  If core concept -->
+ 
 <small>  <!-- data -->
   <!-- part of speech  -->
   <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 

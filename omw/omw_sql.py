@@ -100,7 +100,10 @@ with app.app_context():
              src_id_stats['synsets'] = r['count(distinct s.ss_id)']
              src_id_stats['words'] = r['count(distinct s.w_id)']
              src_id_stats['senses'] = r['count(distinct s.id)']
-             return src_id_stats
+
+### core select count(*) from ss join ss_src on ss.id=ss_src.ss_id join ssxl on ssxl.ss_id=ss.id WhERE ss_src.src_id =5 and ssxl.resource_id =4 limit 5;  
+             
+        return src_id_stats
         
     def fetch_src_for_s_id(s_ids):
         """return a dict of lists of (src_ids, conf)  per sense id
@@ -476,6 +479,20 @@ with app.app_context():
             
         return ss, senses, defs, exes, links
 
+    def fetch_core():
+        """return the core seynsets"""
+        core_ss = set()
+        core_ili = set()
+        r = query_omw('select id from resource where code = ?', ('core',), one=True)
+        print(r)
+        if r['id']:
+            rid = r['id']
+            for q in  query_omw("""SELECT ss_id, x1 FROM ssxl WHERE resource_id=?""", (rid,)):
+                core_ss.add(q['ss_id'])
+                core_ili.add(q['x1'])
+        return core_ss, core_ili
+
+    
     def fetch_sense(s_id):
         """return information about the sense
            FIXME:
