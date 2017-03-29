@@ -200,7 +200,7 @@ sys.stderr.write('PWN30 was attributed (%s) as src_id.\n' % (src_id))
 
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
-             VALUES (?,?,?,?)""", [src_id, 'project', 'pwn', u])
+             VALUES (?,?,?,?)""", [src_id, 'id', 'pwn', u])
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
              VALUES (?,?,?,?)""", [src_id, 'version', '3.0', u])
