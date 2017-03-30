@@ -485,7 +485,7 @@ with app.app_context():
         core_ili = set()
         r = query_omw('select id from resource where code = ?', ('core',), one=True)
         print(r)
-        if r['id']:
+        if r:
             rid = r['id']
             for q in  query_omw("""SELECT ss_id, x1 FROM ssxl WHERE resource_id=?""", (rid,)):
                 core_ss.add(q['ss_id'])
