@@ -156,6 +156,7 @@ def confirm_wn_upload_id():
     user = fetch_id_from_userid(current_user.id)
     fn = request.args.get('fn', None)
     upload = confirmUpload(fn, user)
+    labels = updateLabels()
     return jsonify(result=upload)
 
 

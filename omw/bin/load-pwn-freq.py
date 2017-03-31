@@ -5,7 +5,15 @@ from nltk.corpus import wordnet as pwn
 
 from collections import defaultdict as dd
 
-dbfile = "../db/omw.db"
+# It takes one argument: the name of the db
+if (len(sys.argv) < 2):
+    sys.stderr.write('You need to give the name of the DB\n')
+    sys.exit(1)
+else:
+    u =  sys.argv[0]
+    dbfile = sys.argv[1]
+
+# dbfile = "../db/omw.db"
 con = sqlite3.connect(dbfile)
 c = con.cursor()
 #print(dir(pwn))
