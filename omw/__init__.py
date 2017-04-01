@@ -238,7 +238,7 @@ def load_proj_details():
 
                 for attr, val in srcs_meta[src_id].items():
                     html += "<p style='margin-left: 40px'>"
-                    html += attr + ": " + val['val']
+                    html += attr + ": " + val
                     html += "</p>"
 
 
