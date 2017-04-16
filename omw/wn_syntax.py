@@ -57,6 +57,7 @@ with app.app_context():
                        'http://opendefinition.org/licenses/cc-by-sa/',
                        'http://opendefinition.org/licenses/cc-by-sa/3.0',
                        'http://opendefinition.org/licenses/cc-by-sa/4.0',
+                       "https://creativecommons.org/publicdomain/zero/1.0/",
                        "https://creativecommons.org/licenses/by/",
                        "https://creativecommons.org/licenses/by-sa/",
                        "https://creativecommons.org/licenses/by/3.0/",
@@ -381,7 +382,7 @@ with app.app_context():
             file = urllib.urlopen(url)
             filename = url.split('/')[-1]
             filename = now + '_' +str(current_user) + '_' + filename
-            filename = secure_filename(fn)
+            filename = secure_filename(filename)
 
             if file and allowed_file(filename):
 
@@ -1033,6 +1034,11 @@ with app.app_context():
 
         try:
 
+            # print("\n")   #TEST
+            # print("ENTERING 1st Iteration")   #TEST
+            # print("\n")   #TEST
+
+
             l = lambda:dd(l)
             r = l()  # report
             r['new_ili_ids'] = []
@@ -1205,6 +1211,7 @@ with app.app_context():
                 blk_ss_data = list()
                 blk_ss_src_data = list()
                 blk_def_data = list()
+                blk_def_data_unique = set()
                 blk_def_src_data = list()
                 blk_ssexe_data = list()
                 blk_ssexe_src_data = list()
@@ -1262,19 +1269,33 @@ with app.app_context():
                                 def_id = None
 
                             if not def_id:
-                                def_id = max_def_id + 1
-                                blk_def_data.append((def_id, ss_id, def_lang_id,
+
+                                # avoid duplicates linking to the same omw_concept
+                                if (ss_id, def_lang_id,def_txt) not in blk_def_data_unique:
+
+                                    def_id = max_def_id + 1
+                                    blk_def_data_unique.add((ss_id, def_lang_id,def_txt))
+                                    blk_def_data.append((def_id, ss_id, def_lang_id,
                                                  def_txt, u))
+                                    max_def_id = def_id
+
+                                    try:
+                                        wn_def = synset['def'][(def_lang_id, def_txt)]
+                                        def_conf = float(wn_def['attrs']['confidenceScore'])
+                                    except:
+                                        def_conf = ss_conf
+
+                                    blk_def_src_data.append((def_id, src_id,
+                                                            def_conf, u))
+
+
+                                else:
+                                    def_id = max_def_id
+                                    # print((ss_id, def_lang_id,def_txt)) #TEST #IGNORED
+
                                 max_def_id = def_id
 
-                            try:
-                                wn_def = synset['def'][(def_lang_id, def_txt)]
-                                def_conf = float(wn_def['attrs']['confidenceScore'])
-                            except:
-                                def_conf = ss_conf
 
-                            blk_def_src_data.append((def_id, src_id,
-                                                    def_conf, u))
 
 
                         ############################################################
@@ -1282,7 +1303,10 @@ with app.app_context():
                         ############################################################
                         for (exe_lang_id, exe_txt) in synset['ex'].keys():
 
-                            exe_id = ssexes[ss_id][(exe_lang_id, exe_txt)]
+                            try:
+                                exe_id = ssexes[ss_id][(exe_lang_id, exe_txt)]
+                            except:
+                                exe_id = None
 
                             if not exe_id:
                                 exe_id = max_ssexe_id + 1
@@ -1314,16 +1338,29 @@ with app.app_context():
                         ############################################################
                         for (def_lang_id, def_txt) in synset['def'].keys():
 
-                            def_id = max_def_id + 1
-                            blk_def_data.append((def_id, ss_id, def_lang_id, def_txt, u))
 
-                            try:
-                                wn_def = synset['def'][(def_lang_id, def_txt)]
-                                def_conf = float(wn_def['attrs']['confidenceScore'])
-                            except:
-                                def_conf = ss_conf
+                            # avoid duplicates linking to the same omw_concept
+                            if (ss_id, def_lang_id,def_txt) not in blk_def_data_unique:
 
-                            blk_def_src_data.append((def_id, src_id, def_conf, u))
+                                def_id = max_def_id + 1
+                                blk_def_data_unique.add((ss_id, def_lang_id,def_txt))
+                                blk_def_data.append((def_id, ss_id, def_lang_id,
+                                             def_txt, u))
+                                max_def_id = def_id
+
+
+                                try:
+                                    wn_def = synset['def'][(def_lang_id, def_txt)]
+                                    def_conf = float(wn_def['attrs']['confidenceScore'])
+                                except:
+                                    def_conf = ss_conf
+
+                                blk_def_src_data.append((def_id, src_id, def_conf, u))
+
+                            else:
+                                def_id = max_def_id
+                                # print((ss_id, def_lang_id,def_txt)) #TEST #IGNORED
+
 
                             max_def_id = def_id
 
@@ -1363,9 +1400,12 @@ with app.app_context():
 
 
 
-
+            # print("\n")   #TEST
+            # print("ENTERING 2nd Iteration")   #TEST
+            # print(r)   #TEST
+            # print("\n")   #TEST
             ################################################################
-            # 2nd ITTERATION: LEXICAL ENTRIES
+            # 2nd ITERATION: LEXICAL ENTRIES
             ################################################################
             for lexicon in  wn.keys():
 
@@ -1482,7 +1522,10 @@ with app.app_context():
 
 
 
-
+            # print("\n")   #TEST
+            # print("ENTERING 3rd Iteration")   #TEST
+            # print(r)   #TEST
+            # print("\n")   #TEST
             ############################################################
             # 3rd ITTERATION: AFTER ALL SYNSETS WERE CREATED
             ############################################################
@@ -1491,6 +1534,7 @@ with app.app_context():
             ili_ss_map = f_ili_ss_id_map()
             sslinks = fetch_all_ssrels_by_ss_rel_trgt()
             blk_sslinks_data = list()
+            blk_sslinks_data_unique = set()
             blk_sslinks_src_data = list()
             max_sslink_id = fetch_max_sslink_id()
             for lexicon in wn.keys():
@@ -1517,18 +1561,26 @@ with app.app_context():
                         ssrel_id = ssrels['rel'][rel][0]
 
 
-                        sslink_id = max_sslink_id + 1
-                        blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
-                                                 ss2_id, u))
+                        if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
+                            blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
 
-                        try:
-                            sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                            sslink_conf = float(sslink_attrs['confidenceScore'])
-                        except:
-                            sslink_conf = ss_conf
+                            sslink_id = max_sslink_id + 1
+                            blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
+                                                     ss2_id, u))
 
-                        blk_sslinks_src_data.append((sslink_id, src_id,
-                                                     sslink_conf, lang_id, u))
+                            try:
+                                sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
+                                sslink_conf = float(sslink_attrs['confidenceScore'])
+                            except:
+                                sslink_conf = ss_conf
+
+
+                            blk_sslinks_src_data.append((sslink_id, src_id,
+                                                         sslink_conf, lang_id, u))
+
+                        else:
+                            sslink_id = max_sslink_id
+                            # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
 
                         max_sslink_id = sslink_id
 
@@ -1574,22 +1626,32 @@ with app.app_context():
                         ssrel_id = ssrels['rel'][rel][0]
 
 
-                        sslink_id = sslinks[ss1_id][(ssrel_id, ss2_id)]
-                        if not sslink_id:
-                            sslink_id = max_sslink_id + 1
-                            blk_sslinks_data.append((sslink_id, ss1_id,
-                                                     ssrel_id, ss2_id, u))
-                            max_sslink_id = sslink_id
+
+                        if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
+                            blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
 
 
-                        try:
-                            sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                            sslink_conf = float(sslink_attrs['confidenceScore'])
-                        except:
-                            sslink_conf = ss_conf
+                            sslink_id = sslinks[ss1_id][(ssrel_id, ss2_id)]
+                            if not sslink_id:
+                                sslink_id = max_sslink_id + 1
+                                blk_sslinks_data.append((sslink_id, ss1_id,
+                                                         ssrel_id, ss2_id, u))
+                                max_sslink_id = sslink_id
 
-                        blk_sslinks_src_data.append((sslink_id, src_id,
-                                                     sslink_conf, lang_id, u))
+
+                            try:
+                                sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
+                                sslink_conf = float(sslink_attrs['confidenceScore'])
+                            except:
+                                sslink_conf = ss_conf
+
+                            blk_sslinks_src_data.append((sslink_id, src_id,
+                                                         sslink_conf, lang_id, u))
+
+
+                        else:
+                            sslink_id = max_sslink_id
+                            # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
 
 
             ################################################################

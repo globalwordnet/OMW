@@ -50,10 +50,11 @@ function uploadlmf() {
  		var u = $('input[name="current_user"]').val();
 
  		if (data.result) {
- 		    r = String(data.result);
+ 		    var r = String(data.result);
  		    window.location.replace($SCRIPT_ROOT + "/temporary");
 
  		} else {
+                    valid.innerHTML = "<div style='text-align:center;'>We're sorry to inform you that something went wrong. The upload of your resource has failed.</div>";
  		    swal('Oh noes!',
  			'Something bad happened. Please report this!',
  			'error');
