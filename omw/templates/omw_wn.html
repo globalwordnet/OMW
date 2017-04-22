@@ -22,7 +22,7 @@
 <br>Please attribute the data properly!</p>
 {% endif %}  
 
-<table>
+<table style="width:auto;">
   <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
   <tr>
     <th>Synsets</th> <th>Words</th> <th>Senses</th> <th>Core</th>
@@ -31,6 +31,7 @@
     <td align='right'>{{ '{0:,}'.format(src_stats.synsets) }}</td>
     <td align='right'>{{ '{0:,}'.format(src_stats.words) }}</td>
     <td align='right'>{{ '{0:,}'.format(src_stats.senses) }}</td>
+    <td align='right'>{{ '{0:,}'.format(src_stats.core) }}</td>
   </tr>
 </table>
  <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
