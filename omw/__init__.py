@@ -352,7 +352,18 @@ def ili_welcome(name=None):
 
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
-    return render_template('omw_welcome.html')
+    src_meta=fetch_src_meta()
+    stats = []
+    lang_id, lang_code = fetch_langs()
+    ### sort by language name (1), id, version (FIXME -- reverse version)
+    for src_id in sorted(src_meta, key = lambda x: (                                                    lang_id[lang_code['code'][src_meta[x]['language']]][1],
+                                                                                                        src_meta[x]['id'],
+                                                                                                        src_meta[x]['version'])):
+        stats.append((src_meta[src_id], fetch_src_id_stats(src_id)))
+    return render_template('omw_welcome.html',
+                           stats=stats,
+                           lang_id=lang_id,
+                           lang_code=lang_code)
 
 
 @app.route("/useradmin",methods=["GET"])
