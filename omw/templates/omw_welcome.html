@@ -26,17 +26,45 @@ a fuller list of wordnets at the Global Wordnet Association's
 <a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
 in the World page</a>.  
   
-<p><a href="{{ url_for('join') }}">How to join the Open Multilingual Wordnet</a>.
+<table>
+  <caption>Summary of the Wordnets</caption>
+  <tr>
+    <th>Language</th>
+    <th>Wordnet</th>
+    <th style="text-align:right">Synsets</th>
+    <th style="text-align:right">Words</th>
+    <th style="text-align:right">Senses</th>
+    <th>License</th>
+  <tr>
+    {% for (meta, stat) in stats %}
+    {% set proj = meta['id'] + '-'  +  meta['version'] %}
+    {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
+  <tr>
+    <td>{{lang}}</td>
+    <td><a href='{{url_for('omw_wn', src=proj)}}'>
+	{{meta['label']}} ({{meta['version']}})</a>
+      {% if meta['url'] %}
+      <i class="fa fa-external-link" aria-hidden="true">
+	<a href='{{ meta['url']}}'>Home</a></i>
+      {% endif %} 
+    </td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['senses'])}}</td>
+    <td>{{meta['license']}}</td>
+    
+  <tr>
+  {% endfor %}
+<table>    
+  <hr>
+  <p><a href="{{ url_for('join') }}">How to join the Open Multilingual Wordnet</a>.
 
 <p><a href="http://compling.hss.ntu.edu.sg/omw/">Open Multilingual
 Wordnet 1.0</a>.  Currently still more functional.
   
-<br>List of all wordnets (coming soon)
-<br>
-<hr>
 
 
-
+  
 {% if current_user.id %}
 <div id="UserPanel">
 <h5>User Panel</h5>
