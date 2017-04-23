@@ -97,11 +97,15 @@ with app.app_context():
         for r in query_omw("""
 SELECT count(distinct s.ss_id),
 count(distinct s.w_id), count(distinct s.id)
-FROM s JOIN s_src ON s.id=s_src.s_id 
-WHERE s_src.Src_id=?""", [src_id]):
+FROM s JOIN s_src 
+ON s.id=s_src.s_id
+WHERE s_src.src_id=?""", [src_id]):
              src_id_stats['synsets'] = r['count(distinct s.ss_id)']
              src_id_stats['words'] = r['count(distinct s.w_id)']
              src_id_stats['senses'] = r['count(distinct s.id)']
+
+
+             
 
 ### core select count(*) from ss join ss_src on ss.id=ss_src.ss_id join ssxl on ssxl.ss_id=ss.id WhERE ss_src.src_id =5 and ssxl.resource_id =4 limit 5;
 ### FIXME get ssxl.resource_id dynamically?  Or store somewhere?

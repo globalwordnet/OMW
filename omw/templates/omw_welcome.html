@@ -1,7 +1,7 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3> Welcome to the Open Multilingual Wordnet (2.0)</h3>
+<h3>Welcome to the Open Multilingual Wordnet (2.0)</h3>
 
 <p>This page provides access to a large multilingual semantic lexicon.
 Words in each language are grouped into groups that overlap in meaning
@@ -25,22 +25,19 @@ used, modified, and shared by anyone for any purpose.  There is
 a fuller list of wordnets at the Global Wordnet Association's
 <a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
 in the World page</a>.  
-  
-<table style="width:auto;overflow-x:auto;">
+
+<p>A list of wordnets in the OMW:
+  <table style="width:auto;overflow-x:auto;">
   <caption>Summary of the Wordnets</caption>
   <tr>
     <th>Language</th>
     <th>Wordnet</th>
-    <th style="text-align:right">Synsets</th>
-    <th style="text-align:right">Words</th>
-    <th style="text-align:right">Senses</th>
-    <th style="text-align:right">Core</th>
     <th>License</th>
   <tr>
-    {% for (meta, stat) in stats %}
-    {% set proj = meta['id'] + '-'  +  meta['version'] %}
+    {% for id in src_meta %}
+    {% set meta = src_meta[id] %}
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
-  <tr>
+   <tr>
     <td>{{lang}}</td>
     <td>
       {% if meta['url'] %}
@@ -52,17 +49,17 @@ in the World page</a>.
 	&nbsp;	&nbsp;	&nbsp;
       (<a title='statistics' href='{{url_for('omw_wn', src=proj)}}'><i class="fa fa-bar-chart"></i></a>)
     </td>
-    <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
-    <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
-    <td style="text-align:right">{{'{0:,}'.format(stat['senses'])}}</td>
-    <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
     <td>{{meta['license']}}</td>
-    
-  <tr>
+   <tr>
   {% endfor %}
-<table>    
-  <hr>
-  <p><a href="{{ url_for('join') }}">How to join the Open Multilingual Wordnet</a>.
+</table>
+
+<p><a href='{{url_for('omw_wns')}}' title= 'Statistics
+      in the OMW'>Fuller statistics of all the wordnets now in the
+      OMW</a> (a little slow to load).
+
+  
+<p><a href="{{ url_for('join') }}">How to join the Open Multilingual Wordnet</a>.
 
 <p><a href="http://compling.hss.ntu.edu.sg/omw/">Open Multilingual
 Wordnet 1.0</a>.  Currently still more functional.
