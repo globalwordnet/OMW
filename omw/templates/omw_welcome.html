@@ -1,7 +1,7 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3>Welcome to the Open Multilingual Wordnet (2.0)</h3>
+<h3>Statistic for the Welcome to the Open Multilingual Wordnet (2.0)</h3>
 
 <p>This page provides access to a large multilingual semantic lexicon.
 Words in each language are grouped into groups that overlap in meaning
@@ -36,8 +36,10 @@ in the World page</a>.
   <tr>
     {% for id in src_meta %}
     {% set meta = src_meta[id] %}
+    {% set proj = meta['id'] + '-'  +  meta['version'] %}
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
-   <tr>
+
+  <tr>
     <td>{{lang}}</td>
     <td>
       {% if meta['url'] %}

@@ -60,8 +60,10 @@ How many constitutive and other major relations
 {# list other versions #}
 {% else %} 
 <p>I don't recognize this wordnet: &lt;<strong>{{wn}}</strong>&gt;
-  (internally: {{src_id}}, {{proj}}, {{ver}}).  Please use label-version
-  (e.g. <tt>pwn-3.0</tt>).
+  (src_id is {{src_id}} (for debugging).
+  Please use label-version (e.g. <tt>pwn-3.0</tt>).
+
+<p><tt>src_id</tt> is {{src_id}} (for debugging).
 {% endif %} 
   
 {% endblock %}
