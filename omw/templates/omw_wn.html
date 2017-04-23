@@ -22,29 +22,32 @@
 <br>Please attribute the data properly!</p>
 {% endif %}  
 
-<table style="width:auto;">
+<table style="width:auto;overflow-x:auto;">
   <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
   <tr>
-    <th>Synsets</th> <th>Words</th> <th>Senses</th> <th>Core</th>
+    <th align='right'>Synsets</th>
+    <th align='right'>Words</th>
+    <th align='right'>Senses</th>
+    <th align='right'>Core %</th>
+    <th align='right'>CILI %</th> 
   </tr>
   <tr>
     <td align='right'>{{ '{0:,}'.format(src_stats.synsets) }}</td>
     <td align='right'>{{ '{0:,}'.format(src_stats.words) }}</td>
     <td align='right'>{{ '{0:,}'.format(src_stats.senses) }}</td>
-    <td align='right'>{{ '{0:,}'.format(src_stats.core) }}</td>
+    <td align='right'>{{ (src_stats.core*100/4960)|round(1) }}</td>
+    <td align='right'>{{(src_stats.in_ili*100/ src_stats.synsets)|round(1) }}</td>
   </tr>
 </table>
- <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
+<p>Core % is the percentage of core synsets covered. CILI % is the
+  percentage of synsets linked to CILI.
+
+<p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
  {{wn}} statistics</a>
 
+  
 <pre>
 Number of senses/words/synsets by POS and total
-
-How many linked to ILI
-
-Coverage of the core concepts
-
-How many new concepts (not in PWN)
 
 How many synsets have definitions?
 How many senses have examples?
@@ -56,7 +59,8 @@ How many constitutive and other major relations
 
 {# list other versions #}
 {% else %} 
-<p>I don't recognize this wordnet: &lt;<strong>{{wn}}</strong>&gt;.  Please use label-version
+<p>I don't recognize this wordnet: &lt;<strong>{{wn}}</strong>&gt;
+  (internally: {{src_id}}, {{proj}}, {{ver}}).  Please use label-version
   (e.g. <tt>pwn-3.0</tt>).
 {% endif %} 
   

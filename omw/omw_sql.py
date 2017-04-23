@@ -77,6 +77,7 @@ with app.app_context():
             return r['id']
         
     def f_src_id_by_proj_ver(proj, version):
+        print(proj,version)
         for r in query_omw("""SELECT src.id 
                               FROM src JOIN proj
                               ON src.proj_id=proj.id 
@@ -93,10 +94,11 @@ with app.app_context():
 
     def fetch_src_id_stats(src_id):
         src_id_stats=dd(int)
-        for r in query_omw("""SELECT count(distinct s.ss_id),
-        count(distinct s.w_id), count(distinct s.id)
-        FROM s JOIN s_src ON s.id=s_src.s_id 
-        WHERE s_src.Src_id=?""", [src_id]):
+        for r in query_omw("""
+SELECT count(distinct s.ss_id),
+count(distinct s.w_id), count(distinct s.id)
+FROM s JOIN s_src ON s.id=s_src.s_id 
+WHERE s_src.Src_id=?""", [src_id]):
              src_id_stats['synsets'] = r['count(distinct s.ss_id)']
              src_id_stats['words'] = r['count(distinct s.w_id)']
              src_id_stats['senses'] = r['count(distinct s.id)']
@@ -108,7 +110,16 @@ with app.app_context():
         WHERE ss_src.src_id = ? AND ssxl.resource_id = 4""", [src_id]): 
                            src_id_stats['core'] = r['count(*)']
 
-             
+        ## synsets that are used in a sense but not linked to an ili                    
+        for r in query_omw("""
+        SELECT count(distinct proj.ss_id)
+        FROM ss JOIN 
+           (SELECT s.ss_id
+           FROM s JOIN s_src ON s.id=s_src.s_id 
+           WHERE s_src.Src_id=?) proj
+        ON ss.id=proj.ss_id
+        WHERE ss.ili_id is not NULL""", [src_id]): 
+            src_id_stats['in_ili'] = r['count(distinct proj.ss_id)']                 
         return src_id_stats
         
     def fetch_src_for_s_id(s_ids):

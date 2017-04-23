@@ -618,7 +618,8 @@ def omw_sense(sID=None):
 def src_omw(src=None, originalkey=None):
 
     try:
-        (proj, ver) = src.split('-')
+        proj = src[:src.index('-')]
+        ver  = src[src.index('-')+1:]
         src_id = f_src_id_by_proj_ver(proj, ver)
     except:
         src_id = None
@@ -638,11 +639,11 @@ def src_omw(src=None, originalkey=None):
 def omw_wn(src=None):
     if src:
         try:
-            (proj, ver) = src.split('-')
+            proj = src[:src.index('-')]
+            ver  = src[src.index('-')+1:]
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
-        src_id = f_src_id_by_proj_ver(proj, ver)
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
 
@@ -656,11 +657,11 @@ def omw_wn(src=None):
 def omw_wn_latex(src=None):
     if src:
         try:
-            (proj, ver) = src.split('-')
+            proj = src[:src.index('-')]
+            ver  = src[src.index('-')+1:]
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
-        src_id = f_src_id_by_proj_ver(proj, ver)
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
 
