@@ -26,7 +26,7 @@ a fuller list of wordnets at the Global Wordnet Association's
 <a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
 in the World page</a>.  
   
-<table>
+<table style="width:auto;overflow-x:auto;">
   <caption>Summary of the Wordnets</caption>
   <tr>
     <th>Language</th>
@@ -34,6 +34,7 @@ in the World page</a>.
     <th style="text-align:right">Synsets</th>
     <th style="text-align:right">Words</th>
     <th style="text-align:right">Senses</th>
+    <th style="text-align:right">Core</th>
     <th>License</th>
   <tr>
     {% for (meta, stat) in stats %}
@@ -41,16 +42,20 @@ in the World page</a>.
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
   <tr>
     <td>{{lang}}</td>
-    <td><a href='{{url_for('omw_wn', src=proj)}}'>
-	{{meta['label']}} ({{meta['version']}})</a>
+    <td>
       {% if meta['url'] %}
-      <i class="fa fa-external-link" aria-hidden="true">
-	<a href='{{ meta['url']}}'>Home</a></i>
-      {% endif %} 
+	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}
+	  ({{meta['version']}})</a>
+      {% else %}
+      {{meta['label']}} ({{meta['version']}})
+	{% endif %}
+	&nbsp;	&nbsp;	&nbsp;
+      (<a title='statistics' href='{{url_for('omw_wn', src=proj)}}'><i class="fa fa-bar-chart"></i></a>)
     </td>
     <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['senses'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
     <td>{{meta['license']}}</td>
     
   <tr>
