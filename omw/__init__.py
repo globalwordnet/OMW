@@ -669,6 +669,8 @@ def omw_wn(src=None):
                            wn = src,
                            src_id=src_id,
                            src_info=src_info,
+                           ssrel_stats=fetch_ssrel_stats(src_id),
+                           pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
 
 @app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
