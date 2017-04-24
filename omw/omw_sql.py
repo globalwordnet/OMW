@@ -77,6 +77,7 @@ with app.app_context():
             return r['id']
         
     def f_src_id_by_proj_ver(proj, version):
+        print(proj,version)
         for r in query_omw("""SELECT src.id 
                               FROM src JOIN proj
                               ON src.proj_id=proj.id 
@@ -91,15 +92,59 @@ with app.app_context():
              #src_meta_id[r['src_id']].append(r)
         return src_meta
 
+    
+    def fetch_src_id_pos_stats(src_id):
+        src_pos_stats=dd(lambda: dd(int))
+        pos = fetch_pos()
+        r  =  g.omw.execute("""    
+        SELECT pos_id, count(distinct s.ss_id),
+        count(distinct s.w_id), count(distinct s.id)
+        FROM s JOIN s_src 
+        ON s.id=s_src.s_id
+        JOIN ss ON s.ss_id=ss.id
+        WHERE s_src.src_id=? group by pos_id""", (src_id,))
+        for (p, ss, w, s) in r:
+            ps =  pos['id'][p] 
+            src_pos_stats[ps]['synsets'] = ss
+            src_pos_stats[ps]['words'] = w
+            src_pos_stats[ps]['senses'] = s
+        return  src_pos_stats
+
+    def fetch_ssrel_stats(src_id):
+        constitutive = ['instance_hyponym','instance_hypernym',
+                         'hypernym', 'hyponym',
+                         'synonym', 'antonym',
+                         'mero_part', 'holo_part',
+                         'mero_member', 'holo_member',
+                         'mero_substance', 'holo_substance' ]
+        src_ssrel_stats = dd(int)
+        ssrl=fetch_ssrel()
+        for r in query_omw("""
+        SELECT  ssrel_id, count(ssrel_id)
+        FROM sslink JOIN sslink_src
+        ON sslink.id=sslink_src.sslink_id
+        WHERE sslink_src.src_id=?
+        GROUP BY ssrel_id""", [src_id]):
+            link = ssrl['id'][r['ssrel_id']]
+            src_ssrel_stats[link[0]] = r['count(ssrel_id)']
+            src_ssrel_stats['TOTAL'] += r['count(ssrel_id)']
+            if link[0] in constitutive:
+                src_ssrel_stats['CONSTITUATIVE'] += r['count(ssrel_id)']
+            
+        return src_ssrel_stats
+            
     def fetch_src_id_stats(src_id):
         src_id_stats=dd(int)
-        for r in query_omw("""SELECT count(distinct s.ss_id),
+        
+        for r in query_omw("""
+        SELECT count(distinct s.ss_id),
         count(distinct s.w_id), count(distinct s.id)
-        FROM s JOIN s_src ON s.id=s_src.s_id 
-        WHERE s_src.Src_id=?""", [src_id]):
-             src_id_stats['synsets'] = r['count(distinct s.ss_id)']
-             src_id_stats['words'] = r['count(distinct s.w_id)']
-             src_id_stats['senses'] = r['count(distinct s.id)']
+        FROM s JOIN s_src 
+        ON s.id=s_src.s_id
+        WHERE s_src.src_id=?""", [src_id]):
+            src_id_stats['synsets'] = r['count(distinct s.ss_id)']
+            src_id_stats['words'] = r['count(distinct s.w_id)']
+            src_id_stats['senses'] = r['count(distinct s.id)']
 
 ### core select count(*) from ss join ss_src on ss.id=ss_src.ss_id join ssxl on ssxl.ss_id=ss.id WhERE ss_src.src_id =5 and ssxl.resource_id =4 limit 5;
 ### FIXME get ssxl.resource_id dynamically?  Or store somewhere?
@@ -108,8 +153,35 @@ with app.app_context():
         WHERE ss_src.src_id = ? AND ssxl.resource_id = 4""", [src_id]): 
                            src_id_stats['core'] = r['count(*)']
 
-             
+        ## synsets that are used in a sense and linked to an ili                    
+        for r in query_omw("""
+        SELECT count(distinct proj.ss_id)
+        FROM ss JOIN 
+           (SELECT s.ss_id
+           FROM s JOIN s_src ON s.id=s_src.s_id 
+           WHERE s_src.src_id=?) proj
+        ON ss.id=proj.ss_id
+        WHERE ss.ili_id is not NULL""", [src_id]): 
+            src_id_stats['in_ili'] = r['count(distinct proj.ss_id)']                 
+
+        ### Definitions
+        for r in query_omw("""
+        SELECT count(distinct ss_id)
+        FROM def JOIN def_src
+        ON def.id=def_src.def_id
+        WHERE def_src.src_id =?""", [src_id]): 
+            src_id_stats['def'] = r['count(distinct ss_id)']
+
+        ### Examples
+        for r in query_omw("""
+        SELECT count(distinct ss_id)
+        FROM ssexe JOIN ssexe_src
+        ON ssexe.id=ssexe_src.ssexe_id
+        WHERE ssexe_src.src_id =?""", [src_id]): 
+            src_id_stats['ssexe'] = r['count(distinct ss_id)']
+            
         return src_id_stats
+    
         
     def fetch_src_for_s_id(s_ids):
         """return a dict of lists of (src_ids, conf)  per sense id

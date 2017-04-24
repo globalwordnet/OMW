@@ -11,6 +11,10 @@ from hashlib import md5
 from werkzeug import secure_filename
 from lxml import etree
 
+## profiler
+#from werkzeug.contrib.profiler import ProfilerMiddleware
+
+
 from common_login import *
 from common_sql import *
 from omw_sql import *
@@ -22,6 +26,11 @@ from math import log
 app = Flask(__name__)
 app.secret_key = "!$flhgSgngNO%$#SOET!$!"
 app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
+
+## profiler
+#app.config['PROFILE'] = True
+#app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
+#app.run(debug = True)
 
 
 ################################################################################
@@ -353,6 +362,15 @@ def ili_welcome(name=None):
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
     src_meta=fetch_src_meta()
+    lang_id, lang_code = fetch_langs()
+    return render_template('omw_welcome.html',
+                           src_meta=src_meta,
+                           lang_id=lang_id,
+                           lang_code=lang_code)
+
+@app.route('/omw_wns', methods=['GET', 'POST'])
+def omw_wns(name=None):
+    src_meta=fetch_src_meta()
     stats = []
     lang_id, lang_code = fetch_langs()
     ### sort by language name (1), id, version (FIXME -- reverse version)
@@ -360,7 +378,7 @@ def omw_welcome(name=None):
                                                                                                         src_meta[x]['id'],
                                                                                                         src_meta[x]['version'])):
         stats.append((src_meta[src_id], fetch_src_id_stats(src_id)))
-    return render_template('omw_welcome.html',
+    return render_template('omw_wns.html',
                            stats=stats,
                            lang_id=lang_id,
                            lang_code=lang_code)
@@ -618,7 +636,8 @@ def omw_sense(sID=None):
 def src_omw(src=None, originalkey=None):
 
     try:
-        (proj, ver) = src.split('-')
+        proj = src[:src.index('-')]
+        ver  = src[src.index('-')+1:]
         src_id = f_src_id_by_proj_ver(proj, ver)
     except:
         src_id = None
@@ -638,11 +657,11 @@ def src_omw(src=None, originalkey=None):
 def omw_wn(src=None):
     if src:
         try:
-            (proj, ver) = src.split('-')
+            proj = src[:src.index('-')]
+            ver  = src[src.index('-')+1:]
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
-        src_id = f_src_id_by_proj_ver(proj, ver)
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
 
@@ -650,17 +669,19 @@ def omw_wn(src=None):
                            wn = src,
                            src_id=src_id,
                            src_info=src_info,
+                           ssrel_stats=fetch_ssrel_stats(src_id),
+                           pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
 
 @app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
 def omw_wn_latex(src=None):
     if src:
         try:
-            (proj, ver) = src.split('-')
+            proj = src[:src.index('-')]
+            ver  = src[src.index('-')+1:]
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
-        src_id = f_src_id_by_proj_ver(proj, ver)
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
 

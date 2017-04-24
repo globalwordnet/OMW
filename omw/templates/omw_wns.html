@@ -1,0 +1,60 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3> Welcome to the Open Multilingual Wordnet (2.0)</h3>
+
+<p>This page provides a summary of the component projects in the Open Multilingual
+Wordnet (OMW).   OMW and its components are
+<a href='http://opendefinition.org/'>open</a>: they can be freely
+used, modified, and shared by anyone for any purpose.  There is
+a fuller list of wordnets at the Global Wordnet Association's
+<a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
+in the World page</a>.  
+  
+<table style="width:auto;overflow-x:auto;">
+  <!-- <caption>Summary of the Wordnets</caption> -->
+  <tr>
+    <th>Language</th>
+    <th>Wordnet</th>
+    <th style="text-align:right">Synsets</th>
+    <th style="text-align:right">Words</th>
+    <th style="text-align:right">Senses</th>
+    <th style="text-align:right">Core</th>
+    <th>License</th>
+  </tr>
+    {% for (meta, stat) in stats %}
+    {% set proj = meta['id'] + '-'  +  meta['version'] %}
+    {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
+  <tr>
+    <td>{{lang}}</td>
+    <td>
+      {% if meta['url'] %}
+	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}
+	  ({{meta['version']}})</a>
+      {% else %}
+      {{meta['label']}} ({{meta['version']}})
+	{% endif %}
+	&nbsp;	&nbsp;	&nbsp;
+      (<a title='statistics' href='{{url_for('omw_wn', src=proj)}}'><i class="fa fa-bar-chart"></i></a>)
+    </td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['senses'])}}</td>
+    <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
+    <td>{{meta['license']}}</td>
+    
+  <tr>
+  {% endfor %}
+<table>    
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

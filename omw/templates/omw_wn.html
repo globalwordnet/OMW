@@ -22,42 +22,115 @@
 <br>Please attribute the data properly!</p>
 {% endif %}  
 
-<table style="width:auto;">
+<table style="width:auto;overflow-x:auto;">
   <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
   <tr>
-    <th>Synsets</th> <th>Words</th> <th>Senses</th> <th>Core</th>
+    <th style="text-align:right">Synsets</th>
+    <th style="text-align:right">Words</th>
+    <th style="text-align:right">Senses</th>
+    <th style="text-align:right">Core %</th>
+    <th style="text-align:right">CILI %</th>
+    <th style="text-align:right">Def %</th>
+    <th style="text-align:right">Ex %</th> 
   </tr>
   <tr>
-    <td align='right'>{{ '{0:,}'.format(src_stats.synsets) }}</td>
-    <td align='right'>{{ '{0:,}'.format(src_stats.words) }}</td>
-    <td align='right'>{{ '{0:,}'.format(src_stats.senses) }}</td>
-    <td align='right'>{{ '{0:,}'.format(src_stats.core) }}</td>
+    <td style="text-align:right">{{ '{0:,}'.format(src_stats.synsets) }}</td>
+    <td style="text-align:right">{{ '{0:,}'.format(src_stats.words) }}</td>
+    <td style="text-align:right">{{ '{0:,}'.format(src_stats.senses) }}</td>
+    <td style="text-align:right">{{ (src_stats.core*100/4960)|round(1) }}</td>
+    <td style="text-align:right">{{(src_stats.in_ili*100/
+      src_stats.synsets)|round(1) }}</td>
+        <td style="text-align:right">{{(src_stats.def*100/ src_stats.synsets)|round(1) }}</td>
+
+    <td style="text-align:right">{{(src_stats.ssexe*100/ src_stats.synsets)|round(1) }}</td>
   </tr>
 </table>
- <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
+
+<p style="font-size:smaller">Core % is the percentage of core synsets covered. CILI % is the
+  percentage of synsets linked to CILI. Def % is the number of synsets
+  with definitions and Ex % is the number of synsets with examples.
+
+  <table style="width:auto;overflow-x:auto;">
+  <caption>POS Statistics for {{ src_info.label }}  ({{ wn
+    }})</caption>
+  <tr>
+    <th>POS</th>
+    <th style="text-align:right">Synsets</th>
+    <th style="text-align:right">%</th>
+    <th style="text-align:right">Words</th> 
+    <th style="text-align:right">%</th>
+    <th style="text-align:right">Senses</th>
+    <th style="text-align:right">%</th>
+  </tr>
+   <tr>
+     {% for (p, pn) in [('n', 'Noun'), ('v', 'Verb'), ('a',
+     'Adjective'), ('s', 'Satellite Adj'), ('r', 'Adverb'), ('x',
+     'Non_referential'), ('u', 'Unknown')] %}
+     {% if p in pos_stats %}
+     <td>{{pn}}</td>
+     <td style="text-align:right">{{
+       '{0:,}'.format(pos_stats[p].synsets) }}</td>
+      <td style="text-align:right">{{(100*pos_stats[p].synsets/src_stats.synsets)|round(1)}}</td>
+  <td style="text-align:right">{{ '{0:,}'.format(pos_stats[p].words)
+    }}</td>
+    <td>{{(100*pos_stats[p].words/src_stats.words)|round(1)}}</td>
+
+     <td style="text-align:right">{{ '{0:,}'.format(pos_stats[p].senses)
+    }}</td>
+  <td style="text-align:right">{{(100*pos_stats[p].senses/src_stats.senses)|round(1)}}</td>
+   </tr>
+   {% endif %}
+  {% endfor %}
+  </table>
+
+
+  <h4>Semantic Relations Between Synsets</h4>  
+ <table style="width:auto;overflow-x:auto;">
+  <caption>POS Statistics for {{ src_info.label }}  ({{ wn
+    }})</caption>
+  <tr>
+    <th>Semantic Relation</th>
+    <th style="text-align:right">Count</th>
+        <th style="text-align:right">%</th>
+  {% for (link, count) in ssrel_stats|dictsort%} 
+  {% if link is not upper %}
+<tr>
+  <td>{{link}}</td>
+  <td style="text-align:right">{{ '{0:,}'.format(count)}}</td>
+  
+    <td style="text-align:right">{{(count*100/ssrel_stats['TOTAL'])|round(1) }}</td>
+</tr>
+{% endif %}
+  {% endfor %}
+  
+  {% for (link, count) in ssrel_stats|dictsort%} 
+  {% if link is upper %}
+<tr>
+  <td>{{link|title}}</td>
+  <td style="text-align:right">{{ '{0:,}'.format(count)}}</td>
+    <td style="text-align:right">{{(count*100/ssrel_stats['TOTAL'])|round(1) }}</td>
+</tr>
+    {% endif %}
+  {% endfor %}
+  </table>
+
+
+<p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
  {{wn}} statistics</a>
-
+ 
+<h4>ToDo</h4>  
 <pre>
-Number of senses/words/synsets by POS and total
+Should show the number of senses with examples.
 
-How many linked to ILI
-
-Coverage of the core concepts
-
-How many new concepts (not in PWN)
-
-How many synsets have definitions?
-How many senses have examples?
-
-For merge and expand:
-How many semantic relations
-How many constitutive and other major relations
 </pre>
 
 {# list other versions #}
 {% else %} 
-<p>I don't recognize this wordnet: &lt;<strong>{{wn}}</strong>&gt;.  Please use label-version
-  (e.g. <tt>pwn-3.0</tt>).
+<p>I don't recognize this wordnet: &lt;<strong>{{wn}}</strong>&gt;
+  (src_id is {{src_id}} (for debugging).
+  Please use label-version (e.g. <tt>pwn-3.0</tt>).
+
+<p><tt>src_id</tt> is {{src_id}} (for debugging).
 {% endif %} 
   
 {% endblock %}
