@@ -146,12 +146,13 @@ with app.app_context():
             src_id_stats['words'] = r['count(distinct s.w_id)']
             src_id_stats['senses'] = r['count(distinct s.id)']
 
-### core select count(*) from ss join ss_src on ss.id=ss_src.ss_id join ssxl on ssxl.ss_id=ss.id WhERE ss_src.src_id =5 and ssxl.resource_id =4 limit 5;
-### FIXME get ssxl.resource_id dynamically?  Or store somewhere?
-        for r in query_omw("""select count(*) 
-        FROM ss JOIN ss_src ON ss.id=ss_src.ss_id JOIN ssxl ON ssxl.ss_id=ss.id 
-        WHERE ss_src.src_id = ? AND ssxl.resource_id = 4""", [src_id]): 
-                           src_id_stats['core'] = r['count(*)']
+        cid = query_omw('select id from resource where code = ?', ('core',), one=True)
+        if cid:
+            core_id = cid['id']
+            for r in query_omw("""select count(ss.id) 
+            FROM ss JOIN ss_src ON ss.id=ss_src.ss_id JOIN ssxl ON ssxl.ss_id=ss.id 
+            WHERE ss_src.src_id = ? AND ssxl.resource_id = ?""", [src_id, core_id]): 
+                src_id_stats['core'] = r['count(ss.id)']
 
         ## synsets that are used in a sense and linked to an ili                    
         for r in query_omw("""
