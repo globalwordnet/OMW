@@ -14,7 +14,7 @@
 <!--   <p>The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p> -->
 <!-- {% endif %} -->
   
-<p>It is licensed by {{ src_info.license }}.</p>
+<p>It is licensed as {{ src_info.license }}.</p>
   
 {% if src_info.citation %}
 <p>Canonical citation for this data:<br>
@@ -24,30 +24,75 @@
 <pre>
 \begin{table}
   \caption{Statistics for {{ src_info.label }}  ({{ wn }})}
-  \label{tab:{{wn}}}
-  Synsets & Words & Senses & Core \\
+  \label{tab:{{wn}}:stats}
+  \begin{tabular}{rrrrrrr}
+  Synsets & Words & Senses & Core \% &
+  CILI \%	& Def \% & Ex \% \\
   \hline
-    {{ '{0:,}'.format(src_stats.synsets) }} & {{ '{0:,}'.format(src_stats.words) }}  & {{ '{0:,}'.format(src_stats.senses) }}  
+  {{ '{0:,}'.format(src_stats.synsets) }} &
+  {{ '{0:,}'.format(src_stats.words) }}  &
+  {{ '{0:,}'.format(src_stats.senses) }} &
+  {{ (src_stats.core*100/4960)|round(1) }} & 
+  {{(src_stats.in_ili*100/src_stats.synsets)|round(1) }} &
+  {{(src_stats.def*100/ src_stats.synsets)|round(1) }} &
+  {{(src_stats.ssexe*100/ src_stats.synsets)|round(1) }} 
+  \end{tabular}
+  \begin{footnotesize}
+    Core \% is the percentage of core synsets covered.
+    CILI \% is the percentage of synsets linked to CILI.
+    Def and Ex \% are the percentages of synsets
+      with definitions and examples respectively
+  \end{footnotesize}
 \end{table}
+
+\begin{table}
+  \caption{POS Statistics for {{ src_info.label }}  ({{ wn }})}
+  \label{tab:{{wn}}:stats:pos}
+  \begin{tabular}{lrrrrrr}
+POS & Synsets & \% &  Words & \% &   Senses & \% \\
+\hline
+  {%- for (p, pn) in [('n', 'Noun'), ('v', 'Verb'), ('a',
+    'Adjective'), ('s', 'Satellite Adj'), ('r', 'Adverb'), ('x',
+    'Non_referential'), ('u', 'Unknown')] %}
+    {%- if p in pos_stats %}
+    {{pn}} &
+    {{ '{0:,}'.format(pos_stats[p].synsets) }} & 
+    {{ (100*pos_stats[p].synsets/src_stats.synsets)|round(1) }} & 
+    {{ '{0:,}'.format(pos_stats[p].words) }} &
+    {{ (100*pos_stats[p].words/src_stats.words)|round(1) }} &
+    {{ '{0:,}'.format(pos_stats[p].senses) }} &
+    {{ (100*pos_stats[p].senses/src_stats.senses)|round(1) }} \\
+    {% endif %}
+  {%- endfor %}
+  \end{tabular}  
+\end{table}
+
+\begin{table}
+  \caption{Semantic Relations for {{ src_info.label }}  ({{ wn }})}
+  \label{tab:{{wn}}:stats:sr}
+  \begin{tabular}{lrr}
+  Semantic Relation & Count & \% \\
+  \hline
+  {%- for (link, count) in ssrel_stats|dictsort%} 
+  {%- if link is not upper %}
+  {{link|replace('_',' ')}} & {{ '{0:,}'.format(count)}} & 
+  {{(count*100/ssrel_stats['TOTAL'])|round(1) }} \\
+  {%- endif %}
+  {%- endfor %}
+  \hline
+  {%- for (link, count) in ssrel_stats|dictsort%} 
+  {%- if link is upper %}
+  {{link|replace('_',' ')|title}} & {{ '{0:,}'.format(count)}} & 
+  {{(count*100/ssrel_stats['TOTAL'])|round(1) }} \\
+  {%- endif %}
+  {%- endfor %}
+  \end{tabular}
+\end{table}
+
+
 </pre>
- <a href='{{url_for('omw_wn',src=wn)}}'>{{wn}} statistics</a>
 
-<pre>
-Number of senses/words/synsets by POS and total
-
-How many linked to ILI
-
-Coverage of the core concepts
-
-How many new concepts (not in PWN)
-
-How many synsets have definitions?
-How many senses have examples?
-
-For merge and expand:
-How many semantic relations
-How many constitutive and other major relations
-</pre>
+<p>Back to the <a href='{{url_for('omw_wn',src=wn)}}'>{{wn}} statistics</a>.
 
 {# list other versions #}
 {% else %} 
