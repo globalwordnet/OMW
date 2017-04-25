@@ -13,7 +13,7 @@ CREATE TABLE lang
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-CREATE UNIQUE INDEX lang_bcp47_index ON lang (bcp47);
+CREATE UNIQUE INDEX lang_bcp47_idx ON lang (bcp47);
 
 CREATE TABLE lang_log
        (log_id INTEGER PRIMARY KEY ASC,
@@ -90,7 +90,7 @@ CREATE TABLE lang_name
         FOREIGN KEY(lang_id) REFERENCES lang(id),
         FOREIGN KEY(in_lang_id) REFERENCES lang(id));
 
-CREATE UNIQUE INDEX lang_id_index ON lang_name (lang_id, in_lang_id);
+CREATE UNIQUE INDEX lang_id_idx ON lang_name (lang_id, in_lang_id);
 
 
 CREATE TABLE lang_name_log
@@ -357,7 +357,7 @@ CREATE TABLE src
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(proj_id) REFERENCES proj(id));
 
-CREATE UNIQUE INDEX proj_id_ver_index ON src(proj_id, version);
+CREATE UNIQUE INDEX proj_id_ver_idx ON src(proj_id, version);
 
 
 CREATE TABLE src_log
@@ -428,7 +428,7 @@ CREATE TABLE src_meta
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(src_id) REFERENCES src(id));
 
-CREATE INDEX src_meta_src_id_index ON src_meta (src_id);
+CREATE INDEX src_meta_src_id_idx ON src_meta (src_id);
 
 CREATE TABLE src_meta_log
        (log_id INTEGER PRIMARY KEY ASC,
@@ -683,7 +683,7 @@ CREATE TABLE ili_rating
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(ili_id) REFERENCES ili(id));
 
-CREATE UNIQUE INDEX id_user_index ON ili_rating (ili_id, u);
+CREATE UNIQUE INDEX id_user_idx ON ili_rating (ili_id, u);
 
 
 CREATE TABLE ili_rating_log
@@ -985,7 +985,7 @@ CREATE TABLE ss
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(pos_id) REFERENCES pos(id));
 
-CREATE UNIQUE INDEX ssid_iliid_index ON ss (id, ili_id);
+CREATE UNIQUE INDEX ssid_iliid_idx ON ss (id, ili_id);
 
 CREATE TABLE ss_log
        (log_id INTEGER PRIMARY KEY ASC,
@@ -1703,8 +1703,8 @@ CREATE TABLE wf_link
 	FOREIGN KEY(f_id) REFERENCES f(id),
 	FOREIGN KEY(src_id) REFERENCES src(id));
 
-CREATE INDEX wf_link_w_id_index ON wf_link (w_id);
-CREATE INDEX wf_link_f_id_index ON wf_link (f_id);
+CREATE INDEX wf_link_w_id_idx ON wf_link (w_id);
+CREATE INDEX wf_link_f_id_idx ON wf_link (f_id);
 
 
 CREATE TABLE wf_link_log
@@ -2271,7 +2271,7 @@ CREATE TABLE def
 	FOREIGN KEY(ss_id) REFERENCES ss(id),
 	FOREIGN KEY(lang_id) REFERENCES lang(id));
 
-CREATE UNIQUE INDEX ss_lang_def_index ON def (ss_id, lang_id, def);
+CREATE UNIQUE INDEX ss_lang_def_idx ON def (ss_id, lang_id, def);
 
 CREATE TABLE def_log
        (log_id INTEGER PRIMARY KEY ASC,
@@ -2751,7 +2751,7 @@ CREATE TABLE sslink
 	FOREIGN KEY(ssrel_id) REFERENCES ssrel(id),
 	FOREIGN KEY(ss2_id) REFERENCES ss(id));
 
-CREATE UNIQUE INDEX ss1_rel_ss2_index ON sslink (ss1_id, ssrel_id, ss2_id);
+CREATE UNIQUE INDEX ss1_rel_ss2_idx ON sslink (ss1_id, ssrel_id, ss2_id);
 
 CREATE TABLE sslink_log
        (log_id INTEGER PRIMARY KEY ASC,
@@ -3310,7 +3310,7 @@ CREATE TABLE resource_meta
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
-CREATE INDEX resource_meta_resource_id_index ON resource_meta (resource_id);
+CREATE INDEX resource_meta_resource_id_idx ON resource_meta (resource_id);
 
 
 CREATE TABLE resource_meta_log

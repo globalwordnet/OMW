@@ -7,6 +7,7 @@ from flask import Flask, render_template, g, request, redirect, url_for, send_fr
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
 from collections import defaultdict as dd
+from collections import OrderedDict as od
 from hashlib import md5
 from werkzeug import secure_filename
 from lxml import etree
@@ -361,10 +362,18 @@ def ili_welcome(name=None):
 
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
-    src_meta=fetch_src_meta()
     lang_id, lang_code = fetch_langs()
+    src_meta=fetch_src_meta()
+    ### sort by language, project version (Newest first)
+    src_sort=od()
+    keys=list(src_meta.keys())
+    keys.sort(key=lambda x: src_meta[x]['version'],reverse=True)
+    keys.sort(key=lambda x: src_meta[x]['id'])
+    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1])
+    for k in keys:
+        src_sort[k] =  src_meta[k]
     return render_template('omw_welcome.html',
-                           src_meta=src_meta,
+                           src_meta=src_sort,
                            lang_id=lang_id,
                            lang_code=lang_code)
 
@@ -689,6 +698,8 @@ def omw_wn_latex(src=None):
                            wn = src,
                            src_id=src_id,
                            src_info=src_info,
+                           ssrel_stats=fetch_ssrel_stats(src_id),
+                           pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
 
 
