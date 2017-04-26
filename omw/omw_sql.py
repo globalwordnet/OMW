@@ -156,31 +156,31 @@ with app.app_context():
 
         ## synsets that are used in a sense and linked to an ili                    
         for r in query_omw("""
-        SELECT count(distinct proj.ss_id)
-        FROM ss JOIN 
-           (SELECT s.ss_id
-           FROM s JOIN s_src ON s.id=s_src.s_id 
-           WHERE s_src.src_id=?) proj
-        ON ss.id=proj.ss_id
-        WHERE ss.ili_id is not NULL""", [src_id]): 
-            src_id_stats['in_ili'] = r['count(distinct proj.ss_id)']                 
+        SELECT count(distinct id)
+        FROM ss
+        WHERE ss.ili_id is not NULL
+        AND id IN
+         (SELECT s.ss_id FROM s
+          WHERE s.id IN
+           (SELECT s_id FROM s_src
+	        WHERE s_src.src_id=?))""", [src_id]): 
+            src_id_stats['in_ili'] = r['count(distinct id)']                 
 
         ### Definitions
         for r in query_omw("""
         SELECT count(distinct ss_id)
-        FROM def JOIN def_src
-        ON def.id=def_src.def_id
-        WHERE def_src.src_id =?""", [src_id]): 
+        FROM def WHERE id IN
+          (SELECT def_id FROM def_src
+           WHERE src_id =?)""", [src_id]): 
             src_id_stats['def'] = r['count(distinct ss_id)']
 
         ### Examples
         for r in query_omw("""
         SELECT count(distinct ss_id)
-        FROM ssexe JOIN ssexe_src
-        ON ssexe.id=ssexe_src.ssexe_id
-        WHERE ssexe_src.src_id =?""", [src_id]): 
+        FROM ssexe WHERE id in 
+          (SELECT ssexe_id FROM ssexe_src
+           WHERE src_id =?)""", [src_id]): 
             src_id_stats['ssexe'] = r['count(distinct ss_id)']
-            
         return src_id_stats
     
         
