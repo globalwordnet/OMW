@@ -96,7 +96,7 @@ with app.app_context():
     def fetch_src_id_pos_stats(src_id):
         src_pos_stats=dd(lambda: dd(int))
         pos = fetch_pos()
-        r  =  g.omw.execute("""    
+        r  =  query_omw_direct("""    
         SELECT pos_id, count(distinct s.ss_id),
         count(distinct s.w_id), count(distinct s.id)
         FROM s JOIN s_src 

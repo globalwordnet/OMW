@@ -46,6 +46,12 @@ with app.app_context():
                    for idx, value in enumerate(row)) for row in cur.fetchall()]
         return (rv[0] if rv else None) if one else rv
 
+    def query_omw_direct(query, args=(), one=False):
+        cur = g.omw.execute(query, args)
+        rv = cur.fetchall()
+        return (rv[0] if rv else None) if one else rv
+    
+
     def write_admin(query, args=(), one=False):
         cur = g.admin.cursor()
         cur.execute(query, args)

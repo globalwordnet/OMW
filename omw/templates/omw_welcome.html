@@ -1,7 +1,7 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3>Statistic for the Welcome to the Open Multilingual Wordnet (2.0)</h3>
+<h3>Welcome to the Open Multilingual Wordnet (2.0)</h3>
 
 <p>This page provides access to a large multilingual semantic lexicon.
 Words in each language are grouped into groups that overlap in meaning
@@ -49,7 +49,10 @@ in the World page</a>.
       {{meta['label']}} ({{meta['version']}})
 	{% endif %}
 	&nbsp;	&nbsp;	&nbsp;
-      (<a title='statistics' href='{{url_for('omw_wn', src=proj)}}'><i class="fa fa-bar-chart"></i></a>)
+      (<a title='statistics' href='{{url_for('omw_wn',
+	  src=proj)}}'><i class="fa fa-bar-chart"></i></a>;
+<a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
+	  src=proj)}}'>LaTeX</a>)
     </td>
     <td>{{meta['license']}}</td>
    <tr>
