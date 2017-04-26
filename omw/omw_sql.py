@@ -77,7 +77,7 @@ with app.app_context():
             return r['id']
         
     def f_src_id_by_proj_ver(proj, version):
-        print(proj,version)
+        # print(proj,version)
         for r in query_omw("""SELECT src.id 
                               FROM src JOIN proj
                               ON src.proj_id=proj.id 
@@ -563,7 +563,7 @@ with app.app_context():
         core_ss = set()
         core_ili = set()
         r = query_omw('select id from resource where code = ?', ('core',), one=True)
-        print(r)
+        # print(r)
         if r:
             rid = r['id']
             for q in  query_omw("""SELECT ss_id, x1 FROM ssxl WHERE resource_id=?""", (rid,)):
