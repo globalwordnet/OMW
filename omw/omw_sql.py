@@ -99,7 +99,7 @@ with app.app_context():
         r  =  query_omw_direct("""    
         SELECT pos_id, count(distinct s.ss_id),
         count(distinct s.w_id), count(distinct s.id)
-        FROM s JOIN s_src 
+        FROM s JOIN s_src
         ON s.id=s_src.s_id
         JOIN ss ON s.ss_id=ss.id
         WHERE s_src.src_id=? group by pos_id""", (src_id,))
