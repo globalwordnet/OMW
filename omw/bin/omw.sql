@@ -3660,3 +3660,20 @@ CREATE TABLE label
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(lang_id) REFERENCES lang(id),
         FOREIGN KEY(ss_id) REFERENCES ss(id));
+
+
+
+CREATE INDEX s_src_src_id ON s_src (src_id);
+CREATE INDEX s_src_s_id ON s_src (s_id);
+CREATE INDEX ss_src_src_id ON ss_src (src_id);
+CREATE INDEX ss_src_ss_id ON ss_src (ss_id);
+CREATE INDEX resource_code ON resource (code);
+CREATE INDEX ssxl_resource_id ON ssxl (resource_id);
+CREATE INDEX ssxl_ss_id ON ssxl (ss_id);
+CREATE INDEX s_ss_id ON s (ss_id);
+CREATE INDEX ss_ili_id ON ss (ili_id);
+CREATE INDEX def_src_def_id ON def_src (def_id);
+CREATE INDEX ssexe_src_ssexe_id ON ssexe_src (ssexe_id);
+CREATE INDEX sslink_src_sslink_id ON sslink_src (sslink_id);
+CREATE INDEX sslink_src_src_id ON sslink_src (src_id);
+
