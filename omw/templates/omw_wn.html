@@ -18,7 +18,7 @@
   
 {% if src_info.citation %}
 <p>Canonical citation for this data:<br>
-  {{src_info.citation}}
+  {{src_info.citation}}.
 <br>Please attribute the data properly!</p>
 {% endif %}  
 
@@ -27,6 +27,7 @@
   <tr>
     <th style="text-align:right">Synsets</th>
     <th style="text-align:right">Words</th>
+    <th style="text-align:right">Forms</th>
     <th style="text-align:right">Senses</th>
     <th style="text-align:right">Core %</th>
     <th style="text-align:right">CILI %</th>
@@ -35,14 +36,23 @@
   </tr>
   <tr>
     <td style="text-align:right">{{ '{0:,}'.format(src_stats.synsets) }}</td>
-    <td style="text-align:right">{{ '{0:,}'.format(src_stats.words) }}</td>
+    <td style="text-align:right">{{ '{0:,}'.format(src_stats.words)
+      }}</td>
+        <td style="text-align:right">{{ '{0:,}'.format(src_stats.forms) }}</td>
     <td style="text-align:right">{{ '{0:,}'.format(src_stats.senses) }}</td>
-    <td style="text-align:right">{{ (src_stats.core*100/4960)|round(1) }}</td>
+    <td style="text-align:right">{{ (src_stats.core*100/4960)|round(1)
+      }}</td>
+    {%- if src_stats.synsets > 0 %}
     <td style="text-align:right">{{(src_stats.in_ili*100/
       src_stats.synsets)|round(1) }}</td>
         <td style="text-align:right">{{(src_stats.def*100/ src_stats.synsets)|round(1) }}</td>
-
-    <td style="text-align:right">{{(src_stats.ssexe*100/ src_stats.synsets)|round(1) }}</td>
+    <td style="text-align:right">{{(src_stats.ssexe*100/
+      src_stats.synsets)|round(1) }}</td>
+     {%- else %}
+    <td><br></td>
+    <td><br></td>
+    <td><br></td>
+    {%- endif %}
   </tr>
 </table>
 
