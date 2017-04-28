@@ -25,12 +25,13 @@
 \begin{table}
   \caption{Statistics for {{ src_info.label }}  ({{ wn }})}
   \label{tab:{{wn}}:stats}
-  \begin{tabular}{rrrrrrr}
-  Synsets & Words & Senses & Core \% &
+  \begin{tabular}{rrrrrrrr}
+  Synsets & Words & Forms & Senses & Core \% &
   CILI \%	& Def \% & Ex \% \\
   \hline
   {{ '{0:,}'.format(src_stats.synsets) }} &
   {{ '{0:,}'.format(src_stats.words) }}  &
+  {{ '{0:,}'.format(src_stats.forms) }}  &
   {{ '{0:,}'.format(src_stats.senses) }} &
   {{ (src_stats.core*100/4960)|round(1) }} & 
   {{(src_stats.in_ili*100/src_stats.synsets)|round(1) }} &
