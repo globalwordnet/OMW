@@ -214,7 +214,9 @@ with app.app_context():
             wn_dtls['bad_ss_pos'][lexicon]=list()  # check synset pos from lemmas
             wn_dtls['bad_ss_ili'][lexicon]=list() # check synset.ili format/existance
             wn_dtls['bad_ss_def_lang'][lexicon]=list() # check synset.definition.lang
+            wn_dtls['bad_ss_def_empty'][lexicon]=list() # check synset.definition.text
             wn_dtls['bad_ss_ex_lang'][lexicon]=list() # check synset.example.lang
+            wn_dtls['bad_ss_ex_empty'][lexicon]=list() # check synset.definition.text
             wn_dtls['ss_ili_new'][lexicon]=list() # list of newly proposed ILI synsets
             wn_dtls['ss_ili_out'][lexicon]=list() # list of synsets unlinked from ILI
             wn_dtls['ss_ili_linked'][lexicon]=list() # list of synsets with ILI id
@@ -301,6 +303,12 @@ with app.app_context():
                     except:
                         def_lang = lexi_lang # inherits from lexicon language
 
+                    if def_txt:
+                        pass
+                    else:
+                        wn_dtls['bad_ss_def_empty'][lexicon].append(ss_id)
+
+
                     synset['def'][(def_lang,def_txt)]['attrs'] = def_attrs
 
 
@@ -320,6 +328,11 @@ with app.app_context():
                             wn_dtls['bad_ss_ex_lang'][lexicon].append(ss_id)
                     except:
                         example_lang = lexi_lang # inherits from lexicon language
+
+                    if example_txt:
+                        pass
+                    else:
+                        wn_dtls['bad_ss_ex_empty'][lexicon].append(ss_id)
 
                     synset['ex'][(example_lang,example_txt)]['attrs'] = example_attrs
 
@@ -832,6 +845,36 @@ with app.app_context():
                 else:
                     vr_lex['synsets_ss_def_lang_lbl'] = True
 
+                # SYNSETS W/ BAD (EMPTY) DEF
+                syns_bad_ili_total = len(wn_dtls['bad_ss_def_empty'][lexicon])
+                vr_lex['synsets_ss_def_empty_lbl_val'] = wn_dtls['bad_ss_def_empty'][lexicon]
+                if syns_bad_ili_total > 0:
+                    vr_lex['synsets_ss_def_empty_lbl'] = False
+                    final_validation = False
+                else:
+                    vr_lex['synsets_ss_def_emtpy_lbl'] = True
+
+
+                # SYNSETS W/ BAD EXAMPLE LANG CODES
+                syns_bad_ili_total = len(wn_dtls['bad_ss_ex_lang'][lexicon])
+                vr_lex['synsets_ss_ex_lang_lbl_val'] = wn_dtls['bad_ss_ex_lang'][lexicon]
+                if syns_bad_ili_total > 0:
+                    vr_lex['synsets_ss_ex_lang_lbl'] = False
+                    final_validation = False
+                else:
+                    vr_lex['synsets_ss_ex_lang_lbl'] = True
+
+                # SYNSETS W/ BAD (EMPTY) EXAMPLE
+                syns_bad_ili_total = len(wn_dtls['bad_ss_ex_empty'][lexicon])
+                vr_lex['synsets_ss_ex_empty_lbl_val'] = wn_dtls['bad_ss_ex_empty'][lexicon]
+                if syns_bad_ili_total > 0:
+                    vr_lex['synsets_ss_ex_empty_lbl'] = False
+                    final_validation = False
+                else:
+                    vr_lex['synsets_ss_ex_emtpy_lbl'] = True
+
+
+
                 # SYNSETS WITHOUT ILI KEY OR 'IN' STATUS
                 syns_ili_out_total = len(wn_dtls['ss_ili_out'][lexicon])
                 vr_lex['synsets_ili_out_lbl_val'] = syns_ili_out_total
@@ -1156,8 +1199,19 @@ with app.app_context():
                     ############################################################
                     for (def_lang_id, def_txt) in synset['def'].keys():
 
+
                         def_id = max_def_id + 1
+
+
+                        # if def_id and ss_id and def_lang_id and def_txt and u: #TEST
+                        #     test = True #TEST
+                        # else: #TEST
+                        #     print(def_id, ss_id, def_lang_id, def_txt, u) #TEST
+
+
                         blk_def_data.append((def_id, ss_id, def_lang_id, def_txt, u))
+
+
 
                         try:
                             wn_def = synset['def'][(def_lang_id, def_txt)]
@@ -1271,10 +1325,16 @@ with app.app_context():
                             if not def_id:
 
                                 # avoid duplicates linking to the same omw_concept
-                                if (ss_id, def_lang_id,def_txt) not in blk_def_data_unique:
+                                if (ss_id, def_lang_id, def_txt) not in blk_def_data_unique:
 
                                     def_id = max_def_id + 1
-                                    blk_def_data_unique.add((ss_id, def_lang_id,def_txt))
+
+                                    # if def_id and ss_id and def_lang_id and def_txt and u: #TEST
+                                    #     test = True #TEST
+                                    # else: #TEST
+                                    #     print(def_id, ss_id, def_lang_id, def_txt, u) #TEST
+
+                                    blk_def_data_unique.add((ss_id, def_lang_id, def_txt))
                                     blk_def_data.append((def_id, ss_id, def_lang_id,
                                                  def_txt, u))
                                     max_def_id = def_id
@@ -1343,6 +1403,12 @@ with app.app_context():
                             if (ss_id, def_lang_id,def_txt) not in blk_def_data_unique:
 
                                 def_id = max_def_id + 1
+
+                                # if def_id and ss_id and def_lang_id and def_txt and u: #TEST
+                                #     test = True #TEST
+                                # else: #TEST
+                                #     print(def_id, ss_id, def_lang_id, def_txt, u) #TEST
+
                                 blk_def_data_unique.add((ss_id, def_lang_id,def_txt))
                                 blk_def_data.append((def_id, ss_id, def_lang_id,
                                              def_txt, u))
