@@ -403,6 +403,10 @@ with app.app_context():
                      'wb').write(file.read())
             file_uploaded = True
 
+        else:
+            filename = None
+            file_uploaded = False
+
         return file_uploaded, filename
 
     def val1_DTD(current_user, filename):  # MATCH WN AGAINST DTD
