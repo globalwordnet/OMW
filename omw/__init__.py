@@ -375,7 +375,12 @@ def omw_welcome(name=None):
     return render_template('omw_welcome.html',
                            src_meta=src_sort,
                            lang_id=lang_id,
-                           lang_code=lang_code)
+                           lang_code=lang_code,
+                           licenses=licenses)
+
+@app.route('/wordnet', methods=['GET', 'POST'])
+def wordnet_license(name=None):
+    return render_template('wordnet_license.html')
 
 @app.route('/omw_wns', methods=['GET', 'POST'])
 def omw_wns(name=None):
@@ -390,7 +395,8 @@ def omw_wns(name=None):
     return render_template('omw_wns.html',
                            stats=stats,
                            lang_id=lang_id,
-                           lang_code=lang_code)
+                           lang_code=lang_code,
+                           licenses=licenses)
 
 
 @app.route("/useradmin",methods=["GET"])
@@ -680,7 +686,8 @@ def omw_wn(src=None):
                            src_info=src_info,
                            ssrel_stats=fetch_ssrel_stats(src_id),
                            pos_stats= fetch_src_id_pos_stats(src_id),
-                           src_stats=fetch_src_id_stats(src_id))
+                           src_stats=fetch_src_id_stats(src_id),
+                           licenses=licenses)
 
 @app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
 def omw_wn_latex(src=None):

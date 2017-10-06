@@ -54,7 +54,7 @@ in the World page</a>.
 <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
 	  src=proj)}}'>LaTeX</a>)
     </td>
-    <td>{{meta['license']}}</td>
+    <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
    <tr>
   {% endfor %}
 </table>

@@ -8,17 +8,23 @@
 <h6>{{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
 {% endif %}
 
-<p>{{ src_info.description }} DESCRIPTION to come here.</p>
+{% if src_info.description %}
+<p>{{ src_info.description }}</p>
+{% else  %}
+<p>No description in the upload.</p>
+{% endif %}
 
 {% if src_info.url %}
   <p>The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
 {% endif %}
   
-<p>It is licensed by {{ src_info.license }}.</p>
+<p>The license is <a href='{{src_info.license}}'>{{licenses[src_info.license]}}</a>.</p>
   
 {% if src_info.citation %}
-<p>Canonical citation for this data:<br>
-  {{src_info.citation}}.
+<p>Canonical citation for this data:
+  <pre>
+    {{src_info.citation}}
+  </pre>
 <br>Please attribute the data properly!</p>
 {% endif %}  
 
