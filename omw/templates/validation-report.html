@@ -109,9 +109,12 @@
       <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
 	All synsets found in this resource seem to have a single consistent POS.</p>
       {% else %}
-      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	There are synsets with either multiple or no POS information:</p>
-       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_pos_val'] }}</p>
+      <p style="margin-left: 30px"><i class="fa fa-times"
+	aria-hidden="true"></i> There are
+	{{vr['lexicon'][lexicon]['synsets_bad_pos_val']|length}}
+	synsets with either multiple or no POS information (we show
+	the first 100 here):</p>
+       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_pos_val'][:100] }}</p>
       {% endif %}
 
       <!-- Sense Example Language Mismatch -->
@@ -130,8 +133,11 @@
 	All synsets passed the id-convention check in this resource.</p>
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	 Some synsets are violating the adopted id-convention in this resource:</p>
-      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_id_lbl_val'] }}</p>
+	There are
+	{{vr['lexicon'][lexicon]['synsets_bad_id_lbl_val']|length}}
+	synsets violating the adopted id-convention in this resource
+	(we show the first 100):</p>
+      <p  style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_bad_id_lbl_val'][:100] }}</p>
       {% endif %}
 
       {% if vr['lexicon'][lexicon]['synsets_with_ili_lbl'] == True %}
