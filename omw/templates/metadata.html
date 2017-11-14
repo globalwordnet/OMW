@@ -59,18 +59,29 @@ target="_blank">Wordnet LMF document type definition (DTD)</a> is available from
 
 <h6>version</h6>
 <p>A string identifying this version (following
-                     major.minor format)
+                     <a href='http://semver.org/'>Semantic Versioning</a>: major.minor format)
       	<br>e.g. 3.0; 1.3
 <h6>url</h6>
 <p>A URL for your project homepage
-      <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
+  <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
+  
 <h6>citation</h6>
-<p>The paper to cite for this resource
+<p>The paper to cite for this resource (the canonical citation)
 
-<h6>status</h6>
-<p>The status of the resource, e.g., "valid", "checked", "unchecked"
-<h6>confidenceScore</h6>
-<p>A numeric value between 0 and 1
+<h6>dc:format</h6>
+<p>The format of the resource (<tt>OMW-LMF</tt>)
+
+<h6>dc:publisher</h6>
+<p>The organization that produces the resource
+
+<h6>dc:description</h6>
+<p>A humanly readable description of this resource
+  (using <a href='http://docutils.sourceforge.net/rst.html'>reStructuredText</a>
+  markup so we can convert it to LaTeX or HTML)
+
+  
+  <h6>confidenceScore</h6>
+  <p> A numeric value between 0 and 1
       giving the confidence in the correctness of the element.  Only
       entries with a value of 1 will be considered for the ILI.
 </ul>

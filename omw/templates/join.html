@@ -87,7 +87,60 @@ https://opensource.org/licenses/Apache-2.0
     <li><strong>confidenceScore</strong> A numeric value between 0 and 1
       giving the confidence in the correctness of the element.  Only
       entries with a value of 1 will be considered for the ILI.
-</ul>
+  </ul>
+
+  <h5>Notes on the entries</h5>
+
+<p>There is extensive documentation
+  with <a href='http://globalwordnet.github.io/schemas/'>the
+    schemas</a>.  Here we include a few tips that are not covered
+  there.
+
+  <p>If you want to include a definition from somewhere else (such as
+  the Princeton wordnet), or in a language other than that of the
+  wordnet, please note it explicitly:
+  <pre>
+  &lt;Definition language="ja"&gt;辞書の編集者または筆者&lt;/Definition&gt;
+  &lt;Definition dc:source="pwn-3.0" language="en"&gt;a compiler or writer of a dictionary&lt;/Definition&gt;
+</pre>
+
+<p>If you have a relation type not included in the list we have,
+  please use <tt>other</tt> and give your more explicit type
+  as <tt>dc:type</tt>.  Or, if your type is a more specific subclass
+  of an existing type, you can use the supertype and mark the specific
+  type with <tt>dc:type</tt>.
+<pre>
+&lt;SynsetRelation relType="other" 
+                dc:type="emotion" target="example-en-1234-n"/&gt;
+&lt;SynsetRelation relType="antonym" 
+                dc:type="gradable antonym" target="example-en-1234-n"/&gt;
+
+</pre>
+
+<p>You can add variations of lemmas, including orthographic variations
+  and transliterations, as shown below.  You can have various classes
+  of transliteration, and if they are automatically generated, you can
+  give them a confidence score.
+
+  <pre>
+&lt;LexicalEntry id="w613347"&gt;
+  &lt;Lemma writtenForm="动物沟通" partOfSpeech="n" script="Hans"/&gt;
+  &lt;Form writtenForm="dòngwùgōutōng" script="Latn-pinyin"&gt;
+  &lt;Tag category="transliteration"&gt;pīnyīn&lt;/Tag&gt;
+    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
+  &lt;/Form&gt;
+  &lt;Form writtenForm="dong4wu4gou1tong1" script="Latn-pinyin"&gt;
+    &lt;Tag category="transliteration"&gt;pin1yin1&lt;/Tag&gt;
+    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
+  &lt;/Form&gt;
+  &lt;Form writtenForm="dongwugoutong" script="Latn-pinyin"&gt;
+    &lt;Tag category="transliteration"&gt;pinyin&lt;/Tag&gt;
+    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
+  &lt;/Form&gt;
+&lt;/LexicalEntry&gt;
+</pre>
+  
+  
 <h5>Synset Identifiers and adding Synsets to CILI</h5>
 <ul>
   <li>You can also add new synsets to the Collaborative Interlingual Index (CILI).
@@ -118,8 +171,14 @@ https://opensource.org/licenses/Apache-2.0
   <li>The list of available relations is available under
   SynsetRelation.relType in the DTD link provided above, <b>but
   excluding see_also</b>;</li>
-  <li>Your LMF file must include all targets of relations to be valid.</li>
+  <li>Your LMF file must include all targets of relations to be
+    valid.</li>
+
+  
 </ul>
+
+
+
 
 
 <br><br>
