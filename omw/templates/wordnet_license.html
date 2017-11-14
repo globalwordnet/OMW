@@ -1,0 +1,79 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>Wordnet License</h3>
+
+<p>This resource is released under the same license as <a href='https://wordnet.princeton.edu/wordnet/license/'>Princeton Wordnet</a>.
+  <pre>
+This Wordnet is unencumbered, and may be used in commercial
+applications in accordance with the following license agreement. An
+attorney representing the commercial interest should review this
+WordNet license with respect to the intended use.
+
+Wordnet license 3.0
+
+This software and database is being provided to you, the LICENSEE, by
+the PROVIDER under the following license. By obtaining, using and/or
+copying this software and database, you agree that you have read,
+understood, and will comply with these terms and conditions.:
+
+Permission to use, copy, modify and distribute this software and
+database and its documentation for any purpose and without fee or
+royalty is hereby granted, provided that you agree to comply with the
+following copyright notice and statements, including the disclaimer,
+and that the same appear on ALL copies of the software, database and
+documentation, including modifications that you make for internal use
+or for distribution. 
+
+The software and database is copyright the PROVIDER.  All rights reserved. 
+
+THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND THE PROVIDER MAKES
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. BY WAY OF
+EXAMPLE, BUT NOT LIMITATION, PROVIDER MAKES NO REPRESENTATIONS OR
+WARRANTIES OF MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE
+OR THAT THE USE OF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION
+WILL NOT INFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR
+OTHER RIGHTS. 
+
+The name of the PROVIDER may not be used in advertising or publicity
+pertaining to distribution of the software and/or database. Title to
+copyright in this software, database and any associated documentation
+shall at all times remain with the PROVIDER and LICENSEE
+agrees to preserve same.
+
+
+    </pre>
+
+
+
+  
+{% if current_user.id %}
+<div id="UserPanel">
+<h5>User Panel</h5>
+<i>Coming soon...</i>
+</div>
+<hr>
+{% endif %}
+
+{% if current_user.group == 'admin' %}
+<div id="AdminPanel">
+<h5>Admin Panel</h5>
+    <p><a href="{{ url_for('useradmin') }}">User Administration</a></p>
+    <p><a href="{{ url_for('projectadmin') }}">Project and Source Administration</a></p>
+    <p><a href="{{ url_for('langadmin') }}">Language Administration</a></p>
+</div>
+<hr>
+{% endif %}
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

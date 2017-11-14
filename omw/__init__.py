@@ -3,7 +3,7 @@
 
 import os, sys, sqlite3, datetime, urllib, gzip, requests
 from time import sleep
-from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup
+from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup, Response
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
 from collections import defaultdict as dd
@@ -375,7 +375,12 @@ def omw_welcome(name=None):
     return render_template('omw_welcome.html',
                            src_meta=src_sort,
                            lang_id=lang_id,
-                           lang_code=lang_code)
+                           lang_code=lang_code,
+                           licenses=licenses)
+
+@app.route('/wordnet', methods=['GET', 'POST'])
+def wordnet_license(name=None):
+    return render_template('wordnet_license.html')
 
 @app.route('/omw_wns', methods=['GET', 'POST'])
 def omw_wns(name=None):
@@ -390,7 +395,8 @@ def omw_wns(name=None):
     return render_template('omw_wns.html',
                            stats=stats,
                            lang_id=lang_id,
-                           lang_code=lang_code)
+                           lang_code=lang_code,
+                           licenses=licenses)
 
 
 @app.route("/useradmin",methods=["GET"])
@@ -684,7 +690,8 @@ def omw_wn(src=None):
                            src_info=src_info,
                            ssrel_stats=fetch_ssrel_stats(src_id),
                            pos_stats= fetch_src_id_pos_stats(src_id),
-                           src_stats=fetch_src_id_stats(src_id))
+                           src_stats=fetch_src_id_stats(src_id),
+                           licenses=licenses)
 
 @app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
 def omw_wn_latex(src=None):
@@ -705,6 +712,28 @@ def omw_wn_latex(src=None):
                            ssrel_stats=fetch_ssrel_stats(src_id),
                            pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
+
+
+@app.route('/cili.tsv')
+def generate_cili_tsv():
+    tsv="""# omw_id	ili_id	projects\n"""
+    srcs = fetch_src()
+    ss =dict()
+    r  =  query_omw_direct("SELECT id, ili_id from ss")
+    for (ss_id, ili_id) in r:
+        ss[ss_id] = [ili_id]
+    src = dd(list)
+    r = query_omw_direct("SELECT ss_id, src_id, src_key from ss_src")
+    for (ss_id, src_id, src_key) in r:
+        src[ss_id].append("{}-{}:{}".format(srcs[src_id][0],
+                                            srcs[src_id][1],
+                                            src_key))
+        
+    for ss_id in ss:
+        ili = 'i' + str(ss[ss_id][0]) if ss[ss_id][0] else 'None'
+
+        tsv += "{}\t{}\t{}\n".format(ss_id, ili, ";".join(src[ss_id]))
+    return Response(tsv, mimetype='text/tab-separated-values')
 
 
 
