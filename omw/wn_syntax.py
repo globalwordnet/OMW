@@ -48,25 +48,27 @@ with app.app_context():
                  'state_of', 'target_direction', 'subevent', 'is_subevent_of']
     ## FCB must be a better way
     ilis=set()
+    ## try to use the same abbreviations as the SPDX organization
+    ## https://spdx.org/licenses/
     licenses = {'wordnet':'wordnet',
                 'https://wordnet.princeton.edu/wordnet/license/':'wordnet',
-                'http://opendefinition.org/licenses/cc-by/':'CC BY',
-                'http://opendefinition.org/licenses/cc-by/3.0':'CC BY 3.0',
-                'http://opendefinition.org/licenses/cc-by/4.0':'CC BY 4.0',
-                'http://opendefinition.org/licenses/odc-by/':'ODC BY',
-                'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html':'CeCILL',
-                'http://opendefinition.org/licenses/cc-by-sa/':'CC BY SA',
-                'http://opendefinition.org/licenses/cc-by-sa/3.0':'CC BY SA 3.0',
-                'http://opendefinition.org/licenses/cc-by-sa/4.0':'CC BY SA 4.0',
+                'http://opendefinition.org/licenses/cc-by/':'CC-BY',
+                'http://opendefinition.org/licenses/cc-by/3.0':'CC-BY-3.0',
+                'http://opendefinition.org/licenses/cc-by/4.0':'CC-BY-4.0',
+                'http://opendefinition.org/licenses/odc-by/':'ODC-BY',
+                'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html':'CeCILL-1.0',
+                'http://opendefinition.org/licenses/cc-by-sa/':'CC-BY-SA',
+                'http://opendefinition.org/licenses/cc-by-sa/3.0':'CC-BY-SA-3.0',
+                'http://opendefinition.org/licenses/cc-by-sa/4.0':'CC-BY-SA-4.0',
                 "https://creativecommons.org/publicdomain/zero/1.0/":'CC0 1.0',
-                "https://creativecommons.org/licenses/by/":'CC BY',
-                "https://creativecommons.org/licenses/by-sa/":'CC BY SA',
-                "https://creativecommons.org/licenses/by/3.0/":'CC BY 3.0',
-                "https://creativecommons.org/licenses/by-sa/3.0/":'CC BY SA 3.0',
-                "https://creativecommons.org/licenses/by/4.0/":'CC BY 4.0',
-                "https://creativecommons.org/licenses/by-sa/4.0/":'CC BY AS 4.0',
+                "https://creativecommons.org/licenses/by/":'CC-BY',
+                "https://creativecommons.org/licenses/by-sa/":'CC-BY-SA',
+                "https://creativecommons.org/licenses/by/3.0/":'CC-BY-3.0',
+                "https://creativecommons.org/licenses/by-sa/3.0/":'CC-BY-SA-3.0',
+                "https://creativecommons.org/licenses/by/4.0/":'CC-BY-4.0',
+                "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-AS 4.0',
                 'https://opensource.org/licenses/MIT/':'MIT',
-                'https://opensource.org/licenses/Apache-2.0':'Apache 2.0'}
+                'https://opensource.org/licenses/Apache-2.0':'Apache-2.0'}
     mindefchars=20
     mindefwords=4
     
@@ -360,7 +362,7 @@ with app.app_context():
 
     def uploadFile(current_user):
 
-        format = "%Y_%b_%d_%H:%M:%S"
+        format = "%Y-%m-%dT%H:%M:%S"
         now = datetime.datetime.utcnow().strftime(format)
 
         try:
@@ -1031,8 +1033,8 @@ with app.app_context():
 
 
     def confirmUpload(filename=None, u=None):
-            insert=True
-        #try:
+        insert=True   ### really put stuff in the database
+        try:
         
             # print("\n")   #TEST
             # print("ENTERING 1st Iteration")   #TEST
@@ -1042,7 +1044,7 @@ with app.app_context():
             l = lambda:dd(l)
             r = l()  # report
             r['new_ili_ids'] = []
-
+            r['wns'] = []
             # OPEN FILE
             if filename.endswith('.xml'):
                 wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
@@ -1066,6 +1068,7 @@ with app.app_context():
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
                 version = wn[lexicon]['attrs']['version']
+                r['wns'].append(lexicon + '-' +  version)
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
                 wn[lexicon]['attrs']['filename'] = filename
 
@@ -1551,7 +1554,7 @@ with app.app_context():
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
-                print("let's add links")
+                #print("let's add links")
                 for ss1 in wn[lexicon]['syns']: # each synset in the lexicon
                     # ss1 rel ss2 ##  odwn-14887026-n hyponym odwn-15057103-n 
                     synset1=wn[lexicon]['syns'][ss1]
@@ -1581,7 +1584,7 @@ with app.app_context():
                         except:
                             ## new --- add link
                             max_sslink_id += 1
-                            sslinkid = max_sslink_id
+                            sslink_id = max_sslink_id
                             sslinks[ss1_id][(ssrel_id,ss2_id)] = max_sslink_id
                             blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
                                                      ss2_id, u))
@@ -1595,116 +1598,6 @@ with app.app_context():
                         #       sslink_id, sslink_conf,
                         #       sslink_attrs)
                         
-                        
-                # for new_ss in wn_dtls['ss_ili_new'][lexicon] + \
-                #               wn_dtls['ss_ili_out'][lexicon]:
-                #     synset = wn[lexicon]['syns'][new_ss]
-                #     ss1_id = synset['omw_ss_key']
-
-                #     try:
-                #         ss_conf = float(synset['attrs']['confidenceScore'])
-                #     except:
-                #         ss_conf = lex_conf
-
-                #     for (rel, trgt) in synset['ssrel'].keys():
-
-                #         lex2 = trgt.split('-')[0]
-                #         synset2 = wn[lex2]['syns'][trgt]
-                #         ss2_id = synset2['omw_ss_key']
-                #         ssrel_id = ssrels['rel'][rel][0]
-
-
-                #         if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
-                #             blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
-
-                #             sslink_id = max_sslink_id + 1
-                #             blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
-                #                                      ss2_id, u))
-
-                #             try:
-                #                 sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                #                 sslink_conf = float(sslink_attrs['confidenceScore'])
-                #             except:
-                #                 sslink_conf = ss_conf
-
-
-                #             blk_sslinks_src_data.append((sslink_id, src_id,
-                #                                          sslink_conf, lang_id, u))
-
-                #         else:
-                #             sslink_id = max_sslink_id
-                #             # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
-
-                #         max_sslink_id = sslink_id
-
-
-
-
-                # ############################################################
-                # # IN THIS CASE WE NEED TO FIND WHICH MAP IT RECEIVED ABOVE
-                # ############################################################
-                # for linked_ss in wn_dtls['ss_ili_linked'][lexicon]:
-
-                #     synset = wn[lexicon]['syns'][linked_ss]
-                #     ss_pos = poss['tag'][synset['SSPOS']]
-                #     origin_key = synset['ili_origin_key']
-                #     ili_id = synset['ili_key']
-
-                #     ############################################################
-                #     # FETCH ALL OMW SYNSETS LINKED TO THIS ILI ID
-                #     ############################################################
-                #     linked_ss_ids = ili_ss_map['ili'][ili_id]
-
-                #     ss_id = None
-                #     for (ss, pos) in linked_ss_ids: # THERE MUST BE ONE!
-                #         if pos == ss_pos:
-                #             linked_ss = ss
-
-
-                #     synset = wn[lexicon]['syns'][linked_ss]
-                #     ss1_id = synset['omw_ss_key']
-
-                #     try:
-                #         ss_conf = float(synset['attrs']['confidenceScore'])
-                #     except:
-                #         ss_conf = lex_conf
-
-
-
-                #     for (rel, trgt) in synset['ssrel'].keys():
-
-                #         lex2 = trgt.split('-')[0]
-                #         synset2 = wn[lex2]['syns'][trgt]
-                #         ss2_id = synset2['omw_ss_key']
-                #         ssrel_id = ssrels['rel'][rel][0]
-
-
-
-                #         if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
-                #             blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
-
-
-                #             sslink_id = sslinks[ss1_id][(ssrel_id, ss2_id)]
-                #             if not sslink_id:
-                #                 sslink_id = max_sslink_id + 1
-                #                 blk_sslinks_data.append((sslink_id, ss1_id,
-                #                                          ssrel_id, ss2_id, u))
-                #                 max_sslink_id = sslink_id
-
-
-                #             try:
-                #                 sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                #                 sslink_conf = float(sslink_attrs['confidenceScore'])
-                #             except:
-                #                 sslink_conf = ss_conf
-
-                #             blk_sslinks_src_data.append((sslink_id, src_id,
-                #                                          sslink_conf, lang_id, u))
-
-
-                #         else:
-                #             sslink_id = max_sslink_id
-                #             # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
 
 
             ################################################################
@@ -1715,9 +1608,6 @@ with app.app_context():
                 blk_insert_omw_sslink_src(blk_sslinks_src_data)
             ################################################################
 
-
-
-
             return r
-        #except:
-            #return False
+        except:
+            return False
