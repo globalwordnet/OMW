@@ -12,8 +12,20 @@ http://compling.hss.ntu.edu.sg/iliomw/omw/concepts/ili/46360
  ** show time remaining
 (mousing over ILI id shows concept but it flickers)
 
+ ** jump to summary of the uploaded wordnet
 
  * concept.html
+
+Welcome
+ * fix the show all projects if (in omw_welcome)
+
+Validation:
+ * do we want to check it is a new version (not just unknown)?	
+
+
+ * in loading
+ ** add reverse if it is not there
+ ** meta attributes for links (type, comment)
 
 return non-html for search
 

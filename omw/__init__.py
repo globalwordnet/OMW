@@ -11,6 +11,7 @@ from collections import OrderedDict as od
 from hashlib import md5
 from werkzeug import secure_filename
 from lxml import etree
+from pkg_resources import parse_version
 
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
@@ -362,15 +363,22 @@ def ili_welcome(name=None):
 
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
+    projects = request.args.get('projects','current')
+    #print(projects)
     lang_id, lang_code = fetch_langs()
     src_meta=fetch_src_meta()
     ### sort by language, project version (Newest first)
     src_sort=od()
     keys=list(src_meta.keys())
-    keys.sort(key=lambda x: src_meta[x]['version'],reverse=True)
-    keys.sort(key=lambda x: src_meta[x]['id'])
-    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1])
+    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: src_meta[x]['id']) #id 
+    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
     for k in keys:
+        if projects=='current':  # only get the latest version
+            if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
+                                             if src_meta[i]['id'] ==  src_meta[k]['id']),
+                                             key=lambda x: Ver(x)):
+                continue
         src_sort[k] =  src_meta[k]
     return render_template('omw_welcome.html',
                            src_meta=src_sort,
@@ -384,14 +392,23 @@ def wordnet_license(name=None):
 
 @app.route('/omw_wns', methods=['GET', 'POST'])
 def omw_wns(name=None):
+    projects = request.args.get('projects','current')
     src_meta=fetch_src_meta()
     stats = []
     lang_id, lang_code = fetch_langs()
     ### sort by language name (1), id, version (FIXME -- reverse version)
-    for src_id in sorted(src_meta, key = lambda x: (                                                    lang_id[lang_code['code'][src_meta[x]['language']]][1],
-                                                                                                        src_meta[x]['id'],
-                                                                                                        src_meta[x]['version'])):
-        stats.append((src_meta[src_id], fetch_src_id_stats(src_id)))
+    src_sort=od()
+    keys=list(src_meta.keys())
+    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: src_meta[x]['id']) #id 
+    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
+    for k in keys:
+        if projects=='current':  # only get the latest version
+            if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
+                                              if src_meta[i]['id'] ==  src_meta[k]['id']),
+                                             key=lambda x: Ver(x)):
+                continue
+        stats.append((src_meta[k], fetch_src_id_stats(k)))
     return render_template('omw_wns.html',
                            stats=stats,
                            lang_id=lang_id,

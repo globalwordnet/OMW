@@ -8,6 +8,7 @@ import urllib, gzip, requests
 from werkzeug import secure_filename
 from lxml import etree
 from collections import defaultdict as dd
+from pkg_resources import parse_version as Ver, SetuptoolsVersion
 
 from common_sql import *
 from omw_sql import *
@@ -432,96 +433,103 @@ with app.app_context():
         return vr
 
 
-    def val2_metadata(vr_master):
-        l=lambda:dd(l)
-        vr = l()  # validation report
-        vr.update(vr_master)
+    # def val2_metadata(vr_master):
+    #     l=lambda:dd(l)
+    #     vr = l()  # validation report
+    #     vr.update(vr_master)
 
-        wnlmf = etree.XML(vr['lmf_dump'])
-        # if vr['dtd_val']:
+    #     wnlmf = etree.XML(vr['lmf_dump'])
+    #     # if vr['dtd_val']:
 
-        # if filename and filename.endswith('.xml'):
-        #     wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
-        #                                filename), 'rb')
-        #     wnlmf = etree.XML(wn.read())
+    #     # if filename and filename.endswith('.xml'):
+    #     #     wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
+    #     #                                filename), 'rb')
+    #     #     wnlmf = etree.XML(wn.read())
 
-        # elif filename and filename.endswith('.gz'):
-        #     with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
-        #                                     filename), 'rb') as wn:
-        #         wnlmf = etree.XML(wn.read())
+    #     # elif filename and filename.endswith('.gz'):
+    #     #     with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
+    #     #                                     filename), 'rb') as wn:
+    #     #         wnlmf = etree.XML(wn.read())
 
-        if wnlmf is not None and vr['dtd_val']:
+    #     if wnlmf is not None and vr['dtd_val']:
 
-            wn, wn_dtls = parse_wn(wnlmf)
-            projs = fetch_proj()
-            langs, langs_code = fetch_langs()
+    #         wn, wn_dtls = parse_wn(wnlmf)
+    #         projs = fetch_proj()
+    #         langs, langs_code = fetch_langs()
 
-            vr['num_lexicons_found'] = len(wn.keys())
-            vr['lexicons_found'] = list(wn.keys())
-
-
-            invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
-            for lexicon in wn:
-                vr_lex = vr['lexicon'][lexicon]
-
-                ################################################################
-                # CHECK META-DATA
-                ################################################################
-                lexicon_lbl = wn[lexicon]['attrs']['id']
-                lexicon_id =  f_proj_id_by_code(lexicon_lbl)
-                vr_lex['lex_lbl_val'] = lexicon_lbl
-                if wn[lexicon]['attrs']['id'] in projs.values():
-                    vr_lex['lex_lbl'] = True
-                else:
-                    vr_lex['lex_lbl'] = False
-                    final_validation = False
-
-                lang_lbl = wn[lexicon]['attrs']['language']
-                try:
-                    lang_id = langs_code['code'][lang_lbl]
-                except:
-                    lang_id = None
-                vr_lex['lang_lbl_val'] = lang_lbl
-                if lang_id in langs.keys():
-                    vr_lex['lang_lbl'] = True
-                else:
-                    vr_lex['lang_lbl'] = False
-                    final_validation = False
-
-                version = wn[lexicon]['attrs']['version']
-                vr_lex['version_lbl_val'] = version
-                if f_src_id_by_proj_ver(lexicon_id, version):
-                    vr_lex['version_lbl'] = False
-                    final_validation = False
-                else:
-                    vr_lex['version_lbl'] = True
+    #         vr['num_lexicons_found'] = len(wn.keys())
+    #         vr['lexicons_found'] = list(wn.keys())
 
 
-                if 'confidenceScore' in wn[lexicon]['attrs'].keys():
-                    confidence = wn[lexicon]['attrs']['confidenceScore']
-                    vr_lex['confidence_lbl_val'] = confidence
-                else:
-                    confidence = None
-                    vr_lex['confidence_lbl_val'] = str(confidence)
-                try:
-                    if float(confidence) == 1.0:
-                        vr_lex['confidence_lbl'] = True
-                    else:
-                        vr_lex['confidence_lbl'] = 'warning'
-                except:
-                        vr_lex['confidence_lbl'] = False
-                        final_validation = False
+    #         invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
+    #         for lexicon in wn:
+    #             vr_lex = vr['lexicon'][lexicon]
+
+    #             ################################################################
+    #             # CHECK META-DATA
+    #             ################################################################
+    #             lexicon_lbl = wn[lexicon]['attrs']['id']
+    #             lexicon_id =  f_proj_id_by_code(lexicon_lbl)
+    #             vr_lex['lex_lbl_val'] = lexicon_lbl
+    #             if wn[lexicon]['attrs']['id'] in projs.values():
+    #                 vr_lex['lex_lbl'] = True
+    #             else:
+    #                 vr_lex['lex_lbl'] = False
+    #                 final_validation = False
+
+    #             lang_lbl = wn[lexicon]['attrs']['language']
+    #             try:
+    #                 lang_id = langs_code['code'][lang_lbl]
+    #             except:
+    #                 lang_id = None
+    #             vr_lex['lang_lbl_val'] = lang_lbl
+    #             if lang_id in langs.keys():
+    #                 vr_lex['lang_lbl'] = True
+    #             else:
+    #                 vr_lex['lang_lbl'] = False
+    #                 final_validation = False
+
+    #             version = wn[lexicon]['attrs']['version']
+    #             vr_lex['version_lbl_val'] = version
+    #             try:                    
+    #                 if isinstance(Ver(version), SetuptoolsVersion): 
+    #                     vr_lex['valid_version'] = True
+    #                     if f_src_id_by_proj_ver(lexicon_id, version):
+    #                         vr_lex['new_version'] = False
+    #                         final_validation = False
+    #                     else:
+    #                         vr_lex['version'] = True
+    #                 else:
+    #                     vr_lex['valid_version'] = False
+    #             except:
+    #                 vr_lex['valid_version'] = False
 
 
-                lic = wn[lexicon]['attrs']['license']
-                vr_lex['license_lbl_val'] = lic
-                if lic in licenses:
-                    vr_lex['license_lbl'] = True
-                else:
-                    vr_lex['license_lbl'] = False
-                    final_validation = False
-                ################################################################
-        return vr
+    #             if 'confidenceScore' in wn[lexicon]['attrs'].keys():
+    #                 confidence = wn[lexicon]['attrs']['confidenceScore']
+    #                 vr_lex['confidence_lbl_val'] = confidence
+    #             else:
+    #                 confidence = None
+    #                 vr_lex['confidence_lbl_val'] = str(confidence)
+    #             try:
+    #                 if float(confidence) == 1.0:
+    #                     vr_lex['confidence_lbl'] = True
+    #                 else:
+    #                     vr_lex['confidence_lbl'] = 'warning'
+    #             except:
+    #                     vr_lex['confidence_lbl'] = False
+    #                     final_validation = False
+
+
+    #             lic = wn[lexicon]['attrs']['license']
+    #             vr_lex['license_lbl_val'] = lic
+    #             if lic in licenses:
+    #                 vr_lex['license_lbl'] = True
+    #             else:
+    #                 vr_lex['license_lbl'] = False
+    #                 final_validation = False
+    #             ################################################################
+    #     return vr
 
 
 
@@ -733,12 +741,23 @@ with app.app_context():
 
                 version = wn[lexicon]['attrs']['version']
                 vr_lex['version_lbl_val'] = version
-                if f_src_id_by_proj_id_ver(lexicon_id, version):
-                    vr_lex['version_lbl'] = False
+                try:                    
+                    if isinstance(Ver(version), SetuptoolsVersion): 
+                        vr_lex['valid_version'] = True
+                        if str(Ver(version)) != version:
+                             vr_lex['version_lbl_val'] += " ({})".format(Ver(version))
+                        ### FIXME do we want to check it is a new version (not just unknown)?
+                        if f_src_id_by_proj_ver(lexicon_id, version): # it exists
+                            vr_lex['new_version'] = False
+                            final_validation = False
+                        else:
+                            vr_lex['new_version'] = True
+                    else:
+                        vr_lex['valid_version'] = False
+                        final_validation = False
+                except:
+                    vr_lex['valid_version'] = False
                     final_validation = False
-                else:
-                    vr_lex['version_lbl'] = True
-
 
                 if 'confidenceScore' in wn[lexicon]['attrs'].keys():
                     confidence = wn[lexicon]['attrs']['confidenceScore']
