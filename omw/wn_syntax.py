@@ -48,25 +48,27 @@ with app.app_context():
                  'state_of', 'target_direction', 'subevent', 'is_subevent_of']
     ## FCB must be a better way
     ilis=set()
+    ## try to use the same abbreviations as the SPDX organization
+    ## https://spdx.org/licenses/
     licenses = {'wordnet':'wordnet',
                 'https://wordnet.princeton.edu/wordnet/license/':'wordnet',
-                'http://opendefinition.org/licenses/cc-by/':'CC BY',
-                'http://opendefinition.org/licenses/cc-by/3.0':'CC BY 3.0',
-                'http://opendefinition.org/licenses/cc-by/4.0':'CC BY 4.0',
-                'http://opendefinition.org/licenses/odc-by/':'ODC BY',
-                'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html':'CeCILL',
-                'http://opendefinition.org/licenses/cc-by-sa/':'CC BY SA',
-                'http://opendefinition.org/licenses/cc-by-sa/3.0':'CC BY SA 3.0',
-                'http://opendefinition.org/licenses/cc-by-sa/4.0':'CC BY SA 4.0',
+                'http://opendefinition.org/licenses/cc-by/':'CC-BY',
+                'http://opendefinition.org/licenses/cc-by/3.0':'CC-BY-3.0',
+                'http://opendefinition.org/licenses/cc-by/4.0':'CC-BY-4.0',
+                'http://opendefinition.org/licenses/odc-by/':'ODC-BY',
+                'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html':'CeCILL-1.0',
+                'http://opendefinition.org/licenses/cc-by-sa/':'CC-BY-SA',
+                'http://opendefinition.org/licenses/cc-by-sa/3.0':'CC-BY-SA-3.0',
+                'http://opendefinition.org/licenses/cc-by-sa/4.0':'CC-BY-SA-4.0',
                 "https://creativecommons.org/publicdomain/zero/1.0/":'CC0 1.0',
-                "https://creativecommons.org/licenses/by/":'CC BY',
-                "https://creativecommons.org/licenses/by-sa/":'CC BY SA',
-                "https://creativecommons.org/licenses/by/3.0/":'CC BY 3.0',
-                "https://creativecommons.org/licenses/by-sa/3.0/":'CC BY SA 3.0',
-                "https://creativecommons.org/licenses/by/4.0/":'CC BY 4.0',
-                "https://creativecommons.org/licenses/by-sa/4.0/":'CC BY AS 4.0',
+                "https://creativecommons.org/licenses/by/":'CC-BY',
+                "https://creativecommons.org/licenses/by-sa/":'CC-BY-SA',
+                "https://creativecommons.org/licenses/by/3.0/":'CC-BY-3.0',
+                "https://creativecommons.org/licenses/by-sa/3.0/":'CC-BY-SA-3.0',
+                "https://creativecommons.org/licenses/by/4.0/":'CC-BY-4.0',
+                "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-AS 4.0',
                 'https://opensource.org/licenses/MIT/':'MIT',
-                'https://opensource.org/licenses/Apache-2.0':'Apache 2.0'}
+                'https://opensource.org/licenses/Apache-2.0':'Apache-2.0'}
     mindefchars=20
     mindefwords=4
     
@@ -373,7 +375,7 @@ with app.app_context():
 
     def uploadFile(current_user):
 
-        format = "%Y_%b_%d_%H:%M:%S"
+        format = "%Y-%m-%dT%H:%M:%S"
         now = datetime.datetime.utcnow().strftime(format)
 
         try:
@@ -1078,9 +1080,9 @@ with app.app_context():
 
 
     def confirmUpload(filename=None, u=None):
-
+        insert=True   ### really put stuff in the database
         try:
-
+        
             # print("\n")   #TEST
             # print("ENTERING 1st Iteration")   #TEST
             # print("\n")   #TEST
@@ -1089,7 +1091,7 @@ with app.app_context():
             l = lambda:dd(l)
             r = l()  # report
             r['new_ili_ids'] = []
-
+            r['wns'] = []
             # OPEN FILE
             if filename.endswith('.xml'):
                 wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
@@ -1108,19 +1110,21 @@ with app.app_context():
             langs, langs_code = fetch_langs()
             poss = fetch_pos()
             wn, wn_dtls = parse_wn(wnlmf)
-
             for lexicon in  wn.keys():
-
                 proj_id = f_proj_id_by_code(lexicon)
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
                 version = wn[lexicon]['attrs']['version']
+                r['wns'].append(lexicon + '-' +  version)
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
+                wn[lexicon]['attrs']['filename'] = filename
+
 
                 ################################################################
                 # CREATE NEW SOURCE BASED ON PROJECT+VERSION
                 ################################################################
-                src_id = insert_src(int(proj_id), version, u)
+                if insert:
+                    src_id = insert_src(int(proj_id), version, u)
                 wn[lexicon]['src_id'] = src_id
 
                 ################################################################
@@ -1129,7 +1133,8 @@ with app.app_context():
                 blk_src_data = [] # [(src_id, attr, val, u),...]
                 for attr, val in wn[lexicon]['attrs'].items():
                     blk_src_data.append((src_id, attr, val, u))
-                blk_insert_src_meta(blk_src_data)
+                if insert:
+                    blk_insert_src_meta(blk_src_data)
 
 
                 ################################################################
@@ -1159,7 +1164,8 @@ with app.app_context():
                 ################################################################
                 # WRITE NEW ILI CANDIDATES TO DB
                 ################################################################
-                blk_insert_into_ili(blk_ili_data)
+                if insert:
+                    blk_insert_into_ili(blk_ili_data)
                 ################################################################
 
 
@@ -1251,12 +1257,13 @@ with app.app_context():
                 ################################################################
                 # WRITE NEW SYNSETS TO DB
                 ################################################################
-                blk_insert_omw_ss(blk_ss_data)
-                blk_insert_omw_ss_src(blk_ss_src_data)
-                blk_insert_omw_def(blk_def_data)
-                blk_insert_omw_def_src(blk_def_src_data)
-                blk_insert_omw_ssexe(blk_ssexe_data)
-                blk_insert_omw_ssexe_src(blk_ssexe_src_data)
+                if insert:
+                    blk_insert_omw_ss(blk_ss_data)
+                    blk_insert_omw_ss_src(blk_ss_src_data)
+                    blk_insert_omw_def(blk_def_data)
+                    blk_insert_omw_def_src(blk_def_src_data)
+                    blk_insert_omw_ssexe(blk_ssexe_data)
+                    blk_insert_omw_ssexe_src(blk_ssexe_src_data)
                 ################################################################
 
 
@@ -1460,12 +1467,13 @@ with app.app_context():
                 ################################################################
                 # INSERT/UPDATE ILI LINKED SYNSETS IN DB
                 ################################################################
-                blk_insert_omw_ss(blk_ss_data)
-                blk_insert_omw_ss_src(blk_ss_src_data)
-                blk_insert_omw_def(blk_def_data)
-                blk_insert_omw_def_src(blk_def_src_data)
-                blk_insert_omw_ssexe(blk_ssexe_data)
-                blk_insert_omw_ssexe_src(blk_ssexe_src_data)
+                if insert:
+                    blk_insert_omw_ss(blk_ss_data)
+                    blk_insert_omw_ss_src(blk_ss_src_data)
+                    blk_insert_omw_def(blk_def_data)
+                    blk_insert_omw_def_src(blk_def_src_data)
+                    blk_insert_omw_ssexe(blk_ssexe_data)
+                    blk_insert_omw_ssexe_src(blk_ssexe_src_data)
                 ################################################################
 
 
@@ -1582,12 +1590,13 @@ with app.app_context():
                 ################################################################
                 # INSERT LEXICAL ENTRIES IN DB
                 ################################################################
-                blk_insert_omw_f(blk_f_data)
-                blk_insert_omw_f_src(blk_f_src_data)
-                blk_insert_omw_w(blk_w_data)
-                blk_insert_omw_wf_link(blk_wf_data)
-                blk_insert_omw_s(blk_sense_data)
-                blk_insert_omw_s_src(blk_sense_src_data)
+                if insert:
+                    blk_insert_omw_f(blk_f_data)
+                    blk_insert_omw_f_src(blk_f_src_data)
+                    blk_insert_omw_w(blk_w_data)
+                    blk_insert_omw_wf_link(blk_wf_data)
+                    blk_insert_omw_s(blk_sense_data)
+                    blk_insert_omw_s_src(blk_sense_src_data)
                 ################################################################
 
 
@@ -1601,138 +1610,73 @@ with app.app_context():
             ############################################################
             # SSREL (SYNSET RELATIONS)   FIXME, ADD SENSE-RELS
             ############################################################
-            ili_ss_map = f_ili_ss_id_map()
+            
+            #ili_ss_map = f_ili_ss_id_map()
             sslinks = fetch_all_ssrels_by_ss_rel_trgt()
+            ## sslinks[ss1_id][(ssrel_id,ss2_id)] = sslink_id
             blk_sslinks_data = list()
-            blk_sslinks_data_unique = set()
+            #blk_sslinks_data_unique = set()
             blk_sslinks_src_data = list()
             max_sslink_id = fetch_max_sslink_id()
+            
             for lexicon in wn.keys():
                 src_id = wn[lexicon]['src_id']
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
-
-                for new_ss in wn_dtls['ss_ili_new'][lexicon] + \
-                              wn_dtls['ss_ili_out'][lexicon]:
-                    synset = wn[lexicon]['syns'][new_ss]
-                    ss1_id = synset['omw_ss_key']
-
-                    try:
-                        ss_conf = float(synset['attrs']['confidenceScore'])
-                    except:
-                        ss_conf = lex_conf
-
-                    for (rel, trgt) in synset['ssrel'].keys():
-
-                        lex2 = trgt.split('-')[0]
-                        synset2 = wn[lex2]['syns'][trgt]
+                #print("let's add links")
+                for ss1 in wn[lexicon]['syns']: # each synset in the lexicon
+                    # ss1 rel ss2 ##  odwn-14887026-n hyponym odwn-15057103-n 
+                    synset1=wn[lexicon]['syns'][ss1]
+                    for (rel, ss2) in synset1['ssrel']: # each link from the synset
+                        sslink_attrs = synset1['ssrel'][(rel, ss2)]['attrs']
+                        synset2=wn[lexicon]['syns'][ss2]
+                        ## get the ids
+                        ss1_id = synset1['omw_ss_key']
                         ss2_id = synset2['omw_ss_key']
                         ssrel_id = ssrels['rel'][rel][0]
-
-
-                        if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
-                            blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
-
-                            sslink_id = max_sslink_id + 1
+                        ## how confident are we?
+                        try:
+                            try:
+                                ## explicit link confidence
+                                sslink_conf = float(sslink_attrs['confidenceScore'])
+                            except:
+                                ## explicit synset confidence
+                                sslink_conf = float(synset['attrs']['confidenceScore'])
+                        except:
+                            ## lexicon confidence
+                            sslink_conf = lex_conf
+                                
+                        ## see if we know this link
+                        try:
+                            ## known --- get id
+                            sslink_id = sslinks[ss1_id][(ssrel_id,ss2_id)]
+                        except:
+                            ## new --- add link
+                            max_sslink_id += 1
+                            sslink_id = max_sslink_id
+                            sslinks[ss1_id][(ssrel_id,ss2_id)] = max_sslink_id
                             blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
                                                      ss2_id, u))
-
-                            try:
-                                sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                                sslink_conf = float(sslink_attrs['confidenceScore'])
-                            except:
-                                sslink_conf = ss_conf
-
-
-                            blk_sslinks_src_data.append((sslink_id, src_id,
-                                                         sslink_conf, lang_id, u))
-
-                        else:
-                            sslink_id = max_sslink_id
-                            # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
-
-                        max_sslink_id = sslink_id
-
-
-
-
-                ############################################################
-                # IN THIS CASE WE NEED TO FIND WHICH MAP IT RECEIVED ABOVE
-                ############################################################
-                for linked_ss in wn_dtls['ss_ili_linked'][lexicon]:
-
-                    synset = wn[lexicon]['syns'][linked_ss]
-                    ss_pos = poss['tag'][synset['SSPOS']]
-                    origin_key = synset['ili_origin_key']
-                    ili_id = synset['ili_key']
-
-                    ############################################################
-                    # FETCH ALL OMW SYNSETS LINKED TO THIS ILI ID
-                    ############################################################
-                    linked_ss_ids = ili_ss_map['ili'][ili_id]
-
-                    ss_id = None
-                    for (ss, pos) in linked_ss_ids: # THERE MUST BE ONE!
-                        if pos == ss_pos:
-                            linked_ss = ss
-
-
-                    synset = wn[lexicon]['syns'][linked_ss]
-                    ss1_id = synset['omw_ss_key']
-
-                    try:
-                        ss_conf = float(synset['attrs']['confidenceScore'])
-                    except:
-                        ss_conf = lex_conf
-
-
-
-                    for (rel, trgt) in synset['ssrel'].keys():
-
-                        lex2 = trgt.split('-')[0]
-                        synset2 = wn[lex2]['syns'][trgt]
-                        ss2_id = synset2['omw_ss_key']
-                        ssrel_id = ssrels['rel'][rel][0]
-
-
-
-                        if (ss1_id, ssrel_id, ss2_id) not in blk_sslinks_data_unique:
-                            blk_sslinks_data_unique.add((ss1_id, ssrel_id, ss2_id))
-
-
-                            sslink_id = sslinks[ss1_id][(ssrel_id, ss2_id)]
-                            if not sslink_id:
-                                sslink_id = max_sslink_id + 1
-                                blk_sslinks_data.append((sslink_id, ss1_id,
-                                                         ssrel_id, ss2_id, u))
-                                max_sslink_id = sslink_id
-
-
-                            try:
-                                sslink_attrs = synset['ssrel'][(rel, trgt)]['attrs']
-                                sslink_conf = float(sslink_attrs['confidenceScore'])
-                            except:
-                                sslink_conf = ss_conf
-
-                            blk_sslinks_src_data.append((sslink_id, src_id,
-                                                         sslink_conf, lang_id, u))
-
-
-                        else:
-                            sslink_id = max_sslink_id
-                            # print((ss1_id, ssrel_id, ss2_id)) #TEST #IGNORED
+                        ## source the link
+                        blk_sslinks_src_data.append((sslink_id, src_id,
+                                                     sslink_conf, lang_id, u))
+                        ## DEBUG
+                        # print(ss1, ss1_id,
+                        #       rel, ssrel_id,
+                        #       ss2, ss2_id,
+                        #       sslink_id, sslink_conf,
+                        #       sslink_attrs)
+                        
 
 
             ################################################################
             # INSERT SSRELS INTO THE DB
             ################################################################
-            blk_insert_omw_sslink(blk_sslinks_data)
-            blk_insert_omw_sslink_src(blk_sslinks_src_data)
+            if insert:
+                blk_insert_omw_sslink(blk_sslinks_data)
+                blk_insert_omw_sslink_src(blk_sslinks_src_data)
             ################################################################
-
-
-
 
             return r
         except:
