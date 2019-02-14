@@ -67,7 +67,7 @@ with app.app_context():
                 "https://creativecommons.org/licenses/by/3.0/":'CC-BY-3.0',
                 "https://creativecommons.org/licenses/by-sa/3.0/":'CC-BY-SA-3.0',
                 "https://creativecommons.org/licenses/by/4.0/":'CC-BY-4.0',
-                "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-AS 4.0',
+                "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-SA 4.0',
                 'https://opensource.org/licenses/MIT/':'MIT',
                 'https://opensource.org/licenses/Apache-2.0':'Apache-2.0'}
     mindefchars=20
@@ -955,10 +955,10 @@ with app.app_context():
                             vr_lex['ili_def_conf_lbl_val'].append((ss_id,ili_def_conf))
                             vr_lex['ili_def_conf_lbl'] = False
                             final_validation = False
-
-                        # CHECK ILI DEFINITIONS' LENGTH
-                        if not (ili_def or len(ili_def) < mindefchars or \
-                           len(ili_def.split()) < mindefwords):
+                        
+                        # CHECK ILI DEFINITIONS' LENGTH and that it exists
+                        if ili_def is None or (len(ili_def) < mindefchars) or \
+                           (len(ili_def.split()) < mindefwords):
                             vr_lex['synsets_ili_def_length_lbl_val'].append((ss_id,ili_def))
                             vr_lex['synsets_ili_def_length_lbl'] = False
                             final_validation = False
