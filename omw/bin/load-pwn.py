@@ -206,7 +206,14 @@ c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
              VALUES (?,?,?,?)""", [src_id, 'version', '3.0', u])
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
-             VALUES (?,?,?,?)""", [src_id, 'label', 'Princeton Wordnet 3.0', u])
+             VALUES (?,?,?,?)""", [src_id, 'label', 'Princeton Wordnet', u])
+
+c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
+             VALUES (?,?,?,?)""", [src_id, 'url', 'https://wordnet.princeton.edu', u])
+
+c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
+             VALUES (?,?,?,?)""", [src_id, 'description', 'WordNet is a large, open-source, lexical database of English. Nouns, verbs, adjectives and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked by means of conceptual-semantic and lexical relations.', u])
+
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
              VALUES (?,?,?,?)""", [src_id, 'license', 'https://wordnet.princeton.edu/wordnet/license/', u])
