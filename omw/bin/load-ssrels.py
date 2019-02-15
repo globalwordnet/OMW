@@ -6,12 +6,13 @@ from collections import defaultdict as dd
 
 
 # It takes one argument: the name of the db
-if (len(sys.argv) < 2):
-    sys.stderr.write('You need to give the name of the DB\n')
+if (len(sys.argv) != 3):
+    sys.stderr.write('usage: load-ssrels.py DBFILE SSRELFILE\n')
     sys.exit(1)
 else:
     u =  sys.argv[0]
     dbfile = sys.argv[1]
+    ssrelfile = sys.argv[2]
 
 ################################################################
 # CONNECT TO DB
@@ -23,7 +24,7 @@ c = con.cursor()
 # INSERT SSREL DATA
 ################################################################
 
-f = open('ssrel.tab', 'r')
+f = open(ssrelfile, 'r')
 for line in f:
     c.execute("""INSERT INTO ssrel (rel, def, u)
                  VALUES (?,?,?)""", line.strip().split('\t')+[u])

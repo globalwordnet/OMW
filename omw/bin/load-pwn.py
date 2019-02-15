@@ -12,12 +12,13 @@ from collections import defaultdict as dd
 ### ToDo: examples are being loaded as synset examples, change to sense (?)
 
 # It takes one argument: the name of the db
-if (len(sys.argv) < 2):
-    sys.stderr.write('You need to give the name of the DB\n')
+if (len(sys.argv) != 3):
+    sys.stderr.write('usage: load-pwn.py DBFILE ILIMAP\n')
     sys.exit(1)
 else:
     u =  sys.argv[0]
     dbfile = sys.argv[1]
+    ilimapfile = sys.argv[2]
 
 
 sys.stderr.write('Found ({}) as the new OMW database.\n'.format(dbfile))
@@ -164,7 +165,7 @@ c = con.cursor()
 ################################################################
 # GET PWN3.0-ILI ORIGINAL MAPPING
 ################################################################
-f = open('ili-map.tab', 'r')
+f = open(ilimapfile, 'r')
 ili_map = dict()
 for line in f:
     if line.strip() == "":
