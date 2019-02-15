@@ -1,38 +1,49 @@
 # OMW
 
-## Dependencies
+## Installation
 
-This application utilizes older versions from packages. For that reason, we suggest the creation of isolated Python environments using virtualenv (https://virtualenv.pypa.io) to install such versions.
+To setup OMW, start by cloning the repository and changing to its directory:
 
-To install virtualenv run the command:
-
-```python
-pip install virtualenv
+```bash
+~$ git clone https://github.com/globalwordnet/OMW.git
+~$ cd OMW/
+~/OMW$
 ```
 
-Then create your environment:
+This application utilizes older versions of some packages, as specified in [`requirements.txt`](requirements.txt).
+For that reason, we suggest the creation of isolated Python environments using [virtualenv](https://virtualenv.pypa.io) to install such versions.
+See [here](https://virtualenv.pypa.io/en/latest/installation/) for instructions on installing virtualenv itself if you don't already have it.
+Now create and activate new virtual environment:
 
-```python
-virtualenv ENV
+```bash
+~/OMW$ virtualenv -p python3 env
+~/OMW$ source env/bin/activate
+(env) ~/OMW$
 ```
 
-To run your environment:
+Now install the dependencies and download [WordNet](https://wordnet.princeton.edu/) for [NLTK](http://www.nltk.org/):
 
-```python
-source activate
+```bash
+(env) ~/OMW$ pip install -r requirements.txt
+(env) ~/OMW$ python -c 'import nltk; nltk.download("wordnet")'
 ```
 
-To install the versions of the packages:
+With the dependencies satisfied, you are ready to create the databases for running the OMW interface:
 
-```python
-pip install flask==0.12
-pip install flask-login==0.3.2
+``` bash
+(env) ~/OMW$ bash create-db.sh
 ```
 
-You will also need to install nltk (https://www.nltk.org/):
+The above command will prompt for a password for the admin database. When the command has completed, you are ready to run the web app.
 
+## Running in Debug Mode
 
-```python
-pip install nltk
+You can run the OMW web app on your local machine in debug mode by running `omw/__init__.py`:
+
+``` bash
+(env) ~/OMW/omw$ python __init__.py
 ```
 
+**Note:** Currently you must run the above command from the `omw/` subdirectory.
+
+If successful, you should be able to view the OMW by visiting http://0.0.0.0:5000/
