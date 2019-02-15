@@ -31,6 +31,7 @@ fi
 
 echo "Creating new OMW database at $OMWDB"
 python3 "$BINDIR"/make-omw-db.py "$OMWDB" "$OMWSCHEMA"
+chmod go+w "$OMWDB"
 
 ###############################################################################
 # LOAD ILI DEPENDENCIES
@@ -104,12 +105,29 @@ echo "Loading PWN's Core data..."
 python3 "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"
 
 ###############################################################################
+# MAKE ADMIN DATABASE
+###############################################################################
+echo
+if [ -f "$ADMINDB" ]; then
+    echo "admin database already exists at $ADMINDB."
+    rm -i "$ADMINDB"
+fi
+
+# check if it exists again; if it exists, the user didn't want to delete
+if [ ! -f "$ADMINDB" ]; then
+    echo "Creating new admin database at $ADMIN"
+    python3 "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
+    chmod go+w "$ADMINDB"
+    python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
+fi
+
+###############################################################################
 
 echo
 echo
 echo "  __________________________________"
-echo "/ The OMW database has been created \\"
-echo "\ in the omw/db subdirectory        /"
+echo "/ The OMW and admin databases have \\"
+echo "\ been created under omw/db/        /"
 echo " \_________________________________/"
 echo "        ^__^"
 echo "        (oo)\_______"

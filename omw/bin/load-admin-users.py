@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-import sqlite3, sys
+import sys
+import sqlite3
+import getpass
 
 # It takes one argument: the name of the db
 if (len(sys.argv) < 2):
@@ -9,6 +11,8 @@ if (len(sys.argv) < 2):
 else:
     u =  sys.argv[0]
     dbfile = sys.argv[1]
+
+pw = getpass.getpass('Please provide an admin password: ')
 
 ################################################################
 # CONNECT TO DB
@@ -23,8 +27,7 @@ c = con.cursor()
 c.execute("""INSERT INTO users (userID, full_name, password, 
              email, access_level, access_group, affiliation, u)
              VALUES (?,?,?,?,?,?,?,?)""",
-          ['admin','System Administrator',
-           '1fc9b75701d72e2051441d23ee8acc20',
+          ['admin','System Administrator', pw,
            'changeme@changeme.com', 99, 'admin', 'sys', u])
 
 c.execute("""INSERT INTO users (userID, full_name, password, 
