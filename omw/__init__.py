@@ -26,6 +26,7 @@ from wn_syntax import *
 from math import log
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "!$flhgSgngNO%$#SOET!$!"
 app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
 
@@ -285,7 +286,7 @@ def min_omw_concepts(ss=None, ili_id=None):
 def min_omw_sense(sID=None):
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
-    sense =  fetch_sense(sID)
+    sense, slinks =  fetch_sense(sID)
     forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
@@ -507,6 +508,11 @@ def metadata():
 def join():
     return render_template('join.html')
 
+@app.route('/omw/uploads/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename, as_attachment=True)
+
 
 @app.route('/ili/validation-report', methods=['GET', 'POST'])
 @login_required(role=0, group='open')
@@ -644,21 +650,28 @@ def concepts_omw(ssID=None, iliID=None):
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
 def omw_sense(sID=None):
+    """display a single sense (and its variants)"""
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
-    sense =  fetch_sense(sID)
+    sense, slinks =  fetch_sense(sID)
     forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
     src_meta= fetch_src_meta()
     src_sid=fetch_src_for_s_id([sID])
+    srel = fetch_srel()
+    ## get the canonical form for each linked sense
+    slabel=fetch_sense_labels([x for v in slinks.values() for x in v])
     return render_template('omw_sense.html',
                            s_id = sID,
                            sense = sense,
+                           slinks = slinks,
+                           srel = srel,
                            forms=forms,
                            langs = langs_id,
                            pos = pos,
                            labels = labels,
+                           slabel = slabel,
                            src_sid = src_sid,
                            src_meta = src_meta)
 
@@ -758,6 +771,25 @@ def utility_processor():
         else:
             return 100
     return dict(scale_freq=scale_freq)
+
+# def style_sense(freq, conf, lang):
+#     """show confidence as opacity, show freq as size
+
+#     opacity is the square of the confidence
+#     freq is scaled as a % of maxfreq for that language
+#     TODO: highlight a word if searched for?"""
+#     style = ''
+#     if conf and conf < 1.0: ## should not be more than 1.0
+#         style += 'opacity: {f};'.format(conf*conf) ## degrade quicker
+#     if freq:
+#         ### should I be using a log here?
+#         maxfreq=1000 #(should do per lang)
+#         style += 'font-size: {f}%;'.format(100*(1+ log(freq)/log(maxfreq)))
+#     if style:
+#         style = "style='{}'".format(style)
+
+
+
 
 
 

@@ -27,6 +27,9 @@
   </pre>
 <br>Please attribute the data properly!</p>
 {% endif %}  
+{% if src_info.filename %}
+<p>The uploaded file is <a href='/omw/uploads/{{src_info.filename}}'>&lt;{{src_info.filename}}&gt;</a>.</p>
+{% endif %} 
 
 <table style="width:auto;overflow-x:auto;">
   <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
