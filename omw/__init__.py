@@ -547,6 +547,8 @@ def search_omw(lang=None, q=None):
         lang_id = request.form['lang']
         lang_id2 = request.form['lang2']
         query = request.form['query']
+        query = query.strip()
+        
     sense = dd(list)
     lang_sense = dd(lambda: dd(list))
 
@@ -558,7 +560,9 @@ def search_omw(lang=None, q=None):
                     FROM f WHERE lemma GLOB ? AND lang_id in (?,?)) as form
               JOIN wf_link ON form.id = wf_link.f_id) word
         JOIN s ON wid=w_id
-        """, [query,lang_id,lang_id2]):
+        """, ['['+query[0].upper() + query[0].lower()+']'+query[1:],
+              lang_id,
+              lang_id2]):
 
 
         sense[s['ss_id']] = [s['s_id'], s['wid'], s['fid'],

@@ -5,13 +5,16 @@
 ###
 import sys, sqlite3
 
-# It takes one argument: the name of the db
-if (len(sys.argv) < 2):
-    sys.stderr.write('You need to give the name of the DB\n')
+# It takes three arguments: the db filename, the TSV file of core
+# synsets, and the TSV file of ILI mappings
+if (len(sys.argv) < 4):
+    sys.stderr.write('usage: load-core.py DBFILE CORESYNSETS ILIMAP\n')
     sys.exit(1)
 else:
     uname =  sys.argv[0]
     dbfile = sys.argv[1]
+    corefile = sys.argv[2]
+    ilimapfile = sys.argv[3]
 
 con = sqlite3.connect(dbfile)
 c = con.cursor()
@@ -20,7 +23,7 @@ c = con.cursor()
 ################################################################
 # GET core data
 ################################################################
-f = open('wn30-core-synsets.tab', 'r')
+f = open(corefile, 'r')
 core = set()
 icore=set()
 for line in f:
@@ -32,7 +35,7 @@ for line in f:
 ################################################################
 # GET PWN3.0-ILI ORIGINAL MAPPING
 ################################################################
-f = open('ili-map.tab', 'r')
+f = open(ilimapfile, 'r')
 ili_map = dict()
 ili2ss=dict()
 for line in f:
@@ -45,7 +48,7 @@ for line in f:
         #ili_map[pwn_ss.replace('-s', '-a')] = ili_id
         ili2ss[int(ili_id)] = pwn_ss.replace('-s', '-a')
         #print(ili_id, pwn_ss.replace('-s', '-a'),  pwn_ss.replace('-s', '-a') in core)
-     
+
 ################################################################
 # Enter core data
 ################################################################
@@ -59,7 +62,7 @@ for (ss_id, ili_id) in c:
     if ili_id in ili2ss and ili2ss[ili_id] in core:
         values.append((ss_id, ili_id, ili2ss[ili_id]))
         #print(ss_id, ili_id, ili2ss[ili_id])
-        
+
 c.execute('select id from resource where code = ?', (rname,))
 r = c.fetchone()
 if r:

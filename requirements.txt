@@ -1,0 +1,6 @@
+iso-639
+requests
+lxml
+nltk
+flask
+flask-login==0.3.2

@@ -197,13 +197,25 @@
       {% if vr['lexicon'][lexicon]['synsets_ss_def_lang_lbl'] == False %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
 	Some synsets provided a definition language code that was not recognized.</p>
-      <p>{{ vr['lexicon'][lexicon]['synsets_ss_def_lang_lbl_val'] }}</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ss_def_lang_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ss_def_empty_lbl'] == False %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	Some synsets provided a definition that was empty.</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ss_def_empty_lbl_val'] }}</p>
       {% endif %}
 
       {% if vr['lexicon'][lexicon]['synsets_ss_ex_lang_lbl'] == False %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
 	Some synsets provided an example language code that was not recognized.</p>
-      <p>{{ vr['lexicon'][lexicon]['synsets_ss_ex_lang_lbl_val'] }}</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ss_ex_lang_lbl_val'] }}</p>
+      {% endif %}
+
+      {% if vr['lexicon'][lexicon]['synsets_ss_ex_empty_lbl'] == False %}
+      <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	Some synsets provided an example that was empty.</p>
+      <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['synsets_ss_ex_empty_lbl_val'] }}</p>
       {% endif %}
 
 
