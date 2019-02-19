@@ -1,0 +1,1536 @@
+holo_substance	figure	05217168-n	person	00007846-n	85	6909	odwn
+holo_substance	personality	04617562-n	person	00007846-n	14	6909	odwn
+holo_substance	location	00027167-n	space	00028651-n	992	24	odwn
+holo_substance	man's body	05220306-n	man	10287213-n	0	749	odwn
+holo_substance	eye	05311054-n	head	05538625-n	263	208	odwn
+holo_substance	year	15203791-n	decade	15204983-n	432	25	odwn
+holo_substance	eye	05311054-n	face	05600637-n	263	193	odwn
+holo_substance	face	05600637-n	head	05538625-n	193	208	odwn
+holo_substance	night	15167027-n	day	15155220-n	167	172	odwn
+holo_substance	head	05538625-n	body	05216365-n	208	114	odwn
+holo_substance	hand	05564590-n	arm	05563770-n	215	104	odwn
+holo_substance	head	05538625-n	animal	00015388-n	208	87	odwn
+holo_substance	hour	15227846-n	day	15155220-n	118	172	odwn
+holo_substance	lid	05313822-n	eye	05311054-n	7	263	odwn
+holo_substance	hand	05564590-n	man	02472293-n	215	55	odwn
+holo_substance	finger	05566504-n	hand	05564590-n	53	215	odwn
+holo_substance	orb	05316025-n	eye	05311054-n	3	263	odwn
+holo_substance	area	08497294-n	ground	09334396-n	149	116	odwn
+holo_substance	retina	05426989-n	eye	05311054-n	1	263	odwn
+holo_substance	uveoscleral pathway	05318137-n	eye	05311054-n	0	263	odwn
+holo_substance	uvea	05317960-n	eye	05311054-n	0	263	odwn
+holo_substance	third eyelid	05314639-n	eye	05311054-n	0	263	odwn
+holo_substance	sclera	05447218-n	eye	05311054-n	0	263	odwn
+holo_substance	pupillary sphincter	05572940-n	eye	05311054-n	0	263	odwn
+holo_substance	lens of the eye	05320362-n	eye	05311054-n	0	263	odwn
+holo_substance	lacrimal vein	05372428-n	eye	05311054-n	0	263	odwn
+holo_substance	lacrimal artery	05349659-n	eye	05311054-n	0	263	odwn
+holo_substance	lacrimal apparatus	05405554-n	eye	05311054-n	0	263	odwn
+holo_substance	iris	05319936-n	eye	05311054-n	0	263	odwn
+holo_substance	eye muscle	05316175-n	eye	05311054-n	0	263	odwn
+holo_substance	eye	05311054-n	visual system	05300926-n	263	0	odwn
+holo_substance	epicanthus	05314255-n	eye	05311054-n	0	263	odwn
+holo_substance	cornea	05317354-n	eye	05311054-n	0	263	odwn
+holo_substance	conjunctiva	05315095-n	eye	05311054-n	0	263	odwn
+holo_substance	ciliary body	05313344-n	eye	05311054-n	0	263	odwn
+holo_substance	ciliary artery	05342214-n	eye	05311054-n	0	263	odwn
+holo_substance	choroid	05313115-n	eye	05311054-n	0	263	odwn
+holo_substance	canthus	05314075-n	eye	05311054-n	0	263	odwn
+holo_substance	arteria centralis retinae	05340599-n	eye	05311054-n	0	263	odwn
+holo_substance	aperture	09201031-n	eye	05311054-n	0	263	odwn
+is_exemplified_by	intensifier	06321054-n	so	00146594-r	0	322	pwn
+is_exemplified_by	colloquialism	07075172-n	eye	05311054-n	0	263	pwn
+is_exemplified_by	plural form	06295235-n	people	07942152-n	0	257	pwn
+is_exemplified_by	colloquialism	07075172-n	entirely	00008007-r	0	137	pwn
+is_exemplified_by	comparative degree	06322693-n	more	01555133-a	0	134	pwn
+is_exemplified_by	colloquialism	07075172-n	certainly	00144722-r	0	96	pwn
+is_exemplified_by	superlative	06693870-n	best	00227507-a	1	94	pwn
+is_exemplified_by	archaism	07073447-n	away	00232936-r	0	86	pwn
+is_exemplified_by	combining form	06307152-n	well	00011093-r	0	85	pwn
+is_exemplified_by	colloquialism	07075172-n	slowly	00161630-r	0	80	pwn
+is_exemplified_by	superlative	06693870-n	most	01557120-a	1	76	pwn
+is_exemplified_by	colloquialism	07075172-n	obviously	00039318-r	0	72	pwn
+is_exemplified_by	comparative degree	06322693-n	better	00230335-a	0	69	pwn
+is_exemplified_by	comparative degree	06322693-n	more	01556355-a	0	67	pwn
+is_exemplified_by	intensifier	06321054-n	most	00112009-r	0	63	pwn
+is_exemplified_by	dialect	07155661-n	forward	00074641-r	7	53	pwn
+is_exemplified_by	colloquialism	07075172-n	at least	00104661-r	0	60	pwn
+is_exemplified_by	plural form	06295235-n	steps	04298171-n	0	42	pwn
+is_exemplified_by	intensifier	06321054-n	just	00246296-r	0	42	pwn
+is_exemplified_by	comparative degree	06322693-n	less	01555416-a	0	39	pwn
+is_exemplified_by	colloquialism	07075172-n	easily	00147876-r	0	36	pwn
+is_exemplified_by	combining form	06307152-n	fully	00010466-r	0	32	pwn
+is_exemplified_by	vulgarism	07124340-n	bastard	09815188-n	0	31	pwn
+is_exemplified_by	colloquialism	07075172-n	somewhere	00025559-r	0	31	pwn
+is_exemplified_by	plural form	06295235-n	services	00585174-n	0	29	pwn
+is_exemplified_by	intensifier	06321054-n	such	00147386-r	0	28	pwn
+is_exemplified_by	superlative	06693870-n	most	01555732-a	1	26	pwn
+is_exemplified_by	plural form	06295235-n	order	07168623-n	0	26	pwn
+is_exemplified_by	combining form	06307152-n	filled	01084644-s	0	26	pwn
+is_exemplified_by	colloquialism	07075172-n	everywhere	00025728-r	0	25	pwn
+is_exemplified_by	archaism	07073447-n	stay	02637202-v	0	25	pwn
+is_exemplified_by	comparative degree	06322693-n	better	00231761-a	0	23	pwn
+is_exemplified_by	colloquialism	07075172-n	Rebel	10628368-n	0	22	pwn
+is_exemplified_by	colloquialism	07075172-n	cop	09879144-n	0	20	pwn
+is_exemplified_by	colloquialism	07075172-n	all right	02081114-s	0	18	pwn
+is_exemplified_by	wit	06776138-n	roaster	10534389-n	17	0	pwn
+is_exemplified_by	wit	06776138-n	libation	07885937-n	17	0	pwn
+is_exemplified_by	disparagement	06717170-n	nigger	09638009-n	1	16	pwn
+is_exemplified_by	colloquialism	07075172-n	terribly	00054950-r	0	17	pwn
+is_exemplified_by	colloquialism	07075172-n	comfortable	00476819-a	0	17	pwn
+entails	look	02130524-v	see	02129289-v	274	613	pwn
+entails	live	02614387-v	be	02603699-v	51	801	pwn
+entails	reach	02020590-v	go	01835496-v	141	487	pwn
+entails	include	02632940-v	have	02630189-v	234	393	pwn
+entails	watch	02128653-v	see	02129289-v	13	613	pwn
+entails	see double	02132579-v	see	02129289-v	0	613	pwn
+entails	miss	02022659-v	go	01835496-v	5	487	pwn
+entails	steer	01935104-v	go	01835496-v	3	487	pwn
+entails	succeed	02524171-v	try	02530167-v	28	425	pwn
+entails	bring	02077656-v	come	01849221-v	154	283	pwn
+entails	supplement	02342132-v	provide	02327200-v	10	352	pwn
+entails	watch	02150510-v	look	02130524-v	77	274	pwn
+entails	get	01433294-v	come	01849221-v	67	283	pwn
+entails	immigrate	00413432-v	come	02005948-v	0	345	pwn
+entails	listen	02169891-v	hear	02169702-v	60	275	pwn
+entails	have	02108026-v	perceive	02106506-v	286	27	pwn
+entails	buy	02207206-v	choose	00674607-v	136	168	pwn
+entails	bring	01434140-v	come	01849221-v	4	283	pwn
+entails	examine	02131279-v	look	02130524-v	11	274	pwn
+entails	survey	02150328-v	look	02130524-v	5	274	pwn
+entails	buy	02207206-v	pay	02251743-v	136	138	pwn
+entails	stand	01546111-v	stand up	01983264-v	171	66	pwn
+entails	walk	01904930-v	step	01928838-v	184	23	pwn
+entails	cast	01710481-v	do	01712704-v	2	198	pwn
+entails	stumble	01900408-v	walk	01904930-v	11	184	pwn
+entails	zigzag	01991744-v	turn	01907258-v	2	187	pwn
+entails	wind up	01522052-v	turn	01907258-v	0	187	pwn
+entails	sit	01543123-v	sit down	01984902-v	135	48	pwn
+entails	sell	02242464-v	give	02199590-v	73	96	pwn
+entails	leave	00360092-v	die	00358431-v	5	156	pwn
+entails	carry away	01434278-v	leave	02009433-v	11	149	pwn
+entails	leave behind	02081578-v	leave	02009433-v	5	149	pwn
+entails	emigrate	00416135-v	leave	02009433-v	2	149	pwn
+entails	trade	02260362-v	buy	02207206-v	7	136	pwn
+entails	shop	02325968-v	buy	02207206-v	7	136	pwn
+entails	fight	01090335-v	compete	01072262-v	114	29	pwn
+entails	decide	00697589-v	debate	00812580-v	142	1	pwn
+entails	save	02266920-v	buy	02207206-v	4	136	pwn
+entails	check out	02363742-v	buy	02207206-v	0	136	pwn
+entails	enjoy	01820302-v	like	01777210-v	61	73	pwn
+domain_region	inch	13649791-n	United States	09044862-n	52	121	pwn
+domain_region	Athabascan	06907728-n	United States	09044862-n	14	121	pwn
+domain_region	Yank	10802283-n	United States	09044862-n	13	121	pwn
+domain_region	dollar	13395897-n	United States	09044862-n	12	121	pwn
+domain_region	North	09052314-n	United States	09044862-n	5	121	pwn
+domain_region	joint resolution	06512324-n	United States	09044862-n	4	121	pwn
+domain_region	billion	02199342-s	United States	09044862-n	4	121	pwn
+domain_region	inaugural	07240077-n	United States	09044862-n	1	121	pwn
+domain_region	federal department	08122141-n	United States	09044862-n	1	121	pwn
+domain_region	combination in restraint of trade	07964809-n	United States	09044862-n	1	121	pwn
+domain_region	State Department	08122009-n	United States	09044862-n	1	121	pwn
+domain_region	water spaniel	02102605-n	United States	09044862-n	0	121	pwn
+domain_region	trust busting	01126335-n	United States	09044862-n	0	121	pwn
+domain_region	trillion	02199699-s	United States	09044862-n	0	121	pwn
+domain_region	trapezoid	13881512-n	United States	09044862-n	0	121	pwn
+domain_region	trapezium	13881381-n	United States	09044862-n	0	121	pwn
+domain_region	totem	04458409-n	United States	09044862-n	0	121	pwn
+domain_region	teacake	07634751-n	United States	09044862-n	0	121	pwn
+domain_region	tart	07623933-n	United States	09044862-n	0	121	pwn
+domain_region	staffer	10644598-n	United States	09044862-n	0	121	pwn
+domain_region	southernism	06195698-n	United States	09044862-n	0	121	pwn
+domain_region	snake dance	00542841-n	United States	09044862-n	0	121	pwn
+domain_region	slave market	04234969-n	United States	09044862-n	0	121	pwn
+domain_region	shamanism	06245084-n	United States	09044862-n	0	121	pwn
+domain_region	sextillion	13753430-n	United States	09044862-n	0	121	pwn
+domain_region	septillion	13753585-n	United States	09044862-n	0	121	pwn
+domain_region	schnoz	05598707-n	United States	09044862-n	0	121	pwn
+domain_region	recall	01258719-n	United States	09044862-n	0	121	pwn
+domain_region	reallotment	01084180-n	United States	09044862-n	0	121	pwn
+domain_region	quintillion	13753274-n	United States	09044862-n	0	121	pwn
+domain_region	quadrillion	13752911-n	United States	09044862-n	0	121	pwn
+domain_region	pineapple weed	11995396-n	United States	09044862-n	0	121	pwn
+domain_region	partridge	07647496-n	United States	09044862-n	0	121	pwn
+domain_region	paleface	09639719-n	United States	09044862-n	0	121	pwn
+domain_region	old man	10375690-n	United States	09044862-n	0	121	pwn
+domain_region	octillion	13753740-n	United States	09044862-n	0	121	pwn
+domain_region	nation	08303692-n	United States	09044862-n	0	121	pwn
+domain_region	multiple voting	00184802-n	United States	09044862-n	0	121	pwn
+domain_region	mestiza	10311661-n	United States	09044862-n	0	121	pwn
+domain_region	marine	02888000-a	United States	09044862-n	0	121	pwn
+attribute	otherness	04742766-n	other	02069355-a	0	483	pwn
+attribute	other	02069355-a	otherness	04742766-n	483	0	pwn
+attribute	small	01391351-a	size	05098942-n	376	70	pwn
+attribute	size	05098942-n	small	01391351-a	70	376	pwn
+attribute	new	01640850-a	age	04924103-n	310	75	pwn
+attribute	age	04924103-n	new	01640850-a	75	310	pwn
+attribute	numerosity	05121908-n	many	01551633-a	0	347	pwn
+attribute	many	01551633-a	numerosity	05121908-n	347	0	pwn
+attribute	size	05098942-n	large	01382086-a	70	246	pwn
+attribute	large	01382086-a	size	05098942-n	246	70	pwn
+attribute	quality	04723816-n	good	01123148-a	42	190	pwn
+attribute	good	01123148-a	quality	04723816-n	190	42	pwn
+attribute	level	05093890-n	high	01210854-a	94	134	pwn
+attribute	high	01210854-a	level	05093890-n	134	94	pwn
+attribute	important	01275562-a	importance	05168261-n	146	50	pwn
+attribute	importance	05168261-n	important	01275562-a	50	146	pwn
+attribute	old	01643620-a	age	04924103-n	108	75	pwn
+attribute	age	04924103-n	old	01643620-a	75	108	pwn
+attribute	young	01646941-a	age	04924103-n	107	75	pwn
+attribute	age	04924103-n	young	01646941-a	75	107	pwn
+attribute	old	01638438-a	age	04924103-n	95	75	pwn
+attribute	age	04924103-n	old	01638438-a	75	95	pwn
+attribute	different	02064745-a	difference	04748836-n	88	73	pwn
+attribute	difference	04748836-n	different	02064745-a	73	88	pwn
+attribute	possible	01821266-a	possibility	14481929-n	136	18	pwn
+attribute	possibility	14481929-n	possible	01821266-a	18	136	pwn
+attribute	low	01212469-a	level	05093890-n	55	94	pwn
+attribute	level	05093890-n	low	01212469-a	94	55	pwn
+attribute	long	01433493-a	length	05129201-n	105	38	pwn
+attribute	length	05129201-n	long	01433493-a	38	105	pwn
+attribute	temperature	05011790-n	hot	01247240-a	91	50	pwn
+attribute	hot	01247240-a	temperature	05011790-n	50	91	pwn
+attribute	whole	00514884-a	unity	14460565-n	109	22	pwn
+attribute	unity	14460565-n	whole	00514884-a	22	109	pwn
+attribute	temperature	05011790-n	cold	01251128-a	91	35	pwn
+attribute	cold	01251128-a	temperature	05011790-n	35	91	pwn
+attribute	long	01437963-a	length	05051249-n	118	7	pwn
+attribute	length	05051249-n	long	01437963-a	7	118	pwn
+attribute	single	00493460-a	individualism	04763293-n	112	10	pwn
+attribute	individualism	04763293-n	single	00493460-a	10	112	pwn
+other	dead	00095280-a	person	00007846-n	72	6909	plwn
+other	person	00007846-n	man	02472293-n	6909	55	plwn
+other	man	02472293-n	person	00007846-n	55	6909	plwn
+other	serious	02118379-a	person	00007846-n	29	6909	plwn
+other	previous	01729819-s	person	00007846-n	21	6909	plwn
+other	wise	02569130-a	person	00007846-n	13	6909	plwn
+other	stupid	00439588-a	person	00007846-n	10	6909	plwn
+other	experienced	00935500-a	person	00007846-n	10	6909	plwn
+other	ungainly	01140896-s	person	00007846-n	8	6909	plwn
+other	indolent	00294579-s	person	00007846-n	6	6909	plwn
+other	valuable	02587738-s	person	00007846-n	5	6909	plwn
+other	ambitious	00104051-a	person	00007846-n	5	6909	plwn
+other	kind	01372049-a	person	00007846-n	4	6909	plwn
+other	suspicious	02464277-s	person	00007846-n	3	6909	plwn
+other	obedient	01612053-a	person	00007846-n	3	6909	plwn
+other	indifferent	00546452-s	person	00007846-n	3	6909	plwn
+other	ignorant	00831225-s	person	00007846-n	3	6909	plwn
+other	callous	02107162-s	person	00007846-n	3	6909	plwn
+other	spiteful	00225099-s	person	00007846-n	2	6909	plwn
+other	searching	00879918-s	person	00007846-n	2	6909	plwn
+other	rude	00641944-s	person	00007846-n	2	6909	plwn
+other	inhumane	01262611-a	person	00007846-n	2	6909	plwn
+other	hefty	02321809-s	person	00007846-n	2	6909	plwn
+other	hardworking	00754682-s	person	00007846-n	2	6909	plwn
+other	deep in thought	02419159-s	person	00007846-n	2	6909	plwn
+other	cynical	02463582-s	person	00007846-n	2	6909	plwn
+other	constant	00583239-a	person	00007846-n	2	6909	plwn
+other	cautious	00325281-a	person	00007846-n	2	6909	plwn
+other	wicked	02037531-s	person	00007846-n	1	6909	plwn
+other	ungrateful	01147044-a	person	00007846-n	1	6909	plwn
+other	superstitious	01927061-s	person	00007846-n	1	6909	plwn
+other	self-reliant	00728225-s	person	00007846-n	1	6909	plwn
+other	resolute	01989669-a	person	00007846-n	1	6909	plwn
+other	remorseful	01743506-s	person	00007846-n	1	6909	plwn
+other	pleasant	01586866-s	person	00007846-n	1	6909	plwn
+other	overprotective	01888450-s	person	00007846-n	1	6909	plwn
+other	neurotic	01583040-a	person	00007846-n	1	6909	plwn
+other	nearsighted	02157226-a	person	00007846-n	1	6909	plwn
+other	helpless	00726317-s	person	00007846-n	1	6909	plwn
+other	employed	00863946-a	person	00007846-n	1	6909	plwn
+also	separate	02109678-a	other	02069355-a	20	483	pwn
+also	other	02069355-a	separate	02109678-a	483	20	pwn
+also	some	02267308-a	many	01551633-a	130	347	pwn
+also	many	01551633-a	some	02267308-a	347	130	pwn
+also	young	01646941-a	new	01640850-a	107	310	pwn
+also	more	01556355-a	many	01551633-a	67	347	pwn
+also	many	01551633-a	more	01556355-a	347	67	pwn
+also	new	01640850-a	modern	01535709-a	310	57	pwn
+also	modern	01535709-a	new	01640850-a	57	310	pwn
+also	new	01640850-a	current	00666058-a	310	17	pwn
+also	current	00666058-a	new	01640850-a	17	310	pwn
+also	new	01640850-a	fresh	01067694-a	310	16	pwn
+also	fresh	01067694-a	new	01640850-a	16	310	pwn
+also	tall	02385102-a	large	01382086-a	73	246	pwn
+also	first	01010862-a	early	00812952-a	232	79	pwn
+also	early	00812952-a	first	01010862-a	79	232	pwn
+also	good	01123148-a	best	00227507-a	190	94	pwn
+also	best	00227507-a	good	01123148-a	94	190	pwn
+also	considerable	00624026-a	large	01382086-a	32	246	pwn
+also	much	01553629-a	more	01555133-a	137	134	pwn
+also	more	01555133-a	much	01553629-a	134	137	pwn
+also	good	01123148-a	better	00230335-a	190	69	pwn
+also	front	00198147-a	first	01010862-a	17	232	pwn
+also	first	01010862-a	front	00198147-a	232	17	pwn
+also	primary	01852174-a	first	01010862-a	16	232	pwn
+also	first	01010862-a	primary	01852174-a	232	16	pwn
+also	original	01686439-a	first	01010862-a	5	232	pwn
+also	first	01010862-a	original	01686439-a	232	5	pwn
+also	some	02267308-a	few	01552885-a	130	80	pwn
+also	few	01552885-a	some	02267308-a	80	130	pwn
+also	good	01129977-a	good	01123148-a	12	190	pwn
+also	good	01123148-a	good	01129977-a	190	12	pwn
+also	more	01556355-a	more	01555133-a	67	134	pwn
+also	respectable	01993140-a	good	01123148-a	5	190	pwn
+also	good	01123148-a	respectable	01993140-a	190	5	pwn
+also	possible	01821266-a	likely	01411451-a	136	58	pwn
+also	likely	01411451-a	possible	01821266-a	58	136	pwn
+also	good	01123148-a	favorable	00995775-a	190	4	pwn
+also	favorable	00995775-a	good	01123148-a	4	190	pwn
+also	obedient	01612053-a	good	01123148-a	3	190	pwn
+result	knowledge	00023271-n	find	02154508-v	45	261	odwn
+result	viewpoint	06210363-n	consider	00690614-v	34	207	odwn
+result	program	05898568-n	design	01638368-v	169	50	odwn
+result	structure	04341686-n	build	01654628-v	25	156	odwn
+result	work	04599396-n	make	01621555-v	76	90	odwn
+result	paneling	03882611-n	build	01654628-v	3	156	odwn
+result	carpentry	00607775-n	build	01654628-v	3	156	odwn
+result	knowledge	00023271-n	study	00644583-v	45	113	odwn
+result	description	06724763-n	report	00965035-v	27	116	odwn
+result	knowledge	00023271-n	learn	00597915-v	45	90	odwn
+result	trail	04466613-n	use	00947128-n	4	106	odwn
+result	wire	04594218-n	make	01621555-v	15	90	odwn
+result	product	04007894-n	produce	01752495-v	31	70	odwn
+result	film	06613686-n	take	01002740-v	76	25	odwn
+result	experience	05758059-n	experience	05984584-n	52	48	odwn
+result	storage medium	06263762-n	write	00993014-v	0	94	odwn
+result	knowledge	00023271-n	set	00699815-v	45	47	odwn
+result	knowledge	00023271-n	research	00636921-n	45	46	odwn
+result	knowledge	00023271-n	show	02137132-v	45	43	odwn
+result	proclamation	06726158-n	announce	00974367-v	10	75	odwn
+result	utterance	07109847-n	express	00943837-v	1	83	odwn
+result	outlook	05944958-n	wait	00720063-v	13	71	odwn
+result	film	06613686-n	film	01711965-v	76	0	odwn
+result	amount	00033615-n	measure	00647094-v	40	35	odwn
+result	knowledge	00023271-n	perceive	02106506-v	45	27	odwn
+result	knowledge	00023271-n	communication	06252138-n	45	27	odwn
+result	knowledge	00023271-n	decision	00162632-n	45	25	odwn
+result	product	04007894-n	production	00912960-n	31	36	odwn
+result	representation	05926676-n	design	01638368-v	10	50	odwn
+result	profits	13258362-n	earn	02289295-v	16	40	odwn
+result	language	06282651-n	competence	05153520-n	48	7	odwn
+result	vegetation	08436759-n	growth	13489037-n	2	52	odwn
+result	structure	04341686-n	assemble	01656788-v	25	29	odwn
+result	picture	03876519-n	paint	01684899-v	37	17	odwn
+result	opinion	05945642-n	influence	02536557-v	33	19	odwn
+result	picture	03876519-n	paint	01684663-v	37	11	odwn
+result	book	06410904-n	bind	01335804-v	46	0	odwn
+result	opinion	05945642-n	conversion	07415730-n	33	12	odwn
+result	knowledge	00023271-n	making known	07212190-n	45	0	odwn
+result	knowledge	00023271-n	come out	00935141-v	45	0	odwn
+mero_substance	water	14845743-n	oxygen	14648100-n	136	42	odwn,pwn
+mero_substance	water	09225146-n	water	14845743-n	42	136	odwn,pwn
+mero_substance	ice	14915184-n	water	14845743-n	22	136	odwn,pwn
+mero_substance	sweat	05405751-n	water	14845743-n	16	136	odwn,pwn
+mero_substance	earth	14842992-n	ground	09334396-n	27	116	odwn
+mero_substance	water	14845743-n	hydrogen	14640434-n	136	6	odwn,pwn
+mero_substance	tear	05405324-n	water	14845743-n	6	136	odwn,pwn
+mero_substance	land	09335240-n	ground	09334396-n	21	116	odwn
+mero_substance	snowflake	11509066-n	water	14845743-n	0	136	odwn,pwn
+mero_substance	poudrin	11509377-n	water	14845743-n	0	136	odwn,pwn
+mero_substance	wife	10780632-n	widow	10780284-n	120	4	plwn
+mero_substance	tree	13104059-n	sapwood	13097536-n	107	0	odwn,pwn
+mero_substance	tree	13104059-n	duramen	13097752-n	107	0	odwn,pwn
+mero_substance	road	04096066-n	pavement	03900750-n	96	2	odwn,pwn
+mero_substance	dacite	14726823-n	road	04096066-n	0	96	plwn
+mero_substance	blood	05399847-n	serum	05403149-n	61	34	odwn,pwn
+mero_substance	street	04334599-n	pavement	03900750-n	86	2	odwn,pwn
+mero_substance	animal	00015388-n	animal tissue	05267548-n	87	0	odwn,pwn
+mero_substance	air	14841267-n	oxygen	14648100-n	42	42	odwn,pwn
+mero_substance	money	13384557-n	fortune	13370938-n	77	3	plwn
+mero_substance	cine-film	03789400-n	film	06613686-n	0	76	plwn
+mero_substance	wind	11525955-n	air	14841267-n	28	42	odwn,pwn
+mero_substance	husband	10193967-n	widower	10780506-n	68	1	plwn
+mero_substance	lock	05257737-n	hair	05254795-n	2	59	plwn
+mero_substance	hair	05254795-n	ceratin	14732472-n	59	0	odwn,pwn
+mero_substance	organism	00004475-n	tissue	05267345-n	15	37	odwn,pwn
+mero_substance	air	14841267-n	atmosphere	08499057-n	42	8	plwn
+mero_substance	air	14841267-n	argon	14628920-n	42	7	odwn,pwn
+mero_substance	air	14841267-n	bubble	09229709-n	42	6	plwn
+mero_substance	coffee	07929519-n	coffee bean	07929351-n	47	0	odwn,pwn
+mero_substance	coffee	07929519-n	caffein	14761122-n	47	0	odwn,pwn
+mero_substance	air	14841267-n	nitrogen	14647235-n	42	5	odwn,pwn
+mero_substance	ozone	14972807-n	oxygen	14648100-n	3	42	odwn,pwn
+mero_substance	muscle	05289297-n	muscle	05289057-n	43	2	odwn
+mero_substance	milk	07844042-n	protein	14728724-n	20	23	odwn,pwn
+mero_substance	air	14841267-n	xenon	14661274-n	42	1	odwn,pwn
+mero_substance	solar prominence	11510411-n	sun	09450163-n	0	42	plwn
+mero_substance	air	14841267-n	Ne	14646152-n	42	0	odwn,pwn
+mero_substance	air	14841267-n	Kr	14642916-n	42	0	odwn,pwn
+mero_substance	cloth	03309808-n	weft	04598965-n	41	0	odwn,pwn
+hyponym	be	02604760-v	seem	02133435-v	10742	854	odwn,pwn
+hyponym	be	02604760-v	remain	00117985-v	10742	173	odwn,pwn
+hyponym	be	02604760-v	need	01188725-v	10742	119	odwn,pwn
+hyponym	be	02604760-v	seem	02134672-v	10742	98	odwn,pwn
+hyponym	be	02604760-v	prove	02633881-v	10742	90	odwn,pwn
+hyponym	be	02604760-v	tend	02719399-v	10742	71	odwn,pwn
+hyponym	be	02604760-v	remain	02727462-v	10742	60	odwn,pwn
+hyponym	be	02604760-v	stand	02611373-v	10742	53	odwn,pwn
+hyponym	be	02604760-v	range	02727039-v	10742	41	odwn,pwn
+hyponym	be	02604760-v	feel	00105958-v	10742	39	odwn,pwn
+hyponym	be	02604760-v	stand	02734488-v	10742	38	odwn,pwn
+hyponym	be	02604760-v	deserve	02646378-v	10742	35	odwn,pwn
+hyponym	be	02604760-v	cost	02702508-v	10742	35	odwn,pwn
+hyponym	be	02604760-v	remain	02637592-v	10742	34	odwn,pwn
+hyponym	be	02604760-v	matter	02645839-v	10742	29	odwn,pwn
+hyponym	be	02604760-v	total	02645007-v	10742	27	odwn,pwn
+hyponym	be	02604760-v	look	00033599-v	10742	25	odwn,pwn
+hyponym	be	02604760-v	define	02611630-v	10742	24	odwn,pwn
+hyponym	be	02604760-v	account for	02635033-v	10742	24	odwn,pwn
+hyponym	be	02604760-v	rest	01545883-v	10742	20	odwn,pwn
+hyponym	be	02604760-v	go	02721284-v	10742	20	odwn,pwn
+hyponym	be	02604760-v	enter	02722207-v	10742	16	odwn,pwn
+hyponym	be	02604760-v	represent	02541921-v	10742	14	odwn,pwn
+hyponym	be	02604760-v	measure	02704349-v	10742	14	odwn,pwn
+hyponym	be	02604760-v	lie	02734338-v	10742	14	odwn,pwn
+hyponym	be	02604760-v	hang around	02639075-v	10742	13	odwn,pwn
+hyponym	be	02604760-v	sell	02727883-v	10742	12	odwn,pwn
+hyponym	be	02604760-v	compare	02729632-v	10742	12	odwn,pwn
+hyponym	be	02604760-v	run into	02730326-v	10742	10	odwn,pwn
+hyponym	be	02604760-v	end	02735418-v	10742	10	odwn,pwn
+hyponym	be	02604760-v	depend	02664234-v	10742	10	odwn,pwn
+hyponym	be	02604760-v	belong	02301680-v	10742	10	odwn,pwn
+hyponym	be	02604760-v	make sense	02619612-v	10742	9	odwn,pwn
+hyponym	be	02604760-v	underlie	02664575-v	10742	8	odwn,pwn
+hyponym	be	02604760-v	fall	02729963-v	10742	8	odwn,pwn
+hyponym	be	02604760-v	confuse	00621734-v	10742	8	odwn,pwn
+hyponym	be	02604760-v	comprise	02633356-v	10742	8	odwn,pwn
+hyponym	be	02604760-v	come	02743214-v	10742	8	odwn,pwn
+hyponym	be	02604760-v	go	02618001-v	10742	7	odwn,pwn
+hyponym	be	02604760-v	suffer	00065070-v	10742	4	odwn,pwn
+holonym	idea	05833840-n	knowledge	00023271-n	221	45	odwn
+holonym	industry	08065234-n	industry	00923444-n	56	17	odwn
+holonym	England	08871007-n	Europe	09275473-n	39	28	odwn
+holonym	standing army	08394423-n	army	08191230-n	0	64	odwn
+holonym	blood cell	05449268-n	blood	05399847-n	0	61	odwn
+holonym	principle	05872477-n	theory	05989479-n	7	49	odwn
+holonym	linguistic unit	06284225-n	language	06282651-n	1	48	odwn
+holonym	paragraph	06399995-n	newspaper	06267145-n	5	43	odwn
+holonym	matter	05814291-n	table of contents	06489659-n	45	0	odwn
+holonym	oxygen	14648100-n	saccharide	14792703-n	42	0	odwn
+holonym	oxygen	14648100-n	phosphoric acid	14982907-n	42	0	odwn
+holonym	oxygen	14648100-n	oxide	14971519-n	42	0	odwn
+holonym	Germany	08766988-n	Europe	09275473-n	11	28	odwn
+holonym	France	08929922-n	Europe	09275473-n	10	28	odwn
+holonym	Sweden	08765890-n	Europe	09275473-n	9	28	odwn
+holonym	property	13244109-n	possession	00032613-n	30	6	odwn
+holonym	doctrine	05943300-n	catechism	06412771-n	34	0	odwn
+holonym	The Netherlands	08949093-n	Europe	09275473-n	3	28	odwn
+holonym	metal	14625458-n	salt	15010703-n	21	9	odwn
+holonym	Portugal	08984788-n	Europe	09275473-n	1	28	odwn
+holonym	metal	14625458-n	iodide	14922371-n	21	7	odwn
+holonym	Grand Duchy of Luxembourg	08960987-n	Europe	09275473-n	0	28	odwn
+holonym	iodine	14641397-n	iodide	14922371-n	17	7	odwn
+holonym	verse	06384708-n	lyric	07051975-n	1	22	odwn
+holonym	funds	13356112-n	nondepository financial institution	08419984-n	19	0	odwn
+holonym	tent	04411264-n	encampment	08518171-n	17	1	odwn
+holonym	hub	03547658-n	wheel	04574999-n	2	12	odwn
+holonym	drygoods	03252064-n	curtain	03151077-n	3	11	odwn
+holonym	principle	05872477-n	ideology	06212839-n	7	4	odwn
+holonym	phosphate	14982265-n	phosphoric acid	14982907-n	10	0	odwn
+holonym	wave	07345593-n	electromagnetism	11479368-n	7	0	odwn
+holonym	standing army	08394423-n	armed forces	08199025-n	0	7	odwn
+holonym	dyestuff	14985383-n	paint	03875218-n	0	7	odwn
+holonym	hydrogen	14640434-n	saccharide	14792703-n	6	0	odwn
+holonym	hydrogen	14640434-n	phosphoric acid	14982907-n	6	0	odwn
+holonym	carbon	14633206-n	saccharide	14792703-n	6	0	odwn
+holonym	carbon	14633206-n	calcium carbide	14789087-n	6	0	odwn
+holonym	base	03387016-n	nail enamel	03805725-n	6	0	odwn
+holonym	base	03387016-n	greasepaint	03456447-n	6	0	odwn
+holonym	base	03387016-n	cosmetic	03113152-n	6	0	odwn
+eq_synonym	use	01158872-v	take into account	00723545-v	705	15	odwn
+eq_synonym	take into account	00723545-v	use	01158872-v	15	705	odwn
+eq_synonym	work	02413480-v	happen	00339934-v	74	319	odwn
+eq_synonym	happen	00339934-v	work	02413480-v	319	74	odwn
+eq_synonym	result	02634265-v	cause	01645601-v	52	223	odwn
+eq_synonym	cause	01645601-v	result	02634265-v	223	52	odwn
+eq_synonym	country	08168978-n	area	08497294-n	125	149	odwn
+eq_synonym	area	08497294-n	country	08168978-n	149	125	odwn
+eq_synonym	purpose	05982152-n	program	05898568-n	103	169	odwn
+eq_synonym	program	05898568-n	purpose	05982152-n	169	103	odwn
+eq_synonym	process	01023820-n	course	08377085-n	104	22	odwn
+eq_synonym	course	08377085-n	process	01023820-n	22	104	odwn
+eq_synonym	room	04105893-n	chamber	03003730-n	116	6	odwn
+eq_synonym	chamber	03003730-n	room	04105893-n	6	116	odwn
+eq_synonym	process	01023820-n	procedure	00577068-n	104	17	odwn
+eq_synonym	procedure	00577068-n	process	01023820-n	17	104	odwn
+eq_synonym	express	00943837-v	express	00940384-v	83	38	odwn
+eq_synonym	express	00940384-v	express	00943837-v	38	83	odwn
+eq_synonym	reflect	00630380-v	consider	02166460-v	48	66	odwn
+eq_synonym	consider	02166460-v	reflect	00630380-v	66	48	odwn
+eq_synonym	end	02609764-v	end	00352826-v	70	37	odwn
+eq_synonym	end	00352826-v	end	02609764-v	37	70	odwn
+eq_synonym	road	04096066-n	course	03119790-n	96	0	odwn
+eq_synonym	course	03119790-n	road	04096066-n	0	96	odwn
+eq_synonym	work	02413480-v	occupy	02415831-v	74	9	odwn
+eq_synonym	occupy	02415831-v	work	02413480-v	9	74	odwn
+eq_synonym	intend	00708538-v	direct	01150559-v	61	20	odwn
+eq_synonym	direct	01150559-v	intend	00708538-v	20	61	odwn
+eq_synonym	tend	02719399-v	gravitate	02732148-v	71	0	odwn
+eq_synonym	shot	00122661-n	fire	00986938-n	45	26	odwn
+eq_synonym	gravitate	02732148-v	tend	02719399-v	0	71	odwn
+eq_synonym	fire	00986938-n	shot	00122661-n	26	45	odwn
+eq_synonym	ship	04194289-n	boat	02858304-n	49	14	odwn
+eq_synonym	boat	02858304-n	ship	04194289-n	14	49	odwn
+eq_synonym	instrument	03574816-n	device	03183080-n	23	36	odwn
+eq_synonym	device	03183080-n	instrument	03574816-n	36	23	odwn
+eq_synonym	resemble	02665282-v	match	02657219-v	24	33	odwn
+eq_synonym	match	02657219-v	resemble	02665282-v	33	24	odwn
+eq_synonym	tool	04451818-n	device	03183080-n	15	36	odwn
+eq_synonym	device	03183080-n	tool	04451818-n	36	15	odwn
+target_direction	vehicle	04524313-n	enter	02016523-v	9	210	odwn
+target_direction	place	08664443-n	shove	01584701-v	100	5	odwn
+target_direction	place	08664443-n	slide	02090990-v	100	3	odwn
+target_direction	table	04379243-n	serve	01180351-v	25	22	odwn
+target_direction	cuspidor	04281260-n	spit	00101956-v	0	11	odwn
+target_direction	vehicle	04524313-n	get in	02015384-v	9	1	odwn
+target_direction	floor	09282208-n	knock down	01239862-v	2	7	odwn
+target_direction	wicket	04582869-n	cricket	01076017-v	0	0	odwn
+holo_location	United States	09044862-n	Washington	09070793-n	121	27	plwn
+holo_location	United States	09044862-n	American	06947479-n	121	2	odwn
+holo_location	hormone	05407119-n	body	05216365-n	6	114	odwn
+holo_location	belt	02827606-n	body	05216365-n	4	114	odwn
+holo_location	shoulder strap	04333500-n	body	05216365-n	0	114	odwn
+holo_location	body	05216365-n	cavum	05303402-n	114	0	plwn
+holo_location	home	08559508-n	kitchen	03619890-n	61	43	plwn
+holo_location	pheasant	01803078-n	woods	08438533-n	2	89	odwn
+holo_location	forest	09284015-n	woods	08438533-n	2	89	odwn
+holo_location	animal	00015388-n	pet shop	03920641-n	87	0	odwn
+holo_location	Earth	09270894-n	epicenter	08578032-n	82	3	plwn
+holo_location	money	13384557-n	cashbox	02976939-n	77	0	odwn
+holo_location	meteor	09353109-n	world	09466280-n	6	63	odwn
+holo_location	neck	05546540-n	throat	05547508-n	34	34	plwn
+holo_location	New York	09117351-n	New York	09119277-n	16	52	plwn
+holo_location	home	08559508-n	bathroom	02807731-n	61	6	plwn
+holo_location	heavenly body	09239740-n	world	09466280-n	2	63	odwn
+holo_location	home	08559508-n	pantry	03885535-n	61	1	plwn
+holo_location	parish	08615001-n	church	03028079-n	0	59	plwn
+holo_location	church	03028079-n	confessional	03090172-n	59	0	plwn
+holo_location	English	06947032-n	England	08871007-n	20	39	odwn
+holo_location	product	03748886-n	fair	08408557-n	56	0	odwn
+holo_location	cloth	03309808-n	curtain	03151077-n	41	11	odwn
+holo_location	England	08871007-n	London	08873622-n	39	13	plwn
+holo_location	ship	04194289-n	wardroom	04550676-n	49	1	plwn
+holo_location	restaurant	04081281-n	kitchen	03619890-n	7	43	plwn
+holo_location	ship	04194289-n	ship's galley	03412220-n	49	0	plwn
+holo_location	ship	04194289-n	limbers	03669367-n	49	0	plwn
+holo_location	ship	04194289-n	head	03501520-n	49	0	plwn
+holo_location	ship	04194289-n	fo'c'sle	03382104-n	49	0	plwn
+holo_location	ship	04194289-n	cargo area	02964634-n	49	0	plwn
+holo_location	ship	04194289-n	bridge deck	02899257-n	49	0	plwn
+holo_location	mouth	05302499-n	salivary gland	05532944-n	49	0	plwn
+holo_location	book	06410904-n	bookshop	02871525-n	46	0	odwn
+holo_location	cell	00006484-n	plasmid	09395266-n	44	0	plwn
+holo_location	floor covering	03366823-n	floor	03365592-n	1	39	odwn
+holo_location	England	08871007-n	Oxford	08877807-n	39	1	plwn
+holo_location	England	08871007-n	Manchester	08876975-n	39	1	plwn
+holo_location	England	08871007-n	Liverpool	08877382-n	39	1	plwn
+holo_location	police	08209687-n	police headquarters	03977678-n	36	3	odwn
+antonym	lack	02632353-v	be	02655135-v	35	901	odwn
+antonym	be	02655135-v	lack	02632353-v	901	35	odwn
+antonym	woman	10787470-n	man	10287213-n	143	749	odwn
+antonym	man	10287213-n	woman	10787470-n	749	143	odwn
+antonym	end	02609764-v	begin	00345761-v	70	558	odwn
+antonym	begin	00345761-v	end	02609764-v	558	70	odwn
+antonym	continue	02679899-v	begin	00345761-v	51	558	odwn
+antonym	begin	00345761-v	continue	02679899-v	558	51	odwn
+antonym	continue	00118523-v	begin	00345761-v	0	558	odwn
+antonym	begin	00345761-v	continue	00118523-v	558	0	odwn
+antonym	keep	02681795-v	change	00126264-v	326	83	odwn
+antonym	change	00126264-v	keep	02681795-v	83	326	odwn
+antonym	lose	02287789-v	find	02154508-v	123	261	odwn
+antonym	find	02154508-v	lose	02287789-v	261	123	odwn
+antonym	lose	02287618-v	find	02154508-v	6	261	odwn
+antonym	find	02154508-v	lose	02287618-v	261	6	odwn
+antonym	tell	00952524-v	hush	00461354-v	189	2	odwn
+antonym	hush	00461354-v	tell	00952524-v	2	189	odwn
+antonym	live	02614181-v	die	00358431-v	15	156	odwn
+antonym	die	00358431-v	live	02614181-v	156	15	odwn
+antonym	think of	00609683-v	forget	00610167-v	106	61	odwn
+antonym	forget	00610167-v	think of	00609683-v	61	106	odwn
+antonym	nothing	13740168-n	entity	00001740-n	148	11	odwn
+antonym	entity	00001740-n	nothing	13740168-n	11	148	odwn
+antonym	sea	09426788-n	ground	09334396-n	37	116	odwn
+antonym	ground	09334396-n	sea	09426788-n	116	37	odwn
+antonym	enter	01720660-v	leave	02009433-v	2	149	odwn
+antonym	push	01871979-v	pull	01448100-v	69	58	odwn
+antonym	pull	01448100-v	push	01871979-v	58	69	odwn
+antonym	give	02199590-v	clutch	01212572-v	96	29	odwn
+antonym	clutch	01212572-v	give	02199590-v	29	96	odwn
+antonym	surrender	01115585-v	fight	01090335-v	7	114	odwn
+antonym	increase	00156601-v	decrease	00151689-v	86	31	odwn
+antonym	decrease	00151689-v	increase	00156601-v	31	86	odwn
+antonym	understand	00588888-v	escape	02723232-v	110	3	odwn
+antonym	escape	02723232-v	understand	00588888-v	3	110	odwn
+antonym	prevent	02450505-v	leave	02721438-v	62	30	odwn
+antonym	leave	02721438-v	prevent	02450505-v	30	62	odwn
+antonym	decrease	00151689-v	increase	00153263-v	31	61	odwn
+antonym	recommend	00875141-v	notify	00873682-v	70	21	odwn
+patient	opinion	05945642-n	think	00689344-v	33	358	odwn
+patient	tone	04987620-n	keep	02681795-v	19	326	odwn
+patient	pitch	04985198-n	keep	02681795-v	5	326	odwn
+patient	eye	05311054-n	blink	00007739-v	263	12	odwn
+patient	possession	00032613-n	have	02204692-v	6	202	odwn
+patient	amount	13331198-n	pay	02251743-v	54	138	odwn
+patient	choice	05790242-n	choose	00674607-v	13	168	odwn
+patient	program	05898568-n	planning	00928371-n	169	4	odwn
+patient	net	03819994-n	bring	02077656-v	2	154	odwn
+patient	building material	14786479-n	build	01654628-v	0	156	odwn
+patient	prize	13268146-n	receive	02210119-v	14	129	odwn
+patient	water	14845743-n	edema	14316714-n	136	2	odwn
+patient	ground	09334396-n	management	01133281-n	116	22	odwn
+patient	water	14845743-n	waterspout	11524324-n	136	0	odwn
+patient	product	03748886-n	sell	02242464-v	56	73	odwn
+patient	hair	05254795-n	lift	01974062-v	59	65	odwn
+patient	representation	05926676-n	think	00628491-v	10	112	odwn
+patient	body	05216365-n	squeeze	01447868-v	114	6	odwn
+patient	film	06613686-n	show	02137132-v	76	43	odwn
+patient	body	05216365-n	release	00104868-v	114	5	odwn
+patient	body	05216365-n	bathe	00035603-v	114	5	odwn
+patient	shoe	04199027-n	wear	00052374-v	27	91	odwn
+patient	body	05216365-n	injection	00322634-n	114	4	odwn
+patient	reading	06598030-n	read	00625119-v	2	115	odwn
+patient	data	08462320-n	record	01000214-v	76	41	odwn
+patient	body	05216365-n	handstand	00436187-n	114	3	odwn
+patient	institution	08053576-n	establish	02427103-v	30	86	odwn
+patient	body	05216365-n	hemiplegia	14559644-n	114	0	odwn
+patient	body	05216365-n	bathe	00037919-v	114	0	odwn
+patient	tree	13104059-n	chop down	01257507-v	107	1	odwn
+patient	tree	13104059-n	abscission	00392709-n	107	0	odwn
+patient	chessman	03014440-n	remove	00173338-v	0	107	odwn
+patient	question	06783768-n	result	06743506-n	50	54	odwn
+patient	horse	02374451-n	canker sore	14212759-n	103	0	odwn
+patient	road	04096066-n	pave	01267098-v	96	0	odwn
+patient	foot	05563266-n	gout	14188804-n	89	1	odwn
+patient	woods	08438533-n	forest fire	07303839-n	89	0	odwn
+patient	foot	05563266-n	pernio	14183522-n	89	0	odwn
+patient	amount	13331198-n	cost	02702508-v	54	35	odwn
+patient	opinion	05945642-n	change	00109660-v	33	54	odwn
+state_of	small	01391351-a	runt	10543544-n	376	0	plwn
+state_of	old	01643620-a	old man	10375506-n	108	39	plwn
+state_of	necessary	01580050-a	need	14449126-n	81	57	plwn
+state_of	young	01646941-a	young man	10804287-n	107	14	plwn
+state_of	young	01646941-a	youth	07944050-n	107	10	plwn
+state_of	American	02927512-a	Americanism	00413554-n	117	0	plwn
+state_of	great	01386883-s	giant	09488711-n	114	0	plwn
+state_of	dead	00095280-a	decedent	09994943-n	72	4	plwn
+state_of	red	00381097-s	red light	06874497-n	50	0	plwn
+state_of	dark	00273082-a	darkroom	03162460-n	49	0	plwn
+state_of	new	01687167-s	original	05938400-n	45	2	plwn
+state_of	tremendous	01385255-s	giant	09488711-n	36	0	plwn
+state_of	stupid	00439588-a	fool	10100761-n	10	25	plwn
+state_of	famous	01375831-s	celebrity	09903153-n	30	1	plwn
+state_of	poor	01050890-s	unfortunate	09630641-n	24	1	plwn
+state_of	teen	01647983-s	teenager	09772029-n	10	13	plwn
+state_of	probable	01412134-s	possibility	05951180-n	2	21	plwn
+state_of	enjoyable	01801029-s	pleasure	07490713-n	1	21	plwn
+state_of	mad	02075321-s	looney	09976283-n	21	0	plwn
+state_of	thin	00988232-a	thin person	10708797-n	20	0	plwn
+state_of	perfect	01749320-a	ideal	10325243-n	17	3	plwn
+state_of	little	01649031-s	bambino	10714465-n	20	0	plwn
+state_of	wise	02569130-a	wise guy	10784113-n	13	2	plwn
+state_of	new	00937186-s	newcomer	10355449-n	11	4	plwn
+state_of	amateur	01869634-s	amateur	09786585-n	4	11	plwn
+state_of	wise	02569130-a	sage	10546202-n	13	1	plwn
+state_of	sick	02541302-a	sufferer	10595647-n	12	2	plwn
+state_of	professional	01868724-a	pro	10480583-n	12	2	plwn
+state_of	stupid	00439588-a	dullard	10667187-n	10	2	plwn
+state_of	poor	02022953-a	have-not	10453357-n	12	0	plwn
+state_of	new	00937186-s	beginner	10363913-n	11	1	plwn
+state_of	insane	02074092-a	looney	09976283-n	11	0	plwn
+state_of	inexpert	01870636-s	amateur	09786585-n	0	11	plwn
+state_of	guilty	01320988-a	culprit	10417168-n	10	1	plwn
+state_of	sweet	02368336-a	confectionery	07596967-n	9	0	plwn
+state_of	sweet	02368336-a	confection	07596684-n	9	0	plwn
+state_of	disabled	01019283-s	invalid	10214230-n	8	1	plwn
+state_of	authentic	01115635-s	original	05938400-n	7	2	plwn
+state_of	ungainly	01140896-s	clumsy person	09931267-n	8	0	plwn
+state_of	transverse	01445917-s	crossbar	03135656-n	8	0	plwn
+agent	person	00007846-n	trot	00287561-n	6909	0	odwn
+agent	user	10741590-n	use	01158872-v	3	705	odwn
+agent	spectator	10633450-n	see	02129289-v	17	613	odwn
+agent	man	10582746-n	expedition	00968479-n	348	4	odwn
+agent	face	05600637-n	look	04679738-n	193	70	odwn
+agent	assistant	09815790-n	help	02547586-v	11	240	odwn
+agent	helper	09608709-n	help	02547586-v	1	240	odwn
+agent	owner	10388924-n	have	02204692-v	26	202	odwn
+agent	discoverer	10090498-n	hear	00598954-v	0	196	odwn
+agent	author	10794014-n	write	00993014-v	74	94	odwn
+agent	woman	10787470-n	bear	00056930-v	143	22	odwn
+agent	employee	10053808-n	work	00575741-n	57	90	odwn
+agent	teacher	10694258-n	teach	00829107-v	46	97	odwn
+agent	investigator	10523076-n	study	00644583-v	11	113	odwn
+agent	employee	10053808-n	work	02410855-v	57	63	odwn
+agent	worker	09632518-n	work	00575741-n	29	90	odwn
+agent	body	05216365-n	reflex	00863513-n	114	5	odwn
+agent	illiterate person	10199103-n	read	00625119-v	0	115	odwn
+agent	employer	10054657-n	job	00582388-n	14	99	plwn
+agent	horseman	10185793-n	horse	02374451-n	6	103	plwn
+agent	source	10205985-n	information	06634376-n	4	102	plwn
+agent	horse	02374451-n	gallop	00288671-n	103	2	odwn
+agent	employer	10054657-n	work	00575741-n	14	90	odwn
+agent	horse wrangler	10186216-n	horse	02374451-n	0	103	plwn
+agent	horse	02374451-n	trot	00287561-n	103	0	odwn
+agent	equerry	10062594-n	horse	02374451-n	0	103	plwn
+agent	professional	10480253-n	job	00582388-n	3	99	odwn
+agent	writer	10801291-n	write	00993014-v	5	94	odwn
+agent	school teacher	10560352-n	teach	00829107-v	1	97	odwn
+agent	employee	10053808-n	earn	02289295-v	57	40	odwn
+agent	illiterate person	10199103-n	write	00993014-v	0	94	odwn
+agent	worker	09632518-n	work	02410855-v	29	63	odwn
+agent	player	10439851-n	play	01072949-v	20	70	odwn
+agent	author	10794014-n	write	01031966-v	74	10	odwn
+agent	globetrotter	10132775-n	Earth	09270894-n	0	82	plwn
+agent	farmer	10078806-n	farm	03322099-n	29	49	plwn
+agent	voter	10760340-n	election	00181781-n	8	67	plwn
+agent	vendor	10577284-n	sell	02242464-v	2	73	odwn
+agent	carbineer	09893746-n	rifle	04090263-n	0	75	plwn
+agent	lawyer	10249950-n	law	08441203-n	23	50	plwn
+location	place	08664443-n	put	01494310-v	100	328	odwn
+location	place	08664443-n	move	01831531-v	100	52	odwn
+location	seats	04162998-n	sit	01543123-v	0	135	odwn
+location	place	08664443-n	movement	00331950-n	100	31	odwn
+location	body	05216365-n	bloodstream	05401951-n	114	3	odwn
+location	body	05216365-n	obesity	05000342-n	114	0	odwn
+location	store	04202417-n	sell	02242464-v	34	73	odwn
+location	church	03028079-n	church	01032368-n	59	11	odwn
+location	business	08061042-n	trade	01091905-n	52	16	odwn
+location	home	03259505-n	house	02459173-v	61	4	odwn
+location	church	03028079-n	service	01032040-n	59	5	odwn
+location	store	04202417-n	trade	01091905-n	34	16	odwn
+location	bookshop	02871525-n	book	06410904-n	0	46	plwn
+location	water	09225146-n	dive	01962865-v	42	1	odwn
+location	water	09225146-n	dive	01962671-v	42	0	odwn
+location	tooth	05282746-n	toothache	14323974-n	38	0	odwn
+location	pulpit	03159640-n	honor	02546075-v	4	30	odwn
+location	habitat	08580583-n	life	13961642-n	2	30	odwn
+location	aviary	02763604-n	bird	01503061-n	1	29	plwn
+location	hospital	03540595-n	obstetrical delivery	00042541-n	26	0	odwn
+location	docking facility	03216828-n	repair	00260648-v	0	26	odwn
+location	coach house	03055857-n	wagon	04543158-n	0	24	plwn
+location	sketch pad	04227370-n	sketch	04227144-n	1	17	plwn
+location	beer hall	02823848-n	beer	07886849-n	0	18	plwn
+location	mountain	09359803-n	mountaineer	01922895-v	17	0	odwn
+location	fair	08408557-n	trade	01091905-n	0	16	odwn
+location	belly	05556943-n	gastralgia	14327266-n	15	0	odwn
+location	saddlery	04124488-n	saddle	04123740-n	0	14	plwn
+location	liquid	14940386-n	flood	01524523-v	6	7	odwn
+location	housing	03546340-n	house	02459173-v	6	4	odwn
+location	winery	04592465-n	wine	07891726-n	0	9	plwn
+location	wine bar	04591631-n	wine	07891726-n	0	9	plwn
+location	bell tower	02826886-n	bell	02824448-n	0	9	plwn
+location	powder store	03704038-n	powder	15016314-n	0	8	plwn
+location	powder horn	03994614-n	powder	15016314-n	0	8	plwn
+location	pottery	03992888-n	potter	10460806-n	0	7	plwn
+location	pigpen	04346428-n	pig	02395406-n	0	7	plwn
+location	checkroom	03011892-n	luggage	02774630-n	0	7	plwn
+location	brickyard	02898478-n	brick	02897820-n	0	7	plwn
+location	Laundromat	03647872-n	wash	01535246-v	0	7	odwn
+subevent	study	00644583-v	read	00625119-v	113	115	odwn
+subevent	study	00644583-v	think	00628491-v	113	112	odwn
+subevent	talk	00962447-v	listen	02169891-v	161	60	odwn
+subevent	write	00993014-v	write	01698271-v	94	119	odwn
+subevent	sell	02242464-v	receive	02210119-v	73	129	odwn
+subevent	job	00582388-n	work	00575741-n	99	90	odwn
+subevent	play	01072949-v	remove	00173338-v	70	107	odwn
+subevent	night	15167027-n	midnight	15168185-n	167	7	odwn
+subevent	study	00644583-v	test	02531625-v	113	57	odwn
+subevent	sell	02242464-v	give	02199590-v	73	96	odwn
+subevent	night	15167027-n	small hours	15168369-n	167	0	odwn
+subevent	night	15167027-n	late-night hour	15168080-n	167	0	odwn
+subevent	set	00699815-v	think	00628491-v	47	112	odwn
+subevent	research	00636921-n	think	00628491-v	46	112	odwn
+subevent	communication	06252138-n	receive	02210119-v	27	129	odwn
+subevent	teach	00829107-v	inform	00831651-v	97	46	odwn
+subevent	play	01072949-v	win	01100145-v	70	71	odwn
+subevent	study	00644583-v	perceive	02106506-v	113	27	odwn
+subevent	study	00644583-v	regard	02133185-v	113	19	odwn
+subevent	fight	01090335-v	assault	01120069-v	114	17	odwn
+subevent	write	01031966-v	write	01698271-v	10	119	odwn
+subevent	work	00575741-n	act	02367363-v	90	38	odwn
+subevent	sell	02242464-v	win	02288295-v	73	55	odwn
+subevent	fight	01090335-v	resist	01116585-v	114	14	odwn
+subevent	supervision	01135529-n	report	00965035-v	6	116	odwn
+subevent	surveillance	00652466-n	report	00965035-v	2	116	odwn
+subevent	communication	06252138-n	send	01951480-v	27	84	odwn
+subevent	work	00575741-n	perform	02374764-v	90	19	odwn
+subevent	exchange	02257370-v	give	02199590-v	13	96	odwn
+subevent	research	00636921-n	experiment	00639556-n	46	62	odwn
+subevent	write	00993014-v	use up	01157517-v	94	9	odwn
+subevent	law practice	00632104-n	action	00037396-n	0	94	odwn
+subevent	develop	00252019-v	learn	00597915-v	4	90	odwn
+subevent	push	01871979-v	hit	01400044-v	69	18	odwn
+subevent	play	01072949-v	lose	01099592-v	70	17	odwn
+subevent	whisper	00915830-v	listen	02169891-v	22	60	odwn
+subevent	head	02440244-v	design	01638368-v	32	50	odwn
+subevent	consider	02166460-v	doubt	00687295-v	66	16	odwn
+subevent	trade	02260362-v	sell	02242464-v	7	73	odwn
+subevent	maintain	02280132-v	spread	01378556-v	51	29	odwn
+hypernym	seem	02133435-v	be	02604760-v	854	10742	odwn,pwn
+hypernym	remain	00117985-v	be	02604760-v	173	10742	odwn,pwn
+hypernym	need	01188725-v	be	02604760-v	119	10742	odwn,pwn
+hypernym	seem	02134672-v	be	02604760-v	98	10742	odwn,pwn
+hypernym	prove	02633881-v	be	02604760-v	90	10742	odwn,pwn
+hypernym	tend	02719399-v	be	02604760-v	71	10742	odwn,pwn
+hypernym	remain	02727462-v	be	02604760-v	60	10742	odwn,pwn
+hypernym	stand	02611373-v	be	02604760-v	53	10742	odwn,pwn
+hypernym	range	02727039-v	be	02604760-v	41	10742	odwn,pwn
+hypernym	feel	00105958-v	be	02604760-v	39	10742	odwn,pwn
+hypernym	stand	02734488-v	be	02604760-v	38	10742	odwn,pwn
+hypernym	deserve	02646378-v	be	02604760-v	35	10742	odwn,pwn
+hypernym	cost	02702508-v	be	02604760-v	35	10742	odwn,pwn
+hypernym	remain	02637592-v	be	02604760-v	34	10742	odwn,pwn
+hypernym	matter	02645839-v	be	02604760-v	29	10742	odwn,pwn
+hypernym	total	02645007-v	be	02604760-v	27	10742	odwn,pwn
+hypernym	look	00033599-v	be	02604760-v	25	10742	odwn,pwn
+hypernym	define	02611630-v	be	02604760-v	24	10742	odwn,pwn
+hypernym	account for	02635033-v	be	02604760-v	24	10742	odwn,pwn
+hypernym	rest	01545883-v	be	02604760-v	20	10742	odwn,pwn
+hypernym	go	02721284-v	be	02604760-v	20	10742	odwn,pwn
+hypernym	enter	02722207-v	be	02604760-v	16	10742	odwn,pwn
+hypernym	represent	02541921-v	be	02604760-v	14	10742	odwn,pwn
+hypernym	measure	02704349-v	be	02604760-v	14	10742	odwn,pwn
+hypernym	lie	02734338-v	be	02604760-v	14	10742	odwn,pwn
+hypernym	hang around	02639075-v	be	02604760-v	13	10742	odwn,pwn
+hypernym	sell	02727883-v	be	02604760-v	12	10742	odwn,pwn
+hypernym	compare	02729632-v	be	02604760-v	12	10742	odwn,pwn
+hypernym	run into	02730326-v	be	02604760-v	10	10742	odwn,pwn
+hypernym	end	02735418-v	be	02604760-v	10	10742	odwn,pwn
+hypernym	depend	02664234-v	be	02604760-v	10	10742	odwn,pwn
+hypernym	belong	02301680-v	be	02604760-v	10	10742	odwn,pwn
+hypernym	make sense	02619612-v	be	02604760-v	9	10742	odwn,pwn
+hypernym	underlie	02664575-v	be	02604760-v	8	10742	odwn,pwn
+hypernym	fall	02729963-v	be	02604760-v	8	10742	odwn,pwn
+hypernym	confuse	00621734-v	be	02604760-v	8	10742	odwn,pwn
+hypernym	comprise	02633356-v	be	02604760-v	8	10742	odwn,pwn
+hypernym	come	02743214-v	be	02604760-v	8	10742	odwn,pwn
+hypernym	go	02618001-v	be	02604760-v	7	10742	odwn,pwn
+hypernym	suffer	00065070-v	be	02604760-v	4	10742	odwn,pwn
+mero_portion	water	14845743-n	water	09225146-n	136	42	odwn
+mero_portion	period	15113229-n	time	00028270-n	105	36	plwn
+mero_portion	money	13384557-n	amount	13331198-n	77	54	odwn
+mero_portion	year	08238660-n	school	08276720-n	1	125	plwn
+mero_portion	moment	15246853-n	time	00028270-n	88	36	plwn
+mero_portion	money	13384557-n	money	13250542-n	77	15	odwn
+mero_portion	blood pressure	11429968-n	blood	05399847-n	2	61	plwn
+mero_portion	blood	05399847-n	bloodstain	04695605-n	61	0	odwn
+mero_portion	paper	14974264-n	leaf	13152742-n	30	26	odwn
+mero_portion	money	13384877-n	amount	13331198-n	0	54	odwn
+mero_portion	paper	14974264-n	sheet	06255777-n	30	17	odwn
+mero_portion	stone	14696793-n	stone	09416076-n	14	30	odwn
+mero_portion	cloth	03309808-n	fold	13907415-n	41	3	odwn
+mero_portion	dg	13723470-n	gram	13723712-n	0	42	plwn
+mero_portion	piece of cloth	03932670-n	cloth	03309808-n	0	41	plwn
+mero_portion	roof	04105068-n	roof peak	04105791-n	34	0	odwn
+mero_portion	paper	06255613-n	leaf	13152742-n	4	26	odwn
+mero_portion	board	15101854-n	flat solid	04188643-n	27	0	odwn
+mero_portion	sweat	05405751-n	drop	13771404-n	16	9	odwn
+mero_portion	main course	07579575-n	dinner	07575726-n	0	25	plwn
+mero_portion	drink	07885223-n	drink	07881800-n	20	5	plwn
+mero_portion	drink	07881800-n	drink	07885223-n	5	20	odwn
+mero_portion	sheet metal	04189482-n	metal	14625458-n	2	21	plwn
+mero_portion	ice	14915184-n	icicle	14915928-n	22	1	odwn
+mero_portion	ice	14915184-n	ice cream	07614500-n	22	1	odwn
+mero_portion	paper	06255613-n	sheet	06255777-n	4	17	odwn
+mero_portion	shift	08218393-n	staff	08439955-n	0	17	plwn
+mero_portion	polygon	13866144-n	plane	13861050-n	0	16	plwn
+mero_portion	money	13384877-n	money	13250542-n	0	15	odwn
+mero_portion	liquid	14940386-n	drop	13771404-n	6	9	odwn
+mero_portion	straw	14959939-n	straw	14805899-n	10	2	odwn
+mero_portion	crop	13085864-n	vegetation	08436759-n	10	2	odwn
+mero_portion	skin	05238282-n	plica	05492259-n	11	0	odwn
+mero_portion	liquid	14940386-n	liquid	14940100-n	6	4	odwn
+mero_portion	greeting	06630017-n	greeting	06630017-n	5	5	plwn
+mero_portion	drink	07881800-n	swallow	07579276-n	5	3	odwn
+mero_portion	matter	00020827-n	dab	13761171-n	7	0	odwn
+mero_portion	coin	13388245-n	tail	04384199-n	7	0	odwn
+mero_portion	sugar	07859284-n	dab	00125436-n	5	1	odwn
+mero_portion	pool	08665101-n	liquid	14940386-n	0	6	odwn
+has_domain_topic	armed forces	08199025-n	man	10582746-n	7	348	pwn
+has_domain_topic	animal	00015388-n	body	05216365-n	87	114	pwn
+has_domain_topic	man	02472293-n	body	05216365-n	55	114	pwn
+has_domain_topic	commerce	01090446-n	buy	02207206-v	11	136	pwn
+has_domain_topic	writing	00929718-n	write	01698271-v	10	119	pwn
+has_domain_topic	church	01032368-n	attend	02612762-v	11	115	pwn
+has_domain_topic	religion	05946687-n	Christian	02952275-a	87	36	pwn
+has_domain_topic	government	01124794-n	government	08050678-n	7	112	pwn
+has_domain_topic	law	08441203-n	show	01015244-v	50	68	pwn
+has_domain_topic	war	00973077-n	war	13981403-n	87	27	pwn
+has_domain_topic	religion	05946687-n	Protestant	02952622-a	87	27	pwn
+has_domain_topic	war	00973077-n	side	08408709-n	87	25	pwn
+has_domain_topic	armed forces	08199025-n	battle	00953559-n	7	104	pwn
+has_domain_topic	living thing	00004258-n	young	01646941-a	1	107	pwn
+has_domain_topic	law	08441203-n	file	01001857-v	50	56	pwn
+has_domain_topic	animal	00015388-n	side	05551318-n	87	18	pwn
+has_domain_topic	religion	05946687-n	Devil	09543353-n	87	14	pwn
+has_domain_topic	film	06613686-n	take	01002740-v	76	25	pwn
+has_domain_topic	linguistics	06172789-n	form	06290637-n	2	96	pwn
+has_domain_topic	river	09411430-n	water	09225146-n	55	42	pwn
+has_domain_topic	religion	05946687-n	believe	00684273-v	87	10	pwn
+has_domain_topic	religion	05946687-n	Anglican	02954459-a	87	8	pwn
+has_domain_topic	music	07020895-n	section	06392001-n	51	43	pwn
+has_domain_topic	armed forces	08199025-n	war	00973077-n	7	87	pwn
+has_domain_topic	religion	05946687-n	demythologization	06769032-n	87	6	pwn
+has_domain_topic	religion	05946687-n	brother	09876892-n	87	6	pwn
+has_domain_topic	car	02958343-n	passenger	10403876-n	89	4	pwn
+has_domain_topic	armed forces	08199025-n	officer	10317007-n	7	86	pwn
+has_domain_topic	animal	00015388-n	microorganism	01326291-n	87	5	pwn
+has_domain_topic	animal	00015388-n	grown	01488616-s	87	5	pwn
+has_domain_topic	animal	00015388-n	trap	04474466-n	87	4	pwn
+has_domain_topic	religion	05946687-n	persecution	00420477-n	87	3	pwn
+has_domain_topic	religion	05946687-n	Orthodox	02953420-a	87	3	pwn
+has_domain_topic	car	02958343-n	tunnel	04497962-n	89	1	pwn
+has_domain_topic	car	02958343-n	showroom	04209811-n	89	1	pwn
+has_domain_topic	animal	00015388-n	free-swimming	00160288-s	87	3	pwn
+has_domain_topic	religion	05946687-n	worship	01778990-v	87	2	pwn
+has_domain_topic	car	02958343-n	spark lever	04269086-n	89	0	pwn
+has_domain_topic	car	02958343-n	road map	04097256-n	89	0	pwn
+has_domain_topic	car	02958343-n	renting	01111375-n	89	0	pwn
+domain_topic	man	10582746-n	armed forces	08199025-n	348	7	pwn
+domain_topic	body	05216365-n	animal	00015388-n	114	87	pwn
+domain_topic	body	05216365-n	man	02472293-n	114	55	pwn
+domain_topic	buy	02207206-v	commerce	01090446-n	136	11	pwn
+domain_topic	write	01698271-v	writing	00929718-n	119	10	pwn
+domain_topic	attend	02612762-v	church	01032368-n	115	11	pwn
+domain_topic	Christian	02952275-a	religion	05946687-n	36	87	pwn
+domain_topic	government	08050678-n	government	01124794-n	112	7	pwn
+domain_topic	show	01015244-v	law	08441203-n	68	50	pwn
+domain_topic	war	13981403-n	war	00973077-n	27	87	pwn
+domain_topic	Protestant	02952622-a	religion	05946687-n	27	87	pwn
+domain_topic	side	08408709-n	war	00973077-n	25	87	pwn
+domain_topic	battle	00953559-n	armed forces	08199025-n	104	7	pwn
+domain_topic	young	01646941-a	living thing	00004258-n	107	1	pwn
+domain_topic	file	01001857-v	law	08441203-n	56	50	pwn
+domain_topic	side	05551318-n	animal	00015388-n	18	87	pwn
+domain_topic	take	01002740-v	film	06613686-n	25	76	pwn
+domain_topic	Devil	09543353-n	religion	05946687-n	14	87	pwn
+domain_topic	form	06290637-n	linguistics	06172789-n	96	2	pwn
+domain_topic	water	09225146-n	river	09411430-n	42	55	pwn
+domain_topic	believe	00684273-v	religion	05946687-n	10	87	pwn
+domain_topic	Anglican	02954459-a	religion	05946687-n	8	87	pwn
+domain_topic	war	00973077-n	armed forces	08199025-n	87	7	pwn
+domain_topic	section	06392001-n	music	07020895-n	43	51	pwn
+domain_topic	passenger	10403876-n	car	02958343-n	4	89	pwn
+domain_topic	officer	10317007-n	armed forces	08199025-n	86	7	pwn
+domain_topic	demythologization	06769032-n	religion	05946687-n	6	87	pwn
+domain_topic	brother	09876892-n	religion	05946687-n	6	87	pwn
+domain_topic	microorganism	01326291-n	animal	00015388-n	5	87	pwn
+domain_topic	grown	01488616-s	animal	00015388-n	5	87	pwn
+domain_topic	trap	04474466-n	animal	00015388-n	4	87	pwn
+domain_topic	tunnel	04497962-n	car	02958343-n	1	89	pwn
+domain_topic	showroom	04209811-n	car	02958343-n	1	89	pwn
+domain_topic	persecution	00420477-n	religion	05946687-n	3	87	pwn
+domain_topic	free-swimming	00160288-s	animal	00015388-n	3	87	pwn
+domain_topic	Orthodox	02953420-a	religion	05946687-n	3	87	pwn
+domain_topic	worship	01778990-v	religion	05946687-n	2	87	pwn
+domain_topic	spark lever	04269086-n	car	02958343-n	0	89	pwn
+domain_topic	road map	04097256-n	car	02958343-n	0	89	pwn
+domain_topic	renting	01111375-n	car	02958343-n	0	89	pwn
+mero_member	people	07942152-n	person	00007846-n	257	6909	odwn,pwn
+mero_member	crowd	08182379-n	person	00007846-n	35	6909	odwn
+mero_member	person	00007846-n	camp	08240633-n	6909	4	odwn
+mero_member	force	08198398-n	man	10582746-n	14	348	odwn,pwn
+mero_member	humans	02472987-n	people	07942152-n	0	257	odwn,pwn
+mero_member	use	00947128-n	use	00947128-n	106	106	plwn
+mero_member	woods	08438533-n	tree	13104059-n	89	107	odwn,pwn
+mero_member	tree	13104059-n	woods	08438533-n	107	89	plwn
+mero_member	regiment	08213817-n	brigade	08213978-n	145	19	plwn
+mero_member	country	08168978-n	citizen	09923673-n	125	29	odwn
+mero_member	United States	09044862-n	American	09738708-n	121	33	odwn,pwn
+mero_member	word	06286395-n	sentence	06285090-n	117	31	plwn
+mero_member	country	08544813-n	state	08654360-n	36	112	odwn,pwn
+mero_member	regiment	08213817-n	battalion	08214083-n	145	2	odwn,pwn
+mero_member	femaleness	05008943-n	woman	10787470-n	0	143	plwn
+mero_member	Sunday	15163797-n	week	15169873-n	33	103	plwn
+mero_member	wife	10780632-n	marriage	07989373-n	120	13	plwn
+mero_member	Monday	15163979-n	week	15169873-n	28	103	plwn
+mero_member	school	08276720-n	faculty	08287586-n	125	4	odwn,pwn
+mero_member	country	08168978-n	national	09625401-n	125	4	odwn
+mero_member	phrase	06316048-n	word	06286395-n	10	117	odwn
+mero_member	school	08276720-n	school teacher	10560352-n	125	1	odwn,pwn
+mero_member	word	06286395-n	vocabulary	05651242-n	117	5	plwn
+mero_member	United States	09044862-n	NATO	08174398-n	121	0	plwn
+mero_member	OAS	08176077-n	United States	09044862-n	0	121	odwn,pwn
+mero_member	NATO	08174398-n	United States	09044862-n	0	121	odwn,pwn
+mero_member	Friday	15164463-n	week	15169873-n	18	103	plwn
+mero_member	government	08050678-n	legislature	08163273-n	112	5	odwn,pwn
+mero_member	family	07970406-n	child	09918248-n	52	65	odwn,pwn
+mero_member	Thursday	15164354-n	week	15169873-n	13	103	plwn
+mero_member	government	08050678-n	division	08220714-n	112	3	odwn,pwn
+mero_member	Wednesday	15164233-n	week	15169873-n	12	103	plwn
+mero_member	Tuesday	15164105-n	week	15169873-n	12	103	plwn
+mero_member	government	08050678-n	judiciary	08166187-n	112	2	odwn,pwn
+mero_member	government	08050678-n	executive	08165455-n	112	1	odwn,pwn
+mero_member	government minister	10320863-n	government	08050678-n	0	112	plwn
+mero_member	government	08050678-n	officialdom	08357784-n	112	0	odwn,pwn
+mero_member	government	08050678-n	government department	08119821-n	112	0	odwn,pwn
+mero_member	horse	02374451-n	foal	02376542-n	103	0	odwn,pwn
+mero_member	horse	02374451-n	equid	02374149-n	103	0	plwn
+instrument	person	00007846-n	staff	01088749-v	6909	4	odwn
+instrument	eye	05311054-n	see	02129289-v	263	613	odwn
+instrument	way	00172710-n	use	01158872-v	111	705	odwn
+instrument	tool	04451818-n	use	01158872-v	15	705	odwn
+instrument	glasses	04272054-n	see	02129289-v	5	613	odwn
+instrument	contact lens	03094159-n	see	02129289-v	0	613	odwn
+instrument	making known	07212190-n	know	00594621-v	0	585	odwn
+instrument	mud	14956325-n	provide	02327200-v	23	352	odwn
+instrument	sand	15019030-n	provide	02327200-v	10	352	odwn
+instrument	ear	05657999-n	hear	02169702-v	7	275	odwn
+instrument	monocle	03783430-n	look	02130524-v	5	274	odwn
+instrument	binoculars	02841315-n	look	02130524-v	2	274	odwn
+instrument	deaf-aid	03506727-n	hear	02169702-v	0	275	odwn
+instrument	auditory sense	05657718-n	hear	02169702-v	0	275	odwn
+instrument	stereoscope	04316498-n	look	02130524-v	0	274	odwn
+instrument	proctoscope	04007415-n	look	02130524-v	0	274	odwn
+instrument	periscope	03917048-n	look	02130524-v	0	274	odwn
+instrument	otoscope	03858183-n	look	02130524-v	0	274	odwn
+instrument	contact lens	03094159-n	look	02130524-v	0	274	odwn
+instrument	leg	05560787-n	walk	01904930-v	75	184	odwn
+instrument	door	03224032-n	enter	02016523-v	48	210	odwn
+instrument	hand	05564590-n	grab	01439190-v	215	36	odwn
+instrument	telephone	04401088-n	talk	00962447-v	31	161	odwn
+instrument	population	08179879-n	live	02649830-v	27	142	odwn
+instrument	night bell	03824197-n	night	15167027-n	0	167	odwn
+instrument	hammer	03481172-n	build	01654628-v	2	156	odwn
+instrument	saw	04140064-n	build	01654628-v	0	156	odwn
+instrument	car	02958343-n	drive	01930874-v	89	56	odwn
+instrument	water	14845743-n	wash	01535246-v	136	7	odwn
+instrument	measuring device	03733925-n	effort	00786195-n	0	141	odwn
+instrument	legal tender	13374008-n	pay	02251743-v	0	138	odwn
+instrument	seat	04161981-n	sit	01543123-v	2	135	odwn
+instrument	pipe	03944672-n	take	01999798-v	4	131	odwn
+instrument	body	05216365-n	dance	01708676-v	114	14	odwn
+instrument	uniform	04509592-n	job	00582388-n	18	99	odwn
+instrument	reading lamp	04057981-n	read	00625119-v	0	115	odwn
+instrument	pointer	03975232-n	indicate	00923793-v	0	114	odwn
+instrument	horse	02374451-n	ride horseback	01958615-v	103	0	odwn
+instrument	horse	02374451-n	equitation	00450335-n	103	0	odwn
+instrument	work clothes	04600912-n	job	00582388-n	0	99	odwn
+holo_member	person	00007846-n	people	07942152-n	6909	257	odwn,pwn
+holo_member	person	00007846-n	crowd	08182379-n	6909	35	odwn
+holo_member	camp	08240633-n	person	00007846-n	4	6909	odwn
+holo_member	man	10582746-n	force	08198398-n	348	14	odwn,pwn
+holo_member	people	07942152-n	humans	02472987-n	257	0	odwn,pwn
+holo_member	use	00947128-n	use	00947128-n	106	106	plwn
+holo_member	woods	08438533-n	tree	13104059-n	89	107	plwn
+holo_member	tree	13104059-n	woods	08438533-n	107	89	odwn,pwn
+holo_member	brigade	08213978-n	regiment	08213817-n	19	145	plwn
+holo_member	citizen	09923673-n	country	08168978-n	29	125	odwn
+holo_member	American	09738708-n	United States	09044862-n	33	121	odwn,pwn
+holo_member	state	08654360-n	country	08544813-n	112	36	odwn,pwn
+holo_member	sentence	06285090-n	word	06286395-n	31	117	plwn
+holo_member	battalion	08214083-n	regiment	08213817-n	2	145	odwn,pwn
+holo_member	woman	10787470-n	femaleness	05008943-n	143	0	plwn
+holo_member	week	15169873-n	Sunday	15163797-n	103	33	plwn
+holo_member	marriage	07989373-n	wife	10780632-n	13	120	plwn
+holo_member	week	15169873-n	Monday	15163979-n	103	28	plwn
+holo_member	national	09625401-n	country	08168978-n	4	125	odwn
+holo_member	faculty	08287586-n	school	08276720-n	4	125	odwn,pwn
+holo_member	word	06286395-n	phrase	06316048-n	117	10	odwn
+holo_member	school teacher	10560352-n	school	08276720-n	1	125	odwn,pwn
+holo_member	vocabulary	05651242-n	word	06286395-n	5	117	plwn
+holo_member	week	15169873-n	Friday	15164463-n	103	18	plwn
+holo_member	United States	09044862-n	OAS	08176077-n	121	0	odwn,pwn
+holo_member	United States	09044862-n	NATO	08174398-n	121	0	odwn,pwn
+holo_member	NATO	08174398-n	United States	09044862-n	0	121	plwn
+holo_member	legislature	08163273-n	government	08050678-n	5	112	odwn,pwn
+holo_member	child	09918248-n	family	07970406-n	65	52	odwn,pwn
+holo_member	week	15169873-n	Thursday	15164354-n	103	13	plwn
+holo_member	week	15169873-n	Wednesday	15164233-n	103	12	plwn
+holo_member	week	15169873-n	Tuesday	15164105-n	103	12	plwn
+holo_member	division	08220714-n	government	08050678-n	3	112	odwn,pwn
+holo_member	judiciary	08166187-n	government	08050678-n	2	112	odwn,pwn
+holo_member	executive	08165455-n	government	08050678-n	1	112	odwn,pwn
+holo_member	officialdom	08357784-n	government	08050678-n	0	112	odwn,pwn
+holo_member	government department	08119821-n	government	08050678-n	0	112	odwn,pwn
+holo_member	government	08050678-n	government minister	10320863-n	112	0	plwn
+holo_member	team	07985384-n	horse	02374451-n	8	103	plwn
+holo_member	arboretum	02733075-n	tree	13104059-n	0	107	plwn
+instance_hyponym	group	00031264-n	Great Lakes	09292751-n	1350	0	pwn
+instance_hyponym	man	10287213-n	Adam	09586553-n	749	14	pwn
+instance_hyponym	man	10287213-n	Shem	10588860-n	749	0	pwn
+instance_hyponym	man	10287213-n	Seth	09587409-n	749	0	pwn
+instance_hyponym	man	10287213-n	Japheth	10219778-n	749	0	pwn
+instance_hyponym	man	10287213-n	Ham	10158222-n	749	0	pwn
+instance_hyponym	man	10287213-n	Cain	09586994-n	749	0	pwn
+instance_hyponym	man	10287213-n	Abel	09587217-n	749	0	pwn
+instance_hyponym	friend	10112591-n	Pythias	11233595-n	169	0	pwn
+instance_hyponym	friend	10112591-n	Damon and Pythias	09560426-n	169	0	pwn
+instance_hyponym	friend	10112591-n	Damon	10921879-n	169	0	pwn
+instance_hyponym	soldier	10622053-n	Tancred	11330346-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	T. E. Lawrence	11120834-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Smuts	11306619-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Peron	11230021-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Mehemet Ali	11184273-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	La Fayette	11114056-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Kosciusko	11109728-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Hotspur	11229499-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Higginson	11049608-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Henry Lee	11123762-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Ethan Allen	10814776-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Daniel Morgan	11190592-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Cyrano de Bergerac	10919598-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Cesare Borgia	10857849-n	166	0	pwn
+instance_hyponym	soldier	10622053-n	Bayard	10838802-n	166	0	pwn
+instance_hyponym	city	08524735-n	New York	09119277-n	112	52	pwn
+instance_hyponym	woman	10787470-n	Eve	09586743-n	143	7	pwn
+instance_hyponym	area	08497294-n	Bermuda Triangle	08710951-n	149	0	pwn
+instance_hyponym	city	08524735-n	Chicago	09083390-n	112	25	pwn
+instance_hyponym	Chicago	09083390-n	city	08524735-n	25	112	plwn
+instance_hyponym	city	08524735-n	Dallas	09143786-n	112	19	pwn
+instance_hyponym	United States	09044862-n	North	09052314-n	121	5	pwn
+instance_hyponym	country	08168978-n	Eelam	08719892-n	125	0	pwn
+instance_hyponym	Boston	09095751-n	city	08524735-n	13	112	plwn
+instance_hyponym	city	08524735-n	Manchester	09111955-n	112	11	pwn
+instance_hyponym	city	08524735-n	Los Angeles	09063673-n	112	11	pwn
+instance_hyponym	city	08524735-n	Kansas City	09107098-n	112	11	pwn
+instance_hyponym	Los Angeles	09063673-n	city	08524735-n	11	112	plwn
+instance_hyponym	city	08524735-n	San Francisco	09065557-n	112	10	pwn
+mero_part	person	00007846-n	figure	05217168-n	6909	85	odwn,pwn
+mero_part	person	00007846-n	personality	04617562-n	6909	14	odwn,pwn
+mero_part	person	00007846-n	humans	02472987-n	6909	0	plwn
+mero_part	space	00028651-n	location	00027167-n	24	992	odwn,pwn
+mero_part	point	08620061-n	location	00027167-n	21	992	plwn
+mero_part	location	00027167-n	space-time	06010737-n	992	0	plwn
+mero_part	man	10287213-n	man's body	05220306-n	749	0	odwn,pwn
+mero_part	male reproductive system	05513807-n	man	10287213-n	0	749	plwn
+mero_part	decade	15204983-n	year	15203791-n	25	432	odwn,pwn
+mero_part	face	05600637-n	eye	05311054-n	193	263	odwn,pwn
+mero_part	eye	05311054-n	face	05600637-n	263	193	plwn
+mero_part	head	05538625-n	face	05600637-n	208	193	odwn,pwn
+mero_part	night	15167027-n	day	15155220-n	167	172	plwn
+mero_part	day	15155220-n	night	15167027-n	172	167	odwn,pwn
+mero_part	body	05216365-n	head	05538625-n	114	208	odwn,pwn
+mero_part	arm	05563770-n	hand	05564590-n	104	215	odwn,pwn
+mero_part	way	04928903-n	canon	06664594-n	290	5	plwn
+mero_part	animal	00015388-n	head	05538625-n	87	208	odwn,pwn
+mero_part	hour	15227846-n	day	15155220-n	118	172	plwn
+mero_part	day	15155220-n	hour	15227846-n	172	118	odwn,pwn
+mero_part	day	15155220-n	week	15169873-n	172	103	plwn
+mero_part	man	02472293-n	hand	05564590-n	55	215	odwn,pwn
+mero_part	lid	05313822-n	eye	05311054-n	7	263	plwn
+mero_part	eye	05311054-n	lid	05313822-n	263	7	odwn,pwn
+mero_part	hand	05564590-n	finger	05566504-n	215	53	odwn,pwn
+mero_part	orb	05316025-n	eye	05311054-n	3	263	plwn
+mero_part	eye	05311054-n	orb	05316025-n	263	3	odwn,pwn
+mero_part	ground	09334396-n	area	08497294-n	116	149	odwn
+mero_part	pupil	05320183-n	eye	05311054-n	1	263	plwn
+mero_part	eye	05311054-n	retina	05426989-n	263	1	odwn,pwn
+mero_part	visual system	05300926-n	eye	05311054-n	0	263	odwn,pwn
+mero_part	optic nerve	05478336-n	eye	05311054-n	0	263	plwn
+mero_part	eye	05311054-n	uveoscleral pathway	05318137-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	uvea	05317960-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	third eyelid	05314639-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	sclera	05447218-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	pupillary sphincter	05572940-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	lens of the eye	05320362-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	lacrimal vein	05372428-n	263	0	odwn,pwn
+mero_part	eye	05311054-n	lacrimal artery	05349659-n	263	0	odwn,pwn
+holo_part	figure	05217168-n	person	00007846-n	85	6909	pwn
+holo_part	personality	04617562-n	person	00007846-n	14	6909	pwn
+holo_part	humans	02472987-n	person	00007846-n	0	6909	plwn
+holo_part	location	00027167-n	space	00028651-n	992	24	pwn
+holo_part	location	00027167-n	point	08620061-n	992	21	plwn
+holo_part	space-time	06010737-n	location	00027167-n	0	992	plwn
+holo_part	man's body	05220306-n	man	10287213-n	0	749	pwn
+holo_part	man	10287213-n	male reproductive system	05513807-n	749	0	plwn
+holo_part	year	15203791-n	decade	15204983-n	432	25	pwn
+holo_part	face	05600637-n	eye	05311054-n	193	263	plwn
+holo_part	eye	05311054-n	face	05600637-n	263	193	pwn
+holo_part	face	05600637-n	head	05538625-n	193	208	pwn
+holo_part	night	15167027-n	day	15155220-n	167	172	pwn
+holo_part	day	15155220-n	night	15167027-n	172	167	plwn
+holo_part	head	05538625-n	body	05216365-n	208	114	pwn
+holo_part	hand	05564590-n	arm	05563770-n	215	104	pwn
+holo_part	head	05538625-n	animal	00015388-n	208	87	pwn
+holo_part	canon	06664594-n	way	04928903-n	5	290	plwn
+holo_part	hour	15227846-n	day	15155220-n	118	172	pwn
+holo_part	day	15155220-n	hour	15227846-n	172	118	plwn
+holo_part	week	15169873-n	day	15155220-n	103	172	plwn
+holo_part	lid	05313822-n	eye	05311054-n	7	263	pwn
+holo_part	hand	05564590-n	man	02472293-n	215	55	pwn
+holo_part	eye	05311054-n	lid	05313822-n	263	7	plwn
+holo_part	finger	05566504-n	hand	05564590-n	53	215	pwn
+holo_part	orb	05316025-n	eye	05311054-n	3	263	pwn
+holo_part	eye	05311054-n	orb	05316025-n	263	3	plwn
+holo_part	retina	05426989-n	eye	05311054-n	1	263	pwn
+holo_part	eye	05311054-n	pupil	05320183-n	263	1	plwn
+holo_part	uveoscleral pathway	05318137-n	eye	05311054-n	0	263	pwn
+holo_part	uvea	05317960-n	eye	05311054-n	0	263	pwn
+holo_part	third eyelid	05314639-n	eye	05311054-n	0	263	pwn
+holo_part	sclera	05447218-n	eye	05311054-n	0	263	pwn
+holo_part	pupillary sphincter	05572940-n	eye	05311054-n	0	263	pwn
+holo_part	lens of the eye	05320362-n	eye	05311054-n	0	263	pwn
+holo_part	lacrimal vein	05372428-n	eye	05311054-n	0	263	pwn
+holo_part	lacrimal artery	05349659-n	eye	05311054-n	0	263	pwn
+holo_part	lacrimal apparatus	05405554-n	eye	05311054-n	0	263	pwn
+holo_part	iris	05319936-n	eye	05311054-n	0	263	pwn
+holo_part	eye muscle	05316175-n	eye	05311054-n	0	263	pwn
+meronym	knowledge	00023271-n	idea	05833840-n	45	221	odwn
+meronym	industry	00923444-n	industry	08065234-n	17	56	odwn
+meronym	Europe	09275473-n	England	08871007-n	28	39	odwn
+meronym	army	08191230-n	standing army	08394423-n	64	0	odwn
+meronym	blood	05399847-n	blood cell	05449268-n	61	0	odwn
+meronym	theory	05989479-n	principle	05872477-n	49	7	odwn
+meronym	population	06026276-n	sample	05821775-n	3	48	odwn
+meronym	language	06282651-n	linguistic unit	06284225-n	48	1	odwn
+meronym	newspaper	06267145-n	paragraph	06399995-n	43	5	odwn
+meronym	table of contents	06489659-n	matter	05814291-n	0	45	odwn
+meronym	saccharide	14792703-n	oxygen	14648100-n	0	42	odwn
+meronym	phosphoric acid	14982907-n	oxygen	14648100-n	0	42	odwn
+meronym	oxide	14971519-n	oxygen	14648100-n	0	42	odwn
+meronym	Europe	09275473-n	Germany	08766988-n	28	11	odwn
+meronym	Europe	09275473-n	France	08929922-n	28	10	odwn
+meronym	Europe	09275473-n	Sweden	08765890-n	28	9	odwn
+meronym	possession	00032613-n	property	13244109-n	6	30	odwn
+meronym	catechism	06412771-n	doctrine	05943300-n	0	34	odwn
+meronym	Europe	09275473-n	The Netherlands	08949093-n	28	3	odwn
+meronym	salt	15010703-n	metal	14625458-n	9	21	odwn
+meronym	Europe	09275473-n	Portugal	08984788-n	28	1	odwn
+meronym	iodide	14922371-n	metal	14625458-n	7	21	odwn
+meronym	Europe	09275473-n	Grand Duchy of Luxembourg	08960987-n	28	0	odwn
+meronym	table	04379243-n	tabletop	04381860-n	25	1	odwn
+meronym	iodide	14922371-n	iodine	14641397-n	7	17	odwn
+meronym	encampment	08518171-n	tent	04411264-n	1	17	odwn
+meronym	curtain	03151077-n	drygoods	03252064-n	11	3	odwn
+meronym	ideology	06212839-n	principle	05872477-n	4	7	odwn
+meronym	phosphoric acid	14982907-n	phosphate	14982265-n	0	10	odwn
+meronym	paint	03875218-n	dyestuff	14985383-n	7	0	odwn
+meronym	electromagnetism	11479368-n	wave	07345593-n	0	7	odwn
+meronym	armed forces	08199025-n	standing army	08394423-n	7	0	odwn
+meronym	saccharide	14792703-n	hydrogen	14640434-n	0	6	odwn
+meronym	saccharide	14792703-n	carbon	14633206-n	0	6	odwn
+meronym	phosphoric acid	14982907-n	hydrogen	14640434-n	0	6	odwn
+meronym	nail enamel	03805725-n	base	03387016-n	0	6	odwn
+meronym	greasepaint	03456447-n	base	03387016-n	0	6	odwn
+meronym	cosmetic	03113152-n	base	03387016-n	0	6	odwn
+meronym	calcium carbide	14789087-n	carbon	14633206-n	0	6	odwn
+meronym	rain	15008607-n	raindrop	11501649-n	5	0	odwn
+has_domain_region	United States	09044862-n	inch	13649791-n	121	52	pwn
+has_domain_region	United States	09044862-n	Athabascan	06907728-n	121	14	pwn
+has_domain_region	United States	09044862-n	Yank	10802283-n	121	13	pwn
+has_domain_region	United States	09044862-n	dollar	13395897-n	121	12	pwn
+has_domain_region	United States	09044862-n	North	09052314-n	121	5	pwn
+has_domain_region	United States	09044862-n	joint resolution	06512324-n	121	4	pwn
+has_domain_region	United States	09044862-n	billion	02199342-s	121	4	pwn
+has_domain_region	United States	09044862-n	inaugural	07240077-n	121	1	pwn
+has_domain_region	United States	09044862-n	federal department	08122141-n	121	1	pwn
+has_domain_region	United States	09044862-n	combination in restraint of trade	07964809-n	121	1	pwn
+has_domain_region	United States	09044862-n	State Department	08122009-n	121	1	pwn
+has_domain_region	United States	09044862-n	water spaniel	02102605-n	121	0	pwn
+has_domain_region	United States	09044862-n	trust busting	01126335-n	121	0	pwn
+has_domain_region	United States	09044862-n	trillion	02199699-s	121	0	pwn
+has_domain_region	United States	09044862-n	trapezoid	13881512-n	121	0	pwn
+has_domain_region	United States	09044862-n	trapezium	13881381-n	121	0	pwn
+has_domain_region	United States	09044862-n	totem	04458409-n	121	0	pwn
+has_domain_region	United States	09044862-n	teacake	07634751-n	121	0	pwn
+has_domain_region	United States	09044862-n	tart	07623933-n	121	0	pwn
+has_domain_region	United States	09044862-n	staffer	10644598-n	121	0	pwn
+has_domain_region	United States	09044862-n	southernism	06195698-n	121	0	pwn
+has_domain_region	United States	09044862-n	snake dance	00542841-n	121	0	pwn
+has_domain_region	United States	09044862-n	slave market	04234969-n	121	0	pwn
+has_domain_region	United States	09044862-n	shamanism	06245084-n	121	0	pwn
+has_domain_region	United States	09044862-n	sextillion	13753430-n	121	0	pwn
+has_domain_region	United States	09044862-n	septillion	13753585-n	121	0	pwn
+has_domain_region	United States	09044862-n	schnoz	05598707-n	121	0	pwn
+has_domain_region	United States	09044862-n	recall	01258719-n	121	0	pwn
+has_domain_region	United States	09044862-n	reallotment	01084180-n	121	0	pwn
+has_domain_region	United States	09044862-n	quintillion	13753274-n	121	0	pwn
+has_domain_region	United States	09044862-n	quadrillion	13752911-n	121	0	pwn
+has_domain_region	United States	09044862-n	pineapple weed	11995396-n	121	0	pwn
+has_domain_region	United States	09044862-n	partridge	07647496-n	121	0	pwn
+has_domain_region	United States	09044862-n	paleface	09639719-n	121	0	pwn
+has_domain_region	United States	09044862-n	old man	10375690-n	121	0	pwn
+has_domain_region	United States	09044862-n	octillion	13753740-n	121	0	pwn
+has_domain_region	United States	09044862-n	nation	08303692-n	121	0	pwn
+has_domain_region	United States	09044862-n	multiple voting	00184802-n	121	0	pwn
+has_domain_region	United States	09044862-n	mestiza	10311661-n	121	0	pwn
+has_domain_region	United States	09044862-n	marine	02888000-a	121	0	pwn
+similar	two	02186470-s	cardinal	02183611-a	604	0	pwn
+similar	cardinal	02183611-a	two	02186470-s	0	604	pwn
+similar	other	02069355-a	another	02070188-s	483	53	pwn
+similar	another	02070188-s	other	02069355-a	53	483	pwn
+similar	one	02186338-s	cardinal	02183611-a	529	0	pwn
+similar	cardinal	02183611-a	one	02186338-s	0	529	pwn
+similar	other	02069355-a	different	02070030-s	483	41	pwn
+similar	different	02070030-s	other	02069355-a	41	483	pwn
+similar	other	02069355-a	opposite	02070887-s	483	9	pwn
+similar	opposite	02070887-s	other	02069355-a	9	483	pwn
+similar	other	02069355-a	opposite	02071139-s	483	4	pwn
+similar	opposite	02071139-s	other	02069355-a	4	483	pwn
+similar	other	02069355-a	opposite	02070711-s	483	3	pwn
+similar	other	02069355-a	new	02070491-s	483	3	pwn
+similar	opposite	02070711-s	other	02069355-a	3	483	pwn
+similar	new	02070491-s	other	02069355-a	3	483	pwn
+similar	otherwise	02071301-s	other	02069355-a	0	483	pwn
+similar	other	02069355-a	otherwise	02071301-s	483	0	pwn
+similar	other	02069355-a	different	02070342-s	483	0	pwn
+similar	different	02070342-s	other	02069355-a	0	483	pwn
+similar	smaller	01394922-s	small	01391351-a	33	376	pwn
+similar	small	01391351-a	smaller	01394922-s	376	33	pwn
+similar	tiny	01392249-s	small	01391351-a	22	376	pwn
+similar	small	01391351-a	tiny	01392249-s	376	22	pwn
+similar	small	01391351-a	minute	01393483-s	376	5	pwn
+similar	minute	01393483-s	small	01391351-a	5	376	pwn
+similar	wee	01392633-s	small	01391351-a	4	376	pwn
+similar	small	01391351-a	wee	01392633-s	376	4	pwn
+similar	smallish	01395028-s	small	01391351-a	1	376	pwn
+similar	small-scale	01395095-s	small	01391351-a	1	376	pwn
+similar	small	01391351-a	smallish	01395028-s	376	1	pwn
+similar	small	01391351-a	small-scale	01395095-s	376	1	pwn
+similar	small	01391351-a	slender	01394744-s	376	1	pwn
+similar	small	01391351-a	miniature	01394075-s	376	1	pwn
+similar	small	01391351-a	elfin	01393141-s	376	1	pwn
+similar	slender	01394744-s	small	01391351-a	1	376	pwn
+similar	miniature	01394075-s	small	01391351-a	1	376	pwn
+similar	elfin	01393141-s	small	01391351-a	1	376	pwn
+similar	undersize	01395229-s	small	01391351-a	0	376	pwn
+similar	subatomic	01392160-s	small	01391351-a	0	376	pwn
+mero_location	Washington	09070793-n	United States	09044862-n	27	121	plwn
+mero_location	American	06947479-n	United States	09044862-n	2	121	odwn
+mero_location	body	05216365-n	hormone	05407119-n	114	6	odwn
+mero_location	body	05216365-n	belt	02827606-n	114	4	odwn
+mero_location	cavum	05303402-n	body	05216365-n	0	114	plwn
+mero_location	body	05216365-n	shoulder strap	04333500-n	114	0	odwn
+mero_location	woods	08438533-n	pheasant	01803078-n	89	2	odwn
+mero_location	woods	08438533-n	forest	09284015-n	89	2	odwn
+mero_location	pet shop	03920641-n	animal	00015388-n	0	87	odwn
+mero_location	epicenter	08578032-n	Earth	09270894-n	3	82	plwn
+mero_location	niche	04061969-n	wall	04546855-n	1	82	plwn
+mero_location	cashbox	02976939-n	money	13384557-n	0	77	odwn
+mero_location	world	09466280-n	meteor	09353109-n	63	6	odwn
+mero_location	throat	05547508-n	neck	05546540-n	34	34	plwn
+mero_location	New York	09119277-n	New York	09117351-n	52	16	plwn
+mero_location	bathroom	02807731-n	home	08559508-n	6	61	plwn
+mero_location	world	09466280-n	heavenly body	09239740-n	63	2	odwn
+mero_location	pantry	03885535-n	home	08559508-n	1	61	plwn
+mero_location	rood screen	04104925-n	church	03028079-n	0	59	plwn
+mero_location	narthex	03809802-n	church	03028079-n	0	59	plwn
+mero_location	confessional	03090172-n	church	03028079-n	0	59	plwn
+mero_location	church	03028079-n	parish	08615001-n	59	0	plwn
+mero_location	England	08871007-n	English	06947032-n	39	20	odwn
+mero_location	fair	08408557-n	product	03748886-n	0	56	odwn
+mero_location	curtain	03151077-n	cloth	03309808-n	11	41	odwn
+mero_location	London	08873622-n	England	08871007-n	13	39	plwn
+mero_location	wardroom	04550676-n	ship	04194289-n	1	49	plwn
+mero_location	ship's galley	03412220-n	ship	04194289-n	0	49	plwn
+mero_location	salivary gland	05532944-n	mouth	05302499-n	0	49	plwn
+mero_location	limbers	03669367-n	ship	04194289-n	0	49	plwn
+mero_location	head	03501520-n	ship	04194289-n	0	49	plwn
+mero_location	fo'c'sle	03382104-n	ship	04194289-n	0	49	plwn
+mero_location	cargo area	02964634-n	ship	04194289-n	0	49	plwn
+mero_location	bridge deck	02899257-n	ship	04194289-n	0	49	plwn
+mero_location	bookshop	02871525-n	book	06410904-n	0	46	odwn
+mero_location	plasmid	09395266-n	cell	00006484-n	0	44	plwn
+mero_location	floor	03365592-n	floor covering	03366823-n	39	1	odwn
+mero_location	Oxford	08877807-n	England	08871007-n	1	39	plwn
+mero_location	Manchester	08876975-n	England	08871007-n	1	39	plwn
+mero_location	Liverpool	08877382-n	England	08871007-n	1	39	plwn
+causes	give	02199590-v	have	02203362-v	96	1244	pwn
+causes	use	01158872-v	apply	02676789-v	705	30	pwn
+causes	show	02137132-v	see	02129289-v	43	613	pwn
+causes	travel	01843055-v	go	01835496-v	3	487	pwn
+causes	spark	01643657-v	happen	00339934-v	21	319	pwn
+causes	effect	01642924-v	happen	00339934-v	21	319	pwn
+causes	kill	01323958-v	die	00358431-v	103	156	pwn
+causes	strike	01767949-v	feel	01771535-v	28	186	pwn
+causes	remind	00610538-v	remember	00607780-v	22	167	pwn
+causes	teach	00829107-v	learn	00597915-v	97	90	pwn
+causes	stand up	01546768-v	stand	01546111-v	3	171	pwn
+causes	start	00348746-v	begin	02608347-v	78	74	pwn
+causes	bundle off	01955009-v	leave	02009433-v	0	149	pwn
+causes	decide	00699485-v	decide	00697589-v	4	142	pwn
+causes	seat	01543998-v	sit	01543123-v	10	135	pwn
+causes	change	00126264-v	change	00109660-v	83	54	pwn
+causes	seat	01544285-v	sit	01543123-v	0	135	pwn
+causes	lift	01974062-v	rise	01968569-v	65	53	pwn
+causes	sink in	00591755-v	understand	00588888-v	6	110	pwn
+causes	resonate	00592037-v	understand	00588888-v	0	110	pwn
+causes	move	01850315-v	move	01831531-v	57	52	pwn
+causes	produce	02157100-v	appear	00422090-v	5	102	pwn
+causes	end	00352826-v	end	02609764-v	37	70	pwn
+causes	project	02138075-v	appear	00422090-v	2	102	pwn
+causes	please	01815628-v	like	01777210-v	20	73	pwn
+causes	sensitise	02115778-v	feel	02106006-v	0	92	pwn
+causes	force	02504562-v	act	02367363-v	51	38	pwn
+causes	lower	01973125-v	fall	01970826-v	29	58	pwn
+causes	open	01346003-v	open	01346804-v	68	17	pwn
+causes	improve	00205885-v	improve	00205046-v	69	13	pwn
+causes	feed	01178565-v	eat	01168468-v	19	61	pwn
+causes	fill	00452512-v	fill	00451838-v	63	13	pwn
+causes	compel	02506546-v	act	02367363-v	35	38	pwn
+causes	stop	01859221-v	stop	01860795-v	7	64	pwn
+causes	lay	01544692-v	lie	01547001-v	13	58	pwn
+causes	bethink	02166761-v	consider	02166460-v	3	66	pwn
+causes	work	02407987-v	work	02410855-v	3	63	pwn
+causes	develop	00253761-v	grow	00230746-v	3	62	pwn
+causes	fell	01258302-v	fall	01970826-v	6	58	pwn
+causes	close	01345109-v	close	01346978-v	42	22	pwn
+direction	atmosphere	09210604-n	fly	01940403-v	4	38	odwn
+direction	floor	09282208-n	slide	02090990-v	2	3	odwn
+direction	sluice	04244379-n	navigate	01846320-v	1	2	odwn
+direction	lock chamber	03683079-n	navigate	01846320-v	0	2	odwn
+direction	bridle path	02900459-n	ride horseback	01958615-v	0	0	odwn
+source_direction	district	08552138-n	immigrate	00415967-v	44	0	odwn
+source_direction	district	08552138-n	immigrate	00413432-v	44	0	odwn
+source_direction	sea	09426788-n	sea breeze	11432155-n	37	0	odwn
+be_in_state	runt	10543544-n	small	01391351-a	0	376	plwn
+be_in_state	old man	10375506-n	old	01643620-a	39	108	plwn
+be_in_state	need	14449126-n	necessary	01580050-a	57	81	plwn
+be_in_state	young man	10804287-n	young	01646941-a	14	107	plwn
+be_in_state	youth	07944050-n	young	01646941-a	10	107	plwn
+be_in_state	Americanism	00413554-n	American	02927512-a	0	117	plwn
+be_in_state	giant	09488711-n	great	01386883-s	0	114	plwn
+be_in_state	decedent	09994943-n	dead	00095280-a	4	72	plwn
+be_in_state	red light	06874497-n	red	00381097-s	0	50	plwn
+be_in_state	darkroom	03162460-n	dark	00273082-a	0	49	plwn
+be_in_state	original	05938400-n	new	01687167-s	2	45	plwn
+be_in_state	giant	09488711-n	tremendous	01385255-s	0	36	plwn
+be_in_state	fool	10100761-n	stupid	00439588-a	25	10	plwn
+be_in_state	celebrity	09903153-n	famous	01375831-s	1	30	plwn
+be_in_state	unfortunate	09630641-n	poor	01050890-s	1	24	plwn
+be_in_state	teenager	09772029-n	teen	01647983-s	13	10	plwn
+be_in_state	possibility	05951180-n	probable	01412134-s	21	2	plwn
+be_in_state	pleasure	07490713-n	enjoyable	01801029-s	21	1	plwn
+be_in_state	looney	09976283-n	mad	02075321-s	0	21	plwn
+be_in_state	thin person	10708797-n	thin	00988232-a	0	20	plwn
+be_in_state	ideal	10325243-n	perfect	01749320-a	3	17	plwn
+be_in_state	bambino	10714465-n	little	01649031-s	0	20	plwn
+be_in_state	wise guy	10784113-n	wise	02569130-a	2	13	plwn
+be_in_state	newcomer	10355449-n	new	00937186-s	4	11	plwn
+be_in_state	amateur	09786585-n	amateur	01869634-s	11	4	plwn
+be_in_state	sufferer	10595647-n	sick	02541302-a	2	12	plwn
+be_in_state	sage	10546202-n	wise	02569130-a	1	13	plwn
+be_in_state	pro	10480583-n	professional	01868724-a	2	12	plwn
+be_in_state	have-not	10453357-n	poor	02022953-a	0	12	plwn
+be_in_state	dullard	10667187-n	stupid	00439588-a	2	10	plwn
+be_in_state	beginner	10363913-n	new	00937186-s	1	11	plwn
+be_in_state	looney	09976283-n	insane	02074092-a	0	11	plwn
+be_in_state	culprit	10417168-n	guilty	01320988-a	1	10	plwn
+be_in_state	amateur	09786585-n	inexpert	01870636-s	11	0	plwn
+be_in_state	original	05938400-n	authentic	01115635-s	2	7	plwn
+be_in_state	invalid	10214230-n	disabled	01019283-s	1	8	plwn
+be_in_state	confectionery	07596967-n	sweet	02368336-a	0	9	plwn
+be_in_state	confection	07596684-n	sweet	02368336-a	0	9	plwn
+be_in_state	handicapped person	10158756-n	disabled	01019283-s	0	8	plwn
+be_in_state	crossbar	03135656-n	transverse	01445917-s	0	8	plwn
+exemplifies	so	00146594-r	intensifier	06321054-n	322	0	pwn
+exemplifies	eye	05311054-n	colloquialism	07075172-n	263	0	pwn
+exemplifies	people	07942152-n	plural form	06295235-n	257	0	pwn
+exemplifies	entirely	00008007-r	colloquialism	07075172-n	137	0	pwn
+exemplifies	more	01555133-a	comparative degree	06322693-n	134	0	pwn
+exemplifies	certainly	00144722-r	colloquialism	07075172-n	96	0	pwn
+exemplifies	best	00227507-a	superlative	06693870-n	94	1	pwn
+exemplifies	away	00232936-r	archaism	07073447-n	86	0	pwn
+exemplifies	well	00011093-r	combining form	06307152-n	85	0	pwn
+exemplifies	slowly	00161630-r	colloquialism	07075172-n	80	0	pwn
+exemplifies	most	01557120-a	superlative	06693870-n	76	1	pwn
+exemplifies	obviously	00039318-r	colloquialism	07075172-n	72	0	pwn
+exemplifies	better	00230335-a	comparative degree	06322693-n	69	0	pwn
+exemplifies	more	01556355-a	comparative degree	06322693-n	67	0	pwn
+exemplifies	most	00112009-r	intensifier	06321054-n	63	0	pwn
+exemplifies	forward	00074641-r	dialect	07155661-n	53	7	pwn
+exemplifies	at least	00104661-r	colloquialism	07075172-n	60	0	pwn
+exemplifies	steps	04298171-n	plural form	06295235-n	42	0	pwn
+exemplifies	just	00246296-r	intensifier	06321054-n	42	0	pwn
+exemplifies	less	01555416-a	comparative degree	06322693-n	39	0	pwn
+exemplifies	easily	00147876-r	colloquialism	07075172-n	36	0	pwn
+exemplifies	fully	00010466-r	combining form	06307152-n	32	0	pwn
+exemplifies	somewhere	00025559-r	colloquialism	07075172-n	31	0	pwn
+exemplifies	bastard	09815188-n	vulgarism	07124340-n	31	0	pwn
+exemplifies	services	00585174-n	plural form	06295235-n	29	0	pwn
+exemplifies	such	00147386-r	intensifier	06321054-n	28	0	pwn
+exemplifies	most	01555732-a	superlative	06693870-n	26	1	pwn
+exemplifies	order	07168623-n	plural form	06295235-n	26	0	pwn
+exemplifies	filled	01084644-s	combining form	06307152-n	26	0	pwn
+exemplifies	stay	02637202-v	archaism	07073447-n	25	0	pwn
+exemplifies	everywhere	00025728-r	colloquialism	07075172-n	25	0	pwn
+exemplifies	better	00231761-a	comparative degree	06322693-n	23	0	pwn
+exemplifies	Rebel	10628368-n	colloquialism	07075172-n	22	0	pwn
+exemplifies	cop	09879144-n	colloquialism	07075172-n	20	0	pwn
+exemplifies	all right	02081114-s	colloquialism	07075172-n	18	0	pwn
+exemplifies	terribly	00054950-r	colloquialism	07075172-n	17	0	pwn
+exemplifies	roaster	10534389-n	wit	06776138-n	0	17	pwn
+exemplifies	nigger	09638009-n	disparagement	06717170-n	16	1	pwn
+exemplifies	libation	07885937-n	wit	06776138-n	0	17	pwn
+exemplifies	comfortable	00476819-a	colloquialism	07075172-n	17	0	pwn
+instance_hypernym	group	00031264-n	Great Lakes	09292751-n	1350	0	odwn
+instance_hypernym	Great Lakes	09292751-n	group	00031264-n	0	1350	odwn,pwn
+instance_hypernym	man	10287213-n	Adam	09586553-n	749	14	odwn
+instance_hypernym	Adam	09586553-n	man	10287213-n	14	749	odwn,pwn
+instance_hypernym	man	10287213-n	Shem	10588860-n	749	0	odwn
+instance_hypernym	man	10287213-n	Seth	09587409-n	749	0	odwn
+instance_hypernym	man	10287213-n	Japheth	10219778-n	749	0	odwn
+instance_hypernym	man	10287213-n	Ham	10158222-n	749	0	odwn
+instance_hypernym	man	10287213-n	Cain	09586994-n	749	0	odwn
+instance_hypernym	man	10287213-n	Abel	09587217-n	749	0	odwn
+instance_hypernym	Shem	10588860-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	Seth	09587409-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	Japheth	10219778-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	Ham	10158222-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	Cain	09586994-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	Abel	09587217-n	man	10287213-n	0	749	odwn,pwn
+instance_hypernym	friend	10112591-n	Pythias	11233595-n	169	0	odwn
+instance_hypernym	friend	10112591-n	Damon and Pythias	09560426-n	169	0	odwn
+instance_hypernym	friend	10112591-n	Damon	10921879-n	169	0	odwn
+instance_hypernym	Pythias	11233595-n	friend	10112591-n	0	169	odwn,pwn
+instance_hypernym	Damon and Pythias	09560426-n	friend	10112591-n	0	169	odwn,pwn
+instance_hypernym	Damon	10921879-n	friend	10112591-n	0	169	odwn,pwn
+instance_hypernym	soldier	10622053-n	Tancred	11330346-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	T. E. Lawrence	11120834-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Smuts	11306619-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Peron	11230021-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Mehemet Ali	11184273-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	La Fayette	11114056-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Kosciusko	11109728-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Hotspur	11229499-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Higginson	11049608-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Henry Lee	11123762-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Ethan Allen	10814776-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Daniel Morgan	11190592-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Cyrano de Bergerac	10919598-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Cesare Borgia	10857849-n	166	0	odwn
+instance_hypernym	soldier	10622053-n	Bayard	10838802-n	166	0	odwn
+instance_hypernym	Tancred	11330346-n	soldier	10622053-n	0	166	odwn,pwn
+instance_hypernym	T. E. Lawrence	11120834-n	soldier	10622053-n	0	166	odwn,pwn
+instance_hypernym	Smuts	11306619-n	soldier	10622053-n	0	166	odwn,pwn
+holo_portion	water	09225146-n	water	14845743-n	42	136	odwn
+holo_portion	time	00028270-n	period	15113229-n	36	105	plwn
+holo_portion	amount	13331198-n	money	13384557-n	54	77	odwn
+holo_portion	school	08276720-n	year	08238660-n	125	1	plwn
+holo_portion	time	00028270-n	moment	15246853-n	36	88	plwn
+holo_portion	money	13250542-n	money	13384557-n	15	77	odwn
+holo_portion	blood	05399847-n	blood pressure	11429968-n	61	2	plwn
+holo_portion	bloodstain	04695605-n	blood	05399847-n	0	61	odwn
+holo_portion	leaf	13152742-n	paper	14974264-n	26	30	odwn
+holo_portion	amount	13331198-n	money	13384877-n	54	0	odwn
+holo_portion	sheet	06255777-n	paper	14974264-n	17	30	odwn
+holo_portion	stone	09416076-n	stone	14696793-n	30	14	odwn
+holo_portion	fold	13907415-n	cloth	03309808-n	3	41	odwn
+holo_portion	gram	13723712-n	dg	13723470-n	42	0	plwn
+holo_portion	roof peak	04105791-n	roof	04105068-n	0	34	odwn
+holo_portion	leaf	13152742-n	paper	06255613-n	26	4	odwn
+holo_portion	flat solid	04188643-n	board	15101854-n	0	27	odwn
+holo_portion	drop	13771404-n	sweat	05405751-n	9	16	odwn
+holo_portion	drink	07885223-n	drink	07881800-n	20	5	odwn
+holo_portion	drink	07881800-n	drink	07885223-n	5	20	plwn
+holo_portion	metal	14625458-n	sheet metal	04189482-n	21	2	plwn
+holo_portion	icicle	14915928-n	ice	14915184-n	1	22	odwn
+holo_portion	sheet	06255777-n	paper	06255613-n	17	4	odwn
+holo_portion	staff	08439955-n	shift	08218393-n	17	0	plwn
+holo_portion	money	13250542-n	money	13384877-n	15	0	odwn
+holo_portion	drop	13771404-n	liquid	14940386-n	9	6	odwn
+holo_portion	vegetation	08436759-n	crop	13085864-n	2	10	odwn
+holo_portion	straw	14805899-n	straw	14959939-n	2	10	odwn
+holo_portion	plica	05492259-n	skin	05238282-n	0	11	odwn
+holo_portion	liquid	14940100-n	liquid	14940386-n	4	6	odwn
+holo_portion	greeting	06630017-n	greeting	06630017-n	5	5	plwn
+holo_portion	swallow	07579276-n	drink	07881800-n	3	5	odwn
+holo_portion	tail	04384199-n	coin	13388245-n	0	7	odwn
+holo_portion	dab	13761171-n	matter	00020827-n	0	7	odwn
+holo_portion	liquid	14940386-n	pool	08665101-n	6	0	odwn
+holo_portion	gush	07439570-n	liquid	14940386-n	0	6	odwn
+holo_portion	dab	00125436-n	sugar	07859284-n	1	5	odwn
+holo_portion	soap bubble	09439120-n	foam	09282724-n	0	5	odwn
+holo_portion	garnish	03420440-n	mite	13774115-n	0	4	odwn
+holo_portion	cud	07579399-n	tobacco	04442831-n	0	4	odwn
