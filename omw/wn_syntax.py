@@ -247,8 +247,8 @@ with app.app_context():
                     syn_pos.add(synset['attrs']['partOfSpeech'])
 
                 # ADD THE POS OF EACH SENSE
-                for lexicon, le_id in synset_senses[ss_id].keys():
-                    syn_pos.add(synset_senses[ss_id][(lexicon,le_id)])
+                for s_lexicon, le_id in synset_senses[ss_id].keys():
+                    syn_pos.add(synset_senses[ss_id][(s_lexicon,le_id)])
 
                 if len(syn_pos) != 1: # we have a pos problem
                     syn_pos = ', '.join(str(p) for p in syn_pos)
@@ -1573,9 +1573,13 @@ with app.app_context():
                         except:
                             sens_conf = le_conf
 
-
-                        synset = wn[lexicon]['syns'][sens_synset]
-                        ss_id = synset['omw_ss_key']
+                        # FIXING:
+                        # Senses can refer to synsets in other lexicons of the same
+                        # resource.
+                        ss_id = None
+                        for lexicon_s in wn.keys():
+                            if wn[lexicon_s]['syns'][sens_synset]['omw_ss_key']:
+                                ss_id = wn[lexicon_s]['syns'][sens_synset]['omw_ss_key']
 
                         s_id = max_s_id + 1
                         blk_sense_data.append((s_id, ss_id, w_id, u))
