@@ -16,10 +16,12 @@ in the World page</a>.
   <tr>
     <th>Language</th>
     <th>Wordnet</th>
+    <th>ID</th>
     <th style="text-align:right">Synsets</th>
     <th style="text-align:right">Words</th>
     <th style="text-align:right">Senses</th>
     <th style="text-align:right">Core</th>
+    <th>Statistics</th> 
     <th>License</th>
   </tr>
     {% for (meta, stat) in stats %}
@@ -29,21 +31,28 @@ in the World page</a>.
     <td>{{lang}}</td>
     <td>
       {% if meta['url'] %}
-	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}
-	  ({{meta['version']}})</a>
+	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}</a>
       {% else %}
-      {{meta['label']}} ({{meta['version']}})
+      {{meta['label']}}
 	{% endif %}
-	&nbsp;	&nbsp;	&nbsp;
-      (<a title='statistics' href='{{url_for('omw_wn', src=proj)}}'><i class="fa fa-bar-chart"></i></a>)
+    </td>
+     <td>
+      <tt>{{meta['id']}}-{{meta['version']}}</tt>
     </td>
     <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['senses'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
+    <td>
+      <a title='statistics' href='{{url_for('omw_wn',
+	 src=proj)}}'><i class="fa fa-bar-chart"></i></a>;
+      <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
+	  src=proj)}}'>LaTeX</a>
+    </td>
+
     <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
     
-  <tr>
+  </tr>
   {% endfor %}
 <table>    
 

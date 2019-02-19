@@ -11,6 +11,7 @@ from collections import OrderedDict as od
 from hashlib import md5
 from werkzeug import secure_filename
 from lxml import etree
+from pkg_resources import parse_version
 
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
@@ -25,6 +26,7 @@ from wn_syntax import *
 from math import log
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "!$flhgSgngNO%$#SOET!$!"
 app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
 
@@ -284,7 +286,7 @@ def min_omw_concepts(ss=None, ili_id=None):
 def min_omw_sense(sID=None):
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
-    sense =  fetch_sense(sID)
+    sense, slinks =  fetch_sense(sID)
     forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
@@ -362,15 +364,22 @@ def ili_welcome(name=None):
 
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
+    projects = request.args.get('projects','current')
+    #print(projects)
     lang_id, lang_code = fetch_langs()
     src_meta=fetch_src_meta()
     ### sort by language, project version (Newest first)
     src_sort=od()
     keys=list(src_meta.keys())
-    keys.sort(key=lambda x: src_meta[x]['version'],reverse=True)
-    keys.sort(key=lambda x: src_meta[x]['id'])
-    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1])
+    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: src_meta[x]['id']) #id 
+    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
     for k in keys:
+        if projects=='current':  # only get the latest version
+            if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
+                                             if src_meta[i]['id'] ==  src_meta[k]['id']),
+                                             key=lambda x: Ver(x)):
+                continue
         src_sort[k] =  src_meta[k]
     return render_template('omw_welcome.html',
                            src_meta=src_sort,
@@ -384,14 +393,23 @@ def wordnet_license(name=None):
 
 @app.route('/omw_wns', methods=['GET', 'POST'])
 def omw_wns(name=None):
+    projects = request.args.get('projects','current')
     src_meta=fetch_src_meta()
     stats = []
     lang_id, lang_code = fetch_langs()
     ### sort by language name (1), id, version (FIXME -- reverse version)
-    for src_id in sorted(src_meta, key = lambda x: (                                                    lang_id[lang_code['code'][src_meta[x]['language']]][1],
-                                                                                                        src_meta[x]['id'],
-                                                                                                        src_meta[x]['version'])):
-        stats.append((src_meta[src_id], fetch_src_id_stats(src_id)))
+    src_sort=od()
+    keys=list(src_meta.keys())
+    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: src_meta[x]['id']) #id 
+    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
+    for k in keys:
+        if projects=='current':  # only get the latest version
+            if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
+                                              if src_meta[i]['id'] ==  src_meta[k]['id']),
+                                             key=lambda x: Ver(x)):
+                continue
+        stats.append((src_meta[k], fetch_src_id_stats(k)))
     return render_template('omw_wns.html',
                            stats=stats,
                            lang_id=lang_id,
@@ -489,6 +507,11 @@ def metadata():
 @app.route('/join', methods=['GET', 'POST'])
 def join():
     return render_template('join.html')
+
+@app.route('/omw/uploads/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename, as_attachment=True)
 
 
 @app.route('/ili/validation-report', methods=['GET', 'POST'])
@@ -631,21 +654,28 @@ def concepts_omw(ssID=None, iliID=None):
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
 def omw_sense(sID=None):
+    """display a single sense (and its variants)"""
     langs_id, langs_code = fetch_langs()
     pos = fetch_pos()
-    sense =  fetch_sense(sID)
+    sense, slinks =  fetch_sense(sID)
     forms=fetch_forms(sense[3])
     selected_lang = request.cookies.get('selected_lang')
     labels= fetch_labels(selected_lang,[sense[4]])
     src_meta= fetch_src_meta()
     src_sid=fetch_src_for_s_id([sID])
+    srel = fetch_srel()
+    ## get the canonical form for each linked sense
+    slabel=fetch_sense_labels([x for v in slinks.values() for x in v])
     return render_template('omw_sense.html',
                            s_id = sID,
                            sense = sense,
+                           slinks = slinks,
+                           srel = srel,
                            forms=forms,
                            langs = langs_id,
                            pos = pos,
                            labels = labels,
+                           slabel = slabel,
                            src_sid = src_sid,
                            src_meta = src_meta)
 
@@ -745,6 +775,25 @@ def utility_processor():
         else:
             return 100
     return dict(scale_freq=scale_freq)
+
+# def style_sense(freq, conf, lang):
+#     """show confidence as opacity, show freq as size
+
+#     opacity is the square of the confidence
+#     freq is scaled as a % of maxfreq for that language
+#     TODO: highlight a word if searched for?"""
+#     style = ''
+#     if conf and conf < 1.0: ## should not be more than 1.0
+#         style += 'opacity: {f};'.format(conf*conf) ## degrade quicker
+#     if freq:
+#         ### should I be using a log here?
+#         maxfreq=1000 #(should do per lang)
+#         style += 'font-size: {f}%;'.format(100*(1+ log(freq)/log(maxfreq)))
+#     if style:
+#         style = "style='{}'".format(style)
+
+
+
 
 
 

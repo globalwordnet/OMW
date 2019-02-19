@@ -25,13 +25,28 @@
 
 <ul>
   <li><span class='rel'>Variants:</span>
-  {{forms|join(', ')}}
-  <li><span class='rel'>Source:</span>
+    {{forms|join(', ')}}
+
+{% if slinks %}    
+  <li> Links:
+    <ul>
+      {%- for sl in slinks %}
+      <li><span class ='rel'
+		title='{{srel['id'][sl][1]}}'>{{srel['id'][sl][0]}}</span>:
+	{%- for sl_id in slinks[sl] %}
+        <a class='sense' data-sid='{{sl_id}}' href='{{url_for('omw_sense',sID=sl_id)}}'>{{slabel[sl_id]}}</a>
+	  {%- endfor %}
+	{%- endfor %}
+    </ul>
+    {% endif %}
+    
+      <li><span class='rel'>Source:</span>
     {%- for src, conf in src_sid[s_id|int] %}
       {% set proj = src_meta[src]['id'] + '-'  +  src_meta[src]['version'] %}
         <a href="{{url_for('omw_wn', src=proj)}}">{{src_meta[src]['label']}} ({{src_meta[src]['version']}})</a> with confidence {{conf}}
-      {%- if not loop.last %}{{'; '}}{% endif %}
+	{%- if not loop.last %}{{'; '}}{% endif %}
     {%- endfor %}
+
   <!-- <li>Sense Definition || Full definition  ToDo -->
   <!-- <li>Sense links (and synset links)  ToDo -->
 </ul>

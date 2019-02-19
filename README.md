@@ -1,5 +1,16 @@
 # OMW
 
+Code for the Open Multilingual Wordnet
+Read in wordnets, validate them and search them
+
+Currently running here: http://compling.hss.ntu.edu.sg/iliomw/ili
+
+
+DB Schema:
+https://docs.google.com/spreadsheets/d/1-FFnIaw0_6aJ6a--wfooNnGQlVpfl-hTxof8mWmX0P8/edit?usp=sharing
+(may be out of date)
+
+
 ## Installation
 
 To setup OMW, start by cloning the repository and changing to its directory:
@@ -47,3 +58,4 @@ You can run the OMW web app on your local machine in debug mode by running `omw/
 **Note:** Currently you must run the above command from the `omw/` subdirectory.
 
 If successful, you should be able to view the OMW by visiting http://0.0.0.0:5000/
+

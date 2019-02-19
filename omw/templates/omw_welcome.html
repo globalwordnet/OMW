@@ -32,6 +32,8 @@ in the World page</a>.
   <tr>
     <th>Language</th>
     <th>Wordnet</th>
+    <th>ID</th>
+    <th>Statistics</th>
     <th>License</th>
   <tr>
     {% for id in src_meta %}
@@ -43,22 +45,31 @@ in the World page</a>.
     <td>{{lang}}</td>
     <td>
       {% if meta['url'] %}
-	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}
-	  ({{meta['version']}})</a>
+	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}</a>
       {% else %}
-      {{meta['label']}} ({{meta['version']}})
+      {{meta['label']}}
 	{% endif %}
 	&nbsp;	&nbsp;	&nbsp;
-      (<a title='statistics' href='{{url_for('omw_wn',
+    </td>
+    <td>
+      <tt>{{meta['id']}}-{{meta['version']}}</tt>
+    </td>
+    <td>
+      <a title='statistics' href='{{url_for('omw_wn',
 	  src=proj)}}'><i class="fa fa-bar-chart"></i></a>;
 <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
-	  src=proj)}}'>LaTeX</a>)
+	  src=proj)}}'>LaTeX</a>
     </td>
     <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
    <tr>
   {% endfor %}
 </table>
-
+{% if projects == 'all' %}
+<p><a href="{{url_for('omw_welcome')}}">Show only latest versions</a>.
+{% else %}
+<p><a href="{{url_for('omw_welcome', projects='all')}}">Show all
+    versions, not just latest</a>.
+{% endif %}
 <p><a href='{{url_for('omw_wns')}}' title= 'Statistics
       in the OMW'>Fuller statistics of all the wordnets now in the
       OMW</a> (a little slow to load).

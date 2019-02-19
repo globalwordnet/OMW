@@ -482,11 +482,26 @@ with app.app_context():
         return pos_id
 
     def fetch_ssrel():
+        """look up the relation and definition for synset level links
+           index by an 'id' or from a 'ssrel'
+           ssrel['id'][1] = ('agent', 'the undertaker of an action') 
+           ssrel['rel']['agent'] = (1, 'the undertaker of an action') """
         ssrel_dict = dd(lambda: dd())
         for r in query_omw("""SELECT id, rel, def FROM ssrel"""):
             ssrel_dict['id'][r['id']]=(r['rel'],r['def'])
             ssrel_dict['rel'][r['rel']]=(r['id'],r['def'])
         return ssrel_dict
+    
+    def fetch_srel():
+        """look up the relation and definition for sense level links
+           index by an 'id' or from a 'srel'
+           ssrel['id'][1] = ('antonym', 'a sense with the opposite meaning') 
+           ssrel['rel']['agent'] = (1, 'a sense with the opposite meaning') """
+        srel_dict = dd(lambda: dd())
+        for r in query_omw("""SELECT id, rel, def FROM srel"""):
+            srel_dict['id'][r['id']]=(r['rel'],r['def'])
+            srel_dict['rel'][r['rel']]=(r['id'],r['def'])
+        return srel_dict
 
     def fetch_def_by_ssid_lang_text(ss_id, lang_id, d):
         for r in query_omw(""" SELECT id, ss_id, lang_id, def FROM def
@@ -554,7 +569,7 @@ with app.app_context():
             exes[r['ss_id']][r['lang_id']].append(r['ssexe'])
 
 
-        links = dd(lambda: dd(list)) # links[ss1_id][ssre] = [ss2_id, ...]
+        links = dd(lambda: dd(list)) # links[ss1_id][ssrel] = [ss2_id, ...]
         for r in query_omw(""" SELECT ss1_id, ssrel_id, ss2_id FROM sslink
                 WHERE ss1_id in (%s) """ % (ss_list[0]), ss_list[1]):
             links[r['ss1_id']][r['ssrel_id']].append(r['ss2_id'])
@@ -577,8 +592,8 @@ with app.app_context():
 
     
     def fetch_sense(s_id):
-        """return information about the sense
-           FIXME:
+        """ return information about the sense
+           
         """
         # sense = (lemma, pos, freq, w_id, ss_id, ili_id)
         sense=[]
@@ -600,7 +615,13 @@ with app.app_context():
             if r['freq']:
                 sense[2] =  r['freq']
 
-        return sense
+        ### get sense links
+        slinks = dd(list)  # links[srel] = [s2_id, ...]
+        for r in query_omw(""" SELECT s1_id, srel_id, s2_id FROM slink
+                WHERE s1_id = ?""", (s_id,)):
+            slinks[r['srel_id']].append(r['s2_id'])
+ 
+        return sense, slinks
 
     def fetch_forms(w_id):
         """return the forms of all variants
@@ -624,6 +645,20 @@ with app.app_context():
                            [lang_id] + list(sss)):
             labels[r['ss_id']]=r['label']
         return labels
+
+    def fetch_sense_labels(s_ids):
+        """return just the string for the canonical form for each of a list of ids
+        slabel[127262] = 'driver' """
+        slabel = dict()
+        for r in query_omw("""SELECT lemma, w_id, canon
+        FROM ( SELECT w_id, canon
+           FROM ( SELECT w_id FROM s
+              WHERE id in ({}) ) as sense
+           JOIN w ON w_id = w.id ) as word
+        JOIN f ON canon = f.id""".format(','.join(['?' for s in s_ids])),
+                           s_ids):
+            slabel[r['w_id']] = r['lemma']
+        return slabel
         
     
     def fetch_ss_id_by_src_orginalkey(src_id, originalkey):

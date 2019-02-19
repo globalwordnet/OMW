@@ -56,13 +56,30 @@
 	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" could <u>not</u> be matched.</p>
       {% endif %}
 
-      {% if vr['lexicon'][lexicon]['version_lbl'] %}
-      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
-	"{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" is a new version of this resource.</p>
+      {% if vr['lexicon'][lexicon]['valid_version'] %}
+       <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	"{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" is a well
+	 formed version.</p>
+
+       {% if vr['lexicon'][lexicon]['new_version'] %}
+        <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	  "{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" is a new version of this resource.</p>
+	{% else %}
+        <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
+	There is already a record with version "{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" for this resource.</p>
+	{% endif %}
+	
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	There is already a record with version "{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" for this resource.</p>
+		"{{ vr['lexicon'][lexicon]['version_lbl_val'] }}" is
+	not a well formed version.  We use the python
+	<a href='https://www.python.org/dev/peps/pep-0440/'>PEP 440 --
+	  Version` Identification and Dependency Specification</a>,
+	parsing with <tt>pkg_resources.parse_version</tt> and
+	  disallowing legacy versions.
+      </p>
       {% endif %}
+      
 
       {% if vr['lexicon'][lexicon]['confidence_lbl'] == True %}
       <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
