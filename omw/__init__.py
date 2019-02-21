@@ -11,7 +11,7 @@ from collections import OrderedDict as od
 from hashlib import md5
 from werkzeug import secure_filename
 from lxml import etree
-from pkg_resources import parse_version
+from packaging.version import Version
 
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
@@ -371,14 +371,14 @@ def omw_welcome(name=None):
     ### sort by language, project version (Newest first)
     src_sort=od()
     keys=list(src_meta.keys())
-    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: Version(src_meta[x]['version']),reverse=True) #Version
     keys.sort(key=lambda x: src_meta[x]['id']) #id 
     keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
     for k in keys:
         if projects=='current':  # only get the latest version
             if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
                                              if src_meta[i]['id'] ==  src_meta[k]['id']),
-                                             key=lambda x: Ver(x)):
+                                             key=lambda x: Version(x)):
                 continue
         src_sort[k] =  src_meta[k]
     return render_template('omw_welcome.html',
@@ -400,14 +400,14 @@ def omw_wns(name=None):
     ### sort by language name (1), id, version (FIXME -- reverse version)
     src_sort=od()
     keys=list(src_meta.keys())
-    keys.sort(key=lambda x: Ver(src_meta[x]['version']),reverse=True) #Version
+    keys.sort(key=lambda x: Version(src_meta[x]['version']),reverse=True) #Version
     keys.sort(key=lambda x: src_meta[x]['id']) #id 
     keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
     for k in keys:
         if projects=='current':  # only get the latest version
             if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
                                               if src_meta[i]['id'] ==  src_meta[k]['id']),
-                                             key=lambda x: Ver(x)):
+                                             key=lambda x: Version(x)):
                 continue
         stats.append((src_meta[k], fetch_src_id_stats(k)))
     return render_template('omw_wns.html',

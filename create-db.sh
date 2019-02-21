@@ -19,6 +19,22 @@ ILIMAP="$TABDIR/ili-map.tab"
 SRELS="$TABDIR/srel.tab"
 SSRELS="$TABDIR/ssrel.tab"
 
+###############################################################################
+# MAKE ADMIN DATABASE
+###############################################################################
+echo
+if [ -f "$ADMINDB" ]; then
+    echo "admin database already exists at $ADMINDB."
+    rm -i "$ADMINDB"
+fi
+
+# check if it exists again; if it exists, the user didn't want to delete
+if [ ! -f "$ADMINDB" ]; then
+    echo "Creating new admin database at $ADMIN"
+    python3 "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
+    chmod go+w "$ADMINDB"
+    python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
+fi
 
 ###############################################################################
 # MAKE FRESH OMW.DB
@@ -105,28 +121,11 @@ echo "Loading PWN's Core data..."
 python3 "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"
 
 ###############################################################################
-# MAKE ADMIN DATABASE
-###############################################################################
-echo
-if [ -f "$ADMINDB" ]; then
-    echo "admin database already exists at $ADMINDB."
-    rm -i "$ADMINDB"
-fi
-
-# check if it exists again; if it exists, the user didn't want to delete
-if [ ! -f "$ADMINDB" ]; then
-    echo "Creating new admin database at $ADMIN"
-    python3 "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
-    chmod go+w "$ADMINDB"
-    python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
-fi
-
-###############################################################################
 
 echo
 echo
-echo "  __________________________________"
-echo "/ The OMW and admin databases have \\"
+echo " ___________________________________"
+echo "/ The OMW and admin databases have  \\"
 echo "\ been created under omw/db/        /"
 echo " \_________________________________/"
 echo "        ^__^"

@@ -1,9 +1,9 @@
 # OMW
 
-Code for the Open Multilingual Wordnet
-Read in wordnets, validate them and search them
+Code for the Open Multilingual Wordnet ---
+read in wordnets, validate them, and search them
 
-Currently running here: http://compling.hss.ntu.edu.sg/iliomw/ili
+Currently running here: http://compling.hss.ntu.edu.sg/iliomw
 
 
 DB Schema:
@@ -11,7 +11,7 @@ https://docs.google.com/spreadsheets/d/1-FFnIaw0_6aJ6a--wfooNnGQlVpfl-hTxof8mWmX
 (may be out of date)
 
 
-## Installation
+## Setup
 
 To setup OMW, start by cloning the repository and changing to its directory:
 

@@ -8,7 +8,7 @@ import urllib, gzip, requests
 from werkzeug import secure_filename
 from lxml import etree
 from collections import defaultdict as dd
-from pkg_resources import parse_version as Ver, SetuptoolsVersion
+from packaging.version import Version, InvalidVersion
 
 from common_sql import *
 from omw_sql import *
@@ -756,25 +756,23 @@ with app.app_context():
                     vr_lex['lang_lbl'] = False
                     final_validation = False
 
-                version = wn[lexicon]['attrs']['version']
-                vr_lex['version_lbl_val'] = version
-                try:                    
-                    if isinstance(Ver(version), SetuptoolsVersion): 
-                        vr_lex['valid_version'] = True
-                        if str(Ver(version)) != version:
-                             vr_lex['version_lbl_val'] += " ({})".format(Ver(version))
-                        ### FIXME do we want to check it is a new version (not just unknown)?
-                        if f_src_id_by_proj_ver(lexicon_id, version): # it exists
-                            vr_lex['new_version'] = False
-                            final_validation = False
-                        else:
-                            vr_lex['new_version'] = True
-                    else:
-                        vr_lex['valid_version'] = False
-                        final_validation = False
-                except:
+                version_string = wn[lexicon]['attrs']['version']
+                vr_lex['version_lbl_val'] = version_string
+                try:
+                    version = Version(version_string)
+                except InvalidVersion:
                     vr_lex['valid_version'] = False
                     final_validation = False
+                else:
+                    vr_lex['valid_version'] = True
+                    if str(version) != version_string:
+                        vr_lex['version_lbl_val'] += " ({})".format(version)
+                    ### FIXME do we want to check it is a new version (not just unknown)?
+                    if f_src_id_by_proj_ver(lexicon_id, version_string): # it exists
+                        vr_lex['new_version'] = False
+                        final_validation = False
+                    else:
+                        vr_lex['new_version'] = True
 
                 if 'confidenceScore' in wn[lexicon]['attrs'].keys():
                     confidence = wn[lexicon]['attrs']['confidenceScore']
