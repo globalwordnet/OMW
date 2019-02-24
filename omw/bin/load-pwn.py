@@ -296,6 +296,7 @@ for r in rows:
 
 ssid = dict()
 fid = dict()
+wid=dict()
 
 ss_lemma_sense_id = dict()
 
@@ -379,6 +380,7 @@ for ss in wn.all_synsets():
         form = l.name().replace('_', ' ')
         if (pid, form) in fid:
             form_id = fid[(pid, form)]
+            word_id= wid
         else:
             c.execute("""INSERT INTO f (lang_id, pos_id, lemma, u)
                          VALUES (?,?,?,?)
@@ -390,17 +392,17 @@ for ss in wn.all_synsets():
                          VALUES (?,?,?,?)
                       """, (form_id, src_id, 1, u))
 
-        # WORDS
-        c.execute("""INSERT INTO w (canon, u)
-                     VALUES (?,?) """, (form_id, u))
-        word_id = c.lastrowid
-
-
-        c.execute("""INSERT INTO wf_link (w_id, f_id, src_id, conf, u)
-                     VALUES (?,?,?,?,?)
-                  """, (word_id, form_id, src_id, 1, u))
+            # WORDS  Only add for new form/pos pairs
+            c.execute("""INSERT INTO w (canon, u)
+                  VALUES (?,?) """, (form_id, u))
+            word_id = c.lastrowid
+            wid[(pid, form)] = word_id
+            c.execute("""INSERT INTO wf_link (w_id, f_id, src_id, conf, u)
+                      VALUES (?,?,?,?,?)
+                       """, (word_id, form_id, src_id, 1, u))
 
         # SENSES
+        word_id = wid[(pid, form)]
         c.execute("""INSERT INTO s (ss_id, w_id, u)
                      VALUES (?,?,?) """, (ss_id, word_id, u))
         s_id = c.lastrowid
