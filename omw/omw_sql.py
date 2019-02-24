@@ -647,17 +647,18 @@ with app.app_context():
         return labels
 
     def fetch_sense_labels(s_ids):
-        """return just the string for the canonical form for each of a list of ids
+        """return just the string for the canonical form for each of a list of sense ids
+        slabel[s_id] = lemma (s_id is the id of the sense)
         slabel[127262] = 'driver' """
         slabel = dict()
-        for r in query_omw("""SELECT lemma, w_id, canon
-        FROM ( SELECT w_id, canon
-           FROM ( SELECT w_id FROM s
+        for r in query_omw("""SELECT lemma, s_id, canon
+        FROM ( SELECT w_id, canon, s_id
+           FROM ( SELECT id as s_id, w_id FROM s
               WHERE id in ({}) ) as sense
            JOIN w ON w_id = w.id ) as word
         JOIN f ON canon = f.id""".format(','.join(['?' for s in s_ids])),
                            s_ids):
-            slabel[r['w_id']] = r['lemma']
+            slabel[r['s_id']] = r['lemma']
         return slabel
         
     
