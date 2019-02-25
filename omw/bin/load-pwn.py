@@ -217,7 +217,7 @@ c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
 
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
-             VALUES (?,?,?,?)""", [src_id, 'license', 'https://wordnet.princeton.edu/wordnet/license/', u])
+             VALUES (?,?,?,?)""", [src_id, 'license', 'wordnet', u])
 
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
              VALUES (?,?,?,?)""", [src_id, 'language', 'en', u])
