@@ -13,6 +13,11 @@ from common_sql import *
 app = Flask(__name__)
 with app.app_context():
 
+    def l2q (l):
+        """return a comma seperated list of question marks
+        useful for sql queries over lists"""
+        return ",".join('?' for e in l)
+    
     def fetch_langs():
         lang_id = dd(lambda: dd())
         lang_code = dd(lambda: dd())
@@ -548,7 +553,7 @@ with app.app_context():
         sfreq = dd(int)
         for r in query_omw("""SELECT s_id, sml_id as freq FROM sm 
                               WHERE s_id in (%s) and smt_id=1"""
-                           % ",".join("?" for s in s_list), s_list):
+                           % l2q(s_list), s_list):
             sfreq[r['s_id']] = r['freq']
 
         for (ss_id, lang_id, s_id, lemma) in s_tmp:  
@@ -590,10 +595,20 @@ with app.app_context():
                 core_ili.add(q['x1'])
         return core_ss, core_ili
 
+    def fetch_sense_links(s_ids):
+        """ return information about the links to a list of senses
+        slinks[s_id_from][srel] = [s_id_to, ...]
+        """
+        slinks = dd(lambda: dd(list))  # links[srel] = [s2_id, ...]
+        for r in query_omw(""" SELECT s1_id, srel_id, s2_id FROM slink
+                WHERE s1_id in ({})""".format(l2q(s_ids)), s_ids):
+            slinks[r['s1_id']][r['srel_id']].append(r['s2_id'])
+        return slinks
+        
     
     def fetch_sense(s_id):
         """ return information about the sense
-           
+          
         """
         # sense = (lemma, pos, freq, w_id, ss_id, ili_id)
         sense=[]
@@ -615,13 +630,7 @@ with app.app_context():
             if r['freq']:
                 sense[2] =  r['freq']
 
-        ### get sense links
-        slinks = dd(list)  # links[srel] = [s2_id, ...]
-        for r in query_omw(""" SELECT s1_id, srel_id, s2_id FROM slink
-                WHERE s1_id = ?""", (s_id,)):
-            slinks[r['srel_id']].append(r['s2_id'])
- 
-        return sense, slinks
+        return sense
 
     def fetch_forms(w_id):
         """return the forms of all variants
@@ -641,23 +650,24 @@ with app.app_context():
         """return a dict with lang_id labels for the synsets in sss"""
         labels = dict()
         for r in query_omw("""SELECT ss_id, label FROM label 
-        WHERE lang_id = ? AND ss_id in (%s)""" % ",".join('?' for s in sss),
+        WHERE lang_id = ? AND ss_id in (%s)""" % l2q(sss),
                            [lang_id] + list(sss)):
             labels[r['ss_id']]=r['label']
         return labels
 
     def fetch_sense_labels(s_ids):
-        """return just the string for the canonical form for each of a list of ids
+        """return just the string for the canonical form for each of a list of sense ids
+        slabel[s_id] = lemma (s_id is the id of the sense)
         slabel[127262] = 'driver' """
         slabel = dict()
-        for r in query_omw("""SELECT lemma, w_id, canon
-        FROM ( SELECT w_id, canon
-           FROM ( SELECT w_id FROM s
+        for r in query_omw("""SELECT lemma, s_id, canon
+        FROM ( SELECT w_id, canon, s_id
+           FROM ( SELECT id as s_id, w_id FROM s
               WHERE id in ({}) ) as sense
            JOIN w ON w_id = w.id ) as word
-        JOIN f ON canon = f.id""".format(','.join(['?' for s in s_ids])),
+        JOIN f ON canon = f.id""".format(l2q(s_ids)),
                            s_ids):
-            slabel[r['w_id']] = r['lemma']
+            slabel[r['s_id']] = r['lemma']
         return slabel
         
     
@@ -666,6 +676,17 @@ with app.app_context():
                 WHERE src_id = ? and src_key = ? """, [src_id, originalkey]):
             ss = r['ss_id']
         return ss
+
+    def fetch_defs_by_sense(s_ids):
+        """given a list of senses, return a dictionary of definitions"""
+        ### FIXME: find the sense level definition when defined
+        defs=dd(lambda: dict())
+        for r in query_omw(""" SELECT s_id, lang_id, def 
+        FROM (SELECT id AS s_id, ss_id FROM s 
+        WHERE id IN ({})) as sense
+        JOIN def ON sense.ss_id = def.ss_id""".format(l2q(s_ids)), s_ids):
+            defs[r['s_id']][r['lang_id']] = r['def']
+        return defs
 
     def fetch_all_defs_by_ss_lang_text():
         defs = dd(lambda: dd())

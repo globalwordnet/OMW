@@ -284,17 +284,27 @@ def min_omw_concepts(ss=None, ili_id=None):
 
 @app.route('/_load_min_omw_sense/<sID>')
 def min_omw_sense(sID=None):
-    langs_id, langs_code = fetch_langs()
-    pos = fetch_pos()
-    sense, slinks =  fetch_sense(sID)
-    forms=fetch_forms(sense[3])
-    selected_lang = request.cookies.get('selected_lang')
-    labels= fetch_labels(selected_lang,[sense[4]])
-    src_meta= fetch_src_meta()
-    src_sid=fetch_src_for_s_id([sID])
+    if sID:
+        s_id=int(sID)
+        langs_id, langs_code = fetch_langs()
+        pos = fetch_pos()
+        sense = fetch_sense(s_id)
+        forms=fetch_forms(sense[3])
+        selected_lang = int(request.cookies.get('selected_lang'))
+        labels= fetch_labels(selected_lang,[sense[4]])
+        src_meta= fetch_src_meta()
+        src_sid=fetch_src_for_s_id([s_id])
+        sdefs = fetch_defs_by_sense([s_id])
+        sdef = ''
+        if selected_lang in sdefs[s_id]:
+            sdef = sdefs[s_id][selected_lang] ## requested language
+        else:
+            sdef = sdefs[min(sdefs[s_id].keys())] ## a language
+    
     #    return jsonify(result=render_template('omw_sense.html',
     return jsonify(result=render_template('min_omw_sense.html',
-                                          s_id = sID,
+                                          s_id = s_id,
+                                          sdef=sdef,
                                           sense = sense,
                                           forms=forms,
                                           langs = langs_id,
@@ -632,12 +642,21 @@ def concepts_omw(ssID=None, iliID=None):
     ss_srcs=fetch_src_for_ss_id(ss_ids)
     src_meta=fetch_src_meta()
     core_ss, core_ili = fetch_core()
+    s_ids = []
+    for x in senses:
+        for y in senses[x]:
+            for (s_id, lemma, freq) in senses[x][y]:
+                s_ids.append(s_id)
+    slinks = fetch_sense_links(s_ids)
+
+    
     return render_template('omw_concept.html',
                            ssID=ssID,
                            iliID=iliID,
                            pos = pos,
                            langs = langs_id,
                            senses=senses,
+                           slinks=slinks,
                            ss=ss,
                            links=links,
                            ssrels=ssrels,
@@ -655,21 +674,33 @@ def concepts_omw(ssID=None, iliID=None):
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])
 def omw_sense(sID=None):
     """display a single sense (and its variants)"""
-    langs_id, langs_code = fetch_langs()
-    pos = fetch_pos()
-    sense, slinks =  fetch_sense(sID)
-    forms=fetch_forms(sense[3])
-    selected_lang = request.cookies.get('selected_lang')
-    labels= fetch_labels(selected_lang,[sense[4]])
-    src_meta= fetch_src_meta()
-    src_sid=fetch_src_for_s_id([sID])
-    srel = fetch_srel()
-    ## get the canonical form for each linked sense
-    slabel=fetch_sense_labels([x for v in slinks.values() for x in v])
+    if sID:
+        langs_id, langs_code = fetch_langs()
+        pos = fetch_pos()
+        s_id=int(sID)
+        sense =  fetch_sense(s_id)
+        slinks = fetch_sense_links([s_id])
+        forms=fetch_forms(sense[3])
+        selected_lang = int(request.cookies.get('selected_lang'))
+        labels= fetch_labels(selected_lang,[sense[4]])
+        src_meta= fetch_src_meta()
+        src_sid=fetch_src_for_s_id([s_id])
+        srel = fetch_srel()
+        ## get the canonical form for each linked sense
+        slabel=fetch_sense_labels([x for v in slinks[int(s_id)].values() for x in v])
+
+        sdefs = fetch_defs_by_sense([s_id])
+        sdef = ''
+        if selected_lang in sdefs[s_id]:
+            sdef = sdefs[s_id][selected_lang] ## requested language
+        else:
+            sdef = sdefs[min(sdefs[s_id].keys())] ## a language
+
     return render_template('omw_sense.html',
                            s_id = sID,
+                           sdef = sdef,
                            sense = sense,
-                           slinks = slinks,
+                           slinks = slinks[s_id],
                            srel = srel,
                            forms=forms,
                            langs = langs_id,
