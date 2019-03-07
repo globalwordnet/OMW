@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sqlite3, datetime
-from flask import Flask, current_app, url_for
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
-from itsdangerous import URLSafeTimedSerializer # for safe session cookies
-from hashlib import md5
+import hashlib
+import datetime
+from functools import wraps
 
-from common_sql import *
+from flask import Flask
+from flask_login import LoginManager, UserMixin, current_user
+from itsdangerous import URLSafeTimedSerializer # for safe session cookies
+
+from .common_sql import *
 
 app = Flask(__name__)
 with app.app_context():
@@ -21,9 +23,13 @@ with app.app_context():
 
 
     def hash_pass(password):
-        """ Return the md5 hash of the password+salt """
-        salted_password = password + app.secret_key
-        return md5(salted_password.encode('utf-8')).hexdigest()
+        """ Return the hash of the password+salt """
+        return hashlib.pbkdf2_hmac(
+            'sha256',
+            password.encode('utf-8'),
+            app.secret_key.encode('utf-8'),
+            100000
+        ).hex()
 
 
     def login_required(role=0, group='open'):

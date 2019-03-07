@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, sys, re, sqlite3, datetime
-from flask import Flask, current_app
-from flask import render_template, g, request, redirect, url_for, send_from_directory, session, flash
-import urllib, gzip, requests
-from werkzeug import secure_filename
-from lxml import etree
+import os
+import sys
+import re
+import urllib
+import gzip
 from collections import defaultdict as dd
-from packaging.version import Version, InvalidVersion
-
-from common_sql import *
-from omw_sql import *
 from datetime import datetime as dt
 
-import json # to print dd
+from flask import (
+    Flask,
+    request
+)
+from werkzeug import secure_filename
+from lxml import etree
+from packaging.version import Version, InvalidVersion
+
+from .common_sql import *
+from .omw_sql import *
+
 
 ILI_DTD = 'db/WN-LMF.dtd'
 UPLOAD_FOLDER = 'public-uploads'
@@ -384,7 +389,7 @@ with app.app_context():
     def uploadFile(current_user):
 
         format = "%Y-%m-%dT%H:%M:%S"
-        now = datetime.datetime.utcnow().strftime(format)
+        now = dt.utcnow().strftime(format)
 
         try:
             file = request.files['file']

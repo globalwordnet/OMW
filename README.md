@@ -45,14 +45,15 @@ With the dependencies satisfied, you are ready to create the databases for runni
 (env) ~/OMW$ bash create-db.sh
 ```
 
-The above command will prompt for a password for the admin database. When the command has completed, you are ready to run the web app.
+The above command will prompt for an email and password for the admin database, and allow you to create additional users.
+When the command has completed, you are ready to run the web app.
 
 ## Running in Debug Mode
 
-You can run the OMW web app on your local machine in debug mode by running `omw/__init__.py`:
+You can run the OMW web app on your local machine in debug mode with `flask run`:
 
 ``` bash
-(env) ~/OMW/omw$ python __init__.py
+(env) ~/OMW/omw$ FLASK_APP=. flask run
 ```
 
 **Note:** Currently you must run the above command from the `omw/` subdirectory.

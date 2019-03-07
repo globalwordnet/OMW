@@ -2,7 +2,12 @@
 
 import sys
 import sqlite3
-import getpass
+from getpass import getpass
+
+from omw.common_login import hash_pass
+
+ADMIN_USER = 'admin'
+ADMIN_NAME = 'System Administrator'
 
 # It takes one argument: the name of the db
 if (len(sys.argv) < 2):
@@ -12,7 +17,33 @@ else:
     u =  sys.argv[0]
     dbfile = sys.argv[1]
 
-pw = getpass.getpass('Please provide an admin password: ')
+print('Creating an admin user.')
+print('Username: ' + ADMIN_USER)
+print('Full name: ' + ADMIN_NAME)
+admin_email = input('Email: ')
+admin_pw = hash_pass(getpass('Password: '))
+
+users = [
+    (ADMIN_USER, ADMIN_NAME, admin_pw, admin_email, 99, 'admin', 'sys', u)
+]
+
+while True:
+    print()
+    another = input('Create another user? [y/n]: ')
+    if another.lower() in ('n', 'no'):
+        break
+    elif another.lower() in ('y', 'yes'):
+        user = input('Username: ')
+        name = input('Full name: ')
+        email = input('Email: ')
+        pw = hash_pass(getpass('Password: '))
+        lvl = 0
+        grp = 'common'
+        aff = 'sys'
+        users.append((user, name, pw, email, lvl, grp, aff, u))
+    else:
+        print('invalid choice')
+
 
 ################################################################
 # CONNECT TO DB
@@ -24,18 +55,13 @@ c = con.cursor()
 # INSERT EXAMPLE USERS DATA (CODES AND NAMES)
 ################################################################
 
-c.execute("""INSERT INTO users (userID, full_name, password, 
-             email, access_level, access_group, affiliation, u)
-             VALUES (?,?,?,?,?,?,?,?)""",
-          ['admin','System Administrator', pw,
-           'changeme@changeme.com', 99, 'admin', 'sys', u])
+for userdata in users:
+    c.execute("""
+        INSERT INTO users (userID, full_name, password,
+        email, access_level, access_group, affiliation, u)
+        VALUES (?,?,?,?,?,?,?,?)""",
+        userdata)
 
-c.execute("""INSERT INTO users (userID, full_name, password, 
-             email, access_level, access_group, affiliation, u)
-             VALUES (?,?,?,?,?,?,?,?)""",
-          ['user1','System User 1',
-           '46bcc2d7eb5723292133857fa95454b9',
-           'changeme@changeme.com', 0, 'common', 'sys', u])
 
 con.commit()
 con.close()

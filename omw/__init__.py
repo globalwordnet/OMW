@@ -1,29 +1,44 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os, sys, sqlite3, datetime, urllib, gzip, requests
-from time import sleep
-from flask import Flask, render_template, g, request, redirect, url_for, send_from_directory, session, flash, jsonify, make_response, Markup, Response
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user, wraps
-from itsdangerous import URLSafeTimedSerializer # for safe session cookies
-from collections import defaultdict as dd
-from collections import OrderedDict as od
-from hashlib import md5
-from werkzeug import secure_filename
-from lxml import etree
+import datetime
+from collections import (
+    defaultdict as dd,
+    OrderedDict as od
+)
+from math import log
+
+from flask import (
+    Flask,
+    render_template,
+    g,
+    request,
+    redirect,
+    url_for,
+    send_from_directory,
+    flash,
+    jsonify,
+    make_response,
+    Markup,
+    Response
+)
+from flask_login import (
+    login_required,
+    login_user,
+    logout_user,
+    current_user
+)
 from packaging.version import Version
 
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
 
 
-from common_login import *
-from common_sql import *
-from omw_sql import *
-from wn_syntax import *
+from .common_login import *
+from .common_sql import *
+from .omw_sql import *
+from .wn_syntax import *
 
-
-from math import log
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

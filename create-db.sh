@@ -30,10 +30,10 @@ fi
 
 # check if it exists again; if it exists, the user didn't want to delete
 if [ ! -f "$ADMINDB" ]; then
-    echo "Creating new admin database at $ADMIN"
+    echo "Creating new admin database at $ADMINDB"
     python3 "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
     chmod go+w "$ADMINDB"
-    python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
+    PYTHONPATH="$OMWROOT" python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
 fi
 
 ###############################################################################

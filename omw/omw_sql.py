@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys, sqlite3
-from flask import Flask, current_app, g
 from collections import defaultdict as dd
-from collections import namedtuple as nt
-from common_sql import *
+
+from flask import Flask
+
+from .common_sql import *
 
 #ntsense=namedtuple('Sense', ['lemma', 'y'], verbose=True)
 
-    
+
 app = Flask(__name__)
 with app.app_context():
 
@@ -17,7 +17,7 @@ with app.app_context():
         """return a comma seperated list of question marks
         useful for sql queries over lists"""
         return ",".join('?' for e in l)
-    
+
     def fetch_langs():
         lang_id = dd(lambda: dd())
         lang_code = dd(lambda: dd())

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-from flask import Flask, current_app, g
+from flask import Flask, g
 from collections import defaultdict as dd
 
 def qs(ll):
