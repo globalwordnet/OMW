@@ -8,6 +8,8 @@ DBDIR="$OMWROOT/omw/db"
 SCHEMADIR="$BINDIR"
 TABDIR="$BINDIR"
 
+CONFIG="$OMWROOT/config.py"
+
 OMWDB="$DBDIR/omw.db"
 ADMINDB="$DBDIR/admin.db"
 
@@ -20,8 +22,43 @@ SRELS="$TABDIR/srel.tab"
 SSRELS="$TABDIR/ssrel.tab"
 
 ###############################################################################
+# MAKE CONFIGURATION FILE
+###############################################################################
+
+echo
+if [ -f "$CONFIG" ]; then
+    echo "An OMW configuration file already exists at:"
+    echo "  $CONFIG"
+    echo
+    echo "For security reasons, if you wish to create a new one, please delete"
+    echo "this file manually and run this script again."
+    echo
+    echo "**NOTE** if you already have an admin database you will lose user"
+    echo "access when the file is deleted! If you wish to retain access AND"
+    echo "generate a new config, you must copy the SECRET_KEY setting from the"
+    echo "old config file into the new one!"
+    exit 1
+else
+    echo "Creating new configuration file at $CONFIG."
+
+    function abspath() { readlink -f "$1"; }
+
+    cat > "$CONFIG" <<EOF
+UPLOAD_FOLDER = '$( abspath "omw/public-uploads" )'
+SECRET_KEY = $( python -c 'import os; print(repr(os.urandom(24)))' )
+
+# ILIDB = '$( abspath "omw/db/ili.db" )'
+OMWDB = '$( abspath "omw/db/omw.db" )'
+ADMINDB = '$( abspath "omw/db/admin.db" )'
+ILI_DTD = '$( abspath "omw/db/WN-LMF.dtd" )'
+
+EOF
+fi
+
+###############################################################################
 # MAKE ADMIN DATABASE
 ###############################################################################
+
 echo
 if [ -f "$ADMINDB" ]; then
     echo "admin database already exists at $ADMINDB."
@@ -82,6 +119,7 @@ python3 "$BINDIR"/load-srels.py "$OMWDB" "$SRELS"
 ###############################################################################
 # LOAD PWN3.0+ILI
 ###############################################################################
+
 echo
 echo "Loading PWN30..."
 python3 "$BINDIR"/load-pwn.py "$OMWDB" "$ILIMAP"
@@ -90,6 +128,7 @@ python3 "$BINDIR"/load-pwn.py "$OMWDB" "$ILIMAP"
 ###############################################################################
 # LOAD/UPDATE PWN FREQUENCIES
 ###############################################################################
+
 echo
 echo
 echo "Loading PWN30 frequencies..."
@@ -101,6 +140,7 @@ python3 "$BINDIR"/update-freq.py "$OMWDB"
 ###############################################################################
 # Update LABELS (FOR PWN)
 ###############################################################################
+
 echo
 echo "Loading PWN30 synset labels..."
 python3 "$BINDIR"/update-label.py "$OMWDB"
@@ -109,6 +149,7 @@ python3 "$BINDIR"/update-label.py "$OMWDB"
 ###############################################################################
 # LOADING (ALL) OMW LANGUAGES
 ###############################################################################
+
 echo
 echo "Loading language data..."
 python3 "$BINDIR"/seed-languages.py "$OMWDB"
@@ -116,6 +157,7 @@ python3 "$BINDIR"/seed-languages.py "$OMWDB"
 ###############################################################################
 # LOADING PWN CORE CONCEPTS
 ###############################################################################
+
 echo
 echo "Loading PWN's Core data..."
 python3 "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"

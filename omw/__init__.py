@@ -37,7 +37,7 @@ app = Flask(__name__)
 # Common configuration settings go here
 app.config['REMEMBER_COOKIE_DURATION'] = datetime.timedelta(minutes=30)
 # Installation-specific settings go in omw_config.py
-app.config.from_object('omw_config')
+app.config.from_object('config')
 
 # Load these only after creating and configuring the app object
 from .common_login import *
