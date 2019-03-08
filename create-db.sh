@@ -44,13 +44,13 @@ else
     function abspath() { readlink -f "$1"; }
 
     cat > "$CONFIG" <<EOF
-UPLOAD_FOLDER = '$( abspath "omw/public-uploads" )'
+UPLOAD_FOLDER = '${OMWROOT}/omw/public-uploads'
 SECRET_KEY = $( python -c 'import os; print(repr(os.urandom(24)))' )
 
-# ILIDB = '$( abspath "omw/db/ili.db" )'
-OMWDB = '$( abspath "omw/db/omw.db" )'
-ADMINDB = '$( abspath "omw/db/admin.db" )'
-ILI_DTD = '$( abspath "omw/db/WN-LMF.dtd" )'
+# ILIDB = '$( abspath "$DBDIR/ili.db" )'
+OMWDB = '${OMWDB}'
+ADMINDB = '${ADMINDB}'
+ILI_DTD = '$( abspath "$DBDIR/WN-LMF.dtd" )'
 
 EOF
 fi

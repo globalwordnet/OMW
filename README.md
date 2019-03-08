@@ -1,7 +1,7 @@
 # OMW
 
 Code for the Open Multilingual Wordnet ---
-read in wordnets, validate them, and search them
+read in wordnets, validate them, and search them.
 
 Currently running here: http://compling.hss.ntu.edu.sg/iliomw
 
@@ -46,17 +46,20 @@ With the dependencies satisfied, you are ready to create the databases for runni
 ```
 
 The above command will prompt for an email and password for the admin database, and allow you to create additional users.
-When the command has completed, you are ready to run the web app.
+At this point you may want to inspect and edit the created `config.py` file to ensure it is correct for your installation.
+When done, you are ready to run the web app.
 
 ## Running in Debug Mode
 
-You can run the OMW web app on your local machine in debug mode with `flask run`:
+You can run the OMW web app on your local machine with `run.py`:
 
 ``` bash
-(env) ~/OMW/omw$ FLASK_APP=. flask run
+(env) ~/OMW$ python run.py
 ```
-
-**Note:** Currently you must run the above command from the `omw/` subdirectory.
 
 If successful, you should be able to view the OMW by visiting http://0.0.0.0:5000/
 
+## Deploying
+
+The included `omw.wsgi` file can help you get started with deploying to an Apache2 server with `mod_wsgi`.
+See the [Flask documentation](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/) for more information.
