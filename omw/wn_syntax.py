@@ -9,25 +9,16 @@ import gzip
 from collections import defaultdict as dd
 from datetime import datetime as dt
 
-from flask import (
-    Flask,
-    request
-)
+from flask import request
 from werkzeug import secure_filename
 from lxml import etree
 from packaging.version import Version, InvalidVersion
 
-from .common_sql import *
-from .omw_sql import *
+from omw import app
+from omw.omw_sql import *
 
 
-ILI_DTD = 'db/WN-LMF.dtd'
-UPLOAD_FOLDER = 'public-uploads'
 ALLOWED_EXTENSIONS = set(['xml','gz','xml.gz'])
-
-
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #debug = open ("debug.txt", mode='w')
 debug=sys.stderr
@@ -429,7 +420,7 @@ with app.app_context():
         l=lambda:dd(l)
         vr = l()  # validation report
 
-        dtd_f = open(ILI_DTD, 'rb')
+        dtd_f = open(app.config['ILI_DTD'], 'rb')
         try:
             dtd = etree.DTD(dtd_f)
 
@@ -707,7 +698,7 @@ with app.app_context():
         ########################################################################
         # CHECK WN STRUCTURE (MATCH AGAINST DTD)
         ########################################################################
-        dtd_f = open(ILI_DTD, 'rb')
+        dtd_f = open(app.config['ILI_DTD'], 'rb')
 
         try:
             dtd = etree.DTD(dtd_f)

@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sqlite3
-from flask import Flask, g
 from collections import defaultdict as dd
+import sqlite3
+
+from flask import g
+
+from omw import app
+
 
 def qs(ll):
     """return len(l) ?s sepeated by ','  to use in queries"""
     return ','.join('?' for l  in ll)
 
-app = Flask(__name__)
-with app.app_context():
 
-    # ILIDB = 'db/ili.db'
-    OMWDB = 'db/omw.db'
-    ADMINDB = 'db/admin.db'
+with app.app_context():
 
     ############################################################################
     # SET UP CONNECTIONS
     ############################################################################
     def connect_admin():
-        return sqlite3.connect(ADMINDB)
+        return sqlite3.connect(app.config['ADMINDB'])
 
     # def connect_ili():
     #     return sqlite3.connect(ILIDB)
 
     def connect_omw():
-        return sqlite3.connect(OMWDB)
+        return sqlite3.connect(app.config['OMWDB'])
 
     def query_admin(query, args=(), one=False):
         cur = g.admin.execute(query, args)

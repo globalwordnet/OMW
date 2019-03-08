@@ -3,14 +3,18 @@
 
 from collections import defaultdict as dd
 
-from flask import Flask
+from omw.common_sql import (
+    qs,
+    query_omw,
+    query_omw_direct,
+    write_omw,
+    blk_write_omw
+)
 
-from .common_sql import *
-
+from omw import app
 #ntsense=namedtuple('Sense', ['lemma', 'y'], verbose=True)
 
 
-app = Flask(__name__)
 with app.app_context():
 
     def l2q (l):

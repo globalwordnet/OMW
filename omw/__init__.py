@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import datetime
 from collections import (
     defaultdict as dd,
     OrderedDict as od
 )
 from math import log
+import datetime
 
 from flask import (
     Flask,
@@ -33,17 +33,19 @@ from packaging.version import Version
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
 
+app = Flask(__name__)
+# Common configuration settings go here
+app.config['REMEMBER_COOKIE_DURATION'] = datetime.timedelta(minutes=30)
+# Installation-specific settings go in omw_config.py
+app.config.from_object('omw_config')
 
+# Load these only after creating and configuring the app object
 from .common_login import *
 from .common_sql import *
 from .omw_sql import *
 from .wn_syntax import *
 
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = "!$flhgSgngNO%$#SOET!$!"
-app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
 
 ## profiler
 #app.config['PROFILE'] = True

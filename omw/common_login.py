@@ -5,13 +5,13 @@ import hashlib
 import datetime
 from functools import wraps
 
-from flask import Flask
 from flask_login import LoginManager, UserMixin, current_user
 from itsdangerous import URLSafeTimedSerializer # for safe session cookies
 
-from .common_sql import *
+from omw import app
+from omw.common_sql import fetch_userid
 
-app = Flask(__name__)
+
 with app.app_context():
 
     login_manager = LoginManager()
