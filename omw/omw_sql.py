@@ -257,6 +257,14 @@ with app.app_context():
         for r in query_omw("""SELECT MAX(id) FROM sslink"""):
             return r['MAX(id)']
 
+    def fetch_max_slink_id():
+        for r in query_omw("""SELECT MAX(id) FROM slink"""):
+            return r['MAX(id)']
+
+    def fetch_max_ssslink_id():
+        for r in query_omw("""SELECT MAX(id) FROM ssslink"""):
+            return r['MAX(id)']
+
     def fetch_max_f_id():
         for r in query_omw("""SELECT MAX(id) FROM f"""):
             return r['MAX(id)']
@@ -269,6 +277,9 @@ with app.app_context():
         for r in query_omw("""SELECT MAX(id) FROM s"""):
             return r['MAX(id)']
 
+    def fetch_max_sm_id():
+        for r in query_omw("""SELECT MAX(id) FROM sm"""):
+            return r['MAX(id)']
 
     def insert_into_ili(kind, definition, status, src, key, u):
         return write_omw("""INSERT INTO ili
@@ -707,6 +718,20 @@ with app.app_context():
             sslinks[r['ss1_id']][(r['ssrel_id'],r['ss2_id'])]=r['id']
         return sslinks
 
+    def fetch_all_srels_by_s_rel_trgt():
+        slinks = dd(lambda: dd())
+        for r in query_omw("""SELECT id, s1_id, srel_id, s2_id
+                              FROM slink"""):
+            slinks[r['s1_id']][(r['srel_id'],r['s2_id'])]=r['id']
+        return slinks
+
+    def fetch_all_sssrels_by_s_rel_trgt():
+        ssslinks = dd(lambda: dd())
+        for r in query_omw("""SELECT id, s_id, srel_id, ss_id
+                              FROM ssslink"""):
+            ssslinks[r['s_id']][(r['srel_id'],r['ss_id'])]=r['id']
+        return ssslinks
+
     def fetch_all_forms_by_lang_pos_lemma():
         forms = dd(lambda: dd())
         for r in query_omw("""SELECT id, lang_id, pos_id, lemma
@@ -824,6 +849,42 @@ with app.app_context():
         return blk_write_omw("""INSERT INTO sslink_src (sslink_id, src_id, conf, lang_id, u)
                                 VALUES (?,?,?,?,?)""", tuple_list)
 
+    def insert_omw_slink(s1_id, srel_id, s2_id, u):
+        return write_omw("""INSERT INTO slink (s1_id, srel_id, s2_id, u)
+                            VALUES (?,?,?,?)""",
+                         [s1_id, srel_id, s2_id, u])
+
+    def blk_insert_omw_slink(tuple_list):
+        return blk_write_omw("""INSERT INTO slink (id, s1_id, srel_id, s2_id, u)
+                                VALUES (?,?,?,?,?)""", tuple_list)
+
+    def insert_omw_slink_src(slink_id, src_id, conf, u):
+        return write_omw("""INSERT INTO slink_src (slink_id, src_id, conf, u)
+                            VALUES (?,?,?,?)""",
+                         [slink_id, src_id, conf, u])
+
+    def blk_insert_omw_slink_src(tuple_list):
+        return blk_write_omw("""INSERT INTO slink_src (slink_id, src_id, conf, u)
+                                VALUES (?,?,?,?)""", tuple_list)
+
+    def insert_omw_ssslink(s_id, srel_id, ss_id, u):
+        return write_omw("""INSERT INTO ssslink (s_id, srel_id, ss_id, u)
+                            VALUES (?,?,?,?)""",
+                         [s_id, srel_id, ss_id, u])
+
+    def blk_insert_omw_ssslink(tuple_list):
+        return blk_write_omw("""INSERT INTO ssslink (id, s_id, srel_id, ss_id, u)
+                                VALUES (?,?,?,?,?)""", tuple_list)
+
+    def insert_omw_ssslink_src(ssslink_id, src_id, conf, lang_id, u):
+        return write_omw("""INSERT INTO ssslink_src (ssslink_id, src_id, conf, lang_id, u)
+                            VALUES (?,?,?,?,?)""",
+                         [ssslink_id, src_id, conf, lang_id, u])
+
+    def blk_insert_omw_ssslink_src(tuple_list):
+        return blk_write_omw("""INSERT INTO ssslink_src (ssslink_id, src_id, conf, lang_id, u)
+                                VALUES (?,?,?,?,?)""", tuple_list)
+
 
     # FORM
     def insert_omw_f(lang_id, pos_id, form, u):
@@ -889,6 +950,33 @@ with app.app_context():
     # BLK SENSE SRC
     def blk_insert_omw_s_src(tuple_list):
         return blk_write_omw("""INSERT INTO s_src (s_id, src_id, conf, u)
+                                VALUES (?,?,?,?)""", tuple_list)
+
+
+    # INSERT SENSE META
+    def insert_omw_sm(s_id, smt_id, sml_id, u):
+        """
+        smt_id = sense-meta-tag_id (db restricted to the ones stored in smt)
+        sml_id = labels (not restricted, but meanings available in sml)
+        """
+        return write_omw("""INSERT INTO sm (s_id, smt_id, sml_id, u)
+                            VALUES (?,?,?,?)""",
+                         [s_id, smt_id, sml_id, u])
+
+    # BLK INSERT SENSE META
+    def blk_insert_omw_sm(tuple_list):
+        return blk_write_omw("""INSERT INTO sm (id, s_id, smt_id, sml_id, u)
+                                VALUES (?,?,?,?,?)""", tuple_list)
+
+    # INSERT SENSE META SRC
+    def insert_omw_sm_src(sm_id, src_id, conf, u):
+        return write_omw("""INSERT INTO sm_src (sm_id, src_id, conf, u)
+                            VALUES (?,?,?,?)""",
+                         [sm_id, src_id, conf, u])
+
+    # BLK SENSE META SRC
+    def blk_insert_omw_sm_src(tuple_list):
+        return blk_write_omw("""INSERT INTO sm_src (sm_id, src_id, conf, u)
                                 VALUES (?,?,?,?)""", tuple_list)
 
 

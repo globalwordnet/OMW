@@ -87,7 +87,7 @@ with app.app_context():
         wn = l()
 
         ########################################################################
-        # LEXICONS (1st ITERATION: LEXICAL ENTRIES)
+        # 1st ITERATION: LEXICAL ENTRIES
         ########################################################################
         for lexi in wnlmf.findall('Lexicon'):
             lexicon = lexi.get('id')
@@ -152,10 +152,10 @@ with app.app_context():
                     wn_sens['attrs'] = sense.attrib
 
                     for sensRel in sense.findall('SenseRelation'):
-                        sensTrgt = sensRel.get('Target')
+                        relTrgt = sensRel.get('target')
                         relType = sensRel.get('relType')
 
-                        wn_sensRels = wn_sens['rels'][(relType, sensTrgt)]
+                        wn_sensRels = wn_sens['rels'][(relType, relTrgt)]
                         wn_sensRels['attrs'] = sensRel.attrib
 
                     for sensExes in sense.findall('Example'):
@@ -177,12 +177,19 @@ with app.app_context():
                                                        sensExes_txt)]
                         wn_sensExes['attrs'] = sensExes.attrib
 
-
+                    ############################################################
+                    # One sense can have multiple counts from different sources;  
+                    # This info is inside ['attrs'], if provided.
+                    #
+                    # We need to enumerate them because we can have:
+                    #   <Count dc:source="SemCor">50</Count>
+                    #   <Count dc:source="NTUMC">50</Count>
+                    ############################################################
                     for i, sensCount in enumerate(sense.findall('Count')):
                         sensCount_txt = sensCount.text
-
-                        wn_sensExes = wn_sens['counts'][(i,sensCount_txt)]
-                        wn_sensExes['attrs'] = sensCount.attrib
+                        if sensCount_txt: # if <Count></Count> is not empty
+                            wn_sensCounts = wn_sens['counts'][(i,sensCount_txt)]
+                            wn_sensCounts['attrs'] = sensCount.attrib
 
 
                 # LEXICAL ENTRY SYNTACTIC BEHAVIOUR
@@ -198,7 +205,7 @@ with app.app_context():
         #                                                 dt.today().isoformat()))
         
         ########################################################################
-        # LEXICONS (2n ITTERATION: SYNSETS)
+        # 2n ITTERATION: SYNSETS
         ########################################################################
         for lexi in wnlmf.findall('Lexicon'):
             lexicon = lexi.get('id')
@@ -612,6 +619,37 @@ with app.app_context():
                         
 
 
+    def findBadSenseRelations(wn):    #FIXME must add the message in the template
+        badlinks = []
+        all_synset_ids = []
+        all_sense_ids = []
+        for lexicon in wn.keys():
+            #print(lexicon)
+            #print(len(wn[lexicon]['syns'].keys()))
+            # print(wn[lexicon]['syns'].keys(), file=sys.stderr) #TEST
+            all_synset_ids += wn[lexicon]['syns'].keys()
+
+            for le_id in wn[lexicon]['le'].keys():
+                for sens_id, sens_synset in wn[lexicon]['le'][le_id]['senses']:
+                    all_sense_ids.append(sens_id)
+
+        # looping again to find the sense-rels
+        for lexicon in wn.keys():
+            for le_id in wn[lexicon]['le'].keys():
+                # print(wn[lexicon]['le'][le_id]['senses'], file=sys.stderr) #TEST
+                for sens_id, sens_synset in wn[lexicon]['le'][le_id]['senses']:
+                    for relType, relTrgt in wn[lexicon]['le'][le_id]['senses'][(sens_id, sens_synset)]['rels']:
+                        if relTrgt not in (all_synset_ids + all_sense_ids):
+                            badlinks.append((sens_id, relType, relTrgt))
+
+
+        # print(all_synset_ids, file=sys.stderr)
+        # print(all_sense_ids, file=sys.stderr)
+        # print("bad: ", badlinks, file=sys.stderr)
+        return badlinks
+
+
+
     def validateFile(current_user, filename):
 
         l=lambda:dd(l)
@@ -621,7 +659,9 @@ with app.app_context():
         vr['upload'] = True
         
         ###LOG
-        print('Preparing to Validate File\t{}'.format(dt.today().isoformat()))
+        print('Preparing to Validate File\t{}'.format(dt.today().isoformat()), file=sys.stderr)
+        
+
         ########################################################################
         # FETCH & UPLOAD WN FILE/URL
         ########################################################################
@@ -725,6 +765,11 @@ with app.app_context():
 
 
             invalid_ililinks = set() # TO CHECK ILI LINK COMFORMITY
+
+            vr['bad_sense_rels'] = findBadSenseRelations(wn)
+            if vr['bad_sense_rels']:
+                final_validation = False
+
             for lexicon in wn:
                 ### LOG     
                 # print('Checking {}\t{}'.format(lexicon,
@@ -1097,18 +1142,33 @@ with app.app_context():
 
 
     def confirmUpload(filename=None, u=None):
-        insert=True   ### really put stuff in the database
         try:
+            insert=True   ### really put stuff in the database
         
             # print("\n")   #TEST
-            # print("ENTERING 1st Iteration")   #TEST
+            # print("ENTERING 1st Iteration", file=sys.stderr)   #TEST
             # print("\n")   #TEST
-
+            
 
             l = lambda:dd(l)
             r = l()  # report
             r['new_ili_ids'] = []
             r['wns'] = []
+
+
+            ####################################################################
+            # omw_synset_keys and omw_sense_keys store the OMW ID for each LMF
+            # synset and sense, respectively. This is necessary because links
+            # can exist across lexicons, and we need a structure that keeps
+            # this info not nested inside each lexicon.
+            #
+            # usage (pass LMF ID as key):
+            # omw_synset_keys['example-sv-1-n'] = 2
+            # omw_synset_keys['example-sv-1-n-1'] = 30
+            ####################################################################
+            omw_synset_keys = dict()
+            omw_sense_keys = dict()
+
             # OPEN FILE
             if filename.endswith('.xml'):
                 wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
@@ -1124,6 +1184,7 @@ with app.app_context():
             # PARSE WN & GET ALL NEEDED
             src_id = fetch_src()
             ssrels = fetch_ssrel()
+            srels = fetch_srel()
             langs, langs_code = fetch_langs()
             poss = fetch_pos()
             wn, wn_dtls = parse_wn(wnlmf)
@@ -1208,7 +1269,7 @@ with app.app_context():
                     ss_pos = poss['tag'][synset['SSPOS']]
 
                     ss_id = max_ss_id + 1
-                    synset['omw_ss_key'] = ss_id
+                    omw_synset_keys[new_ss] = ss_id
 
                     try:
                         ss_conf = float(synset['attrs']['confidenceScore'])
@@ -1335,7 +1396,8 @@ with app.app_context():
                     ############################################################
                     if ss_id:
 
-                        synset['omw_ss_key'] = ss_id
+                        omw_synset_keys[linked_ss] = ss_id
+
 
                         blk_ss_src_data.append((ss_id, src_id,
                                                 origin_key, ss_conf, u))
@@ -1415,7 +1477,7 @@ with app.app_context():
                     ############################################################
                     else:
                         ss_id = max_ss_id + 1
-                        synset['omw_ss_key'] = ss_id
+                        omw_synset_keys[linked_ss] = ss_id
 
                         blk_ss_data.append((ss_id, ili_id, ss_pos, u))
                         blk_ss_src_data.append((ss_id, src_id, origin_key,
@@ -1520,10 +1582,13 @@ with app.app_context():
                 blk_wf_data = list()
                 blk_sense_data = list()
                 blk_sense_src_data = list()
+                blk_sense_counts_data = list()
+                blk_sense_counts_src_data = list()
 
                 max_f_id = fetch_max_f_id()
                 max_w_id = fetch_max_w_id()
                 max_s_id = fetch_max_s_id()
+                max_sm_id = fetch_max_sm_id()
                 forms = fetch_all_forms_by_lang_pos_lemma()
 
                 for le_id in wn[lexicon]['le'].keys():
@@ -1554,7 +1619,7 @@ with app.app_context():
                                             le_conf, u))
                         max_w_id = w_id
 
-                    else: # New word (no way to know if the word existed!) FIXME!?
+                    else: # New word (no way to know if the word existed!) #FIXME !?
                         w_id = max_w_id + 1
                         blk_w_data.append((w_id, can_f_id, u))
                         blk_wf_data.append((w_id, can_f_id, src_id,
@@ -1582,30 +1647,72 @@ with app.app_context():
                                             le_conf, u))
 
 
+                    ############################################################
                     # ADD SENSES
+                    # - we link a synset_id to a word_id (LexicalEntry in LMF)
+                    # - we read counts for each sense 
+                    #
+                    # - FIXME we don't yet import examples
+                    # - FIXME we don't yet import definitions BECAUSE
+                    #         they don't yet exist in the LMF (FCB wants this)
+                    ############################################################
                     for (sens_id, sens_synset) in wn_le['senses'].keys():
                         wn_sens = wn_le['senses'][(sens_id, sens_synset)]
-                        try:
+
+                        ########################################################
+                        # Confidence order: sense, lexical-entry
+                        ########################################################
+                        if 'confidenceScore' in wn_sens['attrs'].keys():
                             sens_conf = float(wn_sens['attrs']['confidenceScore'])
-                        except:
+                        else:
                             sens_conf = le_conf
 
-                        # FIXING:
-                        # Senses can refer to synsets in other lexicons of the same
-                        # resource.
-                        ss_id = None
-                        for lexicon_s in wn.keys():
-                            if wn[lexicon_s]['syns'][sens_synset]['omw_ss_key']:
-                                ss_id = wn[lexicon_s]['syns'][sens_synset]['omw_ss_key']
 
+                        ss_id = omw_synset_keys[sens_synset]
                         s_id = max_s_id + 1
+                        omw_sense_keys[sens_id] = s_id
+
                         blk_sense_data.append((s_id, ss_id, w_id, u))
                         max_s_id = s_id
                         blk_sense_src_data.append((s_id, src_id, sens_conf, u))
 
 
+
+                        ########################################################
+                        # Counts should be stored in sm (sense-meta) and sm_src
+                        # The table smt (sense-meta-tags) stores the meaning of
+                        # each meta-tag;
+                        #
+                        # FIXME I'm assuming a hardcoded 1 for the frequency;
+                        # This so far is true because we are inserting counts
+                        # with PWN, so it was the first meta-tag; maybe we can
+                        # confirm this in the code later; This assumption is
+                        # hardcoded in other places too...
+                        #
+                        # FIXME, we are enforcing counts to be integers!
+                        # this needs to be done in conjunction with some checks
+                        ########################################################
+                        for (i, count) in wn_sens['counts'].keys():
+                            wn_sensCounts = wn_sens['counts'][(i, count)]
+
+                            ####################################################
+                            # Confidence order: count, sense
+                            ####################################################
+                            if 'confidenceScore' in wn_sensCounts['attrs'].keys():
+                                count_conf = float(wn_sensCounts['attrs']['confidenceScore'])
+                            else:
+                                count_conf = sens_conf
+
+
+                            sm_id = max_sm_id + 1
+                            max_sm_id = sm_id
+
+                            smt_id = 1  # FIXME, this is hardcoded 1 for 'freq'
+
+                            blk_sense_counts_data.append((sm_id, s_id, smt_id, int(count), u))
+                            blk_sense_counts_src_data.append((sm_id, src_id, count_conf, u))
+
                     # FIXME! ADD Form.Script
-                    # FIXME! ADD SenseRels, SenseExamples, Counts
                     # FIXME! ADD SyntacticBehaviour
 
                 ################################################################
@@ -1618,67 +1725,94 @@ with app.app_context():
                     blk_insert_omw_wf_link(blk_wf_data)
                     blk_insert_omw_s(blk_sense_data)
                     blk_insert_omw_s_src(blk_sense_src_data)
+                    blk_insert_omw_sm(blk_sense_counts_data)
+                    blk_insert_omw_sm_src(blk_sense_counts_src_data)
                 ################################################################
 
 
 
-            # print("\n")   #TEST
-            # print("ENTERING 3rd Iteration")   #TEST
-            # print(r)   #TEST
-            # print("\n")   #TEST
-            ############################################################
-            # 3rd ITTERATION: AFTER ALL SYNSETS WERE CREATED
-            ############################################################
-            # SSREL (SYNSET RELATIONS)   FIXME, ADD SENSE-RELS
-            ############################################################
-            
-            #ili_ss_map = f_ili_ss_id_map()
-            sslinks = fetch_all_ssrels_by_ss_rel_trgt()
-            ## sslinks[ss1_id][(ssrel_id,ss2_id)] = sslink_id
-            blk_sslinks_data = list()
-            #blk_sslinks_data_unique = set()
+            ####################################################################
+            # 3rd ITTERATION: AFTER ALL SYNSETS AND SENSE WERE CREATED
+            #                 WE NOW CAN ADD RELATIONS BETWEEN THESE
+            #
+            # a) for each synset in the lexiccon, see and add what it links to
+            # b) for each sense in the lexicon, see and add what it links to
+            #    (senses are inside lexical entries)
+            #
+            # WARNING:
+            # Things can link across lexicons; which means that synsets and
+            # senses may link to things that  belong to lexicons other than the
+            # one the source of the relation is;
+            #
+            # Links to things that are not synsets of senses should have been
+            # caught before this moment;
+            # Repeated links should also have been caught before this moment;
+            ####################################################################
+
+            blk_sslinks_data = list() # synset-synset links to write to db
             blk_sslinks_src_data = list()
+            sslinks_db = fetch_all_ssrels_by_ss_rel_trgt() # sslinks already in db
+            # example: sslinks_db[ss1_id][(ssrel_id,ss2_id)] = sslink_id
+
+            blk_slinks_data = list() # sense-sense links to write to db
+            blk_slinks_src_data = list()
+            slinks_db = fetch_all_srels_by_s_rel_trgt() # slinks already in db
+            # example: slinks_db[s1_id][(srel_id,s2_id)] = slink_id
+
+            blk_ssslinks_data = list() # sense-synset links to write to db
+            blk_ssslinks_src_data = list()
+            ssslinks_db = fetch_all_sssrels_by_s_rel_trgt() # ssslinks already in db
+            # example: ssslinks_db[s_id][(srel_id, ss_id)] = ssslink_id
+
+            # get the max IDs from the db
             max_sslink_id = fetch_max_sslink_id()
+            max_slink_id = fetch_max_slink_id()
+            max_ssslink_id = 0 if (not fetch_max_ssslink_id()) else fetch_max_ssslink_id()
+            print(max_ssslink_id)
             
             for lexicon in wn.keys():
                 src_id = wn[lexicon]['src_id']
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
-                #print("let's add links")
+
+                ################################################################
+                # INSERT SYNSET RELATIONS (THESE ARE ONLY SYNSET-SYNSET)
+                ################################################################
                 for ss1 in wn[lexicon]['syns']: # each synset in the lexicon
-                    # ss1 rel ss2 ##  odwn-14887026-n hyponym odwn-15057103-n 
                     synset1=wn[lexicon]['syns'][ss1]
-                    for (rel, ss2) in synset1['ssrel']: # each link from the synset
-                        sslink_attrs = synset1['ssrel'][(rel, ss2)]['attrs']
-                        synset2=wn[lexicon]['syns'][ss2]
-                        ## get the ids
-                        ss1_id = synset1['omw_ss_key']
-                        ss2_id = synset2['omw_ss_key']
+                    for (rel, ss2) in synset1['ssrel']: # each link from the ss1
+                        sslink = synset1['ssrel'][(rel, ss2)]
+
+                        # Get the OMW IDs from the synsets
+                        ss1_id = omw_synset_keys[ss1]
+                        ss2_id = omw_synset_keys[ss2]
                         ssrel_id = ssrels['rel'][rel][0]
-                        ## how confident are we?
-                        try:
-                            try:
-                                ## explicit link confidence
-                                sslink_conf = float(sslink_attrs['confidenceScore'])
-                            except:
-                                ## explicit synset confidence
-                                sslink_conf = float(synset['attrs']['confidenceScore'])
-                        except:
-                            ## lexicon confidence
+
+                        # Get confidenceScore for synset-synset relation
+                        if 'confidenceScore' in sslink['attrs'].keys():
+                            sslink_conf = float(sslink['attrs']['confidenceScore'])
+                            # print("sslink had confidenceScore") #TEST
+                        elif 'confidenceScore' in synset1['attrs'].keys():
+                            sslink_conf = float(synset1['attrs']['confidenceScore'])
+                            # print("sslink did not have confidenceScore, but the Synset did") #TEST
+                        else:
                             sslink_conf = lex_conf
-                                
+                            # print("neither sslink nor the synset had confidenceScore, using lexicon's") #TEST
+
+
                         ## see if we know this link
                         try:
                             ## known --- get id
-                            sslink_id = sslinks[ss1_id][(ssrel_id,ss2_id)]
+                            sslink_id = sslinks_db[ss1_id][(ssrel_id,ss2_id)]
                         except:
                             ## new --- add link
                             max_sslink_id += 1
                             sslink_id = max_sslink_id
-                            sslinks[ss1_id][(ssrel_id,ss2_id)] = max_sslink_id
+                            sslinks_db[ss1_id][(ssrel_id,ss2_id)] = max_sslink_id
                             blk_sslinks_data.append((sslink_id, ss1_id, ssrel_id,
                                                      ss2_id, u))
+
                         ## source the link
                         blk_sslinks_src_data.append((sslink_id, src_id,
                                                      sslink_conf, lang_id, u))
@@ -1688,15 +1822,81 @@ with app.app_context():
                         #       ss2, ss2_id,
                         #       sslink_id, sslink_conf,
                         #       sslink_attrs)
-                        
 
+                ################################################################
+                # INSERT SENSE RELATIONS (IT CAN BE SENSE-SENSE, SENSE-SYNSET)
+                ################################################################
+                for le_id in wn[lexicon]['le'].keys():
+                    wn_le = wn[lexicon]['le'][le_id]
+                    for (sens_id, sens_synset) in wn_le['senses'].keys():
+                        wn_sens = wn_le['senses'][(sens_id, sens_synset)]
+                        sense_db_id = omw_sense_keys[sens_id]
+
+                        for relType, relTrgt in wn_sens['rels']:
+                            srel_db_id = srels['rel'][relType][0]
+                            slink = wn_sens['rels'][(relType, relTrgt)]
+
+                            # find the confidence of this slink
+                            # (order: slink, sense, lexical entry, lexicon)
+                            if 'confidenceScore' in slink['attrs'].keys():
+                                slink_conf = float(slink['attrs']['confidenceScore'])
+                            elif 'confidenceScore' in wn_sens['attrs'].keys():
+                                slink_conf = float(wn_sens['attrs']['confidenceScore'])
+                            elif 'confidenceScore' in wn_le['attrs'].keys():
+                                slink_conf = float(wn_le['attrs']['confidenceScore'])
+                            else:
+                                slink_conf = lex_conf
+
+                            ####################################################
+                            # - See what kind of relation this is:
+                            #   sense-sense, sense-synset
+                            # - find or create a new db id
+                            ####################################################
+                            if relTrgt in omw_synset_keys.keys():
+                                trgt_db_id = omw_synset_keys[relTrgt]
+
+                                try:
+                                    ssslink_db_id = ssslinks_db[sense_db_id][(srel_db_id, trgt_db_id)]
+                                except:
+                                    max_ssslink_id += 1
+                                    ssslink_db_id = max_ssslink_id
+                                    ssslinks_db[sense_db_id][(srel_db_id,trgt_db_id)] = max_ssslink_id
+                                    blk_ssslinks_data.append((ssslink_db_id, sense_db_id,
+                                                              srel_db_id, trgt_db_id, u))
+
+                                blk_ssslinks_src_data.append((ssslink_db_id, src_id, slink_conf,
+                                                              lang_id, u))
+
+                            elif relTrgt in omw_sense_keys.keys():
+                                trgt_db_id = omw_sense_keys[relTrgt]
+
+                                try:
+                                    slink_db_id = slinks_db[sense_db_id][(srel_db_id, trgt_db_id)]
+                                except:
+                                    max_slink_id += 1
+                                    slink_db_id = max_slink_id
+                                    slinks_db[sense_db_id][(srel_db_id,trgt_db_id)] = max_slink_id
+                                    blk_slinks_data.append((slink_db_id, sense_db_id, srel_db_id,
+                                                            trgt_db_id, u))
+
+                                blk_slinks_src_data.append((slink_db_id, src_id, slink_conf, u))
+
+                            else:
+                                # should never happen, must be a check
+                                print("sense-TARGET problem", file=sys.stderr)
 
             ################################################################
-            # INSERT SSRELS INTO THE DB
+            # INSERT (synset-synset, sense-sense, sense-synset) LINKS INTO THE DB
             ################################################################
             if insert:
                 blk_insert_omw_sslink(blk_sslinks_data)
                 blk_insert_omw_sslink_src(blk_sslinks_src_data)
+
+                blk_insert_omw_ssslink(blk_ssslinks_data)
+                blk_insert_omw_ssslink_src(blk_ssslinks_src_data)
+
+                blk_insert_omw_slink(blk_slinks_data)
+                blk_insert_omw_slink_src(blk_slinks_src_data)
             ################################################################
 
             return r
