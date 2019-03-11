@@ -121,6 +121,11 @@ span.lang {
 span.rel {
     font-variant: small-caps
 }
+span.rel a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
 span.concept_name {
     font-weight: bold;
     font-size: 150%;
@@ -149,3 +154,5 @@ span.over-under > .over {
 span.over-under > .under {
     display: table-row;
 }
+
+table.rels { width: auto; }

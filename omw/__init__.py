@@ -29,6 +29,7 @@ from flask_login import (
     current_user
 )
 from packaging.version import Version
+import gwadoc
 
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
@@ -44,7 +45,6 @@ from .common_login import *
 from .common_sql import *
 from .omw_sql import *
 from .wn_syntax import *
-
 
 
 ## profiler
@@ -685,7 +685,8 @@ def concepts_omw(ssID=None, iliID=None):
                            labels=labels,
                            ss_srcs=ss_srcs,
                            src_meta=src_meta,
-                           core=core_ss)
+                           core=core_ss,
+                           gwadoc=gwadoc)
 
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])

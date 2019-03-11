@@ -77,15 +77,19 @@
 
     <!-- SYNSET RELS -->
     {% if ss_id in links.keys() %}
-        <div id='line'><span>Synset Relations</span></div>
+    <div id='line'><span>Synset Relations</span></div>
+    <table class="rels tight">
         {%- for rel in links[ss_id] %}
-        <p>
-	  {{ ssrel(ssrels['id'][rel][1]) }}:
+        <tr>
+	  <th>{{ ssrel(ssrels['id'][rel][1]) }}</th>
+	  <td>
           {%- for ss2 in links[ss_id][rel] %}
           <span class="synset" ><a href="{{url_for('concepts_omw',ssID=ss2)}}" data-synsetid="{{ss2}}">{{labels[ss2]}}</a></span>
           {%- endfor %}
-        </p>
-    {%- endfor %}
+	  </td>
+	</tr>
+	{%- endfor %}
+    </table>
   {% endif %}
   <div id='line'><span>Synset Sources</span></div>
       {%- for src, key, conf in ss_srcs[ss_id|int] %}
