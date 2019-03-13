@@ -1,4 +1,4 @@
-# OMW
+# The Open Multilingual Wordnet
 
 Code for the Open Multilingual Wordnet ---
 read in wordnets, validate them, and search them.
@@ -27,26 +27,39 @@ See [here](https://virtualenv.pypa.io/en/latest/installation/) for instructions 
 Now create and activate new virtual environment:
 
 ```bash
-~/OMW$ virtualenv -p python3 env
-~/OMW$ source env/bin/activate
-(env) ~/OMW$
+~/OMW$ virtualenv -p python3 py3env
+~/OMW$ source py3env/bin/activate
+(py3env) ~/OMW$
 ```
 
+Note that the virtual environment resides in a subdirectory called `py3env` (you may choose a different name).
 Now install the dependencies and download [WordNet](https://wordnet.princeton.edu/) for [NLTK](http://www.nltk.org/):
 
 ```bash
-(env) ~/OMW$ pip install -r requirements.txt
-(env) ~/OMW$ python -c 'import nltk; nltk.download("wordnet")'
+(py3env) ~/OMW$ pip install -r requirements.txt
+(py3env) ~/OMW$ python -c 'import nltk; nltk.download("wordnet")'
 ```
 
 With the dependencies satisfied, you are ready to create the databases for running the OMW interface:
 
 ``` bash
-(env) ~/OMW$ bash create-db.sh
+(py3env) ~/OMW$ bash create-db.sh
 ```
 
 The above command will prompt for an email and password for the admin database, and allow you to create additional users.
 At this point you may want to inspect and edit the created `config.py` file to ensure it is correct for your installation.
+It should have settings like the following:
+
+``` python
+UPLOAD_FOLDER = '.../omw/public-uploads'
+SECRET_KEY = # the output of something like `python3 -c 'import os; print(os.urandom(24))'`
+OMWDB = '.../omw/db/omw.db'
+ADMINDB = '.../omw/db/admin.db'
+ILI_DTD = '.../omw/db/WN-LMF.dtd'
+```
+
+The paths in `config.py` do not need to be under the `omw/` subdirectory, so you may adjust them as needed, but you may need to then move the files that were created by `create-db.sh`.
+
 When done, you are ready to run the web app.
 
 ## Running in Debug Mode
@@ -54,12 +67,18 @@ When done, you are ready to run the web app.
 You can run the OMW web app on your local machine with `run.py`:
 
 ``` bash
-(env) ~/OMW$ python run.py
+(py3env) ~/OMW$ python run.py
 ```
 
 If successful, you should be able to view the OMW by visiting http://0.0.0.0:5000/
 
 ## Deploying
 
-The included `omw.wsgi` file can help you get started with deploying to an Apache2 server with `mod_wsgi`.
+The included [`omw.wsgi`](omw.wsgi) file can help you get started with deploying to an Apache2 server with `mod_wsgi`.
 See the [Flask documentation](http://flask.pocoo.org/docs/1.0/deploying/mod_wsgi/) for more information.
+
+If you are running a virtual environment (which is recommended) for a deployment with Apache2 and `mod_wsgi`, note the following:
+
+* You must use the same version of Python that `mod_wsgi` is compiled against (see [here](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html#virtual-environment-and-python-version)).
+* If your need to use `sudo` to create and install packages to the virtual environment, running `sudo pip install -r omw/requirements.txt` with the environment active will **not** work; instead, use `sudo py3env/bin/pip install -r omw/requirements.txt` (adjusting paths as needed for your setup).
+* As described [here](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html#daemon-mode-multiple-applications), you may need to activate the virtual environment from the WSGI script. See [`omw.wsgi`](omw.wsgi) for an example.
