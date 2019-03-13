@@ -17,19 +17,27 @@ with app.app_context():
     login_manager = LoginManager()
     login_manager.login_view = '/login'
     login_manager.login_message = "You don't seem to have permission to see this content."
-    app.secret_key = "!$flhgSgngNO%$#SOET!$!"
+
     app.config["REMEMBER_COOKIE_DURATION"] = datetime.timedelta(minutes=30)
     login_serializer = URLSafeTimedSerializer(app.secret_key)
 
-
+    # TEMPORARY! When Python 3.4 or Python 2.7.8+ is used on the server,
+    # use the version with pbkdf2_hmac! Note that this change will
+    # require us to regenerate passwords
     def hash_pass(password):
-        """ Return the hash of the password+salt """
-        return hashlib.pbkdf2_hmac(
-            'sha256',
-            password.encode('utf-8'),
-            app.secret_key.encode('utf-8'),
-            100000
-        ).hex()
+        """ Return the md5 hash of the password+salt """
+        salted_password = password + app.secret_key
+        return hashlib.md5(salted_password.encode('utf-8')).hexdigest()
+
+    # Use this when pbkdf2_hmac is available (3.4), or scrypt (3.6)
+    # def hash_pass(password):
+    #     """ Return the hash of the password+salt """
+    #     return hashlib.pbkdf2_hmac(
+    #         'sha256',
+    #         password.encode('utf-8'),
+    #         app.secret_key.encode('utf-8'),
+    #         100000
+    #     ).hex()
 
 
     def login_required(role=0, group='open'):

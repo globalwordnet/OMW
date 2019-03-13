@@ -10,8 +10,12 @@ TABDIR="$BINDIR"
 
 CONFIG="$OMWROOT/config.py"
 
+SECRETKEY=$( python3 -c 'import os; from base64 import b64encode; print(b64encode(os.urandom(16)).decode("utf-8"))' )
+UPLOADDIR="$OMWROOT/omw/public-uploads"
+
 OMWDB="$DBDIR/omw.db"
 ADMINDB="$DBDIR/admin.db"
+ILIDTD="$DBDIR/WN-LMF.dtd"
 
 OMWSCHEMA="$SCHEMADIR/omw.sql"
 ADMINSCHEMA="$SCHEMADIR/admin.sql"
@@ -43,14 +47,22 @@ else
 
     function abspath() { readlink -f "$1"; }
 
+    read -p "Upload folder [$UPLOADDIR]: " inp
+    [ -n "$inp" ] && { UPLOADDIR="$inp"; }
+    read -p "Path to OMW database [$OMWDB]: " inp
+    [ -n "$inp" ] && { OMWDB="$inp"; }
+    read -p "Path to admin database [$ADMINDB]: " inp
+    [ -n "$inp" ] && { ADMINDB="$inp"; }
+    read -p "Path to ILI DTD [$ILIDTD]: " inp
+    [ -n "$inp" ] && { ILIDTD="$inp"; }
+    read -p "Secret key [$SECRETKEY]: " inp
+    [ -n "$inp" ] && { SECRETKEY="$inp"; }
     cat > "$CONFIG" <<EOF
-UPLOAD_FOLDER = '${OMWROOT}/omw/public-uploads'
-SECRET_KEY = $( python -c 'import os; print(repr(os.urandom(24)))' )
-
-# ILIDB = '$( abspath "$DBDIR/ili.db" )'
-OMWDB = '${OMWDB}'
-ADMINDB = '${ADMINDB}'
-ILI_DTD = '$( abspath "$DBDIR/WN-LMF.dtd" )'
+UPLOAD_FOLDER = '$( abspath "$UPLOADDIR" )'
+SECRET_KEY = '${SECRETKEY}'
+OMWDB = '$( abspath "$OMWDB" )'
+ADMINDB = '$( abspath "$ADMINDB" )'
+ILI_DTD = '$( abspath "$ILIDTD" )'
 
 EOF
 fi
@@ -68,9 +80,9 @@ fi
 # check if it exists again; if it exists, the user didn't want to delete
 if [ ! -f "$ADMINDB" ]; then
     echo "Creating new admin database at $ADMINDB"
-    python3 "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
+    python "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
     chmod go+w "$ADMINDB"
-    PYTHONPATH="$OMWROOT" python3 "$BINDIR"/load-admin-users.py "$ADMINDB"
+    PYTHONPATH="$OMWROOT" python "$BINDIR"/load-admin-users.py "$ADMINDB"
 fi
 
 ###############################################################################
@@ -82,87 +94,91 @@ if [ -f "$OMWDB" ]; then
     rm -i "$OMWDB"
 fi
 
-echo "Creating new OMW database at $OMWDB"
-python3 "$BINDIR"/make-omw-db.py "$OMWDB" "$OMWSCHEMA"
-chmod go+w "$OMWDB"
+# check if it exists again; if it exists, the user didn't want to delete
+if [ ! -f "$OMWDB" ]; then
+    echo "Creating new OMW database at $OMWDB"
+    python "$BINDIR"/make-omw-db.py "$OMWDB" "$OMWSCHEMA"
+    chmod go+w "$OMWDB"
 
 ###############################################################################
 # LOAD ILI DEPENDENCIES
 ###############################################################################
 
-# LOAD KIND TAGS
-echo "ILI: Loading kind data..."
-python3 "$BINDIR"/load-ili-kinds.py "$OMWDB"
+    # LOAD KIND TAGS
+    echo "ILI: Loading kind data..."
+    python "$BINDIR"/load-ili-kinds.py "$OMWDB"
 
-# LOAD STATUS TAGS
-echo "ILI: Loading status data..."
-python3 "$BINDIR"/load-ili-status.py "$OMWDB"
+    # LOAD STATUS TAGS
+    echo "ILI: Loading status data..."
+    python "$BINDIR"/load-ili-status.py "$OMWDB"
 
 
 ###############################################################################
 # LOAD OMW DEPENDENCIES
 ###############################################################################
 
-# LOAD POS TAGS
-echo "Loading POS data..."
-python3 "$BINDIR"/load-pos.py "$OMWDB"
+    # LOAD POS TAGS
+    echo "Loading POS data..."
+    python "$BINDIR"/load-pos.py "$OMWDB"
 
-# LOAD SSRELS
-echo "Loading SSREL data..."
-python3 "$BINDIR"/load-ssrels.py "$OMWDB" "$SSRELS"
+    # LOAD SSRELS
+    echo "Loading SSREL data..."
+    python "$BINDIR"/load-ssrels.py "$OMWDB" "$SSRELS"
 
-# LOAD SRELS
-echo "Loading SREL data..."
-python3 "$BINDIR"/load-srels.py "$OMWDB" "$SRELS"
+    # LOAD SRELS
+    echo "Loading SREL data..."
+    python "$BINDIR"/load-srels.py "$OMWDB" "$SRELS"
 
 
 ###############################################################################
 # LOAD PWN3.0+ILI
 ###############################################################################
 
-echo
-echo "Loading PWN30..."
-python3 "$BINDIR"/load-pwn.py "$OMWDB" "$ILIMAP"
+    echo
+    echo "Loading PWN30..."
+    python "$BINDIR"/load-pwn.py "$OMWDB" "$ILIMAP"
 
 
 ###############################################################################
 # LOAD/UPDATE PWN FREQUENCIES
 ###############################################################################
 
-echo
-echo
-echo "Loading PWN30 frequencies..."
-python3 "$BINDIR"/load-pwn-freq.py "$OMWDB"
-echo "Updating (all) frequencies..."
-python3 "$BINDIR"/update-freq.py "$OMWDB"
+    echo
+    echo
+    echo "Loading PWN30 frequencies..."
+    python "$BINDIR"/load-pwn-freq.py "$OMWDB"
+    echo "Updating (all) frequencies..."
+    python "$BINDIR"/update-freq.py "$OMWDB"
 
 
 ###############################################################################
 # Update LABELS (FOR PWN)
 ###############################################################################
 
-echo
-echo "Loading PWN30 synset labels..."
-python3 "$BINDIR"/update-label.py "$OMWDB"
+    echo
+    echo "Loading PWN30 synset labels..."
+    python "$BINDIR"/update-label.py "$OMWDB"
 
 
 ###############################################################################
 # LOADING (ALL) OMW LANGUAGES
 ###############################################################################
 
-echo
-echo "Loading language data..."
-python3 "$BINDIR"/seed-languages.py "$OMWDB"
+    echo
+    echo "Loading language data..."
+    python "$BINDIR"/seed-languages.py "$OMWDB"
 
 ###############################################################################
 # LOADING PWN CORE CONCEPTS
 ###############################################################################
 
-echo
-echo "Loading PWN's Core data..."
-python3 "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"
+    echo
+    echo "Loading PWN's Core data..."
+    python "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"
 
 ###############################################################################
+
+fi
 
 echo
 echo

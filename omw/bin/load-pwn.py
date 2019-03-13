@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
 
 # This script loads PWN in the new OMW schema
 # It requires Python3 and NLTK3 installed
