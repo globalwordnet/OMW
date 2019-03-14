@@ -807,15 +807,20 @@ with app.app_context():
                     vr_lex['valid_version'] = False
                     final_validation = False
                 else:
+                    normalized_version_string = str(version)
                     vr_lex['valid_version'] = True
-                    if str(version) != version_string:
-                        vr_lex['version_lbl_val'] += " ({})".format(version)
-                    ### FIXME do we want to check it is a new version (not just unknown)?
-                    if f_src_id_by_proj_id_ver(lexicon_id, version_string): # it exists
-                        vr_lex['new_version'] = False
-                        final_validation = False
-                    else:
-                        vr_lex['new_version'] = True
+                    if normalized_version_string != version_string:
+                        vr_lex['version_lbl_val'] += " ({})".format(
+                            normalized_version_string)
+                    # check if version is newer than anything in the database
+                    vr_lex['new_version'] = True
+                    for src_id, proj_ver in fetch_src().items():
+                        proj_id, src_ver = proj_ver
+                        src_ver = Version(src_ver)
+                        if (proj_id == lexicon_lbl and src_ver >= version):
+                            vr_lex['new_version'] = False
+                            final_validation = False
+                            break
 
                 if 'confidenceScore' in wn[lexicon]['attrs'].keys():
                     confidence = wn[lexicon]['attrs']['confidenceScore']
@@ -1567,7 +1572,6 @@ with app.app_context():
                 proj_id = f_proj_id_by_code(lexicon)
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
-                version = wn[lexicon]['attrs']['version']
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
 
 

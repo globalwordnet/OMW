@@ -66,6 +66,14 @@ with app.app_context():
 
 
     def fetch_src():
+        """
+        Return a mapping of {src.id: (proj.code, src.version)}
+
+        Example:
+        >>> next(fetch_src())
+        {1: ('pwn', '3.0')}
+
+        """
         proj_id = fetch_proj()
         src_id = dict()
         for r in query_omw("""SELECT id, proj_id, version FROM src"""):
@@ -84,7 +92,7 @@ with app.app_context():
                            [proj_id, version]):
 
             return r['id']
-        
+
     def f_src_id_by_proj_ver(proj, version):
         # print(proj,version)
         for r in query_omw("""SELECT src.id 
