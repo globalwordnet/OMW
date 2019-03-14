@@ -26,21 +26,21 @@
     <!-- ili ID -->
     <th>
       <nobr>
-      <span class="synset">⟪<a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">i{{ili_id}}</a>⟫</span>
-      <!-- Kind: concept or instance -->
-      {% if  row[0] == "concept" %}
-      <a title='concept'>⊂</a>
-      {% else %}
-      <a title='instance'>∈</a>
-      {% endif %}
+      <span class="synset">⟪<a href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">i{{ili_id}}</a>⟫
+      {%- if  row[0] == "concept" -%}
+      <a title='concept'><sub>C</sub></a>
+      {%- else -%}
+      <a title='instance'><sub>I</sub></a>
+      {%- endif -%}
        <!-- Status: probationary -->
       {% if row[4] == "temporary" %}
-      <a title='temporary'>⏳</a>
+      <a title='temporary'><i class="fas fa-hourglass-half"></i></a>
       {% endif %}
       <!-- Status: deprecated/superceded -->
       {% if row[6] == 'None' %} <!-- CHECKME -->
-      <a title='deprecated'>⚠</a>
+      <a title='deprecated'><i class="fas fa-exclamation-triangle"></i></a>
       {% endif %}
+      </span>
       </nobr>
     </th>
 
@@ -52,46 +52,55 @@
 	
     </td>
 
-    <!-- ACTIONS (IF LOGGED IN) -->
+    <!-- ACTIONS (IF LOGGED IN)  see also thumb_up_id, thumb_down_id -->
     {% if current_user.id %}
 
     <td>
       <span id="rating{{ ili_id }}">
-	<span style="color:green" title="{{ up_who[ili_id] }}">+{{ rsumm[ili_id]['up']  }}</span><br>
-        <span style="color:red"  title="{{ down_who[ili_id]  }}">-{{ rsumm[ili_id]['down'] }}</span>
+	<span style="color:green" title="Who voted up: {{ uptitle }}">+{{ rsumm[ili_id]['up']  }}</span>
+	<br>
+        <span style="color:red"  title="Who voted down: {{ down_who[ili_id]  }}">-{{ rsumm[ili_id]['down'] }}</span>
       </span>
     </td>
 
     <td>
 
       {% if current_user.id in up_who[ili_id] %}
-      <span class="thumbup" id="thumbup{{ ili_id }}" data-ili="{{ ili_id }}">
+      <span class="thumbup" id="thumbup{{ ili_id }}"
+	    data-ili="{{ili_id }}"
+	    title="Vote for this ILI candidate">
 	 <i class="fa fa-thumbs-o-up" aria-hidden="true" style="color:green"></i>
       </span>
       {% else %}
-      <span class="thumbup" id="thumbup{{ ili_id }}" data-ili="{{ ili_id }}">
+      <span class="thumbup" id="thumbup{{ ili_id }}" data-ili="{{ ili_id }}"
+	    title="Vote for this ILI candidate">
 	 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
       </span>
       {% endif %}
 
 
       {% if current_user.id in down_who[ili_id] %}
-      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}">
+      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ili_id }}"
+	    title="Vote against this ILI candidate">
       <i class="fa fa-thumbs-o-down" aria-hidden="true" style="color:red"></i>
       </span>
       {% else %}
-      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ ili_id }}">
+      <span class="thumbdown" id="thumbdown{{ ili_id }}" data-ili="{{ili_id }}"
+	    title = "Vote against this ILI candidate">
       <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
       </span>
       {% endif %}
 
 
-      <span class="comment" id="comment{{ ili_id }}" data-ili="{{ ili_id }}">
+      <span class="comment" id="comment{{ ili_id }}" data-ili="{{ili_id }}"
+	    title="Comment on the candidate">
 	<i class="fa fa-comments-o" aria-hidden="true"></i>
       </span>
 
 
-      <span class="detailed" id="detailed{{ ili_id }}" data-ili="{{ ili_id }}"><i class="fa fa-toggle-off" aria-hidden="true"></i></span>
+      <span class="detailed" id="detailed{{ ili_id }}"
+	    data-ili="{{ ili_id }}"
+	    title = "Toggle showing details (turn it off and on again to update)"><i class="fa fa-toggle-off" aria-hidden="true"></i></span>
 
 
     </td>

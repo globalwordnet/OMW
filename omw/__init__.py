@@ -120,8 +120,8 @@ def thumb_up_id():
     r = rate_ili_id(ili_id, rate, user)
 
     counts, up_who, down_who = f_rate_summary([ili_id])
-    html = """ <span style="color:green" title="{}">+{}</span><br>
-               <span style="color:red"  title="{}">-{}</span>
+    html = """ <span style="color:green" title="Who voted up: {}">+{}</span><br>
+               <span style="color:red"  title="Who voted down: {}">-{}</span>
            """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'],
                       down_who[int(ili_id)], counts[int(ili_id)]['down'])
     return jsonify(result=html)
@@ -135,8 +135,8 @@ def thumb_down_id():
     r = rate_ili_id(ili_id, rate, user)
 
     counts, up_who, down_who = f_rate_summary([ili_id])
-    html = """ <span style="color:green" title="{}">+{}</span><br>
-               <span style="color:red"  title="{}">-{}</span>
+    html = """ <span style="color:green" title="Who voted up: {}">+{}</span><br>
+               <span style="color:red"  title="Who voted down: {}">-{}</span>
            """.format(up_who[int(ili_id)], counts[int(ili_id)]['up'],
                       down_who[int(ili_id)], counts[int(ili_id)]['down'])
     return jsonify(result=html)
@@ -514,8 +514,7 @@ def search_ili(q=None):
         ili[c['id']] = (kind_id[c['kind_id']], c['def'],
                         src_id[c['origin_src_id']], c['src_key'],
                         status_id[c['status_id']], c['superseded_by_id'],
-                             c['t'])
-
+                        c['t'])
 
     rsumm, up_who, down_who = f_rate_summary(list(ili.keys()))
     return render_template('concept-list.html', ili=ili,
