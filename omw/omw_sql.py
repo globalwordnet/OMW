@@ -1012,7 +1012,6 @@ with app.app_context():
         #senses[ss_id][lang_id]=[(ls_id, lemma, freq), ...]
         forms = dd(lambda: dd(int))
         #forms[lang][word] = freq
-        langs=set()
         eng_id=1 ### we know this :-)
 
 
@@ -1025,19 +1024,22 @@ with app.app_context():
 
             senses[r['ss_id']][r['lang_id']].append((r['s_id'], r['lemma'], sfreq[r['s_id']]))
             forms[r['lang_id']][r['lemma']] += 1
-            langs.add(r['lang_id'])
 
-
+        # make the best label for each language that has lemmas    
         for ss in senses:
             for l in senses[ss]:
                 senses[ss][l].sort(key=lambda x: (-x[2],  ### sense freq (freq is good)
                                           forms[l][x[1]], ### uniqueness (freq is bad)
                                           len(x[1]),  ### length (short is good)
                                           x[1]))      ### lemma (so it is the same)
+        
+        lgs=[]
+        cv = query_omw_direct("SELECT id FROM lang ORDER BY id") ### English first!
+        for (lid,) in cv:
+            lgs.append(lid)       
 
         # make the labels
         label = dd(lambda: dd(str))
-        lgs=sorted(langs)
         values=list()
 
         for ss in senses:

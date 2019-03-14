@@ -151,14 +151,6 @@ if [ ! -f "$OMWDB" ]; then
     python "$BINDIR"/update-freq.py "$OMWDB"
 
 
-###############################################################################
-# Update LABELS (FOR PWN)
-###############################################################################
-
-    echo
-    echo "Loading PWN30 synset labels..."
-    python "$BINDIR"/update-label.py "$OMWDB"
-
 
 ###############################################################################
 # LOADING (ALL) OMW LANGUAGES
@@ -167,6 +159,14 @@ if [ ! -f "$OMWDB" ]; then
     echo
     echo "Loading language data..."
     python "$BINDIR"/seed-languages.py "$OMWDB"
+
+###############################################################################
+# Update LABELS (FOR PWN, for all languages)
+###############################################################################
+
+    echo
+    echo "Creating PWN30 synset labels..."
+    PYTHONPATH="$OMWROOT" python "$BINDIR"/update-label.py 
 
 ###############################################################################
 # LOADING PWN CORE CONCEPTS
