@@ -3,9 +3,9 @@
 ###############################################################################
 
 OMWROOT="$( cd "$( dirname "$0" )"; echo "$PWD" )"
+OMWAPP="$OMWROOT/omw"
 BINDIR="$OMWROOT/omw/bin"
 DBDIR="$OMWROOT/omw/db"
-SCHEMADIR="$BINDIR"
 TABDIR="$BINDIR"
 
 CONFIG="$OMWROOT/config.py"
@@ -16,9 +16,6 @@ UPLOADDIR="$OMWROOT/omw/public-uploads"
 OMWDB="$DBDIR/omw.db"
 ADMINDB="$DBDIR/admin.db"
 ILIDTD="$DBDIR/WN-LMF.dtd"
-
-OMWSCHEMA="$SCHEMADIR/omw.sql"
-ADMINSCHEMA="$SCHEMADIR/admin.sql"
 
 CORESYNSETS="$TABDIR/wn30-core-synsets.tab"
 ILIMAP="$TABDIR/ili-map.tab"
@@ -80,7 +77,7 @@ fi
 # check if it exists again; if it exists, the user didn't want to delete
 if [ ! -f "$ADMINDB" ]; then
     echo "Creating new admin database at $ADMINDB"
-    python "$BINDIR"/make-admin-db.py "$ADMINDB" "$ADMINSCHEMA"
+    FLASK_APP="$OMWAPP" flask init-admin-db
     chmod go+w "$ADMINDB"
     PYTHONPATH="$OMWROOT" python "$BINDIR"/load-admin-users.py "$ADMINDB"
 fi
@@ -97,12 +94,12 @@ fi
 # check if it exists again; if it exists, the user didn't want to delete
 if [ ! -f "$OMWDB" ]; then
     echo "Creating new OMW database at $OMWDB"
-    python "$BINDIR"/make-omw-db.py "$OMWDB" "$OMWSCHEMA"
+    FLASK_APP="$OMWAPP" flask init-omw-db
     chmod go+w "$OMWDB"
 
-###############################################################################
-# LOAD ILI DEPENDENCIES
-###############################################################################
+    ###########################################################################
+    # LOAD ILI DEPENDENCIES
+    ###########################################################################
 
     # LOAD KIND TAGS
     echo "ILI: Loading kind data..."
@@ -113,9 +110,9 @@ if [ ! -f "$OMWDB" ]; then
     python "$BINDIR"/load-ili-status.py "$OMWDB"
 
 
-###############################################################################
-# LOAD OMW DEPENDENCIES
-###############################################################################
+    ###########################################################################
+    # LOAD OMW DEPENDENCIES
+    ###########################################################################
 
     # LOAD POS TAGS
     echo "Loading POS data..."
@@ -130,18 +127,18 @@ if [ ! -f "$OMWDB" ]; then
     python "$BINDIR"/load-srels.py "$OMWDB" "$SRELS"
 
 
-###############################################################################
-# LOAD PWN3.0+ILI
-###############################################################################
+    ###########################################################################
+    # LOAD PWN3.0+ILI
+    ###########################################################################
 
     echo
     echo "Loading PWN30..."
     python "$BINDIR"/load-pwn.py "$OMWDB" "$ILIMAP"
 
 
-###############################################################################
-# LOAD/UPDATE PWN FREQUENCIES
-###############################################################################
+    ###########################################################################
+    # LOAD/UPDATE PWN FREQUENCIES
+    ###########################################################################
 
     echo
     echo
@@ -152,31 +149,31 @@ if [ ! -f "$OMWDB" ]; then
 
 
 
-###############################################################################
-# LOADING (ALL) OMW LANGUAGES
-###############################################################################
+    ###########################################################################
+    # LOADING (ALL) OMW LANGUAGES
+    ###########################################################################
 
     echo
     echo "Loading language data..."
     python "$BINDIR"/seed-languages.py "$OMWDB"
 
-###############################################################################
-# Update LABELS (FOR PWN, for all languages)
-###############################################################################
+    ###########################################################################
+    # Update LABELS (FOR PWN, for all languages)
+    ###########################################################################
 
     echo
     echo "Creating PWN30 synset labels..."
     PYTHONPATH="$OMWROOT" python "$BINDIR"/update-label.py 
 
-###############################################################################
-# LOADING PWN CORE CONCEPTS
-###############################################################################
+    ###########################################################################
+    # LOADING PWN CORE CONCEPTS
+    ###########################################################################
 
     echo
     echo "Loading PWN's Core data..."
     python "$BINDIR"/load-core.py "$OMWDB" "$CORESYNSETS" "$ILIMAP"
 
-###############################################################################
+    ###########################################################################
 
 fi
 

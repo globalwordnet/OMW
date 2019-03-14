@@ -45,7 +45,7 @@ from .common_login import *
 from .common_sql import *
 from .omw_sql import *
 from .wn_syntax import *
-
+import omw.cli
 
 ## profiler
 #app.config['PROFILE'] = True
@@ -96,16 +96,22 @@ def logout():
 ################################################################################
 # SET UP CONNECTION WITH DATABASES
 ################################################################################
-@app.before_request
-def before_request():
-    g.admin = connect_admin()
-    g.omw = connect_omw()
 
-@app.teardown_request
-def teardown_request(exception):
-    if hasattr(g, 'db'):
-        g.admin.close()
-        g.omw.close()
+@app.before_request
+def connect_dbs():
+    connect_admin()
+    connect_omw()
+
+@app.teardown_appcontext
+def teardown_dbs(exception):
+    db = g.pop('admin', None)
+    if db is not None:
+        db.close()
+
+    db = g.pop('omw', None)
+    if db is not None:
+        db.close()
+
 ################################################################################
 
 

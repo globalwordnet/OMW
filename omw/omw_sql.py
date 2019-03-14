@@ -5,6 +5,8 @@ from collections import defaultdict as dd
 
 from omw.common_sql import (
     qs,
+    connect_omw,
+    connect_admin,
     query_omw,
     query_omw_direct,
     write_omw,
@@ -16,6 +18,16 @@ from omw import app
 
 
 with app.app_context():
+
+    def init_omw_db():
+        omw = connect_omw()
+        with app.open_resource('schemas/omw.sql') as f:
+            omw.executescript(f.read().decode('utf-8'))
+
+    def init_admin_db():
+        admin = connect_admin()
+        with app.open_resource('schemas/admin.sql') as f:
+            admin.executescript(f.read().decode('utf-8'))
 
     def l2q (l):
         """return a comma seperated list of question marks

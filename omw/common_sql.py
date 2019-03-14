@@ -19,14 +19,19 @@ with app.app_context():
     ############################################################################
     # SET UP CONNECTIONS
     ############################################################################
+
     def connect_admin():
-        return sqlite3.connect(app.config['ADMINDB'])
+        if 'admin' not in g:
+            g.admin = sqlite3.connect(app.config['ADMINDB'])
+        return g.admin
 
     # def connect_ili():
     #     return sqlite3.connect(ILIDB)
 
     def connect_omw():
-        return sqlite3.connect(app.config['OMWDB'])
+        if 'omw' not in g:
+            g.omw = sqlite3.connect(app.config['OMWDB'])
+        return g.omw
 
     def query_admin(query, args=(), one=False):
         cur = g.admin.execute(query, args)
