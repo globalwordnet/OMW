@@ -45,7 +45,7 @@ from .common_login import *
 from .common_sql import *
 from .omw_sql import *
 from .wn_syntax import *
-
+import omw.cli
 
 ## profiler
 #app.config['PROFILE'] = True
@@ -96,16 +96,22 @@ def logout():
 ################################################################################
 # SET UP CONNECTION WITH DATABASES
 ################################################################################
-@app.before_request
-def before_request():
-    g.admin = connect_admin()
-    g.omw = connect_omw()
 
-@app.teardown_request
-def teardown_request(exception):
-    if hasattr(g, 'db'):
-        g.admin.close()
-        g.omw.close()
+@app.before_request
+def connect_dbs():
+    connect_admin()
+    connect_omw()
+
+@app.teardown_appcontext
+def teardown_dbs(exception):
+    db = g.pop('admin', None)
+    if db is not None:
+        db.close()
+
+    db = g.pop('omw', None)
+    if db is not None:
+        db.close()
+
 ################################################################################
 
 
@@ -733,8 +739,7 @@ def omw_sense(sID=None):
 def src_omw(src=None, originalkey=None):
 
     try:
-        proj = src[:src.index('-')]
-        ver  = src[src.index('-')+1:]
+        proj, _, ver = src.rpartition('-')
         src_id = f_src_id_by_proj_ver(proj, ver)
     except:
         src_id = None
@@ -754,8 +759,7 @@ def src_omw(src=None, originalkey=None):
 def omw_wn(src=None):
     if src:
         try:
-            proj = src[:src.index('-')]
-            ver  = src[src.index('-')+1:]
+            proj, _, ver = src.rpartition('-')
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
@@ -775,8 +779,7 @@ def omw_wn(src=None):
 def omw_wn_latex(src=None):
     if src:
         try:
-            proj = src[:src.index('-')]
-            ver  = src[src.index('-')+1:]
+            proj, _, ver = src.rpartition('-')
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
