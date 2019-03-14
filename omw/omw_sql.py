@@ -92,7 +92,7 @@ with app.app_context():
                               ON src.proj_id=proj.id 
                               WHERE proj.code= ? AND src.version = ?""",
                            [proj, version]):
-            return r['id']   
+            return r['id']
 
     def fetch_src_meta():
         src_meta = dd(lambda:  dd(str))

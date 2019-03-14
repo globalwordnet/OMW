@@ -811,7 +811,7 @@ with app.app_context():
                     if str(version) != version_string:
                         vr_lex['version_lbl_val'] += " ({})".format(version)
                     ### FIXME do we want to check it is a new version (not just unknown)?
-                    if f_src_id_by_proj_ver(lexicon_id, version_string): # it exists
+                    if f_src_id_by_proj_id_ver(lexicon_id, version_string): # it exists
                         vr_lex['new_version'] = False
                         final_validation = False
                     else:
