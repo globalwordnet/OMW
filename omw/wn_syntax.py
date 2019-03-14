@@ -802,6 +802,8 @@ with app.app_context():
                 version_string = wn[lexicon]['attrs']['version']
                 vr_lex['version_lbl_val'] = version_string
                 try:
+                    if '-' in version_string:
+                        raise InvalidVersion('hyphen in version string')
                     version = Version(version_string)
                 except InvalidVersion:
                     vr_lex['valid_version'] = False
