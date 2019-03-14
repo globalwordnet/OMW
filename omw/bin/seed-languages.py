@@ -25,8 +25,9 @@ c.execute("""SELECT id, iso639 from lang""")
 for (lid, l3) in c:
     known[l3] = lid
 
-for l3 in "eng cmn".split():
-# for l3 in "eng als arb bul cmn dan ell fas fin fra heb hrv ita jpn cat eus glg spa ind zsm nno nob pol por slv swe tha aar afr aka amh asm aze bam bel ben bod bos bre ces cor cym deu dzo epo est ewe fao ful gla gle glv guj hau hin hun hye ibo iii ina isl kal kan kat kaz khm kik kin kir kor lao lav lin lit lub lug mal mar mkd mlg mlt mon mya nbl nde nep nld oci ori orm pan pus roh ron run rus sag sin slk sme sna som sot srp ssw swa tam tel tgk tir ton tsn tso tur ukr urd uzb ven vie xho yor zul ang arz ast chr fry fur grc hat hbs ido kur lat ltg ltz mri nan nav rup san scn srd tat tgl tuk vol yid yue".split():
+#for l3 in "eng cmn".split():
+for l3 in "eng als arb bul cmn dan ell fas fin fra heb hrv ita jpn cat eus glg spa ind zsm nno nob pol por slv swe tha tur".split():
+ # aar afr aka amh asm aze bam bel ben bod bos bre ces cor cym deu dzo epo est ewe fao ful gla gle glv guj hau hin hun hye ibo iii ina isl kal kan kat kaz khm kik kin kir kor lao lav lin lit lub lug mal mar mkd mlg mlt mon mya nbl nde nep nld oci ori orm pan pus roh ron run rus sag sin slk sme sna som sot srp ssw swa tam tel tgk tir ton tsn tso tur ukr urd uzb ven vie xho yor zul ang arz ast chr fry fur grc hat hbs ido kur lat ltg ltz mri nan nav rup san scn srd tat tgl tuk vol yid yue".split():
     if l3 in known:  ### already in
         continue 
 
