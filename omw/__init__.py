@@ -167,11 +167,13 @@ def detailed_id():
 
     r_html = ""
     for r, u, t in rate_hist[int(ili_id)]:
-        r_html += '{} ({}): {} <br>'.format(users[u]['userID'], t, r)
+        r_html += '{} ({} &mdash; {}): {} <br>'.format(
+            users[u]['full_name'], users[u]['userID'], t, r)
 
     c_html = ""
     for c, u, t in comm_hist[int(ili_id)]:
-        c_html += '{} ({}): {} <br>'.format(users[u]['userID'], t, c)
+        c_html += '{} ({} &mdash; {}): {} <br>'.format(
+            users[u]['full_name'], users[u]['userID'], t, c)
 
     html = """
     <td colspan="9">
