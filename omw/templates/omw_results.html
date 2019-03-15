@@ -1,7 +1,7 @@
 {% extends "omw.html" %}
 {% block body %}
 
-<h6> Your query returned {{ ss.keys()|length }} results!</h6>
+<h6> Your query (<tt>{{query}}</tt>) returned {{ ss.keys()|length }} results!</h6>
 
 
 <table class="sortable hoverTable">

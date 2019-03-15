@@ -586,6 +586,10 @@ def search_omw(lang=None, q=None):
     sense = dd(list)
     lang_sense = dd(lambda: dd(list))
 
+    if query[0].isalpha(): ### search for inital character of both cases
+        if query[0].upper() != query[0].lower():
+            query = '['+query[0].upper() + query[0].lower()+']'+query[1:]
+    
     # GO FROM FORM TO SENSE
     for s in query_omw("""
         SELECT s.id as s_id, ss_id,  wid, fid, lang_id, pos_id, lemma
@@ -594,9 +598,7 @@ def search_omw(lang=None, q=None):
                     FROM f WHERE lemma GLOB ? AND lang_id in (?,?)) as form
               JOIN wf_link ON form.id = wf_link.f_id) word
         JOIN s ON wid=w_id
-        """, ['['+query[0].upper() + query[0].lower()+']'+query[1:],
-              lang_id,
-              lang_id2]):
+        """, (query, lang_id, lang_id2)):
 
 
         sense[s['ss_id']] = [s['s_id'], s['wid'], s['fid'],
@@ -615,6 +617,7 @@ def search_omw(lang=None, q=None):
 
 
     resp = make_response(render_template('omw_results.html',
+                                         query =query,
                                          langsel = int(lang_id),
                                          langsel2 = int(lang_id2),
                                          pos = pos,
