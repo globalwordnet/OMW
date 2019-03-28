@@ -485,44 +485,7 @@ with app.app_context():
         
         ###LOG
         print('Preparing to Validate File\t{}'.format(dt.today().isoformat()), file=sys.stderr)
-        
-
-        ########################################################################
-        # FETCH & UPLOAD WN FILE/URL
-        ########################################################################
-        # if request.method == 'POST':
-        #     format = "%Y_%b_%d_%H:%M:%S"
-        #     now = datetime.datetime.utcnow().strftime(format)
-
-        #     try:
-        #         file = request.files['file']
-        #     except:
-        #         file = None
-        #     try:
-        #         url = request.form['url']
-        #     except:
-        #         url = None
-
-        #     if file and allowed_file(file.filename):
-        #         filename = now + '_' +str(current_user) + '_' + file.filename
-        #         filename = secure_filename(filename)
-        #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        #     elif url:
-        #         file = urllib.urlopen(url)
-        #         filename = url.split('/')[-1]
-        #         filename = now + '_' +str(current_user) + '_' + filename
-        #         filename = secure_filename(fn)  ### FIXME
-
-        #         if file and allowed_file(filename):
-
-        #             open(os.path.join(app.config['UPLOAD_FOLDER'], filename),
-        #                  'wb').write(file.read())
-
-
-        #     vr['upload'] = True
-        # ###LOG
-        # print('Uploaded file {}\t{}'.format('file', dt.today().isoformat()))
+       
  
         ########################################################################
         # CHECK WN STRUCTURE (MATCH AGAINST DTD)
