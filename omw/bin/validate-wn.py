@@ -41,8 +41,10 @@ with app.app_context():
             if r:
                 with open(basename+'.upload.json', 'w') as fh:
                     json.dump(r, fh, indent=2)
+                updateLabels()
                 print ("\n{} was entered into the database\n".format(filename), file=debug)
                 print("see {}.upload.json for details of upload".format(basename), file=debug)
+                
     else: 
         print ("\n{} was NOT validated\n".format(filename), file=debug)
     print("see {}.vr.json for details of validation".format(basename), file=debug)

@@ -1,11 +1,8 @@
 {%- for ss_id, info in ss.items() %}
-
+<small>
 <!-- CONCEPT -->
-<!-- <div id='line'><span>Concept</span></div> -->
-<!-- <p><b>OMW-ID: </b>{{ ss_id }}-{{ pos['id'][ss[ss_id][1]]|upper }}</p> -->
-  <!-- part of speech  -->
-<p> <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 
-
+<span class='concept_name'>{{labels[ss_id]}}</span>
+  <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 
 {% if ss[ss_id][0] %}
 ⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
 </p>
@@ -41,5 +38,5 @@
 
 
 {%- endfor %}
-
+</small>
 

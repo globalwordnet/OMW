@@ -296,16 +296,18 @@ def min_omw_concepts(ss=None, ili_id=None):
     langs_id, langs_code = fetch_langs()
     ss, senses, defs, exes, links = fetch_ss_basic(ss_ids)
     ssrels = fetch_ssrel()
-
+    selected_lang = int(request.cookies.get('selected_lang'))
+    labels = fetch_labels( selected_lang, set(senses.keys()))
     return jsonify(result=render_template('min_omw_concept.html',
-                           pos = pos,
-                           langs = langs_id,
-                           senses=senses,
-                           ss=ss,
-                           links=links,
-                           ssrels=ssrels,
-                           defs=defs,
-                           exes=exes))
+                                          pos = pos,
+                                          langs = langs_id,
+                                          senses=senses,
+                                          ss=ss,
+                                          links=links,
+                                          ssrels=ssrels,
+                                          defs=defs,
+                                          exes=exes,
+                                          labels=labels))
 
 @app.route('/_load_min_omw_sense/<sID>')
 def min_omw_sense(sID=None):
@@ -320,11 +322,12 @@ def min_omw_sense(sID=None):
         src_meta= fetch_src_meta()
         src_sid=fetch_src_for_s_id([s_id])
         sdefs = fetch_defs_by_sense([s_id])
-        sdef = ''
         if selected_lang in sdefs[s_id]:
             sdef = sdefs[s_id][selected_lang] ## requested language
         else:
-            sdef = sdefs[min(sdefs[s_id].keys())] ## a language
+            sdef = sdefs[s_id][min(sdefs[s_id].keys())] ## a language
+        if not sdef:
+            sdef="no definition"
     
     #    return jsonify(result=render_template('omw_sense.html',
     return jsonify(result=render_template('min_omw_sense.html',
