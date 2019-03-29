@@ -4,7 +4,7 @@
 
 OMWROOT="$( cd "$( dirname "$0" )"; echo "$PWD" )"
 OMWAPP="$OMWROOT/omw"
-BINDIR="$OMWROOT/omw/bin"
+BINDIR="$OMWROOT/scripts"
 DBDIR="$OMWROOT/omw/db"
 TABDIR="$BINDIR"
 
