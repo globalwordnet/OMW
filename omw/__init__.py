@@ -113,6 +113,16 @@ def teardown_dbs(exception):
         db.close()
 
 ################################################################################
+# helper functions
+################################################################################
+
+def _get_cookie(name, default):
+    if name in request.cookies:
+        return request.cookies.get(name)
+    else:
+        return default
+        
+
 
 
 ################################################################################
@@ -211,12 +221,12 @@ def add_new_project():
 
 @app.route("/_load_lang_selector",methods=["GET"])
 def omw_lang_selector():
-    selected_lang = request.cookies.get('selected_lang')
-    selected_lang2 = request.cookies.get('selected_lang2')
+    selected_lang =  int(_get_cookie('selected_lang', 1))
+    selected_lang2 =  int(_get_cookie('selected_lang', 1))
     lang_id, lang_code = fetch_langs()
     html = '<select name="lang" style="font-size: 85%; width: 9em" required>'
     for lid in lang_id.keys():
-        if selected_lang == str(lid):
+        if selected_lang == lid:
             html += """<option value="{}" selected>{}</option>
                     """.format(lid, lang_id[lid][1])
         else:
@@ -225,7 +235,7 @@ def omw_lang_selector():
     html += '</select>'
     html += '<select name="lang2" style="font-size: 85%; width: 9em" required>'
     for lid in lang_id.keys():
-        if selected_lang2 == str(lid):
+        if selected_lang2 == lid:
             html += """<option value="{}" selected>{}</option>
                     """.format(lid, lang_id[lid][1])
         else:
@@ -296,7 +306,7 @@ def min_omw_concepts(ss=None, ili_id=None):
     langs_id, langs_code = fetch_langs()
     ss, senses, defs, exes, links = fetch_ss_basic(ss_ids)
     ssrels = fetch_ssrel()
-    selected_lang = int(request.cookies.get('selected_lang'))
+    selected_lang = int(_get_cookie('selected_lang', 1))
     labels = fetch_labels( selected_lang, set(senses.keys()))
     return jsonify(result=render_template('min_omw_concept.html',
                                           pos = pos,
@@ -317,7 +327,7 @@ def min_omw_sense(sID=None):
         pos = fetch_pos()
         sense = fetch_sense(s_id)
         forms=fetch_forms(sense[3])
-        selected_lang = int(request.cookies.get('selected_lang'))
+        selected_lang = int(_get_cookie('selected_lang', 1))
         labels= fetch_labels(selected_lang,[sense[4]])
         src_meta= fetch_src_meta()
         src_sid=fetch_src_for_s_id([s_id])
@@ -664,7 +674,9 @@ def concepts_omw(ssID=None, iliID=None):
     for s in links:
         for l in links[s]:
             sss.extend(links[s][l])
-    selected_lang = request.cookies.get('selected_lang')
+
+            selected_lang = int(_get_cookie('selected_lang', 1))
+            selected_lang2 = int(_get_cookie('selected_lang2', 1))
     labels = fetch_labels(selected_lang, set(sss))
 
     ssrels = fetch_ssrel()
@@ -694,7 +706,7 @@ def concepts_omw(ssID=None, iliID=None):
                            exes=exes,
                            ili=ili,
                            selected_lang = selected_lang,
-                           selected_lang2 = request.cookies.get('selected_lang2'),
+                           selected_lang2 = selected_lang2,
                            labels=labels,
                            ss_srcs=ss_srcs,
                            src_meta=src_meta,
@@ -712,7 +724,7 @@ def omw_sense(sID=None):
         sense =  fetch_sense(s_id)
         slinks = fetch_sense_links([s_id])
         forms=fetch_forms(sense[3])
-        selected_lang = int(request.cookies.get('selected_lang'))
+        selected_lang = int(_get_cookie('selected_lang',1))
         labels= fetch_labels(selected_lang,[sense[4]])
         src_meta= fetch_src_meta()
         src_sid=fetch_src_for_s_id([s_id])
