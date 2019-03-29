@@ -675,8 +675,8 @@ def concepts_omw(ssID=None, iliID=None):
         for l in links[s]:
             sss.extend(links[s][l])
 
-            selected_lang = int(_get_cookie('selected_lang', 1))
-            selected_lang2 = int(_get_cookie('selected_lang2', 1))
+    selected_lang = int(_get_cookie('selected_lang', 1))
+    selected_lang2 = int(_get_cookie('selected_lang2', 1))
     labels = fetch_labels(selected_lang, set(sss))
 
     ssrels = fetch_ssrel()
