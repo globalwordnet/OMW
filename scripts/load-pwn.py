@@ -225,6 +225,7 @@ c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
 c.execute("""INSERT INTO src_meta (src_id, attr, val, u)
              VALUES (?,?,?,?)""", [src_id, 'language', 'en', u])
 
+
 sys.stderr.write('PWN30 meta-data was added.\n')
 
 
@@ -249,7 +250,9 @@ c.execute("""INSERT INTO resource (code, u)
 c.execute("""SELECT MAX(id) FROM resource""")
 verbframes_resource_id = c.fetchone()[0]
 
-
+# source meta tag 1 will be used for frequency
+c.execute("""INSERT INTO smt(id, tag, name, u) VALUES (?,?,?,?)""",
+              (1, 'freq', 'frequency', u))
 
 
 ################################################################
@@ -376,7 +379,7 @@ for ss in wn.all_synsets():
 
 
 
-    # INSERT FORMS, WORDS (SAME) and SENSES
+    # INSERT FORMS, WORDS (SAME),  SENSES and COUNTS
     for l in ss.lemmas():
 
         # FORMS
@@ -413,8 +416,20 @@ for ss in wn.all_synsets():
         c.execute("""INSERT INTO s_src (s_id, src_id, conf, u)
                      VALUES (?,?,?,?) """, (s_id, src_id, 1, u))
 
+        ss_lemma_sense_id[(ss,l)] = s_id        
 
-        ss_lemma_sense_id[(ss,l)] = s_id
+        # COUNTS
+        if int(l.count()):
+            ## add the count to sense meta
+            c.execute("""INSERT INTO sm (s_id, smt_id, sml_id, u)
+            VALUES (?,?,?,?) """, (s_id, 1, int(l.count()), u))
+
+
+            ## add the src and confidence to sense meta source
+            sm_id = c.lastrowid
+            c.execute("""INSERT INTO sm_src (sm_id, src_id, conf, u)
+            VALUES (?,?,?,?) """, (sm_id, src_id, 1.0, u))
+            
 
 
 ################################################################

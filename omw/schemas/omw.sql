@@ -7,10 +7,12 @@ CREATE TABLE active_user
 
 
 CREATE TABLE lang
-       (id INTEGER PRIMARY KEY ASC,
-        bcp47 TEXT NOT NULL,
-        iso639 TEXT,
-        u INTEGER NOT NULL,
+       -- English will always be 1 (and is often the fallback)
+       -- language names are in lang_name
+       (id INTEGER PRIMARY KEY ASC,   -- 1
+        bcp47 TEXT NOT NULL,          -- 'en'
+        iso639 TEXT,                  -- 'eng'    
+        u INTEGER NOT NULL, 
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 CREATE UNIQUE INDEX lang_bcp47_idx ON lang (bcp47);
@@ -81,9 +83,10 @@ CREATE TRIGGER lang_delete AFTER DELETE ON lang
 
 
 CREATE TABLE lang_name
-       (lang_id INTEGER NOT NULL,
-        in_lang_id INTEGER NOT NULL,
-        name TEXT NOT NULL,
+       -- e.g. (1, 1, "English", "omw", "1984")     
+       (lang_id INTEGER NOT NULL,        -- id of the language (from lang)
+        in_lang_id INTEGER NOT NULL,     -- what language is the name in?  
+        name TEXT NOT NULL,              -- name of the language
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (lang_id, in_lang_id),
@@ -1785,9 +1788,11 @@ CREATE TRIGGER wf_link_delete AFTER DELETE ON wf_link
 
 CREATE TABLE s
        (id INTEGER PRIMARY KEY ASC,
-        ss_id INTEGER NOT NULL,
-        w_id INTEGER NOT NULL,
-        u INTEGER NOT NULL,
+        ss_id INTEGER NOT NULL,  -- synset id
+        w_id INTEGER NOT NULL,   -- word id
+	freq INTEGER DEFAULT 0,  -- total frequency of lemma
+	                         -- summed from sense_meta
+        u INTEGER NOT NULL,      -- who added it    
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(ss_id) REFERENCES ss(id),
         FOREIGN KEY(w_id) REFERENCES w(id));
@@ -2095,11 +2100,11 @@ CREATE TRIGGER sml_delete AFTER DELETE ON sml
 
 
 CREATE TABLE sm
-       (id INTEGER PRIMARY KEY ASC,
-        s_id INTEGER NOT NULL,
-        smt_id INTEGER NOT NULL,
-        sml_id INTEGER NOT NULL,
-        u INTEGER NOT NULL,
+       (id INTEGER PRIMARY KEY ASC, 
+        s_id INTEGER NOT NULL,       -- id of the associated sense
+        smt_id INTEGER NOT NULL,     -- id of the associated tag 
+        sml_id INTEGER NOT NULL,     -- id of the value OR value itself
+        u INTEGER NOT NULL,          
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(s_id) REFERENCES s(id),
 	FOREIGN KEY(smt_id) REFERENCES smt(id));

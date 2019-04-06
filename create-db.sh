@@ -137,19 +137,6 @@ if [ ! -f "$OMWDB" ]; then
 
 
     ###########################################################################
-    # LOAD/UPDATE PWN FREQUENCIES
-    ###########################################################################
-
-    echo
-    echo
-    echo "Loading PWN30 frequencies..."
-    python "$BINDIR"/load-pwn-freq.py "$OMWDB"
-    echo "Updating (all) frequencies..."
-    python "$BINDIR"/update-freq.py "$OMWDB"
-
-
-
-    ###########################################################################
     # LOADING (ALL) OMW LANGUAGES
     ###########################################################################
 
