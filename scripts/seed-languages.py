@@ -8,6 +8,17 @@ from iso639 import languages
 
 import sqlite3, sys
 
+shorter = {
+    "Interlingua (International Auxiliary Language Association)":"Interlingua (IALA)",
+    "Mandarin Chinese (simplified)":"Mandarin (简)",
+    "Nepali (macrolanguage)":"Nepali (macro)",
+    "Oriya (macrolanguage)":"Oriya (macro)",
+    "Swahili (macrolanguage)":"Swahili (macro)",
+    "Old English (ca. 450-1100)":"Old English",
+    "Ancient Greek (to 1453)":"Ancient Greek"
+}
+
+
 # It takes one argument: the name of the db
 if (len(sys.argv) < 2):
     sys.stderr.write('You need to give the name of the DB\n')
@@ -47,7 +58,11 @@ for l3 in "eng als arb bul cmn dan ell fas fin fra heb hrv ita jpn cat eus glg s
     c.execute("""SELECT MAX(id) FROM lang""")
     lang_id = c.fetchone()[0]
 
-    c.execute("""INSERT INTO lang_name (lang_id, in_lang_id, name, u)
-    VALUES (?,?,?,?)""", (lang_id, known['eng'], l.name, u))
+    ### use a shorter name if there is one
+    name = shorter.get(l.name, l.name)
 
+    c.execute("""INSERT INTO lang_name (lang_id, in_lang_id, name, u)
+    VALUES (?,?,?,?)""", (lang_id, known['eng'], name, u))
+
+    
 con.commit()
