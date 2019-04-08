@@ -1,4 +1,4 @@
-# The Open Multilingual Wordnet
+# <img src="omw/static/omw-logo.svg" width="48" height="48" alt="OMW logo" /> The Open Multilingual Wordnet
 
 Code for the Open Multilingual Wordnet ---
 read in wordnets, validate them, and search them.
