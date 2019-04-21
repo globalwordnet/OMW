@@ -661,7 +661,7 @@ with app.app_context():
         return ss, senses, defs, exes, links
 
     def fetch_core():
-        """return the core seynsets"""
+        """return sets of core synsets as OMW synsets and ILIs"""
         core_ss = set()
         core_ili = set()
         r = query_omw('select id from resource where code = ?', ('core',), one=True)

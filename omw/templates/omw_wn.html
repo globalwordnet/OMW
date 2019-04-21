@@ -41,8 +41,8 @@
     <th style="text-align:right">Words</th>
     <th style="text-align:right">Forms</th>
     <th style="text-align:right">Senses</th>
-    <th style="text-align:right">Core %</th>
     <th style="text-align:right">CILI %</th>
+    <th style="text-align:right">Core %</th>
     <th style="text-align:right">Def %</th>
     <th style="text-align:right">Ex %</th>
     <th style="text-align:right">Freq %</th> 
@@ -53,11 +53,11 @@
       }}</td>
         <td style="text-align:right">{{ '{0:,}'.format(src_stats.forms) }}</td>
     <td style="text-align:right">{{ '{0:,}'.format(src_stats.senses) }}</td>
-    <td style="text-align:right">{{ (src_stats.core*100/4960)|round(1)
-      }}</td>
     {%- if src_stats.synsets > 0 %}
     <td style="text-align:right">{{(src_stats.in_ili*100/
       src_stats.synsets)|round(1) }}</td>
+    <td style="text-align:right">{{ (src_stats.core*100/4960)|round(1)
+      }}</td>
         <td style="text-align:right">{{(src_stats.def*100/ src_stats.synsets)|round(1) }}</td>
     <td style="text-align:right">{{(src_stats.ssexe*100/
       src_stats.synsets)|round(1) }}</td>
@@ -69,16 +69,19 @@
     <td><br></td>
     <td><br></td>
     <td><br></td>
+    <td><br></td>
     {%- endif %}
   </tr>
 </table>
 
 <p style="font-size:smaller">CILI % is the percentage of synsets linked to CILI.
-  <br>Core % is the percentage of <a href='{{url_for('omw_core')}}'> core synsets</a> covered.
+  <br>Core % is the percentage of <a href='{{url_for('omw_core')}}'>
+  core synsets</a> covered ({{'{0:,}'.format(src_stats.core)}} synsets).
   <br>Def and Ex % are the percentages of synsets
-  with definitions and examples respectively.
+  with definitions ({{'{0:,}'.format(src_stats.def)}} synsets) and
+  examples ({{'{0:,}'.format(src_stats.ssexe)}} synsets) respectively.
   <br>Freq is the % of senses with a non-zero frequency
-  ({{ '{0:,}'.format(src_stats.freq_type)}} instances for {{ '{0:,}'.format(src_stats.freq_token)}} senses).
+  ({{'{0:,}'.format(src_stats.freq_token)}} senses with {{ '{0:,}'.format(src_stats.freq_type)}} instances).
   
   <table style="width:auto;overflow-x:auto;">
   <caption>POS Statistics for {{ src_info.label }}  ({{ wn
