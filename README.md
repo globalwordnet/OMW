@@ -90,3 +90,5 @@ You can load a wordnet from the command line:
 ``` bash
 (py3env) ~/OMW$  PYTHONPATH=.  python scripts/validate-wn.py /home/bond/work/omw/jpn/jpn.xml 
 ```
+
+Note that you may still have to add the project, and possibly the language, from the web interface (under CILI: Project and Source Administration or Language Administration).
