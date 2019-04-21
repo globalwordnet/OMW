@@ -30,15 +30,19 @@
 
 {% if slinks %}    
   <li> Links:
-    <ul>
+    <table style="width:auto;overflow-x:auto;">
       {%- for sl in slinks %}
-      <li><span class ='rel'
-		title='{{srel['id'][sl][1]}}'>{{srel['id'][sl][0]}}</span>:
+      <tr><td>{{ssrel(srel['id'][sl][0])}}</td>
+	<td>
 	{%- for sl_id in slinks[sl] %}
-        <a class='sense' data-sid='{{sl_id}}' href='{{url_for('omw_sense',sID=sl_id)}}'>{{slabel[sl_id]}}</a>
-	  {%- endfor %}
+        <a class='sense' data-sid='{{sl_id}}'
+           href='{{url_for('omw_sense',sID=sl_id)}}'>{{slabel[sl_id]}}</a>
+	{%- if not loop.last -%} , {% endif %} 
 	{%- endfor %}
-    </ul>
+	</td>
+	</tr>
+	{%- endfor %}
+    </table>
     {% endif %}
     
       <li><span class='rel'>Source:</span>

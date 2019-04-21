@@ -9,14 +9,15 @@
 {%- for ss_id, info in ss.items() %}
 
 <span class='concept_name'>{{labels[ss_id]}}</span>  <!-- FIXME -->
-{% if ss_id in core %}
-<a  href='{{url_for('omw_core')}}' title= 'One of the 4,960 core concepts'>✪</a>
-{% endif %}  <!--  If core concept -->
- 
 <small>  <!-- data -->
   <!-- part of speech  -->
-  <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 
-
+  <span class='pos'
+	title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span>
+  {% if ss_id in core %}
+  </small>
+<a  href='{{url_for('omw_core')}}' title= 'One of the 4,960 core concepts'>✪</a>
+{% endif %}  <!--  If core concept -->
+<small> 
   {% if ss[ss_id][0] %}  <!--  If linked to ILI -->
   ⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
   {% endif %}
@@ -84,7 +85,10 @@
 	  <th>{{ ssrel(ssrels['id'][rel][1]) }}</th>
 	  <td>
           {%- for ss2 in links[ss_id][rel] %}
-          <span class="synset" ><a href="{{url_for('concepts_omw',ssID=ss2)}}" data-synsetid="{{ss2}}">{{labels[ss2]}}</a></span>
+          <span class="synset"
+          ><a href="{{url_for('concepts_omw',ssID=ss2)}}"
+              data-synsetid="{{ss2}}">{{labels[ss2]}}</a></span>
+	  {%- if not loop.last %}{{', '}}{% endif %}
           {%- endfor %}
 	  </td>
 	</tr>
@@ -92,9 +96,10 @@
     </table>
   {% endif %}
   <div id='line'><span>Synset Sources</span></div>
-      {%- for src, key, conf in ss_srcs[ss_id|int] %}
-    <span title='{{src_meta[src]['id']}}-{{src_meta[src]['version']}}:{{key}}'>{{src_meta[src]['label']}}
-    ({{src_meta[src]['version']}})</span> with confidence {{conf}}
+  {%- for src, key, conf in ss_srcs[ss_id|int] %}
+  {% set proj = src_meta[src]['id'] + '-'  +  src_meta[src]['version'] %}
+     <a href="{{url_for('omw_wn', src=proj)}}">{{src_meta[src]['label']}}
+    ({{src_meta[src]['version']}})</a> with confidence {{conf}}
       {%- if not loop.last %}{{'; '}}{% endif %}
       {%- endfor %}
     

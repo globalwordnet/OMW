@@ -751,7 +751,8 @@ def omw_sense(sID=None):
                            labels = labels,
                            slabel = slabel,
                            src_sid = src_sid,
-                           src_meta = src_meta)
+                           src_meta = src_meta,
+                           gwadoc=gwadoc)
 
     
 # URIs FOR ORIGINAL CONCEPT KEYS, BY INDIVIDUAL SOURCES
@@ -777,6 +778,8 @@ def src_omw(src=None, originalkey=None):
 ##
 @app.route('/omw/src/<src>', methods=['GET', 'POST'])
 def omw_wn(src=None):
+    ### default to full = false (short version)
+    full = request.args.get('full') in ['true', 'True']
     if src:
         try:
             proj, _, ver = src.rpartition('-')
@@ -785,18 +788,25 @@ def omw_wn(src=None):
             src_id = None
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
-
+    if full: ### give more stats
+        ssrel_stats=fetch_ssrel_stats(src_id) 
+        srel_stats=fetch_srel_stats(src_id)
+    else:
+        ssrel_stats= {}
+        srel_stats= {}
     return render_template('omw_wn.html',
                            wn = src,
                            src_id=src_id,
                            src_info=src_info,
-                           ssrel_stats=fetch_ssrel_stats(src_id),
+                           ssrel_stats=ssrel_stats,
+                           srel_stats=srel_stats,
                            pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id),
-                           licenses=licenses)
+                           licenses=licenses,
+                           gwadoc=gwadoc)
 
 @app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
-def omw_wn_latex(src=None):
+def omw_wn_latex(src=None, full=False):
     if src:
         try:
             proj, _, ver = src.rpartition('-')
@@ -805,12 +815,16 @@ def omw_wn_latex(src=None):
             src_id = None
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
+    if full:
+        ssrel_stats=fetch_ssrel_stats(src_id)
+    else:
+        ssrel_stats= {}
 
     return render_template('omw_wn_latex.html',
                            wn = src,
                            src_id=src_id,
                            src_info=src_info,
-                           ssrel_stats=fetch_ssrel_stats(src_id),
+                           ssrel_stats=ssrel_stats,
                            pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
 

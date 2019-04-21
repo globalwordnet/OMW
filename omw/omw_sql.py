@@ -140,6 +140,9 @@ with app.app_context():
         return  src_pos_stats
 
     def fetch_ssrel_stats(src_id):
+        """ Return the number of links for each type for sense-sense links
+            for a wordnet with the given src_id
+        """
         constitutive = ['instance_hyponym','instance_hypernym',
                          'hypernym', 'hyponym',
                          'synonym', 'antonym',
@@ -161,6 +164,25 @@ with app.app_context():
                 src_ssrel_stats['CONSTITUATIVE'] += r['count(ssrel_id)']
             
         return src_ssrel_stats
+
+    def fetch_srel_stats(src_id):
+        """ Return the number of links for each type for sense-sense links
+            for a wordnet with the given src_id
+        """
+        src_srel_stats = dd(int)
+        srl=fetch_srel()
+        for r in query_omw("""
+        SELECT  srel_id, count(srel_id)
+        FROM slink JOIN slink_src
+        ON slink.id=slink_src.slink_id
+        WHERE slink_src.src_id=?
+        GROUP BY srel_id""", [src_id]):
+            link = srl['id'][r['srel_id']]
+            src_srel_stats[link[0]] = r['count(srel_id)']
+            src_srel_stats['TOTAL'] += r['count(srel_id)']
+        return src_srel_stats
+
+    
             
     def fetch_src_id_stats(src_id):
         src_id_stats=dd(int)
@@ -527,6 +549,18 @@ with app.app_context():
            ssrel['id'][1] = ('agent', 'the undertaker of an action') 
            ssrel['rel']['agent'] = (1, 'the undertaker of an action') """
         ssrel_dict = dd(lambda: dd())
+        for r in query_omw("""SELECT id, rel, def FROM ssrel"""):
+            ssrel_dict['id'][r['id']]=(r['rel'],r['def'])
+            ssrel_dict['rel'][r['rel']]=(r['id'],r['def'])
+        return ssrel_dict
+
+    def fetch_sssrel():
+        """look up the relation and definition for sense-synset level links
+           index by an 'id' or from a 'ssrel'
+           ssrel['id'][1] = ('agent', 'the undertaker of an action') 
+           ssrel['rel']['agent'] = (1, 'the undertaker of an action')
+           FIXME link to GWADOC """
+        sssrel_dict = dd(lambda: dd())
         for r in query_omw("""SELECT id, rel, def FROM ssrel"""):
             ssrel_dict['id'][r['id']]=(r['rel'],r['def'])
             ssrel_dict['rel'][r['rel']]=(r['id'],r['def'])

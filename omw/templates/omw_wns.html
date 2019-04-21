@@ -45,11 +45,11 @@ in the World page</a>.
     <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
     <td>
       <a title='statistics' href='{{url_for('omw_wn',
-	 src=proj)}}'><i class="fa fa-bar-chart"></i></a>;
+	 src=proj, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
       <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
 	  src=proj)}}'>LaTeX</a>
     </td>
-
+<p> Hi there
     <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
     
   </tr>

@@ -72,12 +72,19 @@ body {
     height:90px;   /* Height of the footer */
     background: #D3D3D3;
 }
+/* for low level names */ 
+span.low {
+    font-family: "Noto Mono", mono;
+    font-size:=smaller
+}
 
 
 
 
-
-
+/* show newlines */
+.ui-tooltip {
+    white-space: pre-line;
+}
 
  /* This the class for a hidden tooltip div to populate and show on hover of elements */
 #divtooltip {
@@ -130,7 +137,6 @@ span.concept_name {
     font-weight: bold;
     font-size: 150%;
 }
-
 
 
 

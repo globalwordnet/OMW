@@ -2,20 +2,22 @@
 {% block body %}
 {% if src_id %}
 {% if src_info.url %}
-<h6><a href='{{src_info.url}}'  title='upstream project homepage'>{{ src_info.label }}</a>
-       ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+<h5><a href='{{src_info.url}}'  title='upstream project homepage'>{{ src_info.label }}</a>
+       ({{ wn }}:  {{ src_info.language }})</h5> {# expand to language #}
 {% else %}
 <h6>{{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
 {% endif %}
 
+<p>This page gives some information about {{ src_info.label }}, as it
+  is loaded into the Open Multilingual Wordnet. {% if src_info.url %}
+  The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
+{% endif %}
+
+<h6>Description</h6>
 {% if src_info.description %}
 <p>{{ src_info.description }}</p>
 {% else  %}
 <p>No description in the upload.</p>
-{% endif %}
-
-{% if src_info.url %}
-  <p>The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
 {% endif %}
   
 <p>The license is <a href='{{src_info.license}}'>{{licenses[src_info.license]}}</a>.</p>
@@ -103,10 +105,10 @@
   {% endfor %}
   </table>
 
-
-  <h4>Semantic Relations Between Synsets</h4>  
+ {% if ssrel_stats %}
+  <h6>Semantic Relations Between Synsets</h6>  
  <table style="width:auto;overflow-x:auto;">
-  <caption>Semantic Relations for {{ src_info.label }}  ({{ wn
+  <caption>Synset-level Semantic Relations for {{ src_info.label }}  ({{ wn
     }})</caption>
   <tr>
     <th>Semantic Relation</th>
@@ -115,14 +117,13 @@
   {% for (link, count) in ssrel_stats|dictsort%} 
   {% if link is not upper %}
 <tr>
-  <td>{{link}}</td>
+  <td>{{ssrel(link)}}</td>
   <td style="text-align:right">{{ '{0:,}'.format(count)}}</td>
   
     <td style="text-align:right">{{(count*100/ssrel_stats['TOTAL'])|round(1) }}</td>
 </tr>
 {% endif %}
-  {% endfor %}
-  
+{% endfor %}
   {% for (link, count) in ssrel_stats|dictsort%} 
   {% if link is upper %}
 <tr>
@@ -133,8 +134,34 @@
     {% endif %}
   {% endfor %}
   </table>
+  {% endif %} 
 
+ {% if srel_stats %}
+ <h6>Semantic Relations Between Senses</h6>
+  <table style="width:auto;overflow-x:auto;">
+  <caption>Sense-level Semantic Relations for {{ src_info.label }}  ({{ wn
+    }})</caption>
+   <th>Semantic Relation</th>
+    <th style="text-align:right">Count</th>
+        <th style="text-align:right">%</th>
+	{% for (link, count) in srel_stats|dictsort%}
+{% if link is not upper %}
+  <tr>
+    <td>{{ssrel(link)}}</span></td>
+    <td style="text-align:right">{{ '{0:,}'.format(count)}}</td>
+    <td style="text-align:right">{{(count*100/srel_stats['TOTAL'])|round(1) }}</td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+  <tr>
+  <td>Total</td>
+  <td style="text-align:right">{{ '{0:,}'.format(srel_stats['TOTAL'])}}</td>
+    <td style="text-align:right">100</td>
+</tr>
+  </table>
+ {% endif %} 
 
+ 
 <p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
  {{wn}} statistics</a>
  

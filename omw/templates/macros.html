@@ -1,11 +1,12 @@
-{% macro ssrel(rel_id) -%}
-{%- set rel = gwadoc.rels[rel_id] -%}
+{% macro ssrel(relname) -%}
+{%- set rel = gwadoc.relations[relname] -%}
 <span class='rel tooltip' title="
 {%- if not (rel.df or rel.ex) %}(no description; click for more info)
 {%- else -%}
   {%- if rel.df %}{{ rel.df }}{% endif -%}
-  {% if rel.ex %} (E.g.: {{ rel.ex }}){%- endif %}
+  {% if rel.ex %}&#xa; (E.g.: {{ rel.ex }}){%- endif %}
 {%- endif %}">
-  <a href="https://globalwordnet.github.io/gwadoc/#{{ rel_id }}" target="gwadoc">{{ rel_id }}</a>
+  <a href="https://globalwordnet.github.io/gwadoc/#{{ relname }}"
+  target="gwadoc">{{ rel.name }}</a>
 </span>
 {%- endmacro %}
