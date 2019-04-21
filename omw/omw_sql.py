@@ -236,6 +236,15 @@ with app.app_context():
           (SELECT ssexe_id FROM ssexe_src
            WHERE src_id =?)""", [src_id]): 
             src_id_stats['ssexe'] = r['count(distinct ss_id)']
+
+        ### Frequency
+        for r in query_omw("""
+        SELECT sum(sml_id), count(sml_id) FROM sm
+        WHERE smt_id = 1 AND sm.s_id IN
+        (SELECT s_id FROM s_src
+           WHERE src_id =?)""", [src_id]):
+            src_id_stats['freq_token'] = r['count(sml_id)']
+            src_id_stats['freq_type'] = r['sum(sml_id)']
         return src_id_stats
     
         

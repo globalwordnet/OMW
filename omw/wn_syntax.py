@@ -484,7 +484,7 @@ with app.app_context():
         vr['upload'] = True
         
         ###LOG
-        print('Preparing to Validate File\t{}'.format(dt.today().isoformat()), file=sys.stderr)
+        print('Preparing to Validate File\t{}\t{}'.format(filename,dt.today().isoformat()), file=sys.stderr)
        
  
         ########################################################################
@@ -1005,6 +1005,9 @@ with app.app_context():
                 ################################################################
                 blk_src_data = [] # [(src_id, attr, val, u),...]
                 for attr, val in wn[lexicon]['attrs'].items():
+                    ### remove dc namespace ? should we keep as 'dc;'
+                    if attr.startswith('{http://purl.org/dc/elements/1.1/}'):
+                        attr = attr[34:]
                     blk_src_data.append((src_id, attr, val, u))
                 if insert:
                     blk_insert_src_meta(blk_src_data)

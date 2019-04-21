@@ -852,7 +852,15 @@ def generate_cili_tsv():
         tsv += "{}\t{}\t{}\n".format(ss_id, ili, ";".join(src[ss_id]))
     return Response(tsv, mimetype='text/tab-separated-values')
 
-
+@app.route('/core.tsv')
+def generate_core_tsv():
+    """output a list of the core ili concepts
+       ToDO: sort by frequency"""
+    tsv="""# ili_id\n"""
+    core_ss, core_ili = fetch_core()
+    for ili in core_ili:
+        tsv += "i{}\n".format(ili)
+    return Response(tsv, mimetype='text/tab-separated-values')
 
 @app.context_processor
 def utility_processor():

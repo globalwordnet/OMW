@@ -82,3 +82,11 @@ If you are running a virtual environment (which is recommended) for a deployment
 * You must use the same version of Python that `mod_wsgi` is compiled against (see [here](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html#virtual-environment-and-python-version)).
 * If your need to use `sudo` to create and install packages to the virtual environment, running `sudo pip install -r omw/requirements.txt` with the environment active will **not** work; instead, use `sudo py3env/bin/pip install -r omw/requirements.txt` (adjusting paths as needed for your setup).
 * As described [here](https://modwsgi.readthedocs.io/en/develop/user-guides/virtual-environments.html#daemon-mode-multiple-applications), you may need to activate the virtual environment from the WSGI script. See [`omw.wsgi`](omw.wsgi) for an example.
+
+## Local Testing
+
+You can load a wordnet from the command line:
+
+``` bash
+(py3env) ~/OMW$  PYTHONPATH=.  python scripts/validate-wn.py /home/bond/work/omw/jpn/jpn.xml 
+```

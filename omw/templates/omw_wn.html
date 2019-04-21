@@ -12,7 +12,9 @@
   is loaded into the Open Multilingual Wordnet. {% if src_info.url %}
   The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
 {% endif %}
-
+{% if src_info.email %}
+<p> The contact email is &lt;<a href='mailto:{{src_info.email}}'>{{src_info.email}}</a>&gt;.</p>
+{% endif %}
 <h6>Description</h6>
 {% if src_info.description %}
 <p>{{ src_info.description }}</p>
@@ -24,13 +26,12 @@
   
 {% if src_info.citation %}
 <p>Canonical citation for this data:
-  <pre>
-    {{src_info.citation}}
-  </pre>
+<br>{{src_info.citation}}
+
 <br>Please attribute the data properly!</p>
 {% endif %}  
 {% if src_info.filename %}
-<p>The uploaded file is <a href='/omw/uploads/{{src_info.filename}}'>&lt;{{src_info.filename}}&gt;</a>.</p>
+<p>The uploaded file is &lt;<a href='/omw/uploads/{{src_info.filename}}'>{{src_info.filename}}</a>&gt;.</p>
 {% endif %} 
 
 <table style="width:auto;overflow-x:auto;">
@@ -43,7 +44,8 @@
     <th style="text-align:right">Core %</th>
     <th style="text-align:right">CILI %</th>
     <th style="text-align:right">Def %</th>
-    <th style="text-align:right">Ex %</th> 
+    <th style="text-align:right">Ex %</th>
+    <th style="text-align:right">Freq %</th> 
   </tr>
   <tr>
     <td style="text-align:right">{{ '{0:,}'.format(src_stats.synsets) }}</td>
@@ -59,7 +61,11 @@
         <td style="text-align:right">{{(src_stats.def*100/ src_stats.synsets)|round(1) }}</td>
     <td style="text-align:right">{{(src_stats.ssexe*100/
       src_stats.synsets)|round(1) }}</td>
+    <td style="text-align:right">{{(src_stats.freq_token*100/
+      src_stats.senses)|round(1) }}</td>
+        <td><br></td>
      {%- else %}
+    <td><br></td>
     <td><br></td>
     <td><br></td>
     <td><br></td>
@@ -67,11 +73,13 @@
   </tr>
 </table>
 
-<p style="font-size:smaller">Core % is the percentage of core synsets covered. CILI % is the
-  percentage of synsets linked to CILI.
-  Def and Ex % are the percentages of synsets
+<p style="font-size:smaller">CILI % is the percentage of synsets linked to CILI.
+  <br>Core % is the percentage of <a href='{{url_for('omw_core')}}'> core synsets</a> covered.
+  <br>Def and Ex % are the percentages of synsets
   with definitions and examples respectively.
-
+  <br>Freq is the % of senses with a non-zero frequency
+  ({{ '{0:,}'.format(src_stats.freq_type)}} instances for {{ '{0:,}'.format(src_stats.freq_token)}} senses).
+  
   <table style="width:auto;overflow-x:auto;">
   <caption>POS Statistics for {{ src_info.label }}  ({{ wn
     }})</caption>

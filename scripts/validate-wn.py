@@ -10,7 +10,7 @@
 
 import sys, os
 import json
-from omw import app, g, validateFile, confirmUpload, connect_omw
+from omw import app, g, validateFile, confirmUpload, connect_omw, updateLabels
 
 userid=1
 
