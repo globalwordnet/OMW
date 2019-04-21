@@ -690,7 +690,8 @@ def concepts_omw(ssID=None, iliID=None):
             for (s_id, lemma, freq) in senses[x][y]:
                 s_ids.append(s_id)
     slinks = fetch_sense_links(s_ids)
-
+    ## get the canonical form for each linked sense
+    srl = fetch_srel()
     
     return render_template('omw_concept.html',
                            ssID=ssID,
@@ -711,7 +712,8 @@ def concepts_omw(ssID=None, iliID=None):
                            ss_srcs=ss_srcs,
                            src_meta=src_meta,
                            core=core_ss,
-                           gwadoc=gwadoc)
+                           gwadoc=gwadoc,
+                           srl=srl)
 
 
 @app.route('/omw/senses/<sID>', methods=['GET', 'POST'])

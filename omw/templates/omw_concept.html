@@ -33,8 +33,8 @@
 
 </small>
 
+
    <!-- SENSES -->
-    {% set sl2sym = {1:'⇔', 4:'⊞', 5:'⊳'}  %}
     {% if ss_id in senses.keys() %}
     <div id='line'><span>Senses</span></div>
     {%- for lang_id in senses[ss_id] %}
@@ -44,15 +44,14 @@
         {{scale_freq(s[2])}}%;'
            href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>
 	{%- if slinks[s[0]] %}
-	  ({%- for s_rel in slinks[s[0]] %}
-	      {%- for s_to in slinks[s[0]][s_rel] %}
+	({%- for s_rel in slinks[s[0]] -%}
+	{% set rel =  gwadoc.relations[srl['id'][s_rel][0]] %}
+	      {%- for s_to in slinks[s[0]][s_rel] -%}
 	<a class='sense' data-sid='{{s_to}}'
-	   href='{{url_for('omw_sense',sID=s_to)}}'>
-	  {{sl2sym[s_rel]}}</a>
-	{% endfor %}
-	
-            {% endfor %})
-	{% endif %}
+	   href='{{url_for('omw_sense',sID=s_to)}}'>{{rel.name.symbol}}</a>
+	{%- endfor -%}
+            {%- endfor -%})
+	{%- endif -%}
 	{%- if not loop.last %}{{'; '}}{% endif %}
         {% endfor %}
      {% endfor %}
