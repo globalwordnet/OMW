@@ -111,11 +111,13 @@ a.sense:visited {
 a.concept:link {
     color: #0000A0;
     font-weight:bold;
+    font-style: italic;
     text-decoration:none;
 }
 a.concept:visited {
     color:#8B0000;  
     font-weight:bold;
+    font-style: italic;
     text-decoration:none;
 }
 /* FIXME make the tooltip nicer */
@@ -135,6 +137,7 @@ span.rel a {
 }
 span.concept_name {
     font-weight: bold;
+    font-style: italic;
     font-size: 150%;
 }
 
