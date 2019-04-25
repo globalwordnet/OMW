@@ -833,24 +833,9 @@ def omw_wn_latex(src=None, full=False):
 
 @app.route('/cili.tsv')
 def generate_cili_tsv():
-    tsv="""# omw_id	ili_id	projects\n"""
-    srcs = fetch_src()
-    ss =dict()
-    r  =  query_omw_direct("SELECT id, ili_id from ss")
-    for (ss_id, ili_id) in r:
-        ss[ss_id] = [ili_id]
-    src = dd(list)
-    r = query_omw_direct("SELECT ss_id, src_id, src_key from ss_src")
-    for (ss_id, src_id, src_key) in r:
-        src[ss_id].append("{}-{}:{}".format(srcs[src_id][0],
-                                            srcs[src_id][1],
-                                            src_key))
-        
-    for ss_id in ss:
-        ili = 'i' + str(ss[ss_id][0]) if ss[ss_id][0] else 'None'
-
-        tsv += "{}\t{}\t{}\n".format(ss_id, ili, ";".join(src[ss_id]))
+    tsv = fetch_cili_tsv()
     return Response(tsv, mimetype='text/tab-separated-values')
+
 
 @app.route('/core.tsv')
 def generate_core_tsv():

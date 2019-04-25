@@ -3,24 +3,108 @@
 
 <h3> Welcome to CILI</h3>
 
+<p>The Collaborative Inter-Lingual Index (CILI: pronounced like the
+  {{ili("chili pepper","77587")}}) is a list of concepts, used by
+  wordnets in the Open Multilingual Wordnet. It is designed to make possible
+  coordination between multiple loosely coupled wordnet projects. The
+  structure of the CILI is based on the Interlingual Index first
+  proposed in the EuroWordNet project with several pragmatic
+  extensions: an explicit open license, definitions in English and
+  links to wordnets in the <a href="{{ url_for('omw_welcome') }}">Open
+  Multilingual Wordnet</a> (OMW).
 
-<br>
-<br>
+<p> CILI has the following properties:
+  <ol>
+  <li> The Collaborative Interlingual Index (CILI) should be a flat list
+of concepts.
+  <li> The semantic and lexical relations should
+    mean the same things for all languages.
+    <br>⇒ <a =href='https://globalwordnet.github.io/gwadoc/'>documentation
+    for relations</a>
+  <li> Concepts should be constructed for salient
+and frequent lexicalized concepts in all languages.
+  <li> Concepts linked to multiword expressions (MWEs)
+in wordnets should be included.
+  <li> A formal ontology could be linked to but separate from the wordnets.
+  <li> The license must allow redistribution of the
+index.
+  <li> CILI IDs should be persistent: we never delete,
+only deprecate or supercede; we should not
+change the meaning of the concept.
+  <li> Each new CILI concept should have a definition in English, as
+    this is the only practical way we
+can coordinate across languages. The definition should be unique. Definition
+changes will be moderated.
+  <li> Each new CILI concept should link to a synset
+in an existing project that is part of the
+    OMW with one of a set of 
+     <a =href='https://globalwordnet.github.io/gwadoc/'>known relations</a>
+(hypernymy, meronomy, antonymy, ...).
+  <li> This synset should link to another synset in an
+existing project that is part of the OMW and
+links to a CILI concept:
+<br>⇒ each concept is linked to another concept
+through at least one wordnet in the OMW.
+  <li> New concepts can be added if they exist in an uploaded wordnet:
+    <ul>
+<li> Any project adding new synsets should first
+    check that they do not already exist in the CILI;
+<li>  If something fulfills the above criteria it can be proposed;
+<li>  If there are no objections after three months then
+  it is accepted as part of CILI.
+  </ol>
+Items 1 to 5 are based on <i>Challenges for a global wordnet</i>
+(Christiane Fellbaum and Piek Vossen, 2008), the remainder on <i>CILI: the
+Collaborative Interlingual Index</i> (Francis Bond, Piek Vossen, John
+  McCrae and Christiane Fellbaum, 2014).
+  
 <p><a href='https://github.com/globalwordnet/'>Find out more on Github</a></p>
 
-<p><a href='temporary'> See temporary ILI concepts</a></p>
+<p><a href='temporary'> See temporary CILI concepts</a></p>
 
-<p><a href='deprecated'> See deprecated ILI concepts</a></p>
+<p><a href='deprecated'> See deprecated CILI concepts</a></p>
+
+<h5>The current CILI</h5>
+
+<p>You can download
+  the  <a href="{{(url_for('generate_cili_tsv'))}}">current CILI as a
+    tab-separated value file with a header line</a>.
+<p> There are 6 columns:
+  <ol>
+    <li> CILI id
+    <li> status
+      <ul>
+	<li><b>0</b>: deprecated
+	<li><b>1</b>: normal    
+	<li><b>2</b>: temporary 
+      </ul>
+    <li> If it is superseded by an ILI, the id of that ILI concept.
+    <li> The source of the ILI (<tt>project:key</tt>: e.g. <tt>pwn-3.0:00001740-a</tt>)
+    <li> All the wordnets that link to it in the OMW (';' separated
+      list of <tt>project:key</tt> pairs)
+    <li> The CILI definition (in English)
+  </ol>
+
+  <table>
+<tr><td>ili_id</td><td>status</td><td>superseded_by</td><td>origin</td><td>used_by</td><td>definition</td></tr>
+<tr><td>i1</td><td>1</td><td></td><td>pwn-3.0:00001740-a</td><td>pwn-3.0:00001740-a;wnja-2.0:00001740-a</td><td>(usually followed by `to') having the necessary means or skill or know-how or authority to do something</td></tr>
+<tr><td>i2</td><td>1</td><td></td><td>pwn-3.0:00002098-a</td><td>pwn-3.0:00002098-a;wnja-2.0:00002098-a</td><td>(usually followed by `to') not having the necessary means or skill or know-how</td></tr>
+<tr><td>i3</td><td>1</td><td></td><td>pwn-3.0:00002312-a</td><td>pwn-3.0:00002312-a</td><td>facing away from the axis of an organ or organism</td></tr>
+  </table>
 
 <hr>
-
 
 
 {% if current_user.id %}
 
 <div id="UserPanel">
-<h5>User Panel</h5>
-    <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
+  <h5>User Panel</h5>
+
+  <p>If you have a new wordnet, and are part of the Global Wordnet
+  Association, then you can upload a new wordnet.  Please check it
+  thoroughly first.
+     
+  <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
 </div>
 <hr>
 {% endif %}

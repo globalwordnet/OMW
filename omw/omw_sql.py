@@ -673,6 +673,44 @@ with app.app_context():
                 core_ili.add(q['x1'])
         return core_ss, core_ili
 
+    def fetch_cili_tsv():
+        """output the ili as tsv, with lists of linked synsets
+
+        the data is accessible at "/cili.tsv"  
+        and documented on the CILI welcome page
+        """
+        ### get projects linked to ili        
+        srcs = fetch_src()
+        src = dd(list)
+        r = query_omw_direct("SELECT ss_id, src_id, src_key from ss_src")
+        for (ss_id, src_id, src_key) in r:
+            src[ss_id].append("{}-{}:{}".format(srcs[src_id][0],
+                                                srcs[src_id][1],
+                                                src_key))
+        ### prepare headers
+        tsv=["\t".join(["ili_id",
+                       "status",
+                       "superseded_by",
+                       "origin",
+                       "used_by",
+                       "definition"])]
+
+        ### get the data
+        r  =  query_omw_direct("""SELECT ss.id, ili.id,  def, 
+     status_id,  superseded_by_id, origin_src_id, src_key
+        FROM  ili LEFT JOIN ss on ss.ili_id = ili.id""")
+        for (ss_id, ili_id, dfn, status_id,
+             superseded_by_id, origin_src_id, src_key) in r:
+            tsv.append("\t".join(['i' + str(ili_id),
+                                  str(status_id),
+                                  'i' + str(superseded_by_id) if superseded_by_id else '',
+                                  "{}-{}:{}".format(srcs[origin_src_id][0],
+                                                    srcs[ origin_src_id][1],
+                                                    src_key),
+                                  ";".join(src[ss_id]),
+                                  dfn]))
+        return "\n".join(tsv)+"\n"
+    
     def fetch_sense_links(s_ids):
         """ return information about the links to a list of senses
         slinks[s_id_from][srel] = [s_id_to, ...]

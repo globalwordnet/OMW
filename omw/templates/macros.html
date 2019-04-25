@@ -10,3 +10,6 @@
   target="gwadoc">{{ rel.name }}</a>
 </span>
 {%- endmacro %}
+{% macro ili(name,ili_id) -%}
+<a class='concept' href="{{url_for('concepts_omw',iliID=ili_id)}}" title='CILI-ID=i{{ili_id}}'>{{name}}</sub></a>
+{%- endmacro %}
