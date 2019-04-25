@@ -3681,4 +3681,4 @@ CREATE INDEX def_src_def_id ON def_src (def_id);
 CREATE INDEX ssexe_src_ssexe_id ON ssexe_src (ssexe_id);
 CREATE INDEX sslink_src_sslink_id ON sslink_src (sslink_id);
 CREATE INDEX sslink_src_src_id ON sslink_src (src_id);
-
+CREATE INDEX label_id ON label (ss_id, lang_id);
