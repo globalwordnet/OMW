@@ -2,11 +2,6 @@
 
 import sqlite3
 import logging
-try:
-    from statistics import harmonic_mean
-except ImportError:
-    import sys
-    sys.exit('This script requires Python 3.6 or newer')
 
 import gwadoc
 
@@ -15,7 +10,9 @@ DEFAULT_EN_ID = 1
 
 
 def hmean(a, b):
-    return harmonic_mean([a, b])
+    """Return the harmonic mean of two numbers."""
+    return float(2*a*b) / (a + b)
+    # return harmonic_mean([a, b])
 
 def main(args):
     con = sqlite3.connect(args.db)

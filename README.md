@@ -52,6 +52,7 @@ It should have settings like the following:
 
 ``` python
 UPLOAD_FOLDER = '.../omw/public-uploads'
+RESOURCE_FOLDER = '.../omw/resources'
 SECRET_KEY = # the output of something like `python3 -c 'import os; print(os.urandom(24))'`
 OMWDB = '.../omw/db/omw.db'
 ADMINDB = '.../omw/db/admin.db'
@@ -59,6 +60,14 @@ ILI_DTD = '.../omw/db/WN-LMF.dtd'
 ```
 
 The paths in `config.py` do not need to be under the `omw/` subdirectory, so you may adjust them as needed, but you may need to then move the files that were created by `create-db.sh`.
+
+Finally, you may wish to generate lists of examples for each relation, but this step is optional. The `scripts/get-examples.py` script can do this for a given database and language code. You may wish to re-run the command after adding new wordnets. The results should be written to the `RESOURCE_FOLDER` location with the filename `relation-examples.$LG.tsv` where `$LG` is the language code. For example:
+
+``` bash
+(py3env) ~/OMW$ python3 scripts/get-examples.py omw/db/omw.db en -n100 > omw/resources/relation-examples.en.tsv
+```
+
+The `-n100` option means to output (up to) 100 examples for every relation.
 
 When done, you are ready to run the web app.
 

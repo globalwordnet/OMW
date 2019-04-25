@@ -936,7 +936,18 @@ with app.app_context():
         return vr, filename, wn, wn_dtls
 
 
-    def confirmUpload(filename=None, u=None):
+    def ingest_wordnet(filename=None, u=None):
+        """
+        Add the validated wordnet into the database and return a report.
+
+        Args:
+            filename: the temporary filename of the uploaded wordnet
+            u: the user id of the user who uploaded the wordnet
+        Returns:
+            dict: a summary of the wordnet contents; if ingestion fails,
+                `False` is returned
+        """
+
         try:
             insert=True   ### really put stuff in the database
         
