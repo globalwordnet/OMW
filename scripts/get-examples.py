@@ -11,6 +11,9 @@ except ImportError:
 import gwadoc
 
 
+DEFAULT_EN_ID = 1
+
+
 def hmean(a, b):
     return harmonic_mean([a, b])
 
@@ -21,6 +24,9 @@ def main(args):
     c = con.cursor()
 
     freq_id = next(c.execute("SELECT id FROM smt WHERE tag='freq'"), [1])[0]
+    lang_id = next(c.execute("SELECT id FROM lang WHERE bcp47=?", (args.lg,)),
+                   DEFAULT_EN_ID)[0]
+
     c.execute('DROP TABLE IF EXISTS temp.s_freq')
     c.execute(
         '''
@@ -38,8 +44,11 @@ def main(args):
            GROUP BY s.ss_id
            ORDER BY s.ss_id ASC, freq DESC''',
         (freq_id,))
+
     # for row in c.execute('SELECT * FROM temp.s_freq'):
     #     print(row)
+    print('\t'.join(['relation', 'src-ili', 'src-ss', 'src-lbl',
+                     'tgt-ili', 'tgt-ss', 'tgt-lbl', 'score']))
     idmap = dict(c.execute('SELECT rel, id FROM ssrel'))
     for rel in gwadoc.RELATIONS:
         if rel not in idmap:
@@ -57,17 +66,23 @@ def main(args):
               JOIN temp.s_freq AS f2
                 ON f2.ss_id = ss2_id
              ORDER BY score DESC
-             LIMIT 10''',
-            (idmap[rel],))
+             LIMIT ?''',
+            (idmap[rel], args.n))
         for ss1, ss2, score in c.fetchall():
-            label1 = c.execute(
-                'SELECT label FROM label WHERE ss_id = ?',
+            ili1 = c.execute(
+                'SELECT ili_id FROM ss WHERE id=?',
                 (ss1,)).fetchone()[0]
-            label2 = c.execute(
-                'SELECT label FROM label WHERE ss_id = ?',
+            ili2 = c.execute(
+                'SELECT ili_id FROM ss WHERE id=?',
                 (ss2,)).fetchone()[0]
-
-            print('{}\t{}\t{}\t{}'.format(rel, label1, label2, score))
+            label1 = c.execute(
+                'SELECT label FROM label WHERE ss_id = ? and lang_id = ?',
+                (ss1, lang_id)).fetchone()[0]
+            label2 = c.execute(
+                'SELECT label FROM label WHERE ss_id = ? and lang_id = ?',
+                (ss2, lang_id)).fetchone()[0]
+            print('{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}'
+                  .format(rel, ili1, ss1, label1, ili2, ss2, label2, score))
 
 
 if __name__ == '__main__':
@@ -75,6 +90,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('db', help='path to the database')
     parser.add_argument('lg', help='language for examples')
+    parser.add_argument('-n', type=int,
+                        help='get the top N examples per relation')
     logging.basicConfig(level=logging.DEBUG)
     args = parser.parse_args()
     main(args)
