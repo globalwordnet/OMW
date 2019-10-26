@@ -22,3 +22,7 @@ tramp
 
 # Mac OS X hidden files
 .DS_Store
+config.py
+py3env
+omw/resources/relation-examples.en.tsv
+*.swp
