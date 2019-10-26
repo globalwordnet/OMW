@@ -1,0 +1,55 @@
+body {
+    font-family: 'Quicksand';
+}
+
+.blue-pane {
+    background-color: #276fbf;
+}
+.red-pane {
+    background-color: #f03a47;
+}
+
+.pane {
+    color: #ecebe4;
+    font-size: 230%;
+    min-height: 300px;
+    padding-right:50px;
+}
+
+.pane a {
+    color: #ecebe4;
+    text-decoration:none;
+}
+
+.pane a.pane-hover {
+    font-size: 65%;
+    margin-top:10px;
+}
+
+.pane .pane-hover {
+    display: none;
+}
+
+.pane:hover .pane-hover {
+    display: block;
+}
+
+.pane .pane-nonhover {
+    display: block;
+}
+
+.pane:hover {
+    padding-right: 10px;
+}
+
+.pane:hover .pane-nonhover {
+    display: none;
+}
+
+
+@media only screen and (min-width:1200px) {
+    .logo-bars {
+        border-bottom: 2px solid black;
+        padding-top: 50px;
+    }
+}
