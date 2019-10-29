@@ -1,5 +1,17 @@
 body {
-    font-family: 'Quicksand';
+    font-family: 'Quicksand', sans-serif;
+}
+
+a {
+    color: #276fbf;
+}
+
+a:visited {
+    color: #f03a47;
+}
+
+a:hover {
+    color: #49beaa;
 }
 
 .blue-pane {
@@ -9,11 +21,25 @@ body {
     background-color: #f03a47;
 }
 
+.green-pane {
+    background-color: #49beaa;
+}
+
+.yellow-pane {
+    background-color: #f3c969;
+}
+
 .pane {
     color: #ecebe4;
     font-size: 230%;
     min-height: 300px;
     padding-right:50px;
+}
+
+.text-pane {
+    color: #fff;
+    padding:10px;
+    margin-bottom: 20px;
 }
 
 .pane a {
@@ -46,10 +72,65 @@ body {
     display: none;
 }
 
-
 @media only screen and (min-width:1200px) {
     .logo-bars {
         border-bottom: 2px solid black;
         padding-top: 50px;
     }
+}
+
+@media only screen and (max-width:600px) {
+    .not-mobile {
+        display: none;
+    }
+}
+
+.nav-logo {
+    text-align: center;
+}
+
+.login {
+    text-align: center;
+}
+
+.red {
+    color: #f03a47 !important;
+}
+
+.blue {
+    color: #276fbf !important;
+}
+
+.green {
+    color: #49beaa !important;
+}
+
+.yellow {
+    color: #f3c969 !important;
+}
+
+.alabaster {
+    color: #ecebe4 !important;
+}
+
+.answer {
+    margin-bottom: 50px;
+}
+
+.omw-nav {
+    margin-bottom: 40px;
+}
+
+.space-after {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #ecebe4;
+    margin-top: 30px;
+    margin-bottom:0px;
+}
+
+footer .container {
+    padding: 20px;
 }
