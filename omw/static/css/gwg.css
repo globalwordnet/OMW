@@ -2,6 +2,18 @@ body {
     font-family: 'Quicksand', sans-serif;
 }
 
+html, body {
+    height: 100%;
+}
+
+#container {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: none;
+}
+
 a {
     color: #276fbf;
 }
@@ -79,6 +91,12 @@ a:hover {
     }
 }
 
+.bar {
+    border-top:2px solid black;
+    padding-bottom: 5px;
+}
+
+
 @media only screen and (max-width:600px) {
     .not-mobile {
         display: none;
@@ -113,12 +131,18 @@ a:hover {
     color: #ecebe4 !important;
 }
 
+.black {
+    color: #000 !important;
+}
+
 .answer {
     margin-bottom: 50px;
 }
 
 .omw-nav {
-    margin-bottom: 40px;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid black;
 }
 
 .space-after {
@@ -134,3 +158,10 @@ footer {
 footer .container {
     padding: 20px;
 }
+
+.big-number {
+    font-size: 140%;
+    display: block;
+    font-weight: bold;
+}
+

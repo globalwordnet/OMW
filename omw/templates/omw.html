@@ -4,20 +4,23 @@
 <head>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- NOTO Serif/Sans -->
   <link  rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto+Serif' type='text/css'>
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosansjapanese.css"> 
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanssc.css"> 
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanstc.css"> 
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
   <!-- Favicon  -->
   <link rel="shortcut icon" href="{{ url_for('static', filename='omw.ico') }}">
  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='HTML-KickStart-master/js/kickstart.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 
   <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script>
@@ -29,7 +32,7 @@
   <script src="{{ url_for('static', filename='js/jquery.quicksearch.js') }}"></script>
   <script src="{{ url_for('static', filename='js/jquery.multi-select.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/multi-select.css') }}" media="all" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gwg.css') }}" />
 
   <script type="text/javascript">
     var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -96,62 +99,59 @@ $(document).ready(function(){
   <title>OMW</title>
 </head>
 
-<body>
+<body class="d-flex flex-column">
 
 
 
-<div class="container">
-    <nav class="navbar">
-        <div id="headerL">
+<div id="container" class="container">
+    <div class="row align-items-center omw-nav">
+        <div class="col-sm-1 nav-logo">
+            <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='omw-logo.svg') }}" title="The Open Multilingual WordNet" width="40px" height="40px"/></a>
+        </div>
 
 
-       <form method="POST" action="{{ url_for('search_omw') }}">
-	  <span style="display:inline-block; vertical-align:middle">
-	    <table style="padding:0;margin:0;font-size:85%;">
-	      <tr><td style="padding:0;border:none">Search</td></tr>
-	      <tr><td style="padding:0;border:none">Lemmas:</td></tr></table>
-	  </span><input class="small" type="text" name="query">
-	  <span class='tooltip' title='This is a basic search function
-		to search through lemmas.
+        <div class="col-sm-8">
+            <form method="POST" action="{{ url_for('search_omw') }}">
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <input class="form-control" type="text" name="query" placeholder="Search Lemmas">
+                    </div>
+                    <div class="col-sm-1">
+                        <span class='tooltip' title='This is a basic search function
+                        to search through lemmas.
 		You can make use of basic GLOB patterns:
-		* matches anything,
-		? matches exactly one character;
-		[xyz] matches any of xyz).
+                * matches anything,
+                ? matches exactly one character;
+                [xyz] matches any of xyz).
 		EG: *dog* will find any lemma with "dog" in it
 		("dogmatic", "hotdog", "doggy", "endogenous", ...).
-		It will search in both the languages on the right.'><i class="fa fa-info-circle"></i></span>
-	  <span style="display:inline-block; vertical-align:middle" id="LangSelector"></span>
+                It will search in both the languages on the right.'><i class="fa fa-info-circle"></i></span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span style="display:inline-block; vertical-align:middle" id="LangSelector"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3 login">
+            {% if not current_user.id %}
+            <a href="{{ url_for('login') }}" title="Login" class="nav-item"><i class="fa fa-user" aria-hidden="true"></i></a>
+            &nbsp;&nbsp;
 
-       </form>
+            {% else %}
+            <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green">
+                <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;
 
+            <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout">
+                <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
 
-
-     </div>
-
-
-     <div id="headerR">
-     {% if not current_user.id %}
-     <a href="{{ url_for('login') }}" title="Login"><i class="fa fa-user" aria-hidden="true"></i></a>
-       &nbsp;&nbsp;
-
-     {% else %}
-     <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green">
-       <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;
-
-     <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout">
-       <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
-
-     {% endif %}
-     <a href="{{ url_for('ili_welcome') }}">CILI</a>&nbsp;&nbsp;
-     <a href="{{ url_for('omw_welcome') }}">OMW</a>&nbsp;&nbsp;
-
-
-     </div>
-
-   </nav>
+            {% endif %}
+            <a href="{{ url_for('ili_welcome') }}" class="nav-item">CILI</a>&nbsp;&nbsp;
+            <a href="{{ url_for('omw_welcome') }}" class="nav-item">OMW</a>&nbsp;&nbsp;
+        </div>
+    </div>
 
 
-   <div id="body" class="row">
 
        <!-- <button class="small" id="togglesettings">Toggle Settings</button> -->
        <!-- <div id="settings"> -->
@@ -172,11 +172,11 @@ $(document).ready(function(){
      {% block welcome %}{% endblock %}
 
      {% block body %}{% endblock %}
-   </div>
+</div>
 
-
-
-   <footer id="footer">
+<footer id="footer">
+    <div class="container">
+        <div class="row">
 
      <p>This is the (currently experimental) web site for the Open Multilingual Wordnet
          (<a href="https://github.com/globalwordnet/OMW"
@@ -185,9 +185,9 @@ $(document).ready(function(){
        <br>Questions, comments and kudos to <a href='mailto:bond@ieee.org'>Francis Bond</a> and Luís Morgado da  Costa
        <br>Many thanks to Piek Vossen, John McCrae and all who have commented and helped.
      </p>
-   </footer>
-</div>
-
+        </div>
+    </div>
+</footer>
 
 
 <div id="divtooltip"></div>
