@@ -15,7 +15,7 @@ from omw.common_sql import (
 
 from omw import app
 #ntsense=namedtuple('Sense', ['lemma', 'y'], verbose=True)
-
+import gwadoc
 
 with app.app_context():
 
@@ -161,7 +161,7 @@ with app.app_context():
             src_ssrel_stats[link[0]] = r['count(ssrel_id)']
             src_ssrel_stats['TOTAL'] += r['count(ssrel_id)']
             if link[0] in constitutive:
-                src_ssrel_stats['CONSTITUATIVE'] += r['count(ssrel_id)']
+                src_ssrel_stats['CONSTITUTIVE'] += r['count(ssrel_id)']
             
         return src_ssrel_stats
 
@@ -239,12 +239,12 @@ with app.app_context():
 
         ### Frequency
         for r in query_omw("""
-        SELECT sum(sml_id), count(sml_id) FROM sm
+        SELECT COALESCE(sum(sml_id),0) as sum, count(sml_id) FROM sm
         WHERE smt_id = 1 AND sm.s_id IN
         (SELECT s_id FROM s_src
            WHERE src_id =?)""", [src_id]):
             src_id_stats['freq_token'] = r['count(sml_id)']
-            src_id_stats['freq_type'] = r['sum(sml_id)']
+            src_id_stats['freq_type'] = r['sum']
         return src_id_stats
     
         
@@ -942,6 +942,11 @@ with app.app_context():
                          [ss1_id, ssrel_id, ss2_id, u])
 
     def blk_insert_omw_sslink(tuple_list):
+        """
+        insert a list of (id, ss1_id, ssrel_id, ss2_id, u) into sslink
+        often followed by insert_omw_sslink_src()
+        if id is NULL, it will autoincrement
+        """
         return blk_write_omw("""INSERT INTO sslink (id, ss1_id, ssrel_id, ss2_id, u)
                                 VALUES (?,?,?,?,?)""", tuple_list)
 
