@@ -1,0 +1,26 @@
+{% extends "omw.html" %}
+{% from "macros.html" import ssrel, ili %}
+{% block body -%}
+{% for relation in gwadoc.relations if relation != "constitutive" -%}
+<h1 id="{{relation}}">{{ gwadoc.relations[relation].name }} ({{relation}})</h1>
+<p>See documentation for {{ ssrel(relation) }}</p>
+{% if relation in examples -%}
+<table style="width: inherit;">
+  <thead>
+    <tr><th>Source</th><th></th><th>Target</th></tr>
+  </thead>
+  <tbody>
+    {% for src_ili, src_ss, src_lbl, tgt_ili, tgt_ss, tgt_lbl, _ in examples[relation]-%}
+    <tr>
+      <td>{{ ili(src_lbl, src_ili) }}</td>
+      <td>{{ ssrel(relation) }}</td>
+      <td>{{ ili(tgt_lbl, tgt_ili) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{%- else %}
+<p>(no attested examples)</p>
+{%- endif -%}
+{% endfor %}
+{% endblock %}

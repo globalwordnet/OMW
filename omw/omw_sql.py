@@ -1155,4 +1155,3 @@ with app.app_context():
                          VALUES (?,?,?,"omw")""", values)
 
         return True
-

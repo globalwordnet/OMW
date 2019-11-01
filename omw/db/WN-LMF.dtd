@@ -81,7 +81,8 @@
     dc:type CDATA #IMPLIED
     status CDATA #IMPLIED
     note CDATA #IMPLIED
-    confidenceScore CDATA #IMPLIED>
+    confidenceScore CDATA #IMPLIED
+    lexicalized (true|false) "true">
 <!ELEMENT Synset (Definition*, ILIDefinition?, SynsetRelation*, Example*)>
 <!ATTLIST Synset
     id ID #REQUIRED
@@ -103,7 +104,8 @@
     dc:type CDATA #IMPLIED
     status CDATA #IMPLIED
     note CDATA #IMPLIED
-    confidenceScore CDATA #IMPLIED>
+    confidenceScore CDATA #IMPLIED
+    lexicalized (true|false) "true">
 <!ELEMENT Definition (#PCDATA)>
 <!ATTLIST Definition
     language CDATA #IMPLIED
@@ -208,7 +210,8 @@
     confidenceScore CDATA #IMPLIED>
 <!ELEMENT SyntacticBehaviour EMPTY>
 <!ATTLIST SyntacticBehaviour
-  subcategorizationFrame CDATA #REQUIRED>
+  subcategorizationFrame CDATA #REQUIRED
+  senses IDREFS #IMPLIED>
 <!ELEMENT Count (#PCDATA)>
 <!ATTLIST Count
     dc:contributor CDATA #IMPLIED

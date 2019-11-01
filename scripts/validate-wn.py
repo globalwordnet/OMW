@@ -10,7 +10,14 @@
 
 import sys, os
 import json
-from omw import app, g, validateFile, confirmUpload, connect_omw, updateLabels
+from omw import (
+    app,
+    g,
+    validateFile,
+    ingest_wordnet,
+    connect_omw,
+    updateLabels
+)
 
 userid=1
 
@@ -37,7 +44,7 @@ with app.app_context():
         print ("\n{} was validated\n".format(filename), file=debug)
         user_input = input("Load into the Database? y/N\n")
         if user_input.lower() == 'y':
-            r =  confirmUpload(filename=wnfile, u=userid)
+            r =  ingest_wordnet(filename=wnfile, u=userid)
             if r:
                 with open(basename+'.upload.json', 'w') as fh:
                     json.dump(r, fh, indent=2)

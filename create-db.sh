@@ -12,6 +12,7 @@ CONFIG="$OMWROOT/config.py"
 
 SECRETKEY=$( python3 -c 'import os; from base64 import b64encode; print(b64encode(os.urandom(16)).decode("utf-8"))' )
 UPLOADDIR="$OMWROOT/omw/public-uploads"
+RESOURCEDIR="$OMWROOT/omw/resources"
 
 OMWDB="$DBDIR/omw.db"
 ADMINDB="$DBDIR/admin.db"
@@ -44,8 +45,10 @@ else
 
     function abspath() { readlink -f "$1"; }
 
-    read -p "Upload folder [$UPLOADDIR]: " inp
+    read -p "Directory for user uploads [$UPLOADDIR]: " inp
     [ -n "$inp" ] && { UPLOADDIR="$inp"; }
+    read -p "Directory for static data resources [$RESOURCEDIR]: " inp
+    [ -n "$inp" ] && { RESOURCEDIR="$inp"; }
     read -p "Path to OMW database [$OMWDB]: " inp
     [ -n "$inp" ] && { OMWDB="$inp"; }
     read -p "Path to admin database [$ADMINDB]: " inp
@@ -54,8 +57,10 @@ else
     [ -n "$inp" ] && { ILIDTD="$inp"; }
     read -p "Secret key [$SECRETKEY]: " inp
     [ -n "$inp" ] && { SECRETKEY="$inp"; }
+
     cat > "$CONFIG" <<EOF
 UPLOAD_FOLDER = '$( abspath "$UPLOADDIR" )'
+RESOURCE_FOLDER = '$( abspath "$RESOURCEDIR" )'
 SECRET_KEY = '${SECRETKEY}'
 OMWDB = '$( abspath "$OMWDB" )'
 ADMINDB = '$( abspath "$ADMINDB" )'
@@ -150,7 +155,7 @@ if [ ! -f "$OMWDB" ]; then
 
     echo
     echo "Creating PWN30 synset labels..."
-    PYTHONPATH="$OMWROOT" python "$BINDIR"/update-label.py 
+    PYTHONPATH="$OMWROOT" python "$BINDIR"/update-label.py
 
     ###########################################################################
     # LOADING PWN CORE CONCEPTS

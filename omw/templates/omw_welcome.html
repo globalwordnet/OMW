@@ -70,11 +70,14 @@ in the World page</a>.
 <p><a href="{{url_for('omw_welcome', projects='all')}}">Show all
     versions, not just latest</a>.
 {% endif %}
-<p><a href='{{url_for('omw_wns')}}' title= 'Statistics
-      in the OMW'>Fuller statistics of all the wordnets now in the
-      OMW</a> (a little slow to load).
+<p><a href="{{url_for('omw_wns')}}"
+      title="Statistics in the OMW"
+      >Fuller statistics of all the wordnets now in the OMW</a>
+  (a little slow to load).
 
-  
+<p><a href="{{url_for('omw_relation_examples') }}"
+      >Example synset pairs for the relations</a>
+
 <p><a href="{{ url_for('join') }}">How to join the Open Multilingual
     Wordnet</a>.
 

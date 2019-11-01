@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
+import csv
 from collections import (
     defaultdict as dd,
     OrderedDict as od
@@ -200,11 +202,17 @@ def detailed_id():
 
 @app.route('/_confirm_wn_upload')
 def confirm_wn_upload_id():
+    """
+    Ingest the uploaded wordnet into the database and return a report.
+
+    This happens when the user has confirmed they want to add a
+    validated wordnet.
+    """
     user = fetch_id_from_userid(current_user.id)
     fn = request.args.get('fn', None)
-    upload = confirmUpload(fn, user)
-    labels = updateLabels()
-    return jsonify(result=upload)
+    report = ingest_wordnet(fn, user)
+    updateLabels()
+    return jsonify(result=report)
 
 
 @app.route('/_add_new_project')
@@ -829,6 +837,37 @@ def omw_wn_latex(src=None, full=False):
                            ssrel_stats=ssrel_stats,
                            pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
+
+@app.route('/omw/relation-examples')
+@app.route('/omw/relation-examples/<lg>')
+def omw_relation_examples(lg=None):
+    """
+    Read and render the TSV file of relation examples for a language.
+    """
+    valid_langs = fetch_langs()[1]['code']
+
+    if lg is None:
+        lg = 'en'
+    if lg not in valid_langs:
+        return Response('Language unavailable: {}'.format(lg), 404)
+
+    path = os.path.join(app.config['RESOURCE_FOLDER'],
+                        'relation-examples.' + lg + '.tsv')
+
+    if os.path.isfile(path):
+        ex = dd(list)
+        with app.open_resource(path, 'r') as f:
+            reader = csv.reader(f, 'excel-tab')
+            header = next(reader)
+            for row in reader:
+                relation = row[0]
+                ex[relation].append(row[1:])
+    else:
+         ex = {relation: [] for relation in gwadoc.relations}
+
+    return render_template('relation_examples.html',
+                           examples=ex,
+                           gwadoc=gwadoc)
 
 
 @app.route('/cili.tsv')
