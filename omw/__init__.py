@@ -766,11 +766,10 @@ def omw_sense(sID=None):
 
     
 # URIs FOR ORIGINAL CONCEPT KEYS, BY INDIVIDUAL SOURCES
-@app.route('/omw/src/<src>/<originalkey>', methods=['GET', 'POST'])
-def src_omw(src=None, originalkey=None):
+@app.route('/omw/src/<proj>/<ver>/<originalkey>', methods=['GET', 'POST'])
+def src_omw(proj=None, ver=None, originalkey=None):
 
     try:
-        proj, _, ver = src.rpartition('-')
         src_id = f_src_id_by_proj_ver(proj, ver)
     except:
         src_id = None
@@ -786,26 +785,26 @@ def src_omw(src=None, originalkey=None):
 ## show wn statistics
 ##
 ##
-@app.route('/omw/src/<src>', methods=['GET', 'POST'])
-def omw_wn(src=None):
+@app.route('/omw/src/<proj>/<ver>', methods=['GET', 'POST'])
+def omw_wn(proj=None,ver=None):
     ### default to full = false (short version)
     full = request.args.get('full') in ['true', 'True']
-    if src:
+    if proj and ver:
         try:
-            proj, _, ver = src.rpartition('-')
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
-    if full: ### give more stats
+    if full and src_id: ### give more stats
         ssrel_stats=fetch_ssrel_stats(src_id) 
         srel_stats=fetch_srel_stats(src_id)
     else:
         ssrel_stats= {}
         srel_stats= {}
     return render_template('omw_wn.html',
-                           wn = src,
+                           proj = proj,
+                           ver  = ver,
                            src_id=src_id,
                            src_info=src_info,
                            ssrel_stats=ssrel_stats,
@@ -815,59 +814,28 @@ def omw_wn(src=None):
                            licenses=licenses,
                            gwadoc=gwadoc)
 
-@app.route('/omw/src-latex/<src>', methods=['GET', 'POST'])
-def omw_wn_latex(src=None, full=False):
-    if src:
+@app.route('/omw/src-latex/<proj>/<ver>', methods=['GET', 'POST'])
+def omw_wn_latex(proj=None, ver=None,full=False):
+    if proj and ver:
         try:
-            proj, _, ver = src.rpartition('-')
             src_id = f_src_id_by_proj_ver(proj, ver)
         except:
             src_id = None
         srcs_meta = fetch_src_meta()
         src_info = srcs_meta[src_id]
-    if full:
+    if full and src_id:
         ssrel_stats=fetch_ssrel_stats(src_id)
     else:
         ssrel_stats= {}
 
     return render_template('omw_wn_latex.html',
-                           wn = src,
+                           proj = proj,
+                           ver  = ver,
                            src_id=src_id,
                            src_info=src_info,
                            ssrel_stats=ssrel_stats,
                            pos_stats= fetch_src_id_pos_stats(src_id),
                            src_stats=fetch_src_id_stats(src_id))
-
-@app.route('/omw/relation-examples')
-@app.route('/omw/relation-examples/<lg>')
-def omw_relation_examples(lg=None):
-    """
-    Read and render the TSV file of relation examples for a language.
-    """
-    valid_langs = fetch_langs()[1]['code']
-
-    if lg is None:
-        lg = 'en'
-    if lg not in valid_langs:
-        return Response('Language unavailable: {}'.format(lg), 404)
-
-    path = os.path.join(app.config['RESOURCE_FOLDER'],
-                        'relation-examples.' + lg + '.tsv')
-
-    if os.path.isfile(path):
-        ex = dd(list)
-        with app.open_resource(path, 'r') as f:
-            reader = csv.reader(f, 'excel-tab')
-            header = next(reader)
-            for row in reader:
-                relation = row[0]
-                ex[relation].append(row[1:])
-    else:
-         ex = {relation: [] for relation in gwadoc.relations}
-
-    return render_template('relation_examples.html',
-                           examples=ex,
-                           gwadoc=gwadoc)
 
 
 @app.route('/cili.tsv')

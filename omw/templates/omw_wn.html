@@ -3,7 +3,7 @@
 {% if src_id %}
 {% if src_info.url %}
 <h5><a href='{{src_info.url}}'  title='upstream project homepage'>{{ src_info.label }}</a>
-       ({{ wn }}:  {{ src_info.language }})</h5> {# expand to language #}
+       ({{ proj }} {{ ver }}:  {{ src_info.language }})</h5> {# expand to language #}
 {% else %}
 <h6>{{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
 {% endif %}
@@ -35,7 +35,7 @@
 {% endif %} 
 
 <table style="width:auto;overflow-x:auto;">
-  <caption>Statistics for {{ src_info.label }}  ({{ wn }})</caption>
+  <caption>Statistics for {{ src_info.label }}  ({{ proj }} {{ ver }})</caption>
   <tr>
     <th style="text-align:right">Synsets</th>
     <th style="text-align:right">Words</th>
@@ -84,8 +84,8 @@
   ({{'{0:,}'.format(src_stats.freq_token)}} senses with {{ '{0:,}'.format(src_stats.freq_type)}} instances).
   
   <table style="width:auto;overflow-x:auto;">
-  <caption>POS Statistics for {{ src_info.label }}  ({{ wn
-    }})</caption>
+    <caption>POS Statistics for {{ src_info.label }}
+      ({{proj}} {{ver}})</caption>
   <tr>
     <th>POS</th>
     <th style="text-align:right">Synsets</th>
@@ -119,8 +119,7 @@
  {% if ssrel_stats %}
   <h6>Semantic Relations Between Synsets</h6>  
  <table style="width:auto;overflow-x:auto;">
-  <caption>Synset-level Semantic Relations for {{ src_info.label }}  ({{ wn
-    }})</caption>
+   <caption>Synset-level Semantic Relations for {{ src_info.label }} ({{proj}} {{ver}})</caption>
   <tr>
     <th>Semantic Relation</th>
     <th style="text-align:right">Count</th>
@@ -173,7 +172,7 @@
  {% endif %} 
 
  
-<p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',src=wn)}}'>LaTeX for
+<p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',proj=proj,ver=ver)}}'>LaTeX for
  {{wn}} statistics</a>
  
 <h4>ToDo</h4>  

@@ -95,8 +95,9 @@
   {% endif %}
   <div id='line'><span>Synset Sources</span></div>
   {%- for src, key, conf in ss_srcs[ss_id|int] %}
-  {% set proj = src_meta[src]['id'] + '-'  +  src_meta[src]['version'] %}
-     <a href="{{url_for('omw_wn', src=proj)}}">{{src_meta[src]['label']}}
+  {% set prj = src_meta[src]['id'] %}
+  {% set vers= src_meta[src]['version'] %}
+     <a href="{{url_for('omw_wn', proj=prj, ver=vers)}}">{{src_meta[src]['label']}}
     ({{src_meta[src]['version']}})</a> with confidence {{conf}}
       {%- if not loop.last %}{{'; '}}{% endif %}
       {%- endfor %}

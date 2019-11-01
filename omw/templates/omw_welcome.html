@@ -38,29 +38,30 @@ in the World page</a>.
   <tr>
     {% for id in src_meta %}
     {% set meta = src_meta[id] %}
-    {% set proj = meta['id'] + '-'  +  meta['version'] %}
+    {% set proj = meta['id'] %}
+    {% set ver =  meta['version'] %}
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
 
   <tr>
     <td>{{lang}}</td>
     <td>
+       <a title='Wordnet Summary' href='{{url_for('omw_wn',
+	  proj=proj, ver=ver)}}'>{{meta['label']}}</a>
       {% if meta['url'] %}
-	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}</a>
-      {% else %}
-      {{meta['label']}}
-	{% endif %}
-	&nbsp;	&nbsp;	&nbsp;
+      <a title='Project homepage (external)' href='{{
+      meta['url']}}'><i class="fa fa-home"></i></a>
+      {% endif %}
     </td>
     <td>
       <tt>{{meta['id']}}-{{meta['version']}}</tt>
     </td>
     <td>
-      <a title='statistics' href='{{url_for('omw_wn',
-	  src=proj, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
-<a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
-	  src=proj)}}'>LaTeX</a>
+      <a title='Statistics in HTML' href='{{url_for('omw_wn',
+	  proj=proj, ver=ver, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
+<a title='Statistics in LaTeX' href='{{url_for('omw_wn_latex',
+	  proj=proj, ver=ver)}}'>LaTeX</a>
     </td>
-    <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
+    <td><a  title= 'More information about the licence'  href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
    <tr>
   {% endfor %}
 </table>
@@ -70,14 +71,11 @@ in the World page</a>.
 <p><a href="{{url_for('omw_welcome', projects='all')}}">Show all
     versions, not just latest</a>.
 {% endif %}
-<p><a href="{{url_for('omw_wns')}}"
-      title="Statistics in the OMW"
-      >Fuller statistics of all the wordnets now in the OMW</a>
-  (a little slow to load).
+<p><a href='{{url_for('omw_wns')}}' title= 'Statistics
+      in the OMW'>Fuller statistics of all the wordnets now in the
+      OMW</a> (a little slow to load).
 
-<p><a href="{{url_for('omw_relation_examples') }}"
-      >Example synset pairs for the relations</a>
-
+  
 <p><a href="{{ url_for('join') }}">How to join the Open Multilingual
     Wordnet</a>.
 

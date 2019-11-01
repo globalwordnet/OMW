@@ -25,7 +25,8 @@ in the World page</a>.
     <th>License</th>
   </tr>
     {% for (meta, stat) in stats %}
-    {% set proj = meta['id'] + '-'  +  meta['version'] %}
+    {% set prj = meta['id'] %}
+    {% set vers = meta['version'] %}
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
   <tr>
     <td>{{lang}}</td>
@@ -45,9 +46,9 @@ in the World page</a>.
     <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
     <td>
       <a title='statistics' href='{{url_for('omw_wn',
-	 src=proj, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
+	 proj=prj, ver=vers, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
       <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
-	  src=proj)}}'>LaTeX</a>
+	  proj=prj, ver=vers)}}'>LaTeX</a>
     </td>
 <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
     

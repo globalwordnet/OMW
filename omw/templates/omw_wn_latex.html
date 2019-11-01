@@ -3,9 +3,9 @@
 {% if src_id %}
 {% if src_info.url %}
 <h6>LaTeX for <a href='{{src_info.url}}'  title='upstream project homepage'>{{ src_info.label }}</a>
-       ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+       ({{ proj }} {{ ver }}:  {{ src_info.language }})</h6> {# expand to language #}
 {% else %}
-<h6>LaTeX for {{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+<h6>LaTeX for {{ src_info.label }} ({{ proj }} {{ ver }}:  {{ src_info.language }})</h6> {# expand to language #}
 {% endif %}
 
 <!-- <p>{{ src_info.description }} DESCRIPTION to come here.</p> -->
@@ -23,8 +23,8 @@
 {% endif %}  
 <pre>
 \begin{table}
-  \caption{Statistics for {{ src_info.label }}  ({{ wn }})}
-  \label{tab:{{wn}}:stats}
+  \caption{Statistics for {{ src_info.label }}  ({{ proj }} {{ ver }})}
+  \label{tab:{{proj}}:{{ver}}:stats}
   \begin{tabular}{rrrrrrrr}
   Synsets & Words & Forms & Senses & Core \% &
   CILI \%	& Def \% & Ex \% \\
@@ -47,8 +47,8 @@
 \end{table}
 
 \begin{table}
-  \caption{POS Statistics for {{ src_info.label }}  ({{ wn }})}
-  \label{tab:{{wn}}:stats:pos}
+  \caption{POS Statistics for {{ src_info.label }}  ({{ proj }} {{ ver }})}
+  \label{tab:{{proj}}:{{ver}}:stats:pos}
   \begin{tabular}{lrrrrrr}
 POS & Synsets & \% &  Words & \% &   Senses & \% \\
 \hline
@@ -69,8 +69,8 @@ POS & Synsets & \% &  Words & \% &   Senses & \% \\
 \end{table}
 
 \begin{table}
-  \caption{Semantic Relations for {{ src_info.label }}  ({{ wn }})}
-  \label{tab:{{wn}}:stats:sr}
+  \caption{Semantic Relations for {{ src_info.label }}  ({{ proj }} {{ ver }})}
+  \label{tab:{{proj}}:{{ver}}:stats:sr}
   \begin{tabular}{lrr}
   Semantic Relation & Count & \% \\
   \hline
@@ -93,7 +93,7 @@ POS & Synsets & \% &  Words & \% &   Senses & \% \\
 
 </pre>
 
-<p>Back to the <a href='{{url_for('omw_wn',src=wn)}}'>{{wn}} statistics</a>.
+<p>Back to the <a href='{{url_for('omw_wn',proj=proj, ver=ver)}}'>{{wn}} statistics</a>.
 
 {# list other versions #}
 {% else %} 
