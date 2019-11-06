@@ -123,11 +123,9 @@ function getSenseTooltip() {
     }
 
     var localData = "error";
-    console.log("id=" + id);
-    $.ajax($SCRIPT_ROOT + '/_load_min_omw_concept/'+id, {
+    $.ajax($SCRIPT_ROOT + '/_load_min_omw_sense/'+id, {
         async: false,
         success: function(data) {
-            console.log(JSON.stringify(data));
             localData = data.result;
         }
     });
@@ -136,6 +134,56 @@ function getSenseTooltip() {
 
     return localData;
 }
+
+$(document).ready(function() {
+    $('.synset').tooltip({
+        title: getSynsetTooltip,
+        html: true,
+        container: 'body'
+    });
+});
+
+
+var synsetTooltips = Array();
+var iliTooltips = Array();
+
+function getSynsetTooltip() {
+    var element = $(this);
+
+    var synsetid = element[0].attributes['data-synset'].value;
+    var iliid = element[0].attributes['data-iliid'].value;
+
+    if(synsetid) {
+        if(synsetid in synsetTooltips){
+            return synsetTooltips[id];
+        }
+
+        var localData = "error";
+        $.ajax($SCRIPT_ROOT + '/_load_min_omw_concept/'+synsetid, {
+            async: false,
+            success: function(data) {
+                localData = data.result;
+            }
+        });
+        synsetTooltips[id] = localData;
+    } else {
+        if(iliid in iliTooltips){
+            return iliTooltips[id];
+        }
+
+        var localData = "error";
+        $.ajax($SCRIPT_ROOT + '/_load_min_omw_concept_ili/'+ilid, {
+            async: false,
+            success: function(data) {
+                localData = data.result;
+            }
+        });
+        iliTooltips[id] = localData;
+    }
+
+    return localData;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // These next three functions show the divtooltip with concept details
