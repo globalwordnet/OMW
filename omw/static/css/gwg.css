@@ -175,3 +175,110 @@ footer .container {
 .tooltip-inner {
     text-align:left !important;
 }
+
+a.sense:link {
+    color:#000000;
+    text-decoration: none;
+}
+a.sense:visited {
+    color:#000000;
+    text-decoration:none;
+}
+
+a.concept:link {
+    color: #0000A0;
+    font-weight:bold;
+    font-style: italic;
+    text-decoration:none;
+}
+a.concept:visited {
+    color:#8B0000;  
+    font-weight:bold;
+    font-style: italic;
+    text-decoration:none;
+}
+/*  links for senses */
+a.sense:link {
+    color:#000000;
+    text-decoration: none;
+}
+a.sense:visited {
+    color:#000000;
+    text-decoration:none;
+}
+
+a.concept:link {
+    color: #0000A0;
+    font-weight:bold;
+    font-style: italic;
+    text-decoration:none;
+}
+a.concept:visited {
+    color:#8B0000;  
+    font-weight:bold;
+    font-style: italic;
+    text-decoration:none;
+}
+/* FIXME make the tooltip nicer */
+span.pos {
+    font-style: italic;
+}
+span.lang {
+    font-variant: small-caps
+}
+span.rel {
+    font-variant: small-caps
+}
+span.rel a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+span.concept_name {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 150%;
+}
+
+
+
+
+
+/* THIS IS TO ALLOW OVER/UNDER FRACTION STYLE TEXT */
+/* USE LIKE SO: */
+/* <span class="over-under"> */
+/*   <span class="over">sup</span> */
+/*   <span class="under">sub</span> */
+/* </span> */
+span.over-under {
+    font-size: 70%;
+    position: relative;
+    /* top: 2em; */
+    display: inline-block;
+}
+span.over-under > .over {
+    display: table-row;
+}
+span.over-under > .under {
+    display: table-row;
+}
+
+table.rels { width: auto; }
+
+.line{
+  border-bottom:1px #aaaaaa solid;
+  overflow: visible;
+  height: 9px;
+  margin: 15px 0 20px 0;  
+}
+
+.line span{
+background-color: #aaaaaa;
+border-radius: 5px 5px 5px 3px;  //rounds corners 
+font-weight: normal;
+font-size:small;
+color: white;
+padding: 0 5px;
+}
+
+

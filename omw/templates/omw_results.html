@@ -4,7 +4,7 @@
 <h6> Your query (<tt>{{query}}</tt>) returned {{ ss.keys()|length }} results!</h6>
 
 
-<table class="sortable hoverTable">
+<table class="sortable hoverTable table table-striped">
   <thead>
     <tr>
       <th style="text-align:center">ID</th>
@@ -20,10 +20,12 @@
 
     <!-- CONCEPT -->
     <td style="text-align:left">
-      <a class='concept' href="{{ url_for('concepts_omw', ssID = ss_id) }}">
+      <a class='concept' href="{{ url_for('concepts_omw', ssID = ss_id) }}"
+                         data-synsetid="{{ss_id}}">
 	<nobr>{{labels[ss_id]}}<sub>{{ pos['id'][ss[ss_id][1]] }}</sub></nobr></a>
       {% if ss[ss_id][0] %}
-      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫</nobr>
+      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}"
+                      data-iliid="{{ss[ss_id][0]}}" class="ili">i{{ ss[ss_id][0] }}</a>⟫</nobr>
       {% endif %}
     </td>
 

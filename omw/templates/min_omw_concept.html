@@ -10,7 +10,7 @@
 
 <!-- SENSES -->
  {% if ss_id in senses.keys() %}
-    <div id='line'><span>Senses</span></div>
+    <div class='line'><span>Senses</span></div>
     {%- for lang_id in senses[ss_id] %}
       <p><b>{{ langs[lang_id][1] }}:</b>
         {% for s in senses[ss_id][lang_id] %}
@@ -22,7 +22,7 @@
 
 
 <!-- DEFINITIONS -->
-<div id='line'><span>Definitions</span></div>
+<div class='line'><span>Definitions</span></div>
 {%- for lang_id, def in defs[ss_id].items() %}
 <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(def) }}</p>
 {%- endfor %}
@@ -30,7 +30,7 @@
 
 <!-- EXAMPLES -->
 {% if ss_id in exes.keys() %}
-<div id='line'><span>Examples</span></div>
+<div class='line'><span>Examples</span></div>
   {%- for lang_id, ex in exes[ss_id].items() %}
   <p><b>{{ langs[lang_id][1] }}:</b> {{ '; '.join(ex) }}</p>
   {%- endfor %}

@@ -5,7 +5,7 @@
 
 
   <!-- LEMMA -->
-<strong>{{sense[0]}}</strong>
+<span class='concept_name'>{{sense[0]}}</span>
 
 <small>
   <span class='pos' title='{{pos['def'][sense[1]]}}'>{{pos['id'][sense[1]]|lower}}</span> <!--  POS -->
@@ -20,9 +20,9 @@
 
 </small>
 <br>«{{sdef}}»
-<br><span class='rel'>Variants:</span>
+<div class='line'><span>Variants</span></div>
   {{forms|join(', ')}}
-<br><span class='rel'>Source:</span>
+<div class='line'><span>Source</span></div>
   {%- for src, conf in src_sid[s_id|int] %}
     {{src_meta[src]['label']}} ({{src_meta[src]['version']}}) with confidence {{conf}}
     {%- if not loop.last %}{{'; '}}{% endif %}

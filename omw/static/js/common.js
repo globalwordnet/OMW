@@ -142,6 +142,14 @@ $(document).ready(function() {
         container: 'body'
     });
 });
+$(document).ready(function() {
+    $('.ili').tooltip({
+        title: getSynsetTooltip,
+        html: true,
+        container: 'body'
+    });
+});
+
 
 
 var synsetTooltips = Array();
@@ -165,7 +173,7 @@ function getSynsetTooltip() {
             }
         });
         synsetTooltips[synsetid] = localData;
-    } else {
+    } else if(element[0].attributes['data-iliid']) {
         var iliid = element[0].attributes['data-iliid'].value;
         if(iliid in iliTooltips){
             return iliTooltips[iliid];
@@ -183,97 +191,3 @@ function getSynsetTooltip() {
 
     return localData;
 }
-
-
-////////////////////////////////////////////////////////////////////////////////
-// These next three functions show the divtooltip with concept details
-////////////////////////////////////////////////////////////////////////////////
-//$(function() {
-//    $(".synset").hover(function (event) {
-//
-//	var elem = event.target;
-//	var synsetid = elem.dataset.synsetid;
-//	var iliid = elem.dataset.iliid;
-//
-//	if (synsetid) {
-//	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_concept/'+synsetid, {
-//	    }, function(data) {
-//		var divtool = document.getElementById("divtooltip");
-//		divtool.innerHTML = data.result;
-//	    });
-//	} else {
-//	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_concept_ili/'+iliid, {
-//	    }, function(data) {
-//		var divtool = document.getElementById("divtooltip");
-//		divtool.innerHTML = data.result;
-//	    });
-//	}
-//    });
-//});
-//
-//$(function() {
-//    $(".synset").mouseenter( function() {
-//	$("#divtooltip").show();
-//
-//	// Get the div-tooltip to move with the mouse
-//	$(document).mousemove(function(event){
-//	var tooltipSpan = document.getElementById('divtooltip');
-//	tooltipSpan.style.top = (event.pageY + 20) + 'px';
-//	tooltipSpan.style.left = (event.pageX + 20) + 'px';
-//	});
-//
-//    });
-//});
-//
-//$(function() {
-//    $(".synset").mouseleave( function() {
-//	$("#divtooltip").hide();
-//    });
-//});
-//////////////////////////////////////////////////////////////////////////////////
-//
-//
-//////////////////////////////////////////////////////////////////////////////////
-//// These next three functions show the divtooltip with sense details
-//////////////////////////////////////////////////////////////////////////////////
-//$(function() {
-//    $(".sense").hover(function (event) {
-//
-//	var elem = event.target;
-//	var sid = elem.dataset.sid;
-//
-//	if (sid) {
-//	    $.getJSON($SCRIPT_ROOT + '/_load_min_omw_sense/'+sid, {
-//	    }, function(data) {
-//		var divtool = document.getElementById("divtooltip");
-//		divtool.innerHTML = data.result;
-//	    });
-//	}
-//    });
-//});
-//
-//$(function() {
-//    $(".sense").mouseenter( function() {
-//	$("#divtooltip").show();
-//
-//	// Get the div-tooltip to move with the mouse
-//	$(document).mousemove(function(event){
-//	var tooltipSpan = document.getElementById('divtooltip');
-//	tooltipSpan.style.top = (event.pageY + 20) + 'px';
-//	tooltipSpan.style.left = (event.pageX + 20) + 'px';
-//	});
-//
-//    });
-//});
-//
-//$(function() {
-//    $(".sense").mouseleave( function() {
-//	$("#divtooltip").hide();
-//    });
-//});
-//
-//// Start with the divtooltip hidden
-//$(function() {
-//    $("#divtooltip").hide();
-//});
-//////////////////////////////////////////////////////////////////////////////////
