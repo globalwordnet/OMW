@@ -1,38 +1,55 @@
 <!doctype html>
+<html>
 <head>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 
-
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='HTML-KickStart-master/js/kickstart.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
 
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
   <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sweetalert2/sweetalert2.css') }}">
 
-  <script src="{{ url_for('static', filename='ili.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='gwg.css') }}" />
+  <script src="{{ url_for('static', filename='js/ili.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gwg.css') }}" />
 
-  <title>OMW-CILI</title>
+  <title>Open Multilingual WordNet</title>
 </head>
 
 <body>
 
-<div id="container">
-   <div id="header">
-     <div id="headerL"></div>
-     <div id="headerR"></div>
-   </div>
-   <div id="body">
-     <p><a href="omw">GO TO OMW</a></p>
-     <p><a href="ili">GO TO CILI</a></p>
-     {% block body %}{% endblock %}
-   </div>
-   <div id="footer"></div>
-</div>
+    <div class="container">
+        <div class="row justify-content-md-center" style="height:200px;padding-top:50px;">
 
+            <div class="col-lg">
+                <div class="logo-bars"></div>
+            </div>
+            <div class="col-md-auto">
+            <img src="{{url_for('static', filename='omw-logo.svg') }}" title="The Open Multilingual WordNet" width="100px" height="100px"/>
+            </div>
+            <div class="col-lg">
+                <div class="logo-bars"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3 blue-pane pane">
+                <a href="omw" class="pane-nonhover">Open Multilingual WordNet</a>
+                <a href="omw" class="pane-hover">OMW is a collection of X wordnets in many languages, here you can browse and search for cross-lingual matches</a>
+            </div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3 red-pane pane">
+                <a href="ili" class="pane-nonhover">Collaborative Interlingual Index</a>
+                <a href="ili" class="pane-hover">CILI is a list of concepts for the coordination between multiple loosely coupled wordnet projects.</a>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+    </div>
 </body>
+</html>

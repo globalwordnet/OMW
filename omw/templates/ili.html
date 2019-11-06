@@ -4,7 +4,7 @@
 <head>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- NOTO Serif/Sans -->
   <link  rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto+Serif' type='text/css'>
@@ -12,21 +12,24 @@
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanskorean.css"> 
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanssc.css"> 
   <link rel="stylesheet" href="http://fonts.googleapis.com/earlyaccess/notosanstc.css"> 
+  <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
   <!-- Favicon  -->
   <link rel="shortcut icon" href="{{ url_for('static', filename='cili.ico') }}">
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="{{ url_for('static', filename='HTML-KickStart-master/js/kickstart.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='HTML-KickStart-master/css/kickstart.css') }}" media="all" />
 
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 
   <script src="{{ url_for('static', filename='sweetalert2/sweetalert2.min.js') }}"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sweetalert2/sweetalert2.css') }}">
 
   <script src="{{ url_for('static', filename='js/ili.js') }}"></script>
   <script src="{{ url_for('static', filename='js/common.js') }}"></script>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gwg.css') }}" />
 
   <script type="text/javascript">
     var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -36,55 +39,61 @@
   <title>CILI</title>
 </head>
 
-<body>
+<body class="d-flex flex-column">
 
 
 
-<div id="container">
-   <div id="header">
+<div id="container" class="container">
+    <div class="row align-items-center omw-nav">
+        <div class="col-sm-1 nav-logo">
+            <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='omw-logo.svg') }}" title="The Open Multilingual WordNet" width="40px" height="40px"/></a>
+        </div>
 
-     <div id="headerL">
+        <div class="col-sm-8">
+            <form method="POST" action="{{ url_for('search_ili') }}">
+                <div class="form-row align-items-center">
+                    <div class="col">
+                        <input class="form-control" type="text" name="query" placeholder="Search ILI Definitions">
+                    </div>
+                    <div class="col-sm-1">
+                        <span title='This is a basic search function
+                  to search through ILI definitions (i.e. you can make use of
+                        * for wild cards, and other basic GLOB paterns).
+                        EG: *dog* will find any definition with "dog" in it' 
+                         class="not-mobile"><i class="fa fa-info-circle"></i></span>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-       <form method="POST" action="{{ url_for('search_ili') }}">
-	  <span style="display:inline-block; vertical-align:middle">
-	    <table style="padding:0;margin:0;font-size:85%;">
-	      <tr><td style="padding:0;border:none">Search ILI</td></tr>
-	      <tr><td style="padding:0;border:none">Definitions:</td></tr></table>
-	  </span><input class="small" type="text" name="query">
-	  <span class='tooltip' title='This is a basic search function
-	  to search through ILI definitions (i.e. you can make use of
-		* for wild cards, and other basic GLOB paterns).
-	 EG: *dog* will find any definition with "dog" in it'><i class="fa fa-info-circle"></i></span>
-       </form>
-     </div>
 
+    
+        <div class="col-sm-3 login">
+            {% if not current_user.id %}
+            <a href="{{ url_for('login') }}" title="Login" class="nav-item"><i class="fa fa-user" aria-hidden="true"></i></a>
+            &nbsp;&nbsp;
 
-     <div id="headerR">
-     {% if not current_user.id %}
-     <a href="{{ url_for('login') }}" title="Login"><i class="fa fa-user" aria-hidden="true"></i></a>
-       &nbsp;&nbsp;
+            {% else %}
+            <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green">
+                <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;
 
-     {% else %}
-     <span title="Logged in as: {{current_user.id}} ({{current_user.group}})" style="color:green">
-       <i class="fa fa-user" aria-hidden="true"></i></span>&nbsp;&nbsp;
+            <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout">
+                <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
 
-     <a href="{{ url_for('logout') }}" style="color:FireBrick" title="Logout">
-       <i class="fa fa-user-times" aria-hidden="true"></i></a>&nbsp;&nbsp;
-
-     {% endif %}
-     <a href="{{ url_for('ili_welcome') }}">CILI</a>&nbsp;&nbsp;
-     <a href="{{ url_for('omw_welcome') }}">OMW</a>&nbsp;&nbsp;
-     </div>
+            {% endif %}
+            <a href="{{ url_for('ili_welcome') }}" class="nav-item">CILI</a>&nbsp;&nbsp;
+            <a href="{{ url_for('omw_welcome') }}" class="nav-item">OMW</a>&nbsp;&nbsp;
+        </div>
 
    </div>
 
+ {% block welcome %}{% endblock %}
+ {% block body %}{% endblock %}
 
-   <div id="body">
-     {% block welcome %}{% endblock %}
-     {% block body %}{% endblock %}
-   </div>
-
-   <div id="footer">
+</div>
+<footer id="footer">
+       <div class="container">
+       <div class="row">
      <p>This is the (currently experimental) web site for the
      Collaborative Interlingual Index 
            (<a href="https://github.com/globalwordnet/OMW"
@@ -93,10 +102,10 @@
        <br>Questions, comments and kudos to <a href='mailto:bond@ieee.org'>Francis Bond</a> and Luís Morgado da  Costa
        <br>Many thanks to Piek Vossen, John McCrae and all who have commented and helped.
      </p>
-   </div>
-</div>
+       </div>
+       </div>
+   </footer>
 
 
-<div id="divtooltip"></div>
 </body>
 </html>
