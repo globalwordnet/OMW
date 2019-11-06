@@ -29,13 +29,13 @@ in the World page</a>.
 <p>A list of wordnets in the OMW:
 <table class="table table-striped">
   <caption>Summary of the Wordnets</caption>
-  <tr>
+  <thead><tr>
     <th>Language</th>
     <th>Wordnet</th>
     <th>ID</th>
     <th>Statistics</th>
     <th>License</th>
-  <tr>
+      </tr></thead>
     {% for id in src_meta %}
     {% set meta = src_meta[id] %}
     {% set proj = meta['id'] + '-'  +  meta['version'] %}
