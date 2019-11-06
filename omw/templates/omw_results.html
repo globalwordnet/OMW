@@ -32,13 +32,13 @@
       {% if senses[ss_id][langsel] %}
       <u>{{lang_dct[langsel]["bcp47"]}}</u>:
       {% for s in senses[ss_id][langsel] %}
-         <a class='sense' data-sid='{{s[0]}}' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{% if not loop.last %}{{'; '}}{% endif %}
+         <a class='sense' data-toggle="tooltip" data-placement="bottom" data-sid='{{s[0]}}' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{% if not loop.last %}{{'; '}}{% endif %}
       {% endfor %}
       {% endif %}
       {%- if langsel != langsel2 and senses[ss_id][langsel2]  %}
       <br><u>{{lang_dct[langsel2]["bcp47"]}}</u>:
       {%- for s in senses[ss_id][langsel2] %}
-         <a class='sense' data-sid='{{s[0]}}' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{%- if not loop.last %}{{'; '}}{%- endif %}
+         <a class='sense' data-toggle="tooltip" data-placement="bottom" data-sid='{{s[0]}}' href='{{url_for('omw_sense',sID=s[0])}}'>{{ s[1]}}</a>{%- if not loop.last %}{{'; '}}{%- endif %}
        {%- endfor %}
       {%- endif %}
     </td>
