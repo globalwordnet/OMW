@@ -161,7 +161,13 @@ footer .container {
 
 .big-number {
     font-size: 140%;
-    display: block;
     font-weight: bold;
 }
 
+.rules {
+    list-style-type: none;
+}
+
+.rules-note {
+    margin-bottom: 30px;
+}
