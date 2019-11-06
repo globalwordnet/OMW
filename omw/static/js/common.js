@@ -136,7 +136,7 @@ function getSenseTooltip() {
 }
 
 $(document).ready(function() {
-    $('.synset').tooltip({
+    $('.concept').tooltip({
         title: getSynsetTooltip,
         html: true,
         container: 'body'
@@ -150,12 +150,11 @@ var iliTooltips = Array();
 function getSynsetTooltip() {
     var element = $(this);
 
-    var synsetid = element[0].attributes['data-synset'].value;
-    var iliid = element[0].attributes['data-iliid'].value;
 
-    if(synsetid) {
+    if(element[0].attributes['data-synsetid']) {
+        var synsetid = element[0].attributes['data-synsetid'].value;
         if(synsetid in synsetTooltips){
-            return synsetTooltips[id];
+            return synsetTooltips[synsetid];
         }
 
         var localData = "error";
@@ -165,20 +164,21 @@ function getSynsetTooltip() {
                 localData = data.result;
             }
         });
-        synsetTooltips[id] = localData;
+        synsetTooltips[synsetid] = localData;
     } else {
+        var iliid = element[0].attributes['data-iliid'].value;
         if(iliid in iliTooltips){
-            return iliTooltips[id];
+            return iliTooltips[iliid];
         }
 
         var localData = "error";
-        $.ajax($SCRIPT_ROOT + '/_load_min_omw_concept_ili/'+ilid, {
+        $.ajax($SCRIPT_ROOT + '/_load_min_omw_concept_ili/'+iliid, {
             async: false,
             success: function(data) {
                 localData = data.result;
             }
         });
-        iliTooltips[id] = localData;
+        iliTooltips[iliid] = localData;
     }
 
     return localData;

@@ -171,3 +171,7 @@ footer .container {
 .rules-note {
     margin-bottom: 30px;
 }
+
+.tooltip-inner {
+    text-align:left !important;
+}
