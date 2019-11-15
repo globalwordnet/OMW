@@ -595,7 +595,6 @@ def report():
 @app.route('/omw/search/<lang>,<lang2>/<q>', methods=['GET', 'POST'])
 def search_omw(lang=None, lang2=None, q=None):
     lang_dct, lang_code = fetch_langs()
-    print(lang_code)
     if lang and q:
         lang_id = int(lang_code['code'][lang])
         if not lang2:
