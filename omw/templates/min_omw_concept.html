@@ -1,10 +1,12 @@
 {%- for ss_id, info in ss.items() %}
+{% from "macros.html" import ili_link with context -%}
+{% from "macros.html" import ili_ss_link with context -%}
 <small>
 <!-- CONCEPT -->
 <span class='concept_name'>{{labels[ss_id]}}</span>
   <span class='pos' title='{{pos['def'][ss[ss_id][1]]}}'>{{pos['id'][ss[ss_id][1]]|lower}}</span> 
 {% if ss[ss_id][0] %}
-⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
+⟪{{ili_ss_link(ss[ss_id][0])}}⟫
 </p>
 {% endif %}
 

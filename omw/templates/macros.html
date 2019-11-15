@@ -10,6 +10,17 @@
   target="gwadoc">{{ rel.name }}</a>
 </span>
 {%- endmacro %}
-{% macro ili_link(name,ili_id) -%}
-<a class='concept' href="{{url_for('concepts_omw',iliID=ili_id)}}" title='CILI-ID=i{{ili_id}}'>{{name}}</sub></a>
+<!-- Link to the ili entry, indexed by ili -->
+{% macro ili_link(ili_id, name) -%}
+{%- if not name -%}
+  {%- set name = 'i' + ili_id|string -%}
+{%- endif -%}
+<a class='ili' href="{{url_for('concepts_ili',c=ili_id)}}" data-iliid={{ili_id}}>{{name}}</sub></a>
+{%- endmacro %}
+<!-- Link to the concept (synset), indexed by ili -->
+{% macro ili_ss_link(ili_id, name) -%}
+{%- if not name -%}
+  {%- set name = 'i' + ili_id|string -%}
+{%- endif -%}
+<a class='ili' href="{{url_for('concepts_omw',iliID=ili_id)}}" data-iliid={{ili_id}}>{{name}}</sub></a>
 {%- endmacro %}

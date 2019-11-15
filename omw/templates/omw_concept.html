@@ -6,8 +6,14 @@
    This should not happen.</p>
 {%  endif %}
 
-{%- for ss_id, info in ss.items() %}
 
+
+{%- for ss_id, info in ss.items() %}
+<!-- assuming only ever one, and we have its iliID -->
+{%- if ili[iliID|int][4] ==  "deprecated" %}
+      <a title='deprecated'><i class="fa
+				      fa-exclamation-triangle"></i></a>
+ {% endif %}
 <span class='concept_name'>{{labels[ss_id]}}</span>  
 <small>  <!-- data -->
   <!-- part of speech  -->
@@ -19,7 +25,13 @@
 {% endif %}  <!--  If core concept -->
 <small> 
   {% if ss[ss_id][0] %}  <!--  If linked to ILI -->
-  ⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}">i{{ ss[ss_id][0] }}</a>⟫
+  ⟪{{ili_link(ss[ss_id][0])}}⟫
+   {% if ili[iliID|int][5]  %} 
+      <i class="fa
+      fa-arrow-right" title='superseded by'></i>  ⟪{{ili_link(ili[iliID|int][5])}}⟫
+      {% endif %}
+
+  
   {% endif %}
   <!-- definition -->
   {% if defs[ss_id][selected_lang|int] %}

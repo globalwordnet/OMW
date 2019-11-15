@@ -15,18 +15,28 @@
   </thead>
 
 
-{%- for ss_id, sense in sense.items() %}
+  {%- for ss_id, sense in sense.items() %}
   <tr>
 
     <!-- CONCEPT -->
     <td style="text-align:left">
+      {%- if ili[ss[ss_id][0]][4] ==  "deprecated" %}
+      <a title='deprecated'><i class="fa
+				      fa-exclamation-triangle"></i></a>
+      {% endif %}
       <a class='concept' href="{{ url_for('concepts_omw', ssID = ss_id) }}"
                          data-synsetid="{{ss_id}}">
 	<nobr>{{labels[ss_id]}}<sub>{{ pos['id'][ss[ss_id][1]] }}</sub></nobr></a>
       {% if ss[ss_id][0] %}
-      <br><nobr>⟪<a href="{{url_for('concepts_ili',c=ss[ss_id][0])}}"
-                      data-iliid="{{ss[ss_id][0]}}" class="ili">i{{ ss[ss_id][0] }}</a>⟫</nobr>
+      <br><nobr>⟪{{ili_link(ss[ss_id][0])}}⟫</nobr>
       {% endif %}
+      {% if ili[ss[ss_id][0]][5]  %} 
+      <i class="fa
+		fa-arrow-right" title='superseded by'></i>
+      ⟪{{ili_link(ili[ss[ss_id][0]][5])}}⟫
+      {% endif %}
+      
+      
     </td>
 
     <!-- SENSES -->

@@ -10,8 +10,6 @@
       <!-- <th>Kind</th> -->
       <th>Definition and Source</th>
       <!-- <th>Status</th> -->
-      <!-- <th>Superseed</th> -->
-
       {% if current_user.id %}
         <th><i class="fa fa-star" aria-hidden="true"></i></th>
         <th>Actions</th>
@@ -20,13 +18,18 @@
     </tr>
   </thead>
 
-{%- for ili_id, row in ili.items() %}
+  {%- for ili_id, row in ili.items() %}
   <tr>
 
     <!-- ili ID -->
-    <th>
+    <td>
       <nobr>
-      ⟪<a class="concept" href="{{url_for('concepts_omw', iliID = ili_id)}}" data-iliid="{{ili_id}}">i{{ili_id}}</a>⟫
+	<!-- Status: deprecated -->
+      {% if row[4] == "deprecated" %}
+      <a title='deprecated'><i class="fa
+				      fa-exclamation-triangle"></i></a>
+      {% endif %}
+      ⟪{{ili_ss_link(ili_id)}}⟫
       {%- if  row[0] == "concept" -%}
       <a title='concept'><sub>C</sub></a>
       {%- else -%}
@@ -36,12 +39,13 @@
       {% if row[4] == "temporary" %}
       <a title='temporary'><i class="fas fa-hourglass-half"></i></a>
       {% endif %}
-      <!-- Status: deprecated/superceded -->
-      {% if row[6] == 'None' %} <!-- CHECKME -->
-      <a title='deprecated'><i class="fas fa-exclamation-triangle"></i></a>
+      <!-- Superseded -->
+      {% if row[5]  %} 
+      <i class="fa
+      fa-arrow-right" title='superseded by'></i>  ⟪{{ili_ss_link(row[5])}}⟫
       {% endif %}
       </nobr>
-    </th>
+    </td>
 
     <!-- ili Definition -->
     <td>

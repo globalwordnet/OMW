@@ -13,7 +13,7 @@
 <small>
   <span class='pos' title='{{pos['def'][sense[1]]}}'>{{pos['id'][sense[1]]|lower}}</span> <!--  POS -->
   {% if sense[5] %}  <!--  If linked to ILI -->
-  ⟪<a href="{{url_for('concepts_omw',iliID=sense[5])}}">i{{ sense[5] }}</a>⟫
+  ⟪{{ili_link(sense[5])}}⟫
   {% else %}
   <a href="{{url_for('concepts_omw',ssID=sense[4])}}">{{ labels[sense[4]] }}</a>
   {% endif %}

@@ -636,7 +636,7 @@ def search_omw(lang=None, lang2=None, q=None):
     pos = fetch_pos()
   
     ss, senses, defs, exes, links = fetch_ss_basic(sense.keys())
-
+    ili, ili_defs = fetch_ili([ss[k][0] for k in ss])
     labels = fetch_labels(lang_id, set(senses.keys()))
 
 
@@ -649,6 +649,7 @@ def search_omw(lang=None, lang2=None, q=None):
                                          sense=sense,
                                          senses=senses,
                                          ss=ss,
+                                         ili=ili,
                                          links=links,
                                          defs=defs,
                                          exes=exes,
