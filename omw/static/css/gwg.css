@@ -281,4 +281,6 @@ color: white;
 padding: 0 5px;
 }
 
-
+.tooltip {
+  pointer-events: none;
+}
