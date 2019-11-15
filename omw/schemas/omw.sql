@@ -986,7 +986,8 @@ CREATE TABLE ss
         pos_id INTEGER NOT NULL,
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY(pos_id) REFERENCES pos(id));
+        FOREIGN KEY(pos_id) REFERENCES pos(id),
+	FOREIGN KEY(ili_id) REFERENCES ili(id));
 
 CREATE UNIQUE INDEX ssid_iliid_idx ON ss (id, ili_id);
 
@@ -2592,6 +2593,8 @@ CREATE TABLE ssexe
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(ss_id) REFERENCES ss(id),
 	FOREIGN KEY(lang_id) REFERENCES lang(id));
+
+CREATE INDEX ssexe_lang_ssexe_idx ON ssexe (ss_id, lang_id, ssexe);
 
 CREATE TABLE ssexe_log
        (log_id INTEGER PRIMARY KEY ASC,
