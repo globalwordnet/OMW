@@ -591,12 +591,16 @@ def report():
 
 
 @app.route('/omw/search', methods=['GET', 'POST'])
+@app.route('/omw/search/<lang>/<q>', methods=['GET', 'POST'])
 @app.route('/omw/search/<lang>,<lang2>/<q>', methods=['GET', 'POST'])
-def search_omw(lang=None, q=None):
-
+def search_omw(lang=None, lang2=None, q=None):
+    lang_dct, lang_code = fetch_langs()
+    print(lang_code)
     if lang and q:
-        lang_id = lang
-        lang_id2 = lang2
+        lang_id = int(lang_code['code'][lang])
+        if not lang2:
+            lang2 = lang
+        lang_id2 = int(lang_code['code'][lang2])
         query = q
     else:
         lang_id = request.form['lang']
@@ -631,7 +635,7 @@ def search_omw(lang=None, q=None):
 
 
     pos = fetch_pos()
-    lang_dct, lang_code = fetch_langs()
+  
     ss, senses, defs, exes, links = fetch_ss_basic(sense.keys())
 
     labels = fetch_labels(lang_id, set(senses.keys()))
@@ -651,8 +655,8 @@ def search_omw(lang=None, q=None):
                                          exes=exes,
                                          labels=labels))
 
-    resp.set_cookie('selected_lang', lang_id)
-    resp.set_cookie('selected_lang2', lang_id2)
+    resp.set_cookie('selected_lang', str(lang_id))
+    resp.set_cookie('selected_lang2', str(lang_id2))
     return resp
 
 @app.route('/omw/core', methods=['GET', 'POST'])
