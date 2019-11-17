@@ -10,7 +10,7 @@
 
 {%- for ss_id, info in ss.items() %}
 <!-- assuming only ever one, and we have its iliID -->
-{%- if ili[iliID|int][4] ==  "deprecated" %}
+{%- if iliID|int in ili and  ili[iliID|int][4] ==  "deprecated" %}
       <a title='deprecated'><i class="fa
 				      fa-exclamation-triangle"></i></a>
  {% endif %}
@@ -26,7 +26,7 @@
 <small> 
   {% if ss[ss_id][0] %}  <!--  If linked to ILI -->
   ⟪{{ili_link(ss[ss_id][0])}}⟫
-   {% if ili[iliID|int][5]  %} 
+   {% if iliID|int in ili and ili[iliID|int][5]  %} 
       <i class="fa
       fa-arrow-right" title='superseded by'></i>  ⟪{{ili_link(ili[iliID|int][5])}}⟫
       {% endif %}
@@ -93,7 +93,7 @@
     <table class="rels tight">
         {%- for rel in links[ss_id] %}
         <tr>
-	  <th>{{ ssrel(ssrels['id'][rel][1]) }}</th>
+	  <th class="rel">{{ ssrel(ssrels['id'][rel][1]) }}</th>
 	  <td>
           {%- for ss2 in links[ss_id][rel] %}
          <a class="concept" href="{{url_for('concepts_omw',ssID=ss2)}}"

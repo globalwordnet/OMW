@@ -226,6 +226,11 @@ span.pos {
 span.lang {
     font-variant: small-caps
 }
+/* for displaying relation anmes */
+th.rel {
+    vertical-align:top;
+}
+
 span.rel {
     font-variant: small-caps
 }

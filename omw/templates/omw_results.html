@@ -20,7 +20,7 @@
 
     <!-- CONCEPT -->
     <td style="text-align:left">
-      {%- if ili[ss[ss_id][0]][4] ==  "deprecated" %}
+      {%- if ss[ss_id][0] in ili and ili[ss[ss_id][0]][4] ==  "deprecated" %}
       <a title='deprecated'><i class="fa
 				      fa-exclamation-triangle"></i></a>
       {% endif %}
@@ -30,7 +30,7 @@
       {% if ss[ss_id][0] %}
       <br><nobr>⟪{{ili_link(ss[ss_id][0])}}⟫</nobr>
       {% endif %}
-      {% if ili[ss[ss_id][0]][5]  %} 
+      {% if ss[ss_id][0] in ili and ili[ss[ss_id][0]][5]  %} 
       <i class="fa
 		fa-arrow-right" title='superseded by'></i>
       ⟪{{ili_link(ili[ss[ss_id][0]][5])}}⟫
