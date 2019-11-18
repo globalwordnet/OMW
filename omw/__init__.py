@@ -607,21 +607,21 @@ def search_omw(lang=None, lang2=None, q=None):
         query = request.form['query']
         query = query.strip()
         
-    sense = dd(list)
+    sense = od()
     lang_sense = dd(lambda: dd(list))
 
     if query[0].isalpha(): ### search for inital character of both cases
         if query[0].upper() != query[0].lower():
             query = '['+query[0].upper() + query[0].lower()+']'+query[1:]
     
-    # GO FROM FORM TO SENSE
+    # GO FROM FORM TO SENSE, order results by pos
     for s in query_omw("""
         SELECT s.id as s_id, ss_id,  wid, fid, lang_id, pos_id, lemma
         FROM (SELECT w_id as wid, form.id as fid, lang_id, pos_id, lemma
               FROM (SELECT id, lang_id, pos_id, lemma
                     FROM f WHERE lemma GLOB ? AND lang_id in (?,?)) as form
               JOIN wf_link ON form.id = wf_link.f_id) word
-        JOIN s ON wid=w_id
+        JOIN s ON wid=w_id ORDER BY pos_id
         """, (query, lang_id, lang_id2)):
 
 
