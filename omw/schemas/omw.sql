@@ -1947,10 +1947,13 @@ CREATE TRIGGER s_src_delete AFTER DELETE ON s_src
 
 
 CREATE TABLE smt
+       -- first row is preset
+       -- (1, 'freq', 'frequency', 'load-pwn.py')
+       -- used for extra information about senses
        (id INTEGER PRIMARY KEY ASC,
-        tag TEXT NOT NULL,
-        name TEXT NOT NULL,
-        u INTEGER NOT NULL,
+        tag TEXT NOT NULL,  -- short name
+        name TEXT NOT NULL, -- longer name
+        u INTEGER NOT NULL, 
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 
@@ -2023,6 +2026,7 @@ CREATE TRIGGER smt_delete AFTER DELETE ON smt
 
 
 CREATE TABLE sml
+       -- use to define labels for predefined sense meta types  
        (id INTEGER PRIMARY KEY ASC,
         label TEXT NOT NULL,
         name TEXT NOT NULL,
@@ -2101,6 +2105,7 @@ CREATE TRIGGER sml_delete AFTER DELETE ON sml
 
 
 CREATE TABLE sm
+       -- e.g. for freq of 10 for (id, sense_id, 1, 10, u, t)
        (id INTEGER PRIMARY KEY ASC, 
         s_id INTEGER NOT NULL,       -- id of the associated sense
         smt_id INTEGER NOT NULL,     -- id of the associated tag 

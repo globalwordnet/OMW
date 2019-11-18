@@ -602,7 +602,30 @@ with app.app_context():
                           [ss_id, lang_id, e]):
             return r['id']
 
+    def fetch_s_freq(sense_list):
+        """get the total frequency of each sense
 
+        frequency is in sm:
+        (s_id, smt_id, sml_id) 
+           smt_id=1 (hard coded)
+           sml_id is the frequency
+        the source of the frequency should be in sm_src
+        senses can have multiple rows of frequency 
+
+        :returns: a dd with key sense id and value frequency
+        :rtype: defaultdict(int)
+
+        sfreq[s_id] = freq
+        """
+        
+        sfreq = dd(int) # defaults to zero
+        for r in query_omw("""SELECT s_id, SUM(sml_id) as freq FROM sm 
+                              WHERE s_id in (%s) and smt_id=1
+                              GROUP BY s_id"""
+                           % l2q(sense_list), sense_list):
+            sfreq[r['s_id']] = r['freq']
+        return sfreq
+            
     def fetch_ss_basic(synset_list):
 
         synset_list = list(synset_list)
@@ -628,11 +651,7 @@ with app.app_context():
             s_tmp.append((r['ss_id'], r['lang_id'], r['s_id'], r['lemma']))
             s_list.append(r['s_id'])
 
-        sfreq = dd(int)
-        for r in query_omw("""SELECT s_id, sml_id as freq FROM sm 
-                              WHERE s_id in (%s) and smt_id=1"""
-                           % l2q(s_list), s_list):
-            sfreq[r['s_id']] = r['freq']
+        sfreq = fetch_s_freq(s_list)
 
         for (ss_id, lang_id, s_id, lemma) in s_tmp:  
             senses[ss_id][lang_id].append((s_id, lemma, sfreq[s_id]))
@@ -740,11 +759,9 @@ with app.app_context():
                  """, (s_id,)):
             sense = [r['lemma'], r['pos_id'], 0,
                      r['w_id'],  r['ss_id'], r['ili_id']]
-        ### NOTE hard-coding frequency type smt_id=1
-        for r in query_omw("""SELECT sml_id as freq FROM sm 
-                              WHERE s_id=? and smt_id=1""", (s_id,)):
-            if r['freq']:
-                sense[2] =  r['freq']
+        ### NOTE may want to show the different sources of frequencies
+        sfreq = fetch_s_freq([s_id])
+        sense[2] = sfreq[s_id]
 
         return sense
 
@@ -1097,14 +1114,7 @@ with app.app_context():
         so that concept labels for that language are created and visible
         as concept names.
         """
-
-        sfreq=dd(int)
-        f = query_omw("""SELECT id FROM smt WHERE tag='freq'""")
-        if f:
-            for r in query_omw("""SELECT s_id, sml_id FROM sm WHERE smt_id=?""",
-                               str(f[0]['id'])):
-                sfreq[r['s_id']]=r['sml_id']
-
+        sfreq = fetch_s_freq(s_list)
 
         senses =dd(lambda: dd(list))
         #senses[ss_id][lang_id]=[(ls_id, lemma, freq), ...]
