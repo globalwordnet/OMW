@@ -8,7 +8,7 @@ Currently running here: http://compling.hss.ntu.edu.sg/iliomw
 
 DB Schema:
 https://docs.google.com/spreadsheets/d/1-FFnIaw0_6aJ6a--wfooNnGQlVpfl-hTxof8mWmX0P8/edit?usp=sharing
-(may be out of date)
+(may be out of date) or on github: https://github.com/globalwordnet/schemas with docs: https://globalwordnet.github.io/schemas/
 
 
 ## Setup
