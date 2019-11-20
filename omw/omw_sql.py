@@ -12,6 +12,7 @@ from omw.common_sql import (
     write_omw,
     blk_write_omw
 )
+import sys
 
 from omw import app
 #ntsense=namedtuple('Sense', ['lemma', 'y'], verbose=True)
@@ -1106,7 +1107,7 @@ with app.app_context():
         return blk_write_omw("""INSERT INTO sm_src (sm_id, src_id, conf, u)
                                 VALUES (?,?,?,?)""", tuple_list)
 
-    def fetch_graph():
+    def fetch_graph(ili_labels=False):
         """
         get the complete hypernym graph (including instances)
         if the node is in ili, its name is iXXXX
@@ -1115,14 +1116,27 @@ with app.app_context():
         return a dictionary of sets
           graph[hype] = {hypo, hypo, hypo, ...}
         """
+        if ili_labels:
+            ss2ili = dict()
+            for r in query_omw("""SELECT id, ili_id FROM ss WHERE ili_id IS NOT Null"""):
+                ss2ili[r['id']] = 'i{}'.format(r['ili_id'])
         graph = dd(set)
         for r in query_omw("""SELECT ss1_id, ssrel_id, ss2_id 
                     FROM sslink
                     WHERE ssrel_id in (34,37, 35, 38)"""):
-            if r['ssrel_id'] in [34,37]: # hype, ihype
-                graph[r['ss2_id']].add(r['ss1_id'])
+            ss1_id = r['ss1_id']
+            ss2_id = r['ss2_id']
+            if ili_labels:
+                if ss1_id in ss2ili:
+                    ss1_id = ss2ili[ss1_id]
+                if ss2_id in ss2ili:
+                    ss2_id = ss2ili[ss2_id]
+            if r['ssrel_id'] in [35,38]: # hypo, ihypo
+                graph[ss2_id].add(ss1_id)
             else:
-                graph[r['ss1_id']].add(r['ss2_id'])
+                graph[ss1_id].add(ss2_id)
+                if ss1_id in ('i46538', 'i46539'):
+                    print(ss1_id, ss2_id, file=sys.stderr)
         return graph
 
     # UPDATE LABELS

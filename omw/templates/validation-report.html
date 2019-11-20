@@ -248,7 +248,20 @@
 	{{vr['lexicon'][lexicon]['bad_cycles']|length}}
 	cycles in the hypernym graph.   We show up to the first 100 here:</p>
        <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['bad_cycles'][:100] }}</p>
+       {% endif %}
+ <!-- Merged Cycles -->
+      {% if vr['lexicon'][lexicon]['bad_merged_cycles'] == [] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	We found no cycles in the hypernym graph of this lexicon, even
+	after merged with OMW.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times"
+	aria-hidden="true"></i> There are
+	{{vr['lexicon'][lexicon]['bad_merged_cycles']|length}}
+	cycles in the hypernym graph merged with OMW.   We show up to the first 100 here:</p>
+       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['bad_merged_cycles'][:100] }}</p>
       {% endif %}
+       
   {%- endfor %}
 
 

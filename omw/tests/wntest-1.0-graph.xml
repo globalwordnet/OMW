@@ -38,7 +38,7 @@
 
 	
 	<!-- Loop with hypernym: 'test-dog-n' -->
-        <Synset id="test-dog-n" ili="i4360" partOfSpeech="n">
+        <Synset id="test-dog-n" ili="i46360" partOfSpeech="n">
             <Definition>a dog</Definition>
             <SynsetRelation relType="hypernym" target="test-dog-n"/>
         </Synset>
@@ -56,7 +56,7 @@
 	    <SynsetRelation relType="hyponym" target="test-anemal-n"/>
         </Synset>
 	<!-- Cycle (after merge with pwn) -->
-	<!-- ['test-dog-n', 'test-chien-n'] -->
+	<!-- [ 'test-chien-n','test-dog-n'] ['i46538', 'i46360']-->
 	<Synset id="test-chien-n" ili="i46538" partOfSpeech="n">
           <Definition>Belgian Griffon</Definition>
           <SynsetRelation relType="hyponym" target="test-dog-n"/>

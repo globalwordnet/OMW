@@ -46,8 +46,8 @@ with app.app_context():
                  'mero_portion', 'mero_substance', 'meronym', 'other', 'patient',
                  'restricted_by', 'restricts', 'result', 'role', 'source_direction',
                  'state_of', 'target_direction', 'subevent', 'is_subevent_of']
-    ## FCB must be a better way
-    ilis=set()
+    ## FCB must be a better way than a global variable!
+    ilimap=dict() # ili[ss_id] = 'i'.format(ili_id)
     ## try to use the same abbreviations as the SPDX organization
     ## https://spdx.org/licenses/
     licenses = {'wordnet':'wordnet',
@@ -280,7 +280,9 @@ with app.app_context():
                     if ili_id in ili:
                         wn_dtls['ss_ili_linked'][lexicon].append(ss_id)
                         synset['ili_key'] = ili_id
-                        ilis.add(ss_id)   ### FCB
+                        ilimap[ss_id] = 'i{}'.format(ili_id)   ### use for merging graphs
+                        #print(ss_id,ilimap[ss_id], file=sys.stderr)
+                        #ilis.add(ss_id)   ### FCB
                     else:
                         wn_dtls['bad_ss_ili'][lexicon].append(ss_id)
                         synset['ili_key'] = False
@@ -561,8 +563,9 @@ with app.app_context():
 
             for lexicon in wn:
                 ### LOG     
-                # print('Checking {}\t{}'.format(lexicon,
-                #                                dt.today().isoformat()))
+                print('Checking {}\t{}'.format(lexicon,
+                                               dt.today().isoformat()),
+                      file=sys.stderr)
 
                 vr_lex = vr['lexicon'][lexicon]
 
@@ -879,7 +882,7 @@ with app.app_context():
                     # FIXME! CHECK LINKS' CONFIDENCE = 1.0 (?)
 
                     link_to_ili = 'None'
-                    if checkLinked(lnks, good_rels, ilis, ss_id, set()):
+                    if checkLinked(lnks, good_rels, ilimap.keys(), ss_id, set()):
                         link_to_ili = 'good'
                         #print("LINKED g:",  link_to_ili, ss_id, file=debug)
                     elif checkLinked(lnks, good_rels+warn_rels, ilis, ss_id, set()):
@@ -887,7 +890,7 @@ with app.app_context():
                         vr_lex['synsets_ili_lnk_warn'].append(ss_id)
                         #print("LINKED w:",  link_to_ili, ss_id, file=debug)
                     elif checkLinked(lnks, good_rels+warn_rels+bad_rels,
-                                     ilis, ss_id, set()):
+                                     ilimap.keys(), ss_id, set()):
                         link_to_ili = 'bad'
                         vr_lex['synsets_ili_lnk_bad'].append(ss_id)
                         final_validation = False
@@ -924,7 +927,8 @@ with app.app_context():
                 ########################################################
                 # Loops and cycles
                 ########################################################
-                hyponym_rel_dict = dd(set)
+                print("Checking {} for loops and cycles".format(lexicon),file=sys.stderr)
+                hypernym_rel_dict = dd(set)
                 vr_lex["bad_loops"] = dd(list)
                 #print("Checking for loops!")
                 for s in wn[lexicon]['syns']:
@@ -932,12 +936,14 @@ with app.app_context():
                         if s == trg:
                             vr_lex["bad_loops"][typ].append(s)
                         else:
-                            if typ in ['hyponym', 'instance_hyponym']:
-                                hyponym_rel_dict[s].add(trg)
-                            elif typ in ['hypernym', 'instance_hypernym']:
-                                hyponym_rel_dict[trg].add(s)
+                            if typ in ['hypernym', 'instance_hypernym']:
+                                hypernym_rel_dict[s].add(trg)
+                            elif typ in ['hyponym', 'instance_hyponym']:
+                                hypernym_rel_dict[trg].add(s)
+                                
                 #print("Start with cycles!", lexicon)
-                G =  nx.DiGraph(hyponym_rel_dict)
+                G =  nx.DiGraph(hypernym_rel_dict)
+                #print("G",G.nodes(),G.edges(),hypernym_rel_dict,file=sys.stderr)
                 vr_lex["bad_cycles"] = list(nx.simple_cycles(G))
                 vr_lex["bad_cycles"].sort()
                 if vr_lex["bad_cycles"] or  vr_lex["bad_loops"]:
@@ -945,10 +951,22 @@ with app.app_context():
                 ################################################
                 # Check with complete graph
                 ################################################
-                    
-                
-
-                
+                print("Checking {} merged with OMW for cycles".format(lexicon),file=sys.stderr)
+                OMW_rel_dict=fetch_graph(ili_labels=True)
+                #print("Loaded OMW hypernym relations",file=sys.stderr)
+                O = nx.DiGraph(OMW_rel_dict)
+                #print("Made OMW graph",file=sys.stderr)
+                Gi = nx.relabel_nodes(G,ilimap)
+                #print("Gi",Gi.nodes(),Gi.edges(),file=sys.stderr)
+                A = nx.compose(O,Gi)
+                #print("Merged graphs",file=sys.stderr)
+                bad_new = list(nx.simple_cycles(Gi))
+                bad_merged = list(nx.simple_cycles(A))
+                # print('bad_merged_new',  [c for c in bad_merged if c not in bad_new],
+                #       file=sys.stderr)
+                vr_lex["bad_merged_cycles"] = [c for c in bad_merged if c not in bad_new]
+                if vr_lex["bad_merged_cycles"]:
+                    final_validation = False          
                 #print("Done with cycles!")
         # FINAL VALIDATION
             vr['final_validation'] = final_validation
