@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "http://globalwordnet.github.io/schemas/WN-LMF-1.0.dtd">
+<LexicalResource xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <!-- The first three lines must always be as above -->
+
+    <Lexicon id="test"
+             label="Test Wordnet (Graphs)"
+             language="en" 
+             email="bond@ieee.org"
+             license="https://creativecommons.org/publicdomain/zero/1.0/"
+             version="1.0"
+             citation="CILI: the Collaborative Interlingual Index. Francis Bond, Piek Vossen, John P. McCrae and Christiane Fellbaum, Proceedings of the Global WordNet Conference 2016, (2016)."
+             url="http://globalwordnet.github.io/schemas/"
+             dc:publisher="Global Wordnet Association"
+	     dc:description="Tests for loops and cycles\n * loop with
+			     hypernym\n * loop with meronym\n * cycle (internal)\n* cycle (when linked to ili)"
+	     confidenceScore="1.0">
+
+      
+        <LexicalEntry id="w1">
+            <Lemma writtenForm="doog" partOfSpeech="n"/>
+            <Sense id="test-dog-n-1" synset="test-dog-n">
+            </Sense>
+        </LexicalEntry>
+
+	
+
+	<LexicalEntry id="w2">
+            <Lemma writtenForm="anemal" partOfSpeech="n"/>
+            <Sense id="test-anemal-n-2" synset="test-anemal-n"/>
+        </LexicalEntry>
+
+	
+        <LexicalEntry id="w3">
+            <Lemma writtenForm="doobutsu" partOfSpeech="n"/>
+	    <Sense id="test-inu-n-3" synset="test-inu-n"/>
+        </LexicalEntry>
+
+	
+	<!-- Loop with hypernym: 'test-dog-n' -->
+        <Synset id="test-dog-n" ili="i4360" partOfSpeech="n">
+            <Definition>a dog</Definition>
+            <SynsetRelation relType="hypernym" target="test-dog-n"/>
+        </Synset>
+	<!-- Loop with meronym:'test-anemal-n' -->
+        <Synset id="test-anemal-n" ili="" partOfSpeech="n">
+            <Definition>an animal</Definition>
+            <SynsetRelation relType="hyponym" target="test-dog-n"/>
+	    <SynsetRelation relType="meronym" target="test-anemal-n"/>
+        </Synset>
+	<!-- Cycle (in this wordnet): -->
+	<!--   ['test-dog-n', 'test-inu-n', 'test-anemal-n'] -->
+	<Synset id="test-inu-n" ili="" partOfSpeech="n">
+            <Definition>another dog</Definition>
+            <SynsetRelation relType="hypernym" target="test-dog-n"/>
+	    <SynsetRelation relType="hyponym" target="test-anemal-n"/>
+        </Synset>
+	<!-- Cycle (after merge with pwn) -->
+	<!-- ['test-dog-n', 'test-chien-n'] -->
+	<Synset id="test-chien-n" ili="i46538" partOfSpeech="n">
+          <Definition>Belgian Griffon</Definition>
+          <SynsetRelation relType="hyponym" target="test-dog-n"/>
+        </Synset>
+    </Lexicon>
+</LexicalResource>
