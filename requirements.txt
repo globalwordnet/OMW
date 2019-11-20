@@ -4,6 +4,7 @@ requests
 lxml
 nltk
 flask
+networkx
 flask-login==0.3.2
 git+git://github.com/globalwordnet/gwadoc.git@master#egg=gwadoc
 

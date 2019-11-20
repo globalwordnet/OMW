@@ -223,8 +223,36 @@
   {%- endfor %}
 
 
+  {%- for lexicon in vr['lexicon'].keys() %}
+   <!-- Loops -->
+      {% if vr['lexicon'][lexicon]['bad_loops']|length == 0 %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	We found no loops in this lexicon.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times"
+	aria-hidden="true"></i> There are synsets that link to
+	themselves (loops) with {{vr['lexicon'][lexicon]['bad_loops']|length}}
+	different relations.
+	{% for typ in vr['lexicon'][lexicon]['bad_loops'] %}
+      <p style="margin-left: 30px">	{{typ}}:  {{
+	vr['lexicon'][lexicon]['bad_loops'][typ][:20] }}</p>
+       {%- endfor %}
+      {% endif %}
+ <!-- Cycles -->
+      {% if vr['lexicon'][lexicon]['bad_cycles'] == [] %}
+      <p style="margin-left: 30px"><i class="fa fa-check" aria-hidden="true"></i>
+	We found no cycles in the hypernym graph of this lexicon.</p>
+      {% else %}
+      <p style="margin-left: 30px"><i class="fa fa-times"
+	aria-hidden="true"></i> There are
+	{{vr['lexicon'][lexicon]['bad_cycles']|length}}
+	cycles in the hypernym graph.   We show up to the first 100 here:</p>
+       <p style="margin-left: 30px">{{ vr['lexicon'][lexicon]['bad_cycles'][:100] }}</p>
+      {% endif %}
+  {%- endfor %}
 
-  <br><p><b>Stage 4: Checking New ILI Candidates</b></p>
+
+  <br><p><b>Stage 5: Checking New ILI Candidates</b></p>
 
   {%- for lexicon in vr['lexicon'].keys() %}
 

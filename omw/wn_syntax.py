@@ -15,6 +15,7 @@ from flask import request
 from werkzeug import secure_filename
 from lxml import etree
 from packaging.version import Version, InvalidVersion
+import networkx as nx
 
 from omw import app
 from omw.omw_sql import *
@@ -480,7 +481,7 @@ with app.app_context():
         l=lambda:dd(l)
         vr = l()  # validation report
         final_validation = True # assume it will pass
-
+        vr['filename']=filename
         vr['upload'] = True
         
         ###LOG
@@ -920,8 +921,36 @@ with app.app_context():
                     #     final_validation = False
                 ################################################################
 
+                ########################################################
+                # Loops and cycles
+                ########################################################
+                hyponym_rel_dict = dd(set)
+                vr_lex["bad_loops"] = dd(list)
+                #print("Checking for loops!")
+                for s in wn[lexicon]['syns']:
+                    for  (typ, trg) in wn[lexicon]['syns'][s]['ssrel']:
+                        if s == trg:
+                            vr_lex["bad_loops"][typ].append(s)
+                        else:
+                            if typ in ['hyponym', 'instance_hyponym']:
+                                hyponym_rel_dict[s].add(trg)
+                            elif typ in ['hypernym', 'instance_hypernym']:
+                                hyponym_rel_dict[trg].add(s)
+                #print("Start with cycles!", lexicon)
+                G =  nx.DiGraph(hyponym_rel_dict)
+                vr_lex["bad_cycles"] = list(nx.simple_cycles(G))
+                vr_lex["bad_cycles"].sort()
+                if vr_lex["bad_cycles"] or  vr_lex["bad_loops"]:
+                    final_validation = False
+                ################################################
+                # Check with complete graph
+                ################################################
+                    
+                
 
-            # FINAL VALIDATION
+                
+                #print("Done with cycles!")
+        # FINAL VALIDATION
             vr['final_validation'] = final_validation
             ### LOG     
             # print("""ILI defs and links checked for {}

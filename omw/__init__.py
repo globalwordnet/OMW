@@ -32,7 +32,7 @@ from flask_login import (
 )
 from packaging.version import Version
 import gwadoc
-
+import networkx as nx
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
 
@@ -472,6 +472,27 @@ def omw_wns(name=None):
                            lang_code=lang_code,
                            licenses=licenses)
 
+@app.route('/omw_stats', methods=['GET', 'POST'])
+def omw_stats():
+    ### get language
+    selected_lang =  int(_get_cookie('selected_lang', 1))
+    ### get hypernym graph
+    hypernym_dict=fetch_graph()
+    G =  nx.DiGraph(hypernym_dict, name='OMW')
+    info = nx.info(G).splitlines()
+    
+    cycles = list(nx.simple_cycles(G))
+    ### get the synsets we need to label
+    sss = []
+    for c in cycles:
+        for ss in c:
+            sss.append(ss)
+    label = fetch_labels(selected_lang, sss)
+    return render_template('omw_stats.html',
+                           info=info,
+                           cycles=cycles,
+                           label=label,
+                           gwadoc=gwadoc)
 
 @app.route("/useradmin",methods=["GET"])
 @login_required(role=99, group='admin')

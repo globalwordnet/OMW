@@ -1106,7 +1106,24 @@ with app.app_context():
         return blk_write_omw("""INSERT INTO sm_src (sm_id, src_id, conf, u)
                                 VALUES (?,?,?,?)""", tuple_list)
 
+    def fetch_graph():
+        """
+        get the complete hypernym graph (including instances)
+        if the node is in ili, its name is iXXXX
+        else the node is oXXXX
 
+        return a dictionary of sets
+          graph[hype] = {hypo, hypo, hypo, ...}
+        """
+        graph = dd(set)
+        for r in query_omw("""SELECT ss1_id, ssrel_id, ss2_id 
+                    FROM sslink
+                    WHERE ssrel_id in (34,37, 35, 38)"""):
+            if r['ssrel_id'] in [34,37]: # hype, ihype
+                graph[r['ss2_id']].add(r['ss1_id'])
+            else:
+                graph[r['ss1_id']].add(r['ss2_id'])
+        return graph
 
     # UPDATE LABELS
     def updateLabels():
