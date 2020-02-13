@@ -1145,6 +1145,19 @@ with app.app_context():
         so that concept labels for that language are created and visible
         as concept names.
         """
+
+        ########################################################################
+        # LMC (2020.01.12): this was broken because s_list was being called
+        # without being instanciated beforehand. The fix is to just fetch all
+        # sense_ids and feed it into s_list. 
+        ########################################################################
+        # sfreq = fetch_s_freq(s_list)
+        ########################################################################
+
+        s_list = list()
+        for r in query_omw("""SELECT id as s_id FROM s """):
+            s_list.append(r['s_id'])
+        
         sfreq = fetch_s_freq(s_list)
 
         senses =dd(lambda: dd(list))

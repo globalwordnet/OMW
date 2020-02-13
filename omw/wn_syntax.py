@@ -12,7 +12,7 @@ from collections import defaultdict as dd
 from datetime import datetime as dt
 
 from flask import request
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from lxml import etree
 from packaging.version import Version, InvalidVersion
 import networkx as nx
