@@ -1135,8 +1135,8 @@ with app.app_context():
                 graph[ss2_id].add(ss1_id)
             else:
                 graph[ss1_id].add(ss2_id)
-                if ss1_id in ('i46538', 'i46539'):
-                    print(ss1_id, ss2_id, file=sys.stderr)
+                # if ss1_id in ('i46538', 'i46539'):
+                #     print(ss1_id, ss2_id, file=sys.stderr)
         return graph
 
     # UPDATE LABELS

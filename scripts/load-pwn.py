@@ -476,9 +476,9 @@ for line in nltk_senslink_names.splitlines():
     senslinks[k] = v
 
 # We fix a bug here
-# In the original version of PWN 3.0, 02423762-v is its own hypernym.    
-# The hypernym should be 00612841-v instead.
-buggy_synset= wn.synset_from_pos_and_offset('v',2423762)
+# In the original version of PWN 3.0,
+# 02422663-v is both hypernym and hyponym of 02423762-v   
+buggy_synset= wn.synset_from_pos_and_offset('v',2422663)
 for ss in wn.all_synsets():
 
     pos = ss.pos()
@@ -488,9 +488,10 @@ for ss in wn.all_synsets():
     for r in synlinks.keys():
         for ss2 in getattr(ss, synlinks[r])():
             ## fix the loopy bug
-            if ss == buggy_synset and r == 'hypernym' and ss2 == ss:
-                ss2 =  wn.synset_from_pos_and_offset('v',612841)
-                sys.stderr.write('Fixed loop for 00612841-v - 02423762-v')
+            if ss == buggy_synset and r == 'hyponym' \
+               and ss2 == wn.synset_from_pos_and_offset('v',2423762):
+                sys.stderr.write('Broken loop for 00612841-v - 02423762-v')
+                continue
             
             c.execute("""INSERT INTO sslink (ss1_id, ssrel_id, ss2_id, u)
                          VALUES (?,?,?,?)""",
