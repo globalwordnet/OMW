@@ -27,6 +27,8 @@ args = parser.parse_args()
 
 ###print(args.tsv)
 
+log = open('tsv2wn_{}.log'.format(args.lang),'w')
+
 open_license = {'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
                 'CC BY SA 3.0':'https://creativecommons.org/licenses/by/3.0/',
                 'Apache 2.0':'https://opensource.org/licenses/Apache-2.0',
@@ -86,7 +88,13 @@ map_file = open(args.ili_map,'r')
 for l in map_file:
     row = l.strip().split()
     ilimap[row[1].replace('-s','-a')] = row[0]
-        
+
+def clean(lemma):
+    if lemma.startswith('"') and lemma.endswith('"'):
+        lemma = lemma[1:-1]
+        print('CLEANED: {} (removed "~")', file=log)
+    return lemma
+    
 def read_wn(ilimap, fn):
     """Given a .tab+ file (also ready for forms), it prepares lexical entries and senses"""
 
@@ -112,21 +120,22 @@ def read_wn(ilimap, fn):
         
         
     for line in tab_file:
-
+        if line == "\n":
+            continue
         tab = line.split('\t')
 
-        if tab[1].endswith(':lemma'):
+        if tab[1].endswith(':lemma'):  # also check language?
             lex_c += 1
 
             ss = tab[0].strip()
             lemma = tab[2].strip()
+            lemma = clean(lemma)
             pos = ss[-1].replace('s', 'a')
 
             var_end = len(tab) - 1
             variants = set()
-            if var_end > 2:
-                for i in range(3, var_end+1):
-                    variants.add(tab[i].strip())
+            for v in tab[3:]:
+                variants.add(v.strip())
 
 
             ssID = meta['id']+'-'+ss
@@ -171,11 +180,11 @@ for lexID in wn['LexEntry']:
 
     lemma = list(wn['LexEntry'][lexID]['lemma'])[0]
     pos = list(wn['LexEntry'][lexID]['pos'])[0]
-    lexEntry += """      <Lemma writtenForm="{}" partOfSpeech="{}"/>\n""".format(lemma,pos)
+    lexEntry += """      <Lemma writtenForm="{}" partOfSpeech="{}"/>\n""".format(html.escape(lemma),pos)
 
     variants = wn['LexEntry'][lexID]['variants']
     for v in variants:
-        lexEntry += """      <Form  writtenForm="{}"></Form>\n""".format(v)
+        lexEntry += """      <Form  writtenForm="{}"></Form>\n""".format(html.escape(v))
 
     senses = wn['LexEntry'][lexID]['sense']
     for ssID in senses:
