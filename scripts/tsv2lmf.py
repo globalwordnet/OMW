@@ -92,7 +92,9 @@ for l in map_file:
 def clean(lemma):
     if lemma.startswith('"') and lemma.endswith('"'):
         lemma = lemma[1:-1]
-        print('CLEANED: {} (removed "~")', file=log)
+        print('CLEANED: {} (removed start and end double quote)'.format(lemma), file=log)
+    if '"' in lemma:
+        print('WARNING: {} (contains a double quote)'.format(lemma), file=log)
     return lemma
     
 def read_wn(ilimap, fn):
