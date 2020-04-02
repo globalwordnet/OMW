@@ -8,23 +8,28 @@
 OMWROOT="$( cd "$( dirname "$0" )"; echo "$PWD" )"
 RESDIR="$OMWROOT/omw/resources"
 
-# Icelandic
-#
-# fixed the tab file in about 6 places (removed '"')
-# wget -P ${RESDIR} http://compling.hss.ntu.edu.sg/omw/wns/isl.zip
+declare -A lngs=(\
+		 ["arb"]="arb" \
+			["slk"]="sk" \
+		  	["isl"]="is" \
+		  	["als"]="als" \
+		  	["arb"]="arb" \
+		  	["ell"]="el"	\
+		  	["fra"]="fr"	\
+		  	["heb"]="he"	\
+		  	["hrv"]="hr"	\
+                )
 
-# unzip -j -d ${RESDIR} ${RESDIR}/isl.zip wn-data-isl.tab 
-
-# python3 scripts/tsv2lmf.py islwn is scripts/ili-map.tab ${RESDIR}/wn-data-isl.tab >  ${RESDIR}/islwn.xml
-
-# xmlstarlet validate --dtd omw/db/WN-LMF.dtd omw/resources/islwn.xml
-
-# Slovakian
-
-wget -P ${RESDIR} http://compling.hss.ntu.edu.sg/omw/wns/slk.zip
-
-unzip -j -d ${RESDIR} ${RESDIR}/slk.zip slk/wn-data-slk.tab 
-
-python3 scripts/tsv2lmf.py slkwn sk scripts/ili-map.tab ${RESDIR}/wn-data-slk.tab >  ${RESDIR}/slkwn.xml
-
-xmlstarlet validate --dtd omw/db/WN-LMF.dtd omw/resources/slkwn.xml
+for lng in "${!lngs[@]}"
+do
+    echo Processing $lng \("${lngs[$lng]}"\)
+    ### fetch
+    wget -nc -P ${RESDIR} http://compling.hss.ntu.edu.sg/omw/wns/${lng}.zip
+    ### extract
+    unzip -j -d ${RESDIR} ${RESDIR}/${lng}.zip ${lng}/wn-data-${lng}.tab 
+    ### convert
+    python3 scripts/tsv2lmf.py ${lng}wn "${lngs[$lng]}" scripts/ili-map.tab ${RESDIR}/wn-data-${lng}.tab >  ${RESDIR}/${lng}wn.xml
+    ### validate
+    xmlstarlet validate -e --dtd omw/db/WN-LMF.dtd  ${RESDIR}/${lng}wn.xml
+    
+done	    
