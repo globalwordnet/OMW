@@ -1145,20 +1145,14 @@ with app.app_context():
         so that concept labels for that language are created and visible
         as concept names.
         """
-
-        ########################################################################
-        # LMC (2020.01.12): this was broken because s_list was being called
-        # without being instanciated beforehand. The fix is to just fetch all
-        # sense_ids and feed it into s_list. 
-        ########################################################################
-        # sfreq = fetch_s_freq(s_list)
-        ########################################################################
-
-        s_list = list()
-        for r in query_omw("""SELECT id as s_id FROM s """):
-            s_list.append(r['s_id'])
         
-        sfreq = fetch_s_freq(s_list)
+        # get frequency for everything
+        # similar to fetch_s_freq(s_list), but no need for a list
+        sfreq = dd(int) # defaults to zero
+        for r in query_omw("""SELECT s_id, SUM(sml_id) as freq FROM sm 
+                              WHERE smt_id=1
+                              GROUP BY s_id"""):
+            sfreq[r['s_id']] = r['freq']
 
         senses =dd(lambda: dd(list))
         #senses[ss_id][lang_id]=[(ls_id, lemma, freq), ...]
