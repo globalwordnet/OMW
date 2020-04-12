@@ -806,7 +806,7 @@ def src_omw(proj=None, ver=None, originalkey=None):
 
     return concepts_omw(ss)
 
-
+##
 ## show wn statistics
 ##
 ##
@@ -905,8 +905,17 @@ def utility_processor():
 #         style = "style='{}'".format(style)
 
 
+###
+### WN documentation
+###
 
+@app.route('/omw/doc/if', methods=['GET', 'POST'])
+def omw_doc_if(name=None):
+    return render_template('omw_doc_if.html')
 
+@app.route('/omw/doc/wn', methods=['GET', 'POST'])
+def omw_doc_wn(name=None):
+    return render_template('omw_doc_wn.html')
 
 
 ## show proj statistics

@@ -1,0 +1,21 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Wordnet Documentation</h3>
+
+<p>This page provides documentation for the structure of the Open
+  Multilingual Wordnet.  The basic structure is that of a <b>wordnet</b>, based on
+the Princeton WordNet of English.
+
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

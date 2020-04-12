@@ -1,0 +1,26 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Interface Documentation</h3>
+
+<p>This page provides documentation for the web interface to the Open
+  Multilingual Wordnet.  
+
+
+
+  <h3>Technical Notes</h3>
+
+<p>It is written in python, using flask and sqlite3.   The code is on github.
+  
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
