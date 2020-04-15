@@ -22,6 +22,14 @@ c = con.cursor()
 # INSERT POS DATA (CODES AND NAMES)
 ################################################################
 
+### This order is the same order as PWN:
+# 1    NOUN 
+# 2    VERB 
+# 3    ADJECTIVE 
+# 4    ADVERB 
+# 5    ADJECTIVE SATELLITE 
+# https://wordnet.princeton.edu/documentation/senseidx5wn
+
 c.execute("""INSERT INTO pos (tag, def, u) 
            VALUES (?,?,?)""", ['n','noun',u])
 
@@ -35,7 +43,7 @@ c.execute("""INSERT INTO pos (tag, def, u)
            VALUES (?,?,?)""", ['r','adverb',u])
 
 c.execute("""INSERT INTO pos (tag, def, u) 
-           VALUES (?,?,?)""", ['s','adverb satellite',u])
+           VALUES (?,?,?)""", ['s','adjective satellite',u])
 
 c.execute("""INSERT INTO pos (tag, def, u) 
            VALUES (?,?,?)""", ['c','conjunction',u])
@@ -44,10 +52,10 @@ c.execute("""INSERT INTO pos (tag, def, u)
            VALUES (?,?,?)""", ['p','adposition',u])
 
 c.execute("""INSERT INTO pos (tag, def, u) 
-           VALUES (?,?,?)""", ['x','other (incl. particles, classifiers, bound morphemes, determiners, etc.)',u])
+           VALUES (?,?,?)""", ['x','non-referential',u])
 
 c.execute("""INSERT INTO pos (tag, def, u) 
-           VALUES (?,?,?)""", ['z','multiword expression (inc. phrases, idioms, etc.)',u])
+           VALUES (?,?,?)""", ['z','phrasets', u])
 
 c.execute("""INSERT INTO pos (tag, def, u) 
            VALUES (?,?,?)""", ['u','unknown',u])

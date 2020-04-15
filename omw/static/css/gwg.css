@@ -226,7 +226,7 @@ span.pos {
 span.lang {
     font-variant: small-caps
 }
-/* for displaying relation anmes */
+/* for displaying relation names */
 th.rel {
     vertical-align:top;
 }
@@ -289,3 +289,16 @@ padding: 0 5px;
 .tooltip {
   pointer-events: none;
 }
+
+/*
+Make Tables nicer
+*/
+
+th {
+    border-bottom: 1px solid #fff;
+}
+
+th, td {
+  padding-right: 10px;
+}
+

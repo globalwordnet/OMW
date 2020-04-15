@@ -917,6 +917,34 @@ def omw_doc_if(name=None):
 def omw_doc_wn(name=None):
     return render_template('omw_doc_wn.html')
 
+@app.route('/omw/doc/pos', methods=['GET', 'POST'])
+def omw_doc_pos(name=None):
+    """
+    Provide dynamic documentation for the POS
+    ToDo: maybe do per src and or per lang
+    """
+    ### get the interface language
+    selected_lang = int(_get_cookie('selected_lang',1))
+
+    # get the pos names
+    pos = fetch_pos()
+    # get the examples for the POS
+    pos_exe = fetch_pos_id_ss_mf(pos['id'].keys(),
+                                 num=5)
+
+    # Get the labels for the synsets
+    sss = set()
+    for p in pos_exe:
+        for (ss_id, freq)  in  pos_exe[p]:
+            sss.add(ss_id)
+    label= fetch_labels(selected_lang,sss)
+    pos_freq = fetch_pos_id_freq()
+    return render_template('omw_doc_pos.html',
+                           pos=pos,
+                           pos_exe=pos_exe,
+                           pos_freq=pos_freq,
+                           label=label)
+
 
 ## show proj statistics
 #for proj in fetch_proj/

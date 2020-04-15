@@ -3,10 +3,15 @@
 
 <h3>OMW Wordnet Documentation</h3>
 
-<p>This page provides documentation for the structure of the Open
-  Multilingual Wordnet.  The basic structure is that of a <b>wordnet</b>, based on
-the Princeton WordNet of English.
+<p>This page provides documentation for the structure of the
+  <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a>.
+  The basic structure is that of a <b>wordnet</b>, based on
+  the Princeton WordNet of English.
 
+  <ul>
+    <li> <a href="{{ url_for('omw_doc_pos') }}">Parts of Speech</a>
+  </ul>
 
 
 {% with messages = get_flashed_messages() %}

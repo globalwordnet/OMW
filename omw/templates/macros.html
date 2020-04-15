@@ -24,3 +24,10 @@
 {%- endif -%}
 <a class='ili' href="{{url_for('concepts_omw',iliID=ili_id)}}" data-iliid={{ili_id}}>{{name}}</sub></a>
 {%- endmacro %}
+<!-- Link to the concept (synset), indexed by ss_id -->
+{% macro ss_link(ss_id, name) -%}
+{%- if not name -%}
+  {%- set name = 'omw_' + ss_id|string -%}
+{%- endif -%}
+<a class='concept' href="{{url_for('concepts_omw',ssID=ss_id)}}" data-synsetid={{ss_id}}>{{name}}</sub></a>
+{%- endmacro %}

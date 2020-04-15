@@ -140,6 +140,43 @@ with app.app_context():
             src_pos_stats[ps]['senses'] = s
         return  src_pos_stats
 
+    def fetch_pos_id_ss_mf(pos_ids, num=3):
+        """
+        get the most frequent num synsets per POS
+        
+        pos_ids is the list of pos_ids you want
+        num is how many examples
+
+        pos_exe[pos_id] = [(ss_id1, freq1), (ss_id2, freq2),
+                            ...,  (ss_idn, freqn)]
+        """
+       
+        # get the examples for the POS
+        pos_exe=dd(list)    
+        for p in pos_ids:
+            for r in query_omw_direct("""
+            SELECT ss_id, sum(sml_id) AS freq
+            FROM s JOIN sm ON s.id = sm.s_id
+            JOIN ss ON ss.id = s.ss_id
+            WHERE smt_id =1 AND pos_id = ?
+            GROUP BY ss.id
+            ORDER BY freq DESC LIMIT ?""", (p, num)):
+                pos_exe[p].append((r[0], r[1]))
+
+        return pos_exe                               
+
+    def fetch_pos_id_freq():
+        """
+        get the frequency of each POS
+        """
+        pos_freq = dd(int)
+        for (pos_id, freq) in query_omw_direct("""
+        SELECT pos_id, count(distinct s.ss_id)  
+        FROM s JOIN ss ON s.ss_id=ss.id 
+        GROUP BY pos_id;"""):
+            pos_freq[pos_id] = freq
+        return pos_freq
+
     def fetch_ssrel_stats(src_id):
         """ Return the number of links for each type for sense-sense links
             for a wordnet with the given src_id

@@ -1,0 +1,89 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Wordnet Documentation</h3>
+
+<p>This page provides documentation for the parts of speech used by
+  the <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a>.
+
+  <table>
+    <tr>
+      <th>ID</th> <th>POS</th> <th>Name</th> <th>Frequency</th> <th>Examples</th>
+    </tr>
+    {%- for id in pos['id'] %}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{pos['id'][id]}}</th>
+      <td>{{pos['def'][id]}}</td>
+      <td align='right'>{{"{:,d}".format(pos_freq[id])}}</td>
+      <td>  <!-- Synsets -->
+	{%- for ss_id, freq in pos_exe[id] %}
+	{{ ss_link(ss_id, label[ss_id]) }}
+	<sub>{{freq}}</sub>
+	{%- if not loop.last %}{{', '}}{% endif %}
+	{% endfor %}
+      </td>
+    </tr>
+    {% endfor %}
+    <caption>Parts of Speech, their synset frequency and 3 common examples</caption>
+  </table>
+
+<br><br><br>
+  
+<p>Princeton WordNet defines the original four open class parts of
+  speech: either
+  {{ili_link(69690, "noun")}},
+  verb, adjective, or adverb. Satellite adjectives
+are in clusters representing a concept that is similar in meaning to
+the concept represented by its head synset.  We map them internally to adjectives.
+
+<p>Conjunctions and adpositions are reserved for extending to new
+  semi-open classes.
+
+<p><strong>x</strong> is used for non-referential words such as
+  particles, classifiers, exclamatives, greetings, determiners and so forth.
+
+<p><strong>z</strong> is used for phrases, for example to
+  represent <i>phrasets</i>, introduced by <a href='Beyond Lexical
+  Units: Enriching Wordnets with Phrasets'>Luisa Bentivogli and
+    Emanuele Pianta (2003)</a>.
+  <br><strong>DEPRECATED</strong> better to
+  use <strong>lexicalized</strong> instead.
+  
+<p><strong>u</strong> Is for automatically produced wordnets that want
+  to add words for which they are not sure of the part-of-speech.
+
+  <h4>Non-lexicalized Synsets and Senses</h4>
+  
+<p>We have an optional attribute <code>lexicalized</code> lexicalized
+on the synset and sense types, with a boolean value, defaulting to
+true. This was inspired by the Basque and MultiWordNet projects.
+
+<p>If a synset is marked as lexicalized False then it means it has no
+lemmas, and this is a deliberate decision on the part of the wordnet
+builders (but the synset may be included to keep the hierarchy in sync
+with other projects). For example the synset <i>dedos</i> "fingers and toes"
+in Spanish would be <code>lexicalized=false</code>
+  in English.
+
+<p>If a sense has lexicalized true then it has been validated in some
+standard lexicon for the language. If it has lexicalized false, then
+it is believed to be compositional and only added as an aid to
+multilingual users (similar to <i>phrasets</i> in multiwordnet). For example
+harimau anak "young tiger" in the Indonesian synset for tiger cub is
+<code>lexicalized=false</code>, or dedos pedas "foot finger-and-toes" in the synset
+for toe in Spanish.
+
+  
+    
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
