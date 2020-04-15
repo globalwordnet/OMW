@@ -9,7 +9,7 @@
 
   <table>
     <tr>
-      <th>ID</th> <th>POS</th> <th>Name</th> <th>Frequency</th> <th>Examples</th>
+      <th>ID</th> <th>POS</th> <th>Name</th> <th>Examples</th>
     </tr>
     {%- for id in pos['id'] %}
     <tr>
@@ -20,7 +20,6 @@
       <td>  <!-- Synsets -->
 	{%- for ss_id, freq in pos_exe[id] %}
 	{{ ss_link(ss_id, label[ss_id]) }}
-	<sub>{{freq}}</sub>
 	{%- if not loop.last %}{{', '}}{% endif %}
 	{% endfor %}
       </td>
