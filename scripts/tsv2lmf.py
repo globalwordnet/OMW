@@ -30,7 +30,8 @@ args = parser.parse_args()
 log = open('tsv2wn_{}.log'.format(args.lang),'w')
 
 open_license = {'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
-                'CC BY SA 3.0':'https://creativecommons.org/licenses/by/3.0/',
+                'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/',
+                'CC BY SA 3.0':'https://creativecommons.org/licenses/by-sa/3.0/',
                 'Apache 2.0':'https://opensource.org/licenses/Apache-2.0',
                 'CeCILL-C':'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html',
                 'MIT':'https://opensource.org/licenses/MIT/'}
