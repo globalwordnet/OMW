@@ -6,11 +6,28 @@
 <p>This page provides documentation for the structure of the
   <a href="{{ url_for('omw_welcome') }}">Open Multilingual
     Wordnet</a>.
-  The basic structure is that of a <b>wordnet</b>, based on
-  the Princeton WordNet of English.
+
+
+<p>A wordnet is semantic network.  Synonymous words (including MWEs)
+  are grouped into synsets.  These synsets are then linked to other
+  synsets via semantic relations such as {{ ssrel('hypernym') }}.  
+  Ideally, the meaning of a synset is further
+clarified with a short defining definition (or gloss) and or more usage examples.
+
+<p>Originally, <a href='{{url_for('omw_wn', proj='pwn', ver='3.0')}}'>Princeton WordNet</a> only included the lexical categories
+  of major content words: nouns, verbs, adjectives and adverbs.  Other
+  wordnets have added other parts of speech, such as pronouns and exclamatives.
+
+<p>At the top level, nouns are organized into 25 beginner "trees" for nouns and 15 for verbs (called lexicographic files at a maintenance level). All are linked to a unique beginner synset, "entity". Noun hierarchies are far deeper than verb hierarchies
+
+<p>Adjectives are not organized into hierarchical trees. Instead, two "central" antonyms such as "hot" and "cold" form binary poles, while 'satellite' synonyms such as "steaming" and "chilly" connect to their respective poles via a "similarity" relations. The adjectives can be visualized in this way as "dumbbells" rather than as "trees".
 
   <ul>
+    <li> <a href='https://globalwordnet.github.io/gwadoc/'>Semantic Relations</a>
     <li> <a href="{{ url_for('omw_doc_pos') }}">Parts of Speech</a>
+    <li> Definitions and Examples
+    <li> Senses and Sense Relations
+    <li> <a href="{{ url_for('omw_doc_variants') }}">Orthographic Variants</a>
   </ul>
 
 

@@ -817,6 +817,32 @@ with app.app_context():
             forms.append(r['lemma'])
         return forms
 
+    def fetch_form_meta_attr():
+        """
+        fetch the form metadata tags
+        """
+        fma = dd(dict)
+        for r in query_omw("""
+        SELECT id as fma_id, tag, name
+        FROM fmt"""):
+            fma['attr'][r['fma_id']] = r['tag']
+            fma['name'][r['fma_id']] = r['name']
+            fma['id'][r['tag']] = r['fma_id']
+        return fma
+    
+    def fetch_form_meta_val():
+        """
+        fetch the form metadata tags
+        """
+        fmv = dd(dict)
+        for r in query_omw("""
+        SELECT id as fmv_id, label, name
+        FROM fml"""):
+            fmv['val'][r['fmv_id']] = r['label']
+            fmv['name'][r['fmv_id']] = r['name']
+            fmv['id'][r['label']] = r['fmv_id']
+        return fmv
+            
     def fetch_labels(lang_id, sss):
         """return a dict with lang_id labels for the synsets in sss"""
         labels = dict()

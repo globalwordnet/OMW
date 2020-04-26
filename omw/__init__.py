@@ -510,7 +510,15 @@ def langadmin():
 @login_required(role=99, group='admin')
 def projectadmin():
     projs = fetch_proj()
-    return render_template("projectadmin.html", projs=projs)
+    srcs = fetch_src()
+    srcs_by_proj = dd(list)
+    for src_id in srcs:  # should be in the right order, as versions must go up
+        srcs_by_proj[srcs[src_id][0]].append((srcs[src_id][1], src_id))
+    srcs_meta = fetch_src_meta()
+    return render_template("projectadmin.html",
+                           projs=projs,
+                           srcs_by_proj=srcs_by_proj,
+                           srcs_meta=srcs_meta)
 
 @app.route('/allconcepts', methods=['GET', 'POST'])
 def allconcepts():
@@ -915,7 +923,8 @@ def omw_doc_if(name=None):
 
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])
 def omw_doc_wn(name=None):
-    return render_template('omw_doc_wn.html')
+    return render_template('omw_doc_wn.html',
+                           gwadoc=gwadoc)
 
 @app.route('/omw/doc/pos', methods=['GET', 'POST'])
 def omw_doc_pos(name=None):
@@ -946,8 +955,17 @@ def omw_doc_pos(name=None):
                            label=label)
 
 
-## show proj statistics
-#for proj in fetch_proj/
+@app.route('/omw/doc/variants', methods=['GET', 'POST'])
+def omw_doc_variants(name=None):
+    """
+    Give some documentation on how variants are represented
+    """
+    fma =  fetch_form_meta_attr()
+    fmv =  fetch_form_meta_val()
+    return render_template('omw_doc_variants.html',
+                           fma=fma,
+                           fmv=fmv)
+
 
 
 if __name__ == '__main__':

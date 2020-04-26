@@ -1,0 +1,90 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Wordnet Documentation: Variants</h3>
+
+<p>This page provides documentation for adding variants to senses for
+  the <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a>.
+
+<p>One of the extensions we have is allowing different variants of a
+  lemma.   These can be described by attribute value pairs.   A common
+  use for these is adding transcriptions for non-ascii lemmas.
+
+
+<p>
+  <pre>
+        <span class="nt">&lt;LexicalEntry</span> <span class="na">id=</span><span class="s">&quot;w1&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;Lemma</span> <span class="na">writtenForm=</span><span class="s">&quot;doog&quot;</span> <span class="na">partOfSpeech=</span><span class="s">&quot;n&quot;</span><span class="nt">/&gt;</span>
+	    <span class="nt">&lt;Form</span> <span class="na">writtenForm=</span><span class="s">&quot;doogen&quot;</span><span class="nt">&gt;</span>
+	      <span class="nt">&lt;Tag</span> <span class="na">category=</span><span class="s">&quot;morph&quot;</span><span class="nt">&gt;</span>pl<span class="nt">&lt;/Tag&gt;</span>
+	    <span class="nt">&lt;/Form&gt;</span>
+	    <span class="nt">&lt;Form</span> <span class="na">writtenForm=</span><span class="s">&quot;döög&quot;</span><span class="nt">&gt;</span>
+	      <span class="nt">&lt;Tag</span> <span class="na">category=</span><span class="s">&quot;geo&quot;</span><span class="nt">&gt;</span>Germany<span class="nt">&lt;/Tag&gt;</span>
+	    <span class="nt">&lt;/Form&gt;</span>
+	    <span class="nt">&lt;Form</span> <span class="na">writtenForm=</span><span class="s">&quot;döögen&quot;</span><span class="nt">&gt;</span>
+	      <span class="nt">&lt;Tag</span> <span class="na">category=</span><span class="s">&quot;morph&quot;</span><span class="nt">&gt;</span>pl<span class="nt">&lt;/Tag&gt;</span>
+	      <span class="nt">&lt;Tag</span> <span class="na">category=</span><span class="s">&quot;geo&quot;</span><span class="nt">&gt;</span>UK<span class="nt">&lt;/Tag&gt;</span>
+	    <span class="nt">&lt;/Form&gt;</span>
+	    <span class="nt">&lt;Form</span> <span class="na">writtenForm=</span><span class="s">&quot;dooog&quot;</span><span class="nt">&gt;</span>
+	    <span class="nt">&lt;/Form&gt;</span>
+	    <span class="nt">&lt;Sense</span> <span class="na">id=</span><span class="s">&quot;test-dog-n-1&quot;</span> <span class="na">synset=</span><span class="s">&quot;test-dog-n&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;/Sense&gt;</span>
+        <span class="nt">&lt;/LexicalEntry&gt;</span>
+</pre>
+
+
+<h4>Possible Attributes and Values</h4>
+
+  <table>
+    <caption>Form Meta Attributes</caption>
+     <tr>
+      <th>ID</th> <th>Attributes</th> <th>Name</th> <th>Examples</th>
+     </tr>
+     {%- for id in fma['attr'] %} 
+     <tr>
+      <td>{{id}}</td>
+      <td>{{fma['attr'][id]}}</td>
+      <td>{{fma['name'][id]}}</td>
+    </tr>
+   {%- endfor %}
+  </table>
+
+  <table>
+    <caption>Form Meta Values</caption>
+     <tr>
+      <th>ID</th> <th>Value</th> <th>Name</th> <th>Examples</th>
+     </tr>
+     {%- for id in fmv['val'] %} 
+     <tr>
+      <td>{{id}}</td>
+      <td>{{fmv['val'][id]}}</td>
+      <td>{{fmv['name'][id]}}</td>
+    </tr>
+   {%- endfor %}
+  </table>
+
+
+<h3>Developers' Notes</h4>
+
+<p>The attributes and values are entered when the database is first created
+  using <code>scripts/load-form-meta.py</code> and are stored in the
+  tables <code>fmt</code> (attributes) and <code>fml</code> (values) respectively.</p>
+
+<p>There is a sample wordnet to test this in <code>/omw/tests/omw_doc_variants.html</code>.
+
+  
+<h4>Converting from tsv</h4>
+
+<p>ToDo
+  
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

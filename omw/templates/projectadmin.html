@@ -5,21 +5,59 @@
 
 <h4>Projects and Sources Admin</h4>
 
-Select Project to see details:
-<select id="proj-selector" name="proj-selector">
-    <option value=""></option>
-    {% for id in projs.keys() %}
-        <option value="{{ id }}">{{ projs[id] }}</option>
+<!-- Select Project to see details: -->
+<!-- <select id="proj-selector" name="proj-selector"> -->
+<!--     <option value=""></option> -->
+<!--     {% for id in projs.keys() %} -->
+<!--         <option value="{{ id }}">{{ projs[id] }}</option> -->
+<!--     {% endfor %} -->
+<!-- </select> -->
+<span id="add-new-project" name="add-new-project">
+<a href='' title="Click to add a new project">Add New Project</a>
+</span> (refresh to see it in the list)
+
+<p>Each wordnet is considered a project, it may have different
+  versions.   Your project must exist in the database before you can
+  upload a wordnet.   If a project has multiple languages, then they
+  will generally have multiple names,
+  conventionally <code>project-lang</code>, e.g.
+  <code>wnbahasa-ms</code> and <code>wnbahasa-id</code>.
+
+<br><br><br>
+
+
+<table class="sortable">
+<caption>List of projects and associated Wordnets</caption> 
+  <thead>
+    <tr>
+      <th>Project-Version</th>
+      <th>Name</th>
+      <th>License</th>
+      <th>Language</th>
+    </tr>
+ </thead>
+  {% for proj_id,proj in projs.items()  %}
+    {% for (ver, src_id) in srcs_by_proj[proj] %}
+      <tr>
+	<td>  <a title='Wordnet Summary (in OMW)' href='{{url_for('omw_wn',
+	  proj=proj, ver=ver)}}'>{{ proj }}-{{ ver }}</a> </td>
+	<td> {{ srcs_meta[src_id]['label'] }}
+	<td> {{ srcs_meta[src_id]['license'] }}
+	<td> {{ srcs_meta[src_id]['language'] }}
+	</td>	  
+      </tr>
+    {% else %}
+    <!-- ID -->
+  <tr>
+    <td> {{ proj }}  </td>
+    <td colspan='4'> No wordnets yet </td>
+  </tr>
     {% endfor %}
-</select>
-
-&nbsp;&nbsp;&nbsp;&nbsp;<span id="add-new-project" name="add-new-project">
-Add New Project
-</span>
-
-<br>
-<div id="proj-details" name="proj-details">
-</div>
+    {% endfor %}
+</table>   
+<!-- <br> -->
+<!-- <div id="proj-details" name="proj-details"> -->
+<!-- </div> -->
 
 
 
