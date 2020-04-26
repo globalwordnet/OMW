@@ -31,6 +31,7 @@ log = open('tsv2wn_{}.log'.format(args.lang),'w')
 
 open_license = {'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
                 'CC BY SA 3.0':'https://creativecommons.org/licenses/by/3.0/',
+                'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/',
                 'Apache 2.0':'https://opensource.org/licenses/Apache-2.0',
                 'CeCILL-C':'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html',
                 'MIT':'https://opensource.org/licenses/MIT/'}
@@ -98,7 +99,15 @@ def clean(lemma):
     return lemma
     
 def read_wn(ilimap, fn):
-    """Given a .tab+ file (also ready for forms), it prepares lexical entries and senses"""
+    """
+    Given a .tab+ file (also ready for forms), 
+    it prepares lexical entries and senses
+
+    meta is a dictionary of meta data
+    meta['label'] = 'Wordnet Bahasa'
+    
+
+    """
 
     wn = dd(lambda:set())
     lexicon = dd(lambda: dd(lambda: dd(lambda:set())))
@@ -118,14 +127,16 @@ def read_wn(ilimap, fn):
         meta['license'] = html.escape(lce)
 
     else:
-        print('NO META DATA')
+        print('NO META DATA', file=sys.stderr)
         
         
     for line in tab_file:
-        if line == "\n":
+        if line == "\n" or line.startswith('#'):
             continue
         tab = line.split('\t')
-
+        ##
+        ## Process lines with lemmas
+        ##
         if tab[1].endswith(':lemma'):  # also check language?
             lex_c += 1
 
@@ -159,6 +170,10 @@ def read_wn(ilimap, fn):
             for var in variants:
                 lexicon['LexEntry'][lexID]['variants'].add(var)
             lexicon['LexEntry'][lexID]['sense'].add(ssID)
+        elif  tab[2].startswith('rel'):
+            print('Sense link', line.strip())
+        else:
+            print('Unknown type', line.strip())
 
     return lexicon, meta
 
