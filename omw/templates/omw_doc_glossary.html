@@ -1,0 +1,120 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Glossary</h3>
+
+<p>This page provides documentation for miscellaneous terms for the
+  OMW.</p>
+
+<ul>
+<li> <a name='group'>group</a>
+  <ul>
+<li>Verb senses that similar in meaning and have been manually grouped together.
+  </ul>
+  
+<li> <a name='gloss'>gloss</a>
+  <ul>
+    <li>Each synset contains gloss consisting of a definition and optionally example sentences.
+  </ul>
+  
+<li> <a name='head synset'>head synset</a>
+  <ul>
+<li>Synset in an adjective cluster containing at least one word that has a direct antonym .
+  </ul>
+  
+<li> <a name='lemma'>lemma</a>
+  <ul>
+<li>The base form for a word or collocation.
+  </ul>
+  
+<li> <a name='monosemous'>monosemous</a>
+  <ul>
+<li>Having only one sense in a syntactic category.
+  </ul>
+  
+<li> <a name='part of speech'>part of speech</a>
+  <ul>
+    <li>WordNet defines "part of speech" as either noun, verb, adjective, or adverb. Same as syntactic category.
+      (see <a href="{{ url_for('omw_doc_pos') }}">Parts of Speech</a>)
+  </ul>
+  
+<li> <a name='polysemous'>polysemous</a>
+  <ul>
+<li>Having more than one sense in a syntactic category.
+  </ul>
+  
+<li> <a name='polysemy count'>polysemy count</a>
+  <ul>
+<li>Number of senses of a word in a syntactic category, in WordNet.
+  </ul>
+  
+<li> <a name='postnominal'>postnominal</a>
+  <ul>
+<li>A postnominal adjective occurs only immediately following the noun that it modifies.
+  </ul>
+  
+<li> <a name='predicative'>predicative</a>
+  <ul>
+<li>An adjective that can be used only in predicate positions. If X is a predicate adjective, it can only be used in such phrases as "it is X " and never prenominally.
+  </ul>
+  
+<li> <a name='prenominal'>prenominal</a>
+  <ul>
+<li>An adjective that can occur only before the noun that it modifies: it cannot be used predicatively.
+  </ul>
+  
+<li> <a name='satellite synset'>satellite synset</a>
+  <ul>
+<li>Synset in an adjective cluster representing a concept that is similar in meaning to the concept represented by its head synset .
+  </ul>
+  
+<li> <a name='semantic tag'>semantic tag</a>
+  <ul>
+<li>A pointer from a word in a text file to a specific sense of that word in the WordNet database. 
+  </ul>
+  
+<li> <a name='semantic pointer'>semantic pointer</a>
+  <ul>
+<li>A semantic pointer indicates a relation between synsets (concepts).
+  </ul>
+  
+<li> <a name='sense'>sense</a>
+  <ul>
+<li>A meaning of a word in WordNet. Each sense of a word is in a different synset .
+  </ul>
+  
+<li> <a name='sense key'>sense key</a>
+  <ul>
+    <li>Information necessary to find a sense in the Princeton WordNet
+ database. A sense key combines a lemma field and codes for the synset
+ type, lexicographer id, lexicographer file number, and information
+ about a satellite's head synset , if
+ required. See <a href="https://wordnet.princeton.edu/documentation/senseidx5wn">senseidx(5WN)</a>
+ for a description of the format of a sense key.
+  </ul>
+  
+<li> <a name='synset'>synset</a>
+  <ul>
+<li>A synonym set; a set of words that are interchangeable in some
+context without changing the truth value of the preposition in which
+they are embedded.
+  </ul>
+
+</ul>
+  
+  
+<h4>References</h4>
+  <ul>
+    <li><a href='https://wordnet.princeton.edu/documentation/wngloss7wn'>Princeton WordNet Glossary</a>
+  </ul>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

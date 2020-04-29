@@ -27,10 +27,15 @@ clarified with a short defining definition (or gloss) and or more usage examples
     <li> <a href="{{ url_for('omw_doc_pos') }}">Parts of Speech</a>
     <li> Definitions and Examples
     <li> Senses and Sense Relations
-    <li> <a href="{{ url_for('omw_doc_variants') }}">Orthographic Variants</a>
+    <li> <a href="{{ url_for('omw_doc_variants') }}">Orthographic
+	Variants</a>
+    <li> <a href="{{ url_for('omw_doc_glossary') }}">Glossary of Terms</a>
   </ul>
 
 
+See the <a href="{{ url_for('omw_doc_doc') }}">OMW documentation on
+    documentation</a> for style guides, useful macros and more.
+  
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}

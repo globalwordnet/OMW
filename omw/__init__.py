@@ -975,6 +975,15 @@ def omw_doc_variants(name=None):
                            fma=fma,
                            fmv=fmv)
 
+@app.route('/omw/doc/glossary', methods=['GET', 'POST'])
+def omw_doc_glossary(name=None):
+    return render_template('omw_doc_glossary.html',
+                           gwadoc=gwadoc)
+
+@app.route('/omw/doc/doc', methods=['GET', 'POST'])
+def omw_doc_doc(name=None):
+    return render_template('omw_doc_doc.html',
+                           gwadoc=gwadoc)
 
 
 if __name__ == '__main__':

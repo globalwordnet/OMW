@@ -1,0 +1,40 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Documentation on documentation</h3>
+
+<p>This page provides documentation on best practices for documentation in the
+  <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a>.
+
+<p>When in doubt we use
+the <a href='https://developers.google.com/style'>Google style
+guide</a>.
+
+<h4>Local Style Notes</h4>  
+
+<p>{{ili_link(71369, "WordNet")}} is a proper name, referring to the Princeton Wordnet {{ili_link(71370, "wordnet")}} is a common noun, referring to any lexical database that follows the structure of the Princeton WordNet.
+
+<h4>Useful Jinja2 macros</h4> 
+<ul>
+  <li>You can link a word to a concept via ili OMW in the jinja templates with a macro like
+    <pre>
+      {% raw %}
+      {{ili_link(71370, "wordnet")}}
+      {% endraw %}
+    </pre>
+    the first argument is the ili-id, the second is the word you want shown.
+  </li>
+</ul>
+  
+  
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
