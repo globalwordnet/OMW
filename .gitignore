@@ -24,5 +24,7 @@ tramp
 .DS_Store
 config.py
 py3env
-omw/resources/relation-examples.en.tsv
 *.swp
+
+# temp files for adding more wordnets
+omw/resources/
