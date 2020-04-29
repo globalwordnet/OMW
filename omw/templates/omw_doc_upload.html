@@ -1,0 +1,20 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Upload How To</h3>
+
+<p>This page provides documentation on how to upload a wordnet to the OMW.  
+
+  
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

@@ -921,6 +921,15 @@ def utility_processor():
 def omw_doc_if(name=None):
     return render_template('omw_doc_if.html')
 
+@app.route('/omw/doc/search', methods=['GET', 'POST'])
+def omw_doc_search(name=None):
+    return render_template('omw_doc_search.html')
+
+@app.route('/omw/doc/upload', methods=['GET', 'POST'])
+def omw_doc_upload(name=None):
+    return render_template('omw_doc_upload.html')
+
+
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])
 def omw_doc_wn(name=None):
     return render_template('omw_doc_wn.html',
