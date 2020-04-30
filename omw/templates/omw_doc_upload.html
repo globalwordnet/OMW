@@ -3,7 +3,29 @@
 
 <h3>OMW Upload How To</h3>
 
-<p>This page provides documentation on how to upload a wordnet to the OMW.  
+<p>This page provides documentation on how to upload a wordnet to the OMW. 
+
+Doing so may be unintuitive, so here is a step-by-step guide in doing so:
+
+<ol>
+	<li>
+		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>.
+		This will direct you to a login page, where the username and password should just be admin.
+	</li>
+	<li>
+		To upload a new wordnet, go to CILI and at the bottom of the page will be a link to the upload page, entitled "Upload a new wordnet".
+	</li>
+	<img src="{{url_for('static', filename='upload_link.png') }}" title="Upload Location" width="777px"/>
+	<li>
+		Once you have the tsv files ready, convert them to lmf files ready for induction into OMW. This is done by running the tsv2lmf.py in OMW/scripts.
+
+		A tsv script may look like this:
+	</li>
+	<img src="{{url_for('static', filename='omw1tsv.png') }}" title="Exemplar TSV File" width="777px"/>
+	<li>
+		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload!
+	</li>
+</ol>
 
   
 
