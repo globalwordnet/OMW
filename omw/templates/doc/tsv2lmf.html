@@ -1,0 +1,83 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>Convert TSV to XML</h3>
+
+<p>This page provides documentation for the
+  script <code>tsv2lmf.py</code> which is used to convert wordnet in
+  the tab separated value format used by OMW 1.0 to the XML format
+  used the   <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a> 2.0.
+
+  <h4>Usage</h4>
+
+  <pre>
+$ python scripts/tsv2lmf.py --help
+usage: tsv2lmf.py [-h] wnid lang ili_map tsv
+
+A program to make wordnet LMF from OMW 1.0 tsv
+
+positional arguments:
+  wnid        wordnet ID (short unique name)
+  lang        language code (BCP 47)
+  ili_map     ili mapping
+  tsv         tsv file to be parsed
+
+optional arguments:
+  -h, --help  show this help message and exit
+</pre>
+
+  
+<h4>TSV format</h4>
+
+<p>The <tt>wn-data-*.tab</tt> files are tab separated files of synset-lemma pairs; or synset-subid-definition/example</p>
+
+<pre>
+# name␉lang␉url␉license
+offset-pos␉lang:lemma␉word
+offset-pos␉lang:def␉sid␉definition
+offset-pos␉lang:exe␉sid␉example
+...
+</pre>
+
+<table>
+<tr><td>name    </td><td>the name of the project</td></tr>
+<tr><td>lang    </td><td>the iso 3 letter code for the name</td></tr>
+<tr><td>url     </td><td>the url of the project</td></tr>
+<tr><td>license </td><td>a short name for the license</td></tr>
+<tr><td>offset  </td><td>the Princeton WordNet 3.0 offset 8 digit offset</td></tr>
+<tr><td>pos     </td><td>one of [a,v,n,r] (we treat 's' as 'a') </td></tr>
+<tr><td>lemma   </td><td>the lemma (word separator normalized to ' ')</td></tr>
+<tr><td>sid a   </td><td>the sub id of the definition/example (starting from 0)</td></tr>
+</table>
+
+<h4>Example:</h4>
+<pre>
+# Wordnet Bahasa	ind	http://wn-msa.sourceforge.net/	MIT 
+00019613-n	ind:def 0 masalah fisik yang nyata
+00019613-n	ind:lemma	inti
+00019613-n	ind:lemma	unsur
+11407591-n	ind:def	0	Novelis dan kritikus Perancis
+11407591-n	ind:def	1	pembela Dreyfus
+11407591-n	ind:lemma	Emile Zola
+11407591-n	ind:lemma	Zola
+</pre>
+<p>For this data to be really useful you need to combine it with the
+synset relations from the Princeton wordnet.
+
+
+<hr>
+  
+See the <a href="{{ url_for('omw_doc_doc') }}">OMW documentation on
+    documentation</a> for style guides, useful macros and more.
+  
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
