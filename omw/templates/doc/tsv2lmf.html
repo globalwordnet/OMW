@@ -1,0 +1,44 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>OMW Wordnet Documentation</h3>
+
+<p>This page provides documentation for the
+  script <code>tsv2lmf.py</code> which is used to convert wordnet in
+  the tab separated value format used by OMW 1.0 to the XML format
+  used the   <a href="{{ url_for('omw_welcome') }}">Open Multilingual
+    Wordnet</a> 2.0.
+
+  <h4>Usage</h4>
+
+  <pre>
+$ python scripts/tsv2lmf.py --help
+usage: tsv2lmf.py [-h] wnid lang ili_map tsv
+
+A program to make wordnet LMF from OMW 1.0 tsv
+
+positional arguments:
+  wnid        wordnet ID (short unique name)
+  lang        language code (BCP 47)
+  ili_map     ili mapping
+  tsv         tsv file to be parsed
+
+optional arguments:
+  -h, --help  show this help message and exit
+</pre>
+
+<hr>
+  
+See the <a href="{{ url_for('omw_doc_doc') }}">OMW documentation on
+    documentation</a> for style guides, useful macros and more.
+  
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}

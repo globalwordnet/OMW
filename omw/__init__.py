@@ -980,6 +980,11 @@ def omw_doc_glossary(name=None):
     return render_template('omw_doc_glossary.html',
                            gwadoc=gwadoc)
 
+@app.route('/omw/doc/tsv2lmf', methods=['GET', 'POST'])
+def omw_doc_tsv2lmf(name=None):
+    return render_template('doc/tsv2lmf.html',
+                           gwadoc=gwadoc)
+
 @app.route('/omw/doc/doc', methods=['GET', 'POST'])
 def omw_doc_doc(name=None):
     return render_template('omw_doc_doc.html',
