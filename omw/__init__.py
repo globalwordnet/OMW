@@ -919,20 +919,20 @@ def utility_processor():
 
 @app.route('/omw/doc/if', methods=['GET', 'POST'])
 def omw_doc_if(name=None):
-    return render_template('omw_doc_if.html')
+    return render_template('doc/interface.html')
 
 @app.route('/omw/doc/search', methods=['GET', 'POST'])
 def omw_doc_search(name=None):
-    return render_template('omw_doc_search.html')
+    return render_template('doc/search.html')
 
 @app.route('/omw/doc/upload', methods=['GET', 'POST'])
 def omw_doc_upload(name=None):
-    return render_template('omw_doc_upload.html')
+    return render_template('doc/upload.html')
 
-
+@app.route('/omw/doc/', methods=['GET', 'POST'])
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])
 def omw_doc_wn(name=None):
-    return render_template('omw_doc_wn.html',
+    return render_template('doc/wn.html',
                            gwadoc=gwadoc)
 
 @app.route('/omw/doc/pos', methods=['GET', 'POST'])
@@ -957,7 +957,7 @@ def omw_doc_pos(name=None):
             sss.add(ss_id)
     label= fetch_labels(selected_lang,sss)
     pos_freq = fetch_pos_id_freq()
-    return render_template('omw_doc_pos.html',
+    return render_template('doc/pos.html',
                            pos=pos,
                            pos_exe=pos_exe,
                            pos_freq=pos_freq,
@@ -971,13 +971,13 @@ def omw_doc_variants(name=None):
     """
     fma =  fetch_form_meta_attr()
     fmv =  fetch_form_meta_val()
-    return render_template('omw_doc_variants.html',
+    return render_template('doc/variants.html',
                            fma=fma,
                            fmv=fmv)
 
 @app.route('/omw/doc/glossary', methods=['GET', 'POST'])
 def omw_doc_glossary(name=None):
-    return render_template('omw_doc_glossary.html',
+    return render_template('doc/glossary.html',
                            gwadoc=gwadoc)
 
 @app.route('/omw/doc/tsv2lmf', methods=['GET', 'POST'])
@@ -987,7 +987,7 @@ def omw_doc_tsv2lmf(name=None):
 
 @app.route('/omw/doc/doc', methods=['GET', 'POST'])
 def omw_doc_doc(name=None):
-    return render_template('omw_doc_doc.html',
+    return render_template('doc/doc.html',
                            gwadoc=gwadoc)
 
 
