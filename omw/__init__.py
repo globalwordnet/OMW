@@ -927,7 +927,8 @@ def omw_doc_search(name=None):
 
 @app.route('/omw/doc/upload', methods=['GET', 'POST'])
 def omw_doc_upload(name=None):
-    return render_template('doc/upload.html')
+    return render_template('doc/upload.html',
+                           title="Upload How-To")
 
 @app.route('/omw/doc/', methods=['GET', 'POST'])
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])
