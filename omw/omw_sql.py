@@ -134,35 +134,55 @@ with app.app_context():
         JOIN ss ON s.ss_id=ss.id
         WHERE s_src.src_id=? group by pos_id""", (src_id,))
         for (p, ss, w, s) in r:
-            ps =  pos['id'][p] 
+            ps =  pos['id'][p]
+            src_pos_stats[ps]['id'] = p
             src_pos_stats[ps]['synsets'] = ss
             src_pos_stats[ps]['words'] = w
             src_pos_stats[ps]['senses'] = s
         return  src_pos_stats
 
-    def fetch_pos_id_ss_mf(pos_ids, num=3):
+    def fetch_pos_id_ss_mf(pos_ids, num=3, src_id=0):
         """
         get the most frequent num synsets per POS
         
         pos_ids is the list of pos_ids you want
+
         num is how many examples
+
+        src_id is the id of the wordnet (or 0 for all)
 
         pos_exe[pos_id] = [(ss_id1, freq1), (ss_id2, freq2),
                             ...,  (ss_idn, freqn)]
         """
        
         # get the examples for the POS
-        pos_exe=dd(list)    
-        for p in pos_ids:
-            for r in query_omw_direct("""
-            SELECT ss_id, sum(sml_id) AS freq
-            FROM s JOIN sm ON s.id = sm.s_id
-            JOIN ss ON ss.id = s.ss_id
-            WHERE smt_id =1 AND pos_id = ?
-            GROUP BY ss.id
-            ORDER BY freq DESC LIMIT ?""", (p, num)):
-                pos_exe[p].append((r[0], r[1]))
-
+        pos_exe=dd(list)
+        if src_id:  # get for only one wordnet
+            ## Randomly ordered (as there may be no frequency)
+            for p in pos_ids:
+                print(src_id, p)
+                for r in query_omw_direct("""
+                SELECT ss_id
+                FROM s JOIN ss
+                ON ss.id = s.ss_id
+                WHERE pos_id = ?
+                AND s.id IN (
+                    SELECT s_id
+                    FROM s_src 
+                    WHERE src_id = ?)
+                LIMIT ?""", (p, src_id, num)):
+                    pos_exe[p].append((r[0], 0))
+        else:  # get for all wordnets
+            for p in pos_ids:
+                for r in query_omw_direct("""
+                SELECT ss_id, sum(sml_id) AS freq
+                FROM s JOIN sm ON s.id = sm.s_id
+                JOIN ss ON ss.id = s.ss_id
+                WHERE smt_id =1 AND pos_id = ?
+                GROUP BY ss.id
+                ORDER BY freq DESC LIMIT ?""", (p, num)):
+                    pos_exe[p].append((r[0], r[1]))
+                  
         return pos_exe                               
 
     def fetch_pos_id_freq():

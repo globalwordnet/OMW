@@ -83,9 +83,10 @@
   <br>Freq is the % of senses with a non-zero frequency
   ({{'{0:,}'.format(src_stats.freq_token)}} senses with {{ '{0:,}'.format(src_stats.freq_type)}} instances).
   
-  <table style="width:auto;overflow-x:auto;">
+  <table class="table table-hover table-borderless table-sm">
     <caption>POS Statistics for {{ src_info.label }}
       ({{proj}} {{ver}})</caption>
+    <thead class="thead-light">
   <tr>
     <th>POS</th>
     <th style="text-align:right">Synsets</th>
@@ -94,25 +95,34 @@
     <th style="text-align:right">%</th>
     <th style="text-align:right">Senses</th>
     <th style="text-align:right">%</th>
+    <th>Examples</th>
   </tr>
-   <tr>
-     {% for (p, pn) in [('n', 'Noun'), ('v', 'Verb'), ('a',
-     'Adjective'), ('s', 'Satellite Adj'), ('r', 'Adverb'), ('x',
-     'Non_referential'), ('u', 'Unknown')] %}
-     {% if p in pos_stats %}
+    </thead>
+    <tbody>
+      {% for p in pos_stats %}
+      {% set pid = pos_stats[p]['id'] %}
+      {% set pn = pos['def'][pid] %}
+
+      <tr>
      <td>{{pn}}</td>
      <td style="text-align:right">{{
        '{0:,}'.format(pos_stats[p].synsets) }}</td>
       <td style="text-align:right">{{(100*pos_stats[p].synsets/src_stats.synsets)|round(1)}}</td>
   <td style="text-align:right">{{ '{0:,}'.format(pos_stats[p].words)
     }}</td>
-    <td>{{(100*pos_stats[p].words/src_stats.words)|round(1)}}</td>
+    <td style="text-align:right">{{(100*pos_stats[p].words/src_stats.words)|round(1)}}</td>
 
      <td style="text-align:right">{{ '{0:,}'.format(pos_stats[p].senses)
     }}</td>
-  <td style="text-align:right">{{(100*pos_stats[p].senses/src_stats.senses)|round(1)}}</td>
-   </tr>
-   {% endif %}
+     <td style="text-align:right">{{(100*pos_stats[p].senses/src_stats.senses)|round(1)}}</td>
+      <td>  <!-- Synsets -->
+	{%- for ss_id, freq in pos_exe[pid] %}
+	{{ ss_link(ss_id, label[ss_id]) }}
+	{%- if not loop.last %}{{', '}}{% endif %}
+	{% endfor %}
+      </td>
+      </tr>
+        <tbody>
   {% endfor %}
   </table>
 

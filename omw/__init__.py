@@ -468,12 +468,16 @@ def omw_wns(name=None):
         stats.append((src_meta[k], fetch_src_id_stats(k)))
     return render_template('omw_wns.html',
                            stats=stats,
+                           src_meta=src_meta,
                            lang_id=lang_id,
                            lang_code=lang_code,
                            licenses=licenses)
 
 @app.route('/omw_stats', methods=['GET', 'POST'])
 def omw_stats():
+    """
+    statistics about wordnet as a big graph
+    """
     ### get language
     selected_lang =  int(_get_cookie('selected_lang', 1))
     ### get hypernym graph
@@ -817,6 +821,9 @@ def src_omw(proj=None, ver=None, originalkey=None):
 ##
 @app.route('/omw/src/<proj>/<ver>', methods=['GET', 'POST'])
 def omw_wn(proj=None,ver=None):
+    """
+    Present a page describing a single wordnet
+    """
     ### default to full = false (short version)
     full = request.args.get('full') in ['true', 'True']
     if proj and ver:
@@ -832,6 +839,24 @@ def omw_wn(proj=None,ver=None):
     else:
         ssrel_stats= {}
         srel_stats= {}
+    pos_stats= fetch_src_id_pos_stats(src_id)
+      # get the pos names
+    pos = fetch_pos()
+    # get the examples for the POS
+    pos_ids= [ pos_stats[p]['id'] for p in pos_stats ]
+    pos_exe = fetch_pos_id_ss_mf(pos_ids, src_id = src_id)
+    ### get the wordnet lang
+    langs_id, langs_code = fetch_langs()
+    wn_lang = src_info['language']
+    wn_lang_id = langs_code['code'][wn_lang]
+
+    # Get the labels for the synsets
+    sss = set()
+    for p in pos_exe:
+        for (ss_id, freq)  in  pos_exe[p]:
+            sss.add(ss_id)
+    label= fetch_labels(wn_lang_id,sss)
+
     return render_template('omw_wn.html',
                            proj = proj,
                            ver  = ver,
@@ -839,10 +864,15 @@ def omw_wn(proj=None,ver=None):
                            src_info=src_info,
                            ssrel_stats=ssrel_stats,
                            srel_stats=srel_stats,
-                           pos_stats= fetch_src_id_pos_stats(src_id),
+                           pos=pos,
+                           pos_stats= pos_stats,
+                           pos_exe=pos_exe,
+                           label=label,
                            src_stats=fetch_src_id_stats(src_id),
                            licenses=licenses,
                            gwadoc=gwadoc)
+
+
 
 @app.route('/omw/src-latex/<proj>/<ver>', methods=['GET', 'POST'])
 def omw_wn_latex(proj=None, ver=None,full=False):

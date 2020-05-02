@@ -11,8 +11,9 @@ a fuller list of wordnets at the Global Wordnet Association's
 <a href='http://globalwordnet.org/wordnets-in-the-world/'>Wordnets
 in the World page</a>.  
   
-<table style="width:auto;overflow-x:auto;">
+<table  class="table table-hover table-borderless table-sm"style="width:auto;overflow-x:auto;">
   <!-- <caption>Summary of the Wordnets</caption> -->
+  <thead class="thead-light">
   <tr>
     <th>Language</th>
     <th>Wordnet</th>
@@ -24,21 +25,24 @@ in the World page</a>.
     <th>Statistics</th> 
     <th>License</th>
   </tr>
+  </thead>
+  <tbody>
     {% for (meta, stat) in stats %}
-    {% set prj = meta['id'] %}
-    {% set vers = meta['version'] %}
+    {% set proj = meta['id'] %}
+    {% set ver = meta['version'] %}
     {% set lang = lang_id[lang_code['code'][meta['language']]][1] %}
   <tr>
     <td>{{lang}}</td>
     <td>
+        <a title='Wordnet Summary' href='{{url_for('omw_wn',
+	  proj=proj, ver=ver)}}'>{{meta['label']}}</a>
       {% if meta['url'] %}
-	<a title='project homepage (external)' href='{{ meta['url']}}'>{{meta['label']}}</a>
-      {% else %}
-      {{meta['label']}}
-	{% endif %}
+      <a title='Project homepage (external)' href='{{
+      meta['url']}}'><i class="fa fa-home"></i></a>
+      {% endif %}
     </td>
      <td>
-      <tt>{{meta['id']}}-{{meta['version']}}</tt>
+      <tt>proj-ver</tt>
     </td>
     <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
@@ -46,15 +50,16 @@ in the World page</a>.
     <td style="text-align:right">{{'{0:,}'.format(stat['core'])}}</td>
     <td>
       <a title='statistics' href='{{url_for('omw_wn',
-	 proj=prj, ver=vers, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
+	 proj=proj, ver=ver, full=True)}}'><i class="fa fa-bar-chart"></i></a>;
       <a title='statistics in LaTeX' href='{{url_for('omw_wn_latex',
-	  proj=prj, ver=vers)}}'>LaTeX</a>
+	  proj=proj, ver=ver)}}'>LaTeX</a>
     </td>
 <td><a href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
     
   </tr>
   {% endfor %}
-<table>    
+  </tbody>
+  <table>    
 
 
 {% with messages = get_flashed_messages() %}

@@ -7,10 +7,13 @@
   the <a href="{{ url_for('omw_welcome') }}">Open Multilingual
     Wordnet</a>.
 
-  <table>
+  <table class="table table-hover table-borderless table-sm">
+    <thead class="thead-light">
     <tr>
-      <th>ID</th> <th>POS</th> <th>Name</th> <th>Examples</th>
+      <th>ID</th> <th>POS</th> <th>Name</th> <th>Frequency</th> <th>Examples</th>
     </tr>
+    </thead>
+    <tbody>
     {%- for id in pos['id'] %}
     <tr>
       <td>{{id}}</td>
@@ -23,8 +26,9 @@
 	{%- if not loop.last %}{{', '}}{% endif %}
 	{% endfor %}
       </td>
-    </tr>
-    {% endfor %}
+   </tr>
+   {% endfor %}
+   <tbody>
     <caption>Parts of Speech, their synset frequency and 3 common examples</caption>
   </table>
 
