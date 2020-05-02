@@ -3,27 +3,62 @@
 
 <h3>OMW Upload How To</h3>
 
-<p>This page provides documentation on how to upload a wordnet to the OMW. 
+<p>This page provides documentation on how to upload a wordnet to the OMW:
 
-Doing so may be unintuitive, so here is a step-by-step guide in doing so:
+<style>
+  .bottom-three {
+     margin-bottom: 0.6cm;
+  }
+  .padding-left {
+  	 padding-left: 0.9em;
+  }
+</style>
+
+<h4 class="padding-left bottom-three">Online</h4>
 
 <ol>
-	<li>
-		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>.
-		This will direct you to a login page, where the username and password should just be admin.
+	<li class="padding-left bottom-three">
+		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>. Use the username and password that was assigned to you. If not, get in touch with <a href="mailto:bond@ieee.org">Francis Bond</a> to dicuss your project.
 	</li>
-	<li>
-		To upload a new wordnet, go to CILI and at the bottom of the page will be a link to the upload page, entitled "Upload a new wordnet".
+	<li class="padding-left bottom-three">
+		Go to <a href="{{ url_for('upload') }}">the upload page</a>. At the bottom of the page will be a <b>Choose file</b> option. Alternatively, submit a <b>URL</b> for OMW to download. Then, press validate to determine whether your wordnet is ready to be uploaded or not.
 	</li>
-	<img src="{{url_for('static', filename='upload_link.png') }}" title="Upload Location" width="777px"/>
-	<li>
-		Once you have the tsv files ready, convert them to lmf files ready for induction into OMW. This is done by running the tsv2lmf.py in OMW/scripts.
+	<img src="{{url_for('static', filename='insert_file.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<li class="padding-left bottom-three">
+		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
+	</li>
+	<img src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<li style="font-size:18px" class="padding-left bottom-three">
+		🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfuly uploaded a wordnet. We deeply appreciate your contribution 😊
+	</li>
+</ol>
 
-		A tsv script may look like this:
+<h4 class="padding-left bottom-three">Local Changes</h4>
+
+<ol>
+	<li class="padding-left bottom-three">
+		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>.
+		This will direct you to a login page, where the username and password is <em>admin</em>.
 	</li>
-	<img src="{{url_for('static', filename='omw1tsv.png') }}" title="Exemplar TSV File" width="777px"/>
-	<li>
-		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload!
+	<li class="padding-left bottom-three">
+		Common mistakes that lead to the <em>Validation Failed!</em> message:
+		<br><br>
+		<img src="{{url_for('static', filename='validation_fail.png') }}" title="Validation Fail" width="777px"/> <br><br>
+		Make sure your project is in the <a href="{{ url_for('projectadmin') }}">database</a>! Click on <b>Add New Project</b> to fix this error. Your project name should be the same as the wordnet ID you specified in your <a href="{{ url_for('omw_doc_tsv2lmf') }}">xml file</a>. <br>
+		<br>
+		Make sure your language is in the <a href="{{ url_for('langadmin') }}">database</a>! Click on <b>Add New Language</b> to fix this error.
+	</li>
+	
+	<li class="padding-left bottom-three">
+		Go to <a href="{{ url_for('upload') }}">the upload page</a>. At the bottom of the page will be a <b>Choose file</b> option. Alternatively, submit a <b>URL</b> for OMW to download. Then, press validate to determine whether your wordnet is ready to be uploaded or not.
+	</li>
+	<img src="{{url_for('static', filename='insert_file.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<li class="padding-left bottom-three">
+		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
+	</li>
+	<img src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<li style="font-size:18px" class="padding-left bottom-three">
+		🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfuly uploaded a wordnet 😊
 	</li>
 </ol>
 

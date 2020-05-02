@@ -959,12 +959,13 @@ def omw_doc_upload(name=None):
 
 @app.route('/omw/doc/metadata', methods=['GET', 'POST'])
 def omw_doc_metadata():
-    return render_template('doc/metadata.html')
+    licenses = fetch_licenses()
+    return render_template('doc/metadata.html',
+                           licenses=licenses)
 
 @app.route('/omw/doc/lmf', methods=['GET', 'POST'])
 def omw_doc_lmf():
     return render_template('doc/lmf.html')
-
 
 @app.route('/omw/doc/', methods=['GET', 'POST'])
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])

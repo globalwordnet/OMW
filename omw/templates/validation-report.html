@@ -45,7 +45,7 @@
 	The project label "{{ vr['lexicon'][lexicon]['lex_lbl_val'] }}" was matched.</p>
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	The project label "{{ vr['lexicon'][lexicon]['lex_lbl_val'] }}" could <u>not</u> be matched.</p>
+	The project label "{{ vr['lexicon'][lexicon]['lex_lbl_val'] }}" could <u>not</u> be matched. Make sure your project is in the <a href="{{ url_for('projectadmin') }}">database</a>! </p>
       {% endif %}
 
       {% if vr['lexicon'][lexicon]['lang_lbl'] %}
@@ -53,7 +53,7 @@
 	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" was matched.</p>
       {% else %}
       <p style="margin-left: 30px"><i class="fa fa-times" aria-hidden="true"></i>
-	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" could <u>not</u> be matched.</p>
+	The project language "{{ vr['lexicon'][lexicon]['lang_lbl_val'] }}" could <u>not</u> be matched. Make sure your language is in the <a href="{{ url_for('langadmin') }}">database</a>!</p>
       {% endif %}
 
       {% if vr['lexicon'][lexicon]['valid_version'] %}
@@ -436,7 +436,7 @@
 {% if vr['final_validation'] %}
 <div id="confirm_wn_upload" style="background-color:#009900;text-align:center; padding:5px;">
 <h5>Validation Passed!</h5>
-<input id="clickMe" type="button" value="Upload LMF" onclick="uploadlmf();" />
+<input id="clickMe" type="button" value="Upload Wordnet" onclick="uploadlmf();" />
 </div>
 {% else %}
 <div style="background-color:#cc0000;text-align:center; padding:5px;">

@@ -39,27 +39,36 @@ target="_blank">Wordnet LMF document type definition (DTD)</a> is available from
 <h4>email</h4>
 <p>Please give a contact email address
 
-<h4>license</h4>
+<h4><a name="license"></a> license</h4>
 <p>The license of your resource (please provide URL)
 
 <p>Licenses should be open according to either the <a href='https://opensource.org/licenses' target="_blank">Open Source Initiative</a> or the <a href="http://opendefinition.org/licenses/" target="_blank">Open Definition</a> or the <i>wordnet</i> license.
 
-<p>Currently we recognize and recommend:
-<ul>
-  <li>Wordnet: <tt>wordnet</tt>
-  <li>CC BY: <tt>http://opendefinition.org/licenses/cc-by/</tt>
-  <li>ODC BY: <tt>http://opendefinition.org/licenses/odc-by/</tt>
-  <li>CC BY SA: <tt>http://opendefinition.org/licenses/cc-by-sa/</tt>
-</ul>
-<p>We also recognize:
-<ul>
-  <li>MIT <tt>https://opensource.org/licenses/MIT/</tt>
-  <li>Apache 2.0 <tt>https://opensource.org/licenses/Apache-2.0</tt>
-</ul>
+<table class="table table-hover table-borderless table-sm">
+    <thead class="thead-light">
+    <tr>
+      <th>URL</th> <th>Short Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%- for url in licenses %}
+      {% if url != 'wordnet' %}
+      <tr>
+        <td><a href="{{url}}">{{url}}</a></td>
+        <td>{{licenses[url]}}</td>
+     </tr>
+     {% else %}
+     <tr>
+        <td>{{url}}</td>
+        <td>{{licenses[url]}}</td>
+     </tr>
+     {% endif %}
+   {% endfor %}
+   <tbody>
+    <caption>Acceptable licences (you must use one of these exact URLs)</caption>
+</table>
 
-<!-- Apache 2.0 -->
-<!-- Freetouse -->
-<!-- CeCILL-C -->
+Or, if your licence is wordnet, use <code>wordnet</code>.
 
 
 <h4>version</h4>
