@@ -584,9 +584,6 @@ def search_ili(q=None):
 def upload():
     return render_template('upload.html')
 
-@app.route('/metadata', methods=['GET', 'POST'])
-def metadata():
-    return render_template('metadata.html')
 
 @app.route('/join', methods=['GET', 'POST'])
 def join():
@@ -929,6 +926,15 @@ def omw_doc_search(name=None):
 def omw_doc_upload(name=None):
     return render_template('doc/upload.html',
                            title="Upload How-To")
+
+@app.route('/omw/doc/metadata', methods=['GET', 'POST'])
+def omw_doc_metadata():
+    return render_template('doc/metadata.html')
+
+@app.route('/omw/doc/lmf', methods=['GET', 'POST'])
+def omw_doc_lmf():
+    return render_template('doc/lmf.html')
+
 
 @app.route('/omw/doc/', methods=['GET', 'POST'])
 @app.route('/omw/doc/wn', methods=['GET', 'POST'])

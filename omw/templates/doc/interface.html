@@ -9,7 +9,16 @@
 
 <ul>
   <li> <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
-  <li> <a href='{{ url_for('omw_doc_upload') }}'>Uploading a wordnet</a>
+  <li> <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
+      wordnet</a> (an LMF-formatted file)
+    <ul>
+      <li> <a href='{{ url_for('omw_doc_lmf') }}'>The structure of the
+	  LMF file</a>
+	<li><a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
+  to GWA-LMF</a>
+      <li> <a href='{{ url_for('omw_doc_metadata') }}'>More
+	  information about the LMF metadata</a>
+    </ul>
   <li> <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
 </ul>
 
@@ -26,6 +35,22 @@
 <p>It is written in python, using flask and sqlite3.   The code is on github.
   
 
+  <h3>Creating Your Own Instance</h3>
+
+  <ul>
+    <li>Installing the software
+    <li>Creating the database
+    <li>Adding OMW 1.0 wordnets
+    <li>Adding TUFS wordnets
+    <li>Adding GeoNames Wordnet
+  </ul>
+  
+  <hr>
+
+  
+  <p>See the <a href="{{ url_for('omw_doc_wn') }}">OMW documentation on
+    the wordnets</a>.
+  
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}

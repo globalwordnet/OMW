@@ -27,178 +27,20 @@
   validate it against
   the <a href="https://github.com/globalwordnet/schemas/blob/master/WN-LMF.dtd"
   target="_blank">Wordnet LMF document type definition (DTD)</a> and
-  run some other sanity checks.</p>
+    run some other sanity checks.</p>
+
+<li><a href="{{url_for('upload')}}">Upload the wordnet</a>
+  (<a href="{{url_for('omw_doc_upload')}}">How To</a>)
 
 <li>We will do some checking of formatting, but the ultimate
 responsibility for the quality of the content is the individual
 projects.
 </ul>
 
-<h4>Guidelines for preparing the LMF</h4>
-
-<h5>Wordnet Metadata</h5>
-
-<p>Each lexicon must have correct metadata
-  (<a href="{{url_for('metadata')}}">see here for more detail</a>)
-    Extra properties may be included from the
-    <a href='http://dublincore.org/documents/dces/' target="_blank">Dublin core</a>
-
-  <ul>
-    <li><strong>id</strong> A short name for the resource
-      <br>e.g. <tt>pwn</tt>;  <tt>bahasa</tt>
-    <li><strong>label</strong> The full name for the resource
-      <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa</tt>
-    <li><strong>language</strong> Please follow BCP-47, i.e., use a two-letter
-                      code if available else a three-letter code
-      <br>e.g. <tt>en</tt>; <tt>id</tt>, <tt>zsm</tt>
-    <li><strong>email</strong> Please give a contact email address
-    <li><strong>license</strong> The license of your resource (please provide URL)
-      <br>e.g. <tt>https://opensource.org/licenses/MIT</tt>
-      <br> Acceptable licenses (you must use one of these exact strings):
-<pre>
-wordnet
-http://opendefinition.org/licenses/cc-by/
-http://opendefinition.org/licenses/cc-by/3.0
-http://opendefinition.org/licenses/cc-by/4.0
-http://opendefinition.org/licenses/odc-by/
-http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
-http://opendefinition.org/licenses/cc-by-sa/
-http://opendefinition.org/licenses/cc-by-sa/3.0
-http://opendefinition.org/licenses/cc-by-sa/4.0
-https://creativecommons.org/publicdomain/zero/1.0/
-https://creativecommons.org/licenses/by/
-https://creativecommons.org/licenses/by-sa/
-https://creativecommons.org/licenses/by/3.0/
-https://creativecommons.org/licenses/by-sa/3.0/
-https://creativecommons.org/licenses/by/4.0/
-https://creativecommons.org/licenses/by-sa/4.0/
-http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
-https://opensource.org/licenses/MIT/
-https://opensource.org/licenses/Apache-2.0
-</pre>      
-    <li><strong>version</strong> A string identifying this version (following
-                     major.minor format)
-      	<br>e.g. 3.0; 1.3
-    <li><strong>url</strong> A URL for your project homepage
-      <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
-    <li><strong>citation</strong> The paper to cite for this resource
-
-    <li><strong>status</strong> The status of the resource, e.g., "valid", "checked", "unchecked"
-    <li><strong>confidenceScore</strong> A numeric value between 0 and 1
-      giving the confidence in the correctness of the element.  Only
-      entries with a value of 1 will be considered for the ILI.
-  </ul>
-
-  <h5>Notes on the entries</h5>
-
-<p>There is extensive documentation
-  with <a href='http://globalwordnet.github.io/schemas/'>the
-    schemas</a>.  Here we include a few tips that are not covered
-  there.
-
-  <p>If you want to include a definition from somewhere else (such as
-  the Princeton wordnet), or in a language other than that of the
-  wordnet, please note it explicitly:
-  <pre>
-  &lt;Definition language="ja"&gt;辞書の編集者または筆者&lt;/Definition&gt;
-  &lt;Definition dc:source="pwn-3.0" language="en"&gt;a compiler or writer of a dictionary&lt;/Definition&gt;
-</pre>
-
-<p>If you have a relation type not included in the list we have,
-  please use <tt>other</tt> and give your more explicit type
-  as <tt>dc:type</tt>.  Or, if your type is a more specific subclass
-  of an existing type, you can use the supertype and mark the specific
-  type with <tt>dc:type</tt>.
-<pre>
-&lt;SynsetRelation relType="other" 
-                dc:type="emotion" target="example-en-1234-n"/&gt;
-&lt;SynsetRelation relType="antonym" 
-                dc:type="gradable antonym" target="example-en-1234-n"/&gt;
-
-</pre>
-
-<p>You can add variations of lemmas, including orthographic variations
-  and transliterations, as shown below.  You can have various classes
-  of transliteration, and if they are automatically generated, you can
-  give them a confidence score.
-
-  <pre>
-&lt;LexicalEntry id="w613347"&gt;
-  &lt;Lemma writtenForm="动物沟通" partOfSpeech="n" script="Hans"/&gt;
-  &lt;Form writtenForm="dòngwùgōutōng" script="Latn-pinyin"&gt;
-  &lt;Tag category="transliteration"&gt;pīnyīn&lt;/Tag&gt;
-    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
-  &lt;/Form&gt;
-  &lt;Form writtenForm="dong4wu4gou1tong1" script="Latn-pinyin"&gt;
-    &lt;Tag category="transliteration"&gt;pin1yin1&lt;/Tag&gt;
-    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
-  &lt;/Form&gt;
-  &lt;Form writtenForm="dongwugoutong" script="Latn-pinyin"&gt;
-    &lt;Tag category="transliteration"&gt;pinyin&lt;/Tag&gt;
-    &lt;Tag category="confidence"&gt;0.77&lt;/Tag&gt;
-  &lt;/Form&gt;
-&lt;/LexicalEntry&gt;
-</pre>
-  
-  
-<h5>Synset Identifiers and adding Synsets to CILI</h5>
-<ul>
-  <li>You can also add new synsets to the <a href='https://github.com/globalwordnet/ili'>Collaborative Interlingual Index (CILI)</a>.
-    
-  <li>Synset ids in your LMF file should take the project id followed
-  by an hyphen preceeding the id that will be considered original
-  (e.g. <tt>pwn-00001740-n</tt> for original id <tt>00001740-n</tt> in
-  lexicon with id <tt>pwn</tt>)</li>  This is because xml ids cannot start with numbers.
-
-  <li>Synsets in your LMF file must make an explicit reference to
-  their ILI status: an ILI id preceeded by the letter 'i'
-  (e.g. i78871) indicating full equivalance; the string 'in'
-  indicating the suggestion of a new concept to ILI; or the empty
-    string indicating that the concept is only used internally by this wordnet.</li>
-
-  <li>All new ILI candidates must have been hand checked by a human;</li>
-
-  <li>Newly suggested concepts must provide a unique English
-  definition within the ILI repository, with at least 20 characters or
-  5 words;</li>
-
-  <li>By uploading your Wordnet LMF to the OMW, you agree to
-  release the English definitions accompanying new ILI candidates
-  under a <a href="https://creativecommons.org/licenses/by/4.0/"
-  target="_blank">CC BY 4.0</a> license</li> or later version
-
-  <li>New concepts must be linked, directly or indirectly (through new synsets), to an existing ILI concept.</li>
-  <li>The list of available relations is available under
-  SynsetRelation.relType in the DTD link provided above, <b>but
-  excluding see_also</b>;</li>
-  <li>Your LMF file must include all targets of relations to be
-    valid.</li>
-
-  
-</ul>
 
 
 
-
-
-<br><br>
-<h6>References</h6>
-<p>The basic structure of the OMW and CILI is described here (this web page is more up-to-date):
-
-<dl>
-  <dt><a name="Vossen:Bond:McCrae:2016">Piek Vossen, Francis Bond and John P. McCrae (2016)</a></dt>
-  <dd><a href="http://gwc2016.racai.ro/procedings.pdf" target="_blank">Toward a truly multilingual Global Wordnet Grid</a>.
-    In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
-  </dd>
-  <dt><a name="Bond:Vossen:McCrae:Fellbaum:2016">Piek Vossen, Francis Bond,
-      John P. McCrae and Christiane Fellbaum (2016)</a></dt>
-  <dd><a href="http://gwc2016.racai.ro/procedings.pdf" target="_blank">CILI: the Collaborative Interlingual Index</a>.
-    In <i>Eighth meeting of the Global WordNet Conference (GWC 2016)</i>, Bucharest
-  </dd>
-</dl>
-
-
-<h6>Disclaimer</h6>
+<h5>Disclaimer</h5>
 
 <p>The Open Multilingual Wordnet may not contain all of the
 information in the component wordnets.  It is the (large and we hope
