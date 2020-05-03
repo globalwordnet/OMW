@@ -3,7 +3,7 @@
 Code for the Open Multilingual Wordnet ---
 read in wordnets, validate them, and search them.
 
-Currently running here: http://compling.hss.ntu.edu.sg/iliomw
+Currently running here: https://compling.hss.ntu.edu.sg/iliomw
 
 
 DB Schema:
