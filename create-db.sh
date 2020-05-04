@@ -43,7 +43,7 @@ if [ -f "$CONFIG" ]; then
 else
     echo "Creating new configuration file at $CONFIG."
 
-    function abspath() { python -c "import os; print(os.path.realpath('$1'))"; }
+    abspath() { python -c "import os; print(os.path.realpath('$1'))"; }
 
     read -p "Directory for user uploads [$UPLOADDIR]: " inp
     [ -n "$inp" ] && { UPLOADDIR="$inp"; }
