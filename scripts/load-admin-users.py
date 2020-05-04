@@ -1,13 +1,5 @@
 #!/usr/bin/python3
 
-# Temporary Python 2 workaround
-try:
-    raw_input
-except NameError:
-    pass
-else:
-    input = raw_input
-
 import sys
 import sqlite3
 from getpass import getpass
