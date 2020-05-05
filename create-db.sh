@@ -84,7 +84,31 @@ if [ ! -f "$ADMINDB" ]; then
     echo "Creating new admin database at $ADMINDB"
     FLASK_APP="$OMWAPP" flask init-admin-db
     chmod go+w "$ADMINDB"
-    PYTHONPATH="$OMWROOT" python "$BINDIR"/load-admin-users.py "$ADMINDB"
+
+    echo "Creating an admin user."
+    PYTHONPATH="$OMWROOT" python "$BINDIR"/add-user.py \
+              "$ADMINDB" \
+              --user="admin" \
+              --name="System Administrator" \
+              --level=99 \
+              --group="admin"
+
+    det="a"
+    while true; do
+        read -p "Create $det regular user? [y/n]: " yn
+        case "$yn" in
+            [Yy]* )
+                PYTHONPATH="$OMWROOT" python "$BINDIR"/add-user.py "$ADMINDB"
+                [ $? -eq 0 ] && { det="another"; }
+                ;;
+            [Nn]* )
+                break;;
+            * )
+                echo "Please answer yes or no.";;
+        esac
+    done
+
+    echo "NOTE: to add more admin or regular users, run scripts/add-user.py"
 fi
 
 ###############################################################################
@@ -167,7 +191,7 @@ if [ ! -f "$OMWDB" ]; then
 
     ###########################################################################
 
-    
+
     ###########################################################################
     # LOADING Metadata CONCEPTS
     ###########################################################################
