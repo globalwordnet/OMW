@@ -612,7 +612,15 @@ def validationReport():
 @app.route('/ili/report', methods=['GET', 'POST'])
 @login_required(role=0, group='open')
 def report():
-    passed, filename = uploadFile(current_user.id)
+    inputfile = request.files.get('file')
+    inputurl =  request.form.get('url')
+    if inputfile:
+        thing, ftype = inputfile, 'webfile'
+    elif inputurl:
+        thing, ftype = inputfile, 'url'
+    else:
+        thing, ftype = None, None
+    passed, filename = uploadFile(current_user.id, thing, ftype)
     return render_template('report.html',
                            passed=passed,
                            filename=filename)

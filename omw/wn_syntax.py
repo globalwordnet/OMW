@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import os
 import sys
+from shutil import copyfile
 import re
 import urllib
 import gzip
@@ -382,38 +383,50 @@ with app.app_context():
                filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-    def uploadFile(current_user):
+    def uploadFile(current_user, thing, ftype):
+        """
+        Given a file to upload, give it a unique name and upload it!
+        files can come from:
+        ftype      source 
+        webfile    a file to be uploaded
+        url        a url with (we hope) a wordnet
+        localfile  a file given by the path on the local system
 
+        We give the files a secure name made up of:
+        the date, the user who uploaded it, and the original filename
+        e.g.
+        2020-02-23T084411_admin_islwn.xml
+        """
+        
         format = "%Y-%m-%dT%H:%M:%S"
         now = dt.utcnow().strftime(format)
+        upload_folder = app.config['UPLOAD_FOLDER']
 
-        try:
-            file = request.files['file']
-        except:
-            file = None
-        try:
-            url = request.form['url']
-        except:
-            url = None
-
-        if file and allowed_file(file.filename):
-            filename = now + '_' +str(current_user) + '_' + file.filename
+        if ftype == 'webfile' and allowed_file(thing.filename):
+            filename = now + '_' +str(current_user) + '_' + thing.filename
             filename = secure_filename(filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            thing.save(os.path.join(upload_folder, filename))
             file_uploaded = True
 
-        elif url:
-            file = urllib.urlopen(url)
-            filename = url.split('/')[-1]
-            filename = now + '_' +str(current_user) + '_' + filename
+        elif ftype == 'url':
+            file = urllib.urlopen(thing)
+            basename = os.path.basename(thing)
+            filename = now + '_' +str(current_user) + '_' + basename
             filename = secure_filename(filename)
 
             if file and allowed_file(filename):
-
-                open(os.path.join(app.config['UPLOAD_FOLDER'], filename),
+                open(os.path.join(upload_folder, filename),
                      'wb').write(file.read())
             file_uploaded = True
-
+        elif ftype == 'localfile':
+            basename = os.path.basename(thing)
+            filename = now + '_' +str(current_user) + '_' + basename
+            filename = secure_filename(filename)
+            try:
+                copyfile(thing, os.path.join(upload_folder, filename))
+                file_uploaded = True
+            except IOError as e:
+                print("Unable to copy file. %s" % e)
         else:
             filename = None
             file_uploaded = False
@@ -476,10 +489,38 @@ with app.app_context():
         # print("bad: ", badlinks, file=sys.stderr)
         return badlinks
 
+    def openWN(filename):
+        """
+        Open an XML file, possibly compressed, 
+        return the filehandle or None if you couldn't find it
+        """
+        wnfile = None
+        if os.path.exists(filename):
+            wnfile = filename
+        elif os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],
+                                         filename)):
+            wnfile = os.path.join(app.config['UPLOAD_FOLDER'],
+                                  filename)
+        if wnfile:
+            if filename.endswith('.xml'):
+                    wnfh = open(wnfile, 'rb')
+            elif filename.endswith('.gz'):
+                 wnfh = gzip.open(wnfile, 'rb')
+            return  wnfile, wnfh
+        else:
+            return None, None
+    
 
+    def validateFile(current_user, filename, addproj=False):
+        """
+        Read a file, either *.xml or *.gz
+        Validate against the DTD
 
-    def validateFile(current_user, filename):
+        addproj=True
+        If you want to automatically add the project.
+        This is useful for bulk entry from the commandline
 
+        """
         l=lambda:dd(l)
         vr = l()  # validation report
         final_validation = True # assume it will pass
@@ -487,52 +528,45 @@ with app.app_context():
         vr['upload'] = True
         
         ###LOG
-        print('Preparing to Validate File\t{}\t{}'.format(filename,dt.today().isoformat()), file=sys.stderr)
+        print('Preparing to Validate File\t{}\t{}'.format(filename,dt.today().isoformat()),
+              file=sys.stderr)
        
  
         ########################################################################
         # CHECK WN STRUCTURE (MATCH AGAINST DTD)
         ########################################################################
-        dtd_f = open(app.config['ILI_DTD'], 'rb')
 
-        try:
-            dtd = etree.DTD(dtd_f)
-
-            if filename.endswith('.xml'):
-
-                wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
-                                       filename), 'rb')
-                wnlmf = etree.XML(wn.read())
-
-
-            elif filename.endswith('.gz'):
-                with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
-                                            filename), 'rb') as wn:
-                    wnlmf = etree.XML(wn.read())
-
+        ### find and open the wordnet
+        
+        wnlocation, wnfh = openWN(filename)
+        vr['location'] = wnlocation 
+        if wnlocation:
+            wnlmf = etree.XML(wnfh.read())
             vr['read'] = True
-
-
-            if dtd.validate(wnlmf):
-                vr['dtd_val'] = True
-
-            else:
-                vr['dtd_val'] = False
-                vr['dtd_val_errors'] = str(dtd.error_log.filter_from_errors()[0])
-                final_validation = False
-
-                wnlmf = None
-                filename = None
-
-        except:
-            wnlmf = None
-            filename = None
-
-
+        else:
+            print(f"Could not find {filename}, \
+            looked here and in {app.config['UPLOAD_FOLDER']}",
+                  file=sys.stderr)
             vr['read'] = False
-            vr['dtd_val'] = False
-            final_validation = False
+            # vr, filename, wn, wn_dtls
+            return vr, filename, None, None                         ### NO wordnet
 
+        ### open the DTD then validate
+        
+        dtd_f = open(app.config['ILI_DTD'], 'rb')
+        print('Opening DTD', app.config['ILI_DTD'],
+              file=sys.stderr)
+        dtd = etree.DTD(dtd_f)
+        
+        if dtd.validate(wnlmf):
+            vr['dtd_val'] = True
+            print('Validates against DTD', app.config['ILI_DTD'],
+                  file=sys.stderr)
+        else:
+            vr['dtd_val'] = False
+            vr['dtd_val_errors'] = str(dtd.error_log.filter_from_errors()[0])
+            # vr, filename, wn, wn_dtls
+            return vr, filename, None, None                         ### Not valid
 
         dtd_f.close()
         ###LOG
@@ -575,7 +609,12 @@ with app.app_context():
                 lexicon_lbl = wn[lexicon]['attrs']['id']
                 lexicon_id =  f_proj_id_by_code(lexicon_lbl)
                 vr_lex['lex_lbl_val'] = lexicon_lbl
-                if wn[lexicon]['attrs']['id'] in projs.values():
+                if lexicon_lbl in projs.values():
+                    vr_lex['lex_lbl'] = True
+                elif addproj:
+                    insert_new_project(lexicon_lbl,
+                                       current_user)
+                    print('Added Project:',  lexicon_lbl)
                     vr_lex['lex_lbl'] = True
                 else:
                     vr_lex['lex_lbl'] = False
@@ -994,7 +1033,7 @@ with app.app_context():
             dict: a summary of the wordnet contents; if ingestion fails,
                 `False` is returned
         """
-
+        print("Loading {} (validated) into OMW".format(filename),file=sys.stderr)
         try:
             insert=True   ### really put stuff in the database
         
@@ -1022,18 +1061,11 @@ with app.app_context():
             omw_synset_keys = dict()
             omw_sense_keys = dict()
 
-            # OPEN FILE
-            if filename.endswith('.xml'):
-                wn = open(os.path.join(app.config['UPLOAD_FOLDER'],
-                                       filename), 'rb')
-                wnlmf = etree.XML(wn.read())
-
-            elif filename.endswith('.gz'):
-                with gzip.open(os.path.join(app.config['UPLOAD_FOLDER'],
-                                            filename), 'rb') as wn:
-                    wnlmf = etree.XML(wn.read())
-
-
+            ### assume this is all good, as it has just been checked
+            wnlocation, wnfh = openWN(filename)
+            wnlmf = etree.XML(wnfh.read())
+            print(f"Read wn at {wnlocation}", file=sys.stderr)
+            
             # PARSE WN & GET ALL NEEDED
             src_id = fetch_src()
             ssrels = fetch_ssrel()
@@ -1042,6 +1074,7 @@ with app.app_context():
             poss = fetch_pos()
             wn, wn_dtls = parse_wn(wnlmf)
             for lexicon in  wn.keys():
+                print("Loading lexicon {}".format(lexicon),file=sys.stderr)
                 proj_id = f_proj_id_by_code(lexicon)
                 lang = wn[lexicon]['attrs']['language']
                 lang_id = langs_code['code'][lang]
@@ -1756,4 +1789,5 @@ with app.app_context():
 
             return r
         except:
+            print("Failed to Load {} into OMW\n".format(filename), file=sys.stderr)
             return False
