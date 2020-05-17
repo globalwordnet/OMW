@@ -1030,6 +1030,12 @@ def omw_doc_tsv2lmf(name=None):
     return render_template('doc/tsv2lmf.html',
                            gwadoc=gwadoc)
 
+@app.route('/omw/doc/add-wn', methods=['GET', 'POST'])
+def omw_doc_add_wn(name=None):
+    return render_template('doc/add-wn.html',
+                           title="Add WN from the Command Line")
+
+
 @app.route('/omw/doc/doc', methods=['GET', 'POST'])
 def omw_doc_doc(name=None):
     return render_template('doc/doc.html',

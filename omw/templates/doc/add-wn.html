@@ -1,0 +1,53 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+<h3>Load Wordnets from the command line</h3>
+
+<p>This page provides documentation for the
+  script <code>add-wn.sh</code> (which
+  calls <code>validate-wn.py</code>).
+  These allow someone to add wordnets directly to the database (not
+  through the web interface)
+
+  <h4>Usage</h4>
+
+  <pre>
+$ python3 scripts/validate-wn.py -h
+usage: validate-wn.py [-h] [--auto-upload] [--no-upload] [--no-add-proj]
+                      wnfile
+
+A program to make wordnet LMF from OMW 1.0 tsv
+
+positional arguments:
+  wnfile         WN-LMF.xml(.gz) to be loaded
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --auto-upload  Automatically upload the WN if it validates (default: False)
+  --no-upload    Don't ask to upload the WN even if it validates (default:
+                 False)
+  --no-add-proj  Don't automatically add the project (default: False)
+</pre>
+
+<p> <code>add-wn.sh</code> takes the same arguments and makes sure the
+environment is set up correctly
+  
+<p>This script is used to load the automatically made wikitionary-wordnet files, the
+  orphan wordnets, geowordnets and more.
+
+  
+<hr>
+  
+See the <a href="{{ url_for('omw_doc_doc') }}">OMW documentation on
+    documentation</a> for style guides, useful macros and more.
+  
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{% endblock %}
