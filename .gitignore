@@ -4,10 +4,11 @@ __pycache__/
 *$py.class
 
 
-# Sqlite, XML, Gzip
+# Sqlite, XML, Gzip, Log
 *.db
 *.xml
 *.gz
+*.log
 
 # Emacs related stuff
 *~
@@ -22,9 +23,13 @@ tramp
 
 # Mac OS X hidden files
 .DS_Store
+*.swp
+
+# local files
 config.py
 py3env
-*.swp
+env
+venv
 
 # temp files for adding more wordnets
 omw/resources/

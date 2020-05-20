@@ -52,20 +52,14 @@ with app.app_context():
     ## try to use the same abbreviations as the SPDX organization
     ## https://spdx.org/licenses/
     licenses = {'wordnet':'wordnet',
-                'https://wordnet.princeton.edu/wordnet/license/':'wordnet',
-                'http://opendefinition.org/licenses/cc-by/':'CC-BY',
-                'http://opendefinition.org/licenses/cc-by/3.0':'CC-BY-3.0',
-                'http://opendefinition.org/licenses/cc-by/4.0':'CC-BY-4.0',
+                'https://wordnet.princeton.edu/license-and-commercial-use':'wordnet',
                 'http://opendefinition.org/licenses/odc-by/':'ODC-BY',
                 'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html':'CeCILL-1.0',
-                'http://opendefinition.org/licenses/cc-by-sa/':'CC-BY-SA',
-                'http://opendefinition.org/licenses/cc-by-sa/3.0':'CC-BY-SA-3.0',
-                'http://opendefinition.org/licenses/cc-by-sa/4.0':'CC-BY-SA-4.0',
-                "https://creativecommons.org/publicdomain/zero/1.0/":'CC0 1.0',
+                "https://creativecommons.org/publicdomain/zero/1.0/":'CC0-1.0',
                 "https://creativecommons.org/licenses/by/":'CC-BY',
                 "https://creativecommons.org/licenses/by-sa/":'CC-BY-SA',
                 "https://creativecommons.org/licenses/by/3.0/":'CC-BY-3.0',
-                "https://creativecommons.org/licenses/by-sa/3.0/":'CC-BY-SA-3.0',
+                "https://creativecommons.org/licenses/by-sa/3.0/":'CC-BY-SA 3.0',
                 "https://creativecommons.org/licenses/by/4.0/":'CC-BY-4.0',
                 "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-SA 4.0',
                 'https://opensource.org/licenses/MIT/':'MIT',
@@ -73,6 +67,8 @@ with app.app_context():
     mindefchars=20
     mindefwords=4
     
+    def fetch_licenses():
+        return licenses
     
     def parse_wn(wnlmf):
 

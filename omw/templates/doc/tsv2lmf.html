@@ -1,43 +1,45 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3>Convert TSV to XML</h3>
+<h3 style="margin-bottom:0.3cm;">Convert TSV to XML</h3>
 
 <p>This page provides documentation for the
-  script <code>tsv2lmf.py</code> which is used to convert wordnet in
+  script <a href="https://raw.githubusercontent.com/globalwordnet/OMW/develop/scripts/tsv2lmf.py"><code>tsv2lmf.py</code></a> which is used to convert wordnet in
   the tab separated value format used by OMW 1.0 to the XML format
   used the   <a href="{{ url_for('omw_welcome') }}">Open Multilingual
     Wordnet</a> 2.0.
 
-  <h4>Usage</h4>
+<br>
+<h4>Usage</h4>
+<br>
+<pre>
+  $ python scripts/tsv2lmf.py --help
+  usage: tsv2lmf.py [-h] wnid lang ili_map tsv
 
-  <pre>
-$ python scripts/tsv2lmf.py --help
-usage: tsv2lmf.py [-h] wnid lang ili_map tsv
+  A program to make wordnet LMF from OMW 1.0 tsv
 
-A program to make wordnet LMF from OMW 1.0 tsv
+  Positional arguments:
+    wnid        wordnet ID (short unique name, e.g. <b>tufs_eng</b>)
+    lang        language code (<a href="https://r12a.github.io/app-subtags/">BCP 47</a>, e.g. <b>en</b> for English)
+    ili_map     ili mapping (scripts/<b>ili-map.tab</b>)
+    tsv         tsv file to be parsed
 
-positional arguments:
-  wnid        wordnet ID (short unique name)
-  lang        language code (BCP 47)
-  ili_map     ili mapping
-  tsv         tsv file to be parsed
-
-optional arguments:
-  -h, --help  show this help message and exit
+  optional arguments:
+    -h, --help  show this help message and exit
 </pre>
 
-  
+<br>
 <h4>TSV format</h4>
-
+<br>
 <p>The <tt>wn-data-*.tab</tt> files are tab separated files of synset-lemma pairs; or synset-subid-definition/example</p>
 
 <pre>
-# name␉lang␉url␉license
-offset-pos␉lang:lemma␉word
-offset-pos␉lang:def␉sid␉definition
-offset-pos␉lang:exe␉sid␉example
+# name     ␉ lang       ␉ url  ␉ license
+offset-pos ␉ lang:lemma ␉ word
+offset-pos ␉ lang:def   ␉ sid  ␉ definition
+offset-pos ␉ lang:exe   ␉ sid  ␉ example
 ...
+␉ denotes a horizontal tab
 </pre>
 
 <table>
@@ -51,7 +53,9 @@ offset-pos␉lang:exe␉sid␉example
 <tr><td>sid a   </td><td>the sub id of the definition/example (starting from 0)</td></tr>
 </table>
 
+<br>
 <h4>Example:</h4>
+<br>
 <pre>
 # Wordnet Bahasa	ind	http://wn-msa.sourceforge.net/	MIT 
 00019613-n	ind:def 0 masalah fisik yang nyata
