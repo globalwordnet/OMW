@@ -18,13 +18,15 @@
       <th><a href='https://en.wikipedia.org/wiki/IETF_language_tag'>BCP47</a></th>
       <th><a href='https://en.wikipedia.org/wiki/ISO_639-3'>ISO639-3</a></th>
       <th>English Name</th>
-      <th>All Translations</th>
+      <th>Local Name</th>
+      <th>Number of Translations</th>
     </tr>
   </thead>
 
+
 {% for id, more in langs.items() %}
-{% if 'code' in more.keys() %}
-{% else %}
+
+
   <tr>
 
     <!-- ID -->
@@ -47,26 +49,17 @@
       {{ more[1] }}
     </td>
 
+    <!-- AUTONYM -->
+    <td>
+    {{ more[id] }}
+    </td>
+    
     <!-- ALL TRANSLATIONS -->
     <td>
-      {% for i in more.keys() %}
-
-        {% if i not in ['bcp47', 'iso639'] %}
-
-          {% if langs[i]['bcp47'] %}
-            {{ langs[i]['bcp47']  }}: {{ more[i]  }}
-          {% else %}
-            {{ langs[i]['iso639']  }}: {{ more[i]  }}
-          {% endif %}
-
-        {% endif %}
-
-      {% endfor %}
+      {{ more|length -2}}
     </td>
 
-
   </tr>
-{% endif %}
 {% endfor %}
 </table>
 
