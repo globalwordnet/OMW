@@ -6,5 +6,5 @@ flask
 networkx
 flask-login==0.3.2
 git+git://github.com/globalwordnet/gwadoc.git@master#egg=gwadoc
-git+https://github.com/LuminosoInsight/langcodes.git#egg=langcodes
+langcodes
 
