@@ -3,18 +3,71 @@
 
 <h3>OMW Search Interface</h3>
 
-<p>This page provides documentation for the web interface to the Open
-  Multilingual Wordnet.  
+<p>This page provides documentation for the web interface to the Open Multilingual Wordnet.
 
+</p>
+<!-- This section is an expansion of the tooltip in omw.html. I'd advise that the tooltip would be replaced with a link to the documentation page. -->
+<section>
+    <h4>Search Function</h4>
+    <p>At the top of each page in OMW, there is a search function.
+    Type in any lemma into the search, press <span class=".text-monospace">Enter</span>. The results will be in the two languages selected to the right of the search bar.</p>
+    <p>The search function understands GLOB patterns, which means:
+        <ul>
+            <li><em>*</em> matches anything (including nothing ). <em>*dog*</em> matches all lemmas with <em>dog</em> anywhere in it, e.g. dog, hotdog, dogmatic, endogenous, etc., </li>
+            <li><em>?</em> matches any one character. <em>ca?</em> matches all lemmas that start with <em>ca</em> and contain one more character, e.g. cat, cab, can, etc</li>
+            <li><em>[xyz]</em> matches a single character that is either x, y, or z. The characters inside of the [] can be any characters. <em>[Ss]</em> matches either s or S. This is how you do case insensitive searches for case-sensitive languages like English.</li>
+        </ul>
+    </p>
+</section>
 
+<section>
+    <h4>Search Results</h4>
+    <img src="{{ url_for('static', filename='search_results_screenshot.png') }}"></img>
+    <dl>
+        <dt>1. ID</dt><dl>The lemma and its database ID.</dl>
+        <dt>2. Senses</dt><dl>A sense of a lemma is its definition within its wordnet. When a lemma has multiple senses, they are listed sequentially. Hovering over each sense brings up a preview of its concept page</dl>
+        <dt>3. Definitions</dt><dl>Expanded definitions for each of the senses of the lemma.</dl>
+        <dt>4. Examples</dt><dl>If an example is available, it will be listed here.</dl>
+    </dl></section>
 
-{% with messages = get_flashed_messages() %}
+<section>
+    <h4>Concept Page</h4>
+    <img src="{{ url_for('static', filename='concept_screenshot.png') }}"></img>
+    <dl>
+        <dt>1. Entry Summary</dt><dl>The lemma and its database ID.</dl>
+        <dt>2. Senses</dt><dl>A sense of a lemma is its definition within its wordnet. When a lemma has multiple senses, they are listed sequentially.</dl>
+        <dt>3. Definitions</dt><dl>Expanded definitions for each of the senses of the lemma</dl>
+        <dt>4. Synset Relations</dt><dl>"Synset" means "synonym set." Each synset has a "relation" type, which are explained in the table below.</dl>
+        <dt>5. Synset Sources</dt><dl>Which wordnets the information came from</dl>
+    </dl>
+</section>
+
+<section>
+    <h4>Synset Relation Types</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Term</th>
+                <th>Means</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Hypernym</td>
+                <td>a word that is more general than a given word</td>
+                <td><em>animal</em> is a hypernym of <em>dog</em></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+ {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
       {{ message }}
     {% endfor %}
   {% endif %}
 {% endwith %}
-
 
 {% endblock %}
