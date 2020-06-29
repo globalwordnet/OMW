@@ -8,6 +8,18 @@
 
 
 
+  <h4>Restful Interface</h4>
+<ul>
+  <li> Search for an ili_id with this to get the ili record (as html)
+    <br><code>omw/ili/concepts/ili_id</code>
+    <br>e.g. {{ili_link(46593, 'omw/ili/concepts/46593')}}
+  <li> Search for an ili_id with this to get the concept (as html)
+    <br><code>omw/concepts/ili/ili_id</code>
+	<br>e.g. {{ili_ss_link(46593, 'omw/concepts/46593')}}
+  <li> Search within a wordnet using it's project, version and synset identifier:
+    <br><code>omw/src/prj/ver/sysnet_id</code>
+    <br>e.g. <a href='/omw/src/pwn/3.0/02121620-n'>/omw/src/pwn/3.0/02121620-n</a>
+    
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
