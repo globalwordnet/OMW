@@ -63,7 +63,8 @@ with app.app_context():
                 "https://creativecommons.org/licenses/by/4.0/":'CC-BY-4.0',
                 "https://creativecommons.org/licenses/by-sa/4.0/":'CC-BY-SA 4.0',
                 'https://opensource.org/licenses/MIT/':'MIT',
-                'https://opensource.org/licenses/Apache-2.0':'Apache-2.0'}
+                'https://opensource.org/licenses/Apache-2.0':'Apache-2.0',
+                'https://www.unicode.org/license.html':'unicode'}
     mindefchars=20
     mindefwords=4
     
