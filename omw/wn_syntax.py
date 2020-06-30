@@ -394,8 +394,8 @@ with app.app_context():
         2020-02-23T084411_admin_islwn.xml
         """
         
-        format = "%Y-%m-%dT%H:%M:%S"
-        now = dt.utcnow().strftime(format)
+        dtformat = "%Y-%m-%dT%H:%M:%S"
+        now = dt.utcnow().strftime(dtformat)
         upload_folder = app.config['UPLOAD_FOLDER']
 
         if ftype == 'webfile' and allowed_file(thing.filename):
@@ -1091,6 +1091,12 @@ with app.app_context():
                 # BULK INSERT SOURCE META
                 ################################################################
                 blk_src_data = [] # [(src_id, attr, val, u),...]
+
+                ### add date it was uploaded
+                dtformat = "%Y-%m-%d %H:%M:%S"
+                now = dt.utcnow().strftime(dtformat)
+                wn[lexicon]['attrs']['uploaded'] = now
+                
                 for attr, val in wn[lexicon]['attrs'].items():
                     ### remove dc namespace ? should we keep as 'dc;'
                     if attr.startswith('{http://purl.org/dc/elements/1.1/}'):

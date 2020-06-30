@@ -9,7 +9,9 @@
 {% endif %}
 
 <p>This page gives some information about {{ src_info.label }}, as it
-  is loaded into the Open Multilingual Wordnet. {% if src_info.url %}
+  is loaded into the Open Multilingual Wordnet
+  {%- if src_info.uploaded %} on {{src_info.uploaded}} {%- endif %}.
+  {% if src_info.url %}
   The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
 {% endif %}
 {% if src_info.email %}
@@ -29,10 +31,6 @@
 <br>{{src_info.citation}}
 
 <br>Please attribute the data properly!</p>
-{% endif %}  
-{% if src_info.filename %}
-<p>The uploaded file is &lt;<a href='/omw/uploads/{{src_info.filename}}'>{{src_info.filename}}</a>&gt;.</p>
-{% endif %} 
 
 <table style="width:auto;overflow-x:auto;">
   <caption>Statistics for {{ src_info.label }}  ({{ proj }} {{ ver }})</caption>
@@ -184,12 +182,20 @@
  
 <p> <a data-sid='{{wn}}' href='{{url_for('omw_wn_latex',proj=proj,ver=ver)}}'>LaTeX for
  {{wn}} statistics</a>
- 
+
+
+  
 <h4>ToDo</h4>  
 <pre>
 Should show the number of senses with examples.
 
 </pre>
+
+{% endif %}  
+{% if src_info.filename %}
+<p>The uploaded file is &lt;<a href='/omw/uploads/{{src_info.filename}}'>here</a>&gt;.</p>
+{% endif %} 
+
 
 {# list other versions #}
 {% else %} 
