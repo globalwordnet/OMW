@@ -3,8 +3,106 @@
 
 <h3>OMW Search Interface</h3>
 
-<p>This page provides documentation for the web interface to the Open
-  Multilingual Wordnet.  
+<h4> Introduction:</h4>
+<p> WordNet is a large, open-source, lexical database of English. Nouns, verbs, adjectives, and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked utilizing conceptual-semantic and lexical relations. </p>
+<p> Concepts are synsets that represent a class of things of interest.
+<p>An OMW concept page looks like this:
+</p>
+<img src="../../static/Search-page images/Image1.png">
+
+</p>
+<!Introduction Section Ends>
+<hr>
+<!This section provides documentation for navigating through the concept page>
+<h3>Navigating through the Concept page:
+</h3>
+<h4>Basic Search Function:
+</h4>
+<img src="../../static/Search-page images/Image2.png">
+<p>The Basic Search function is used to search lemmas, it is present on the head of the concept page. A lemma is a word you find in the dictionary or wordnet.
+In the search function, there are two language select options, you can select the languages in which you want to search the word in the search bar.
+For eg: suppose you choose English and French then if you search for a word, it will search that word in both languages.
+
+</p>
+<h5>Glob Patterns:</h5>
+<p>Glob patterns are used for file path expansion with the help of wildcard characters. Each wildcard character has it’s own use. Sets of filenames are specified accordingly to these wildcard characters. A wildcard pattern will be expanded into a list of pathnames that will be matching the given pattern.
+
+</p>
+    <table border="3">
+            <tr>
+                <td>Glob pattern </td>
+                <td> Glob pattern description</td>
+            </tr>
+            <tr>
+                <td>* </td>
+                <td> It will match any character zero or more times.</td>
+            </tr>
+            <tr>
+                <td>?</td>
+                <td>It will match any character one time</td>
+            </tr>
+            <tr>
+                <td>[xyz]</td>
+                <td>It will match any character specified in the square brackets.</td>
+            </tr>
+            <tr>
+                <td>[a-k]</td>
+                <td>It will match any character in the range specified inside the square brackets.</td>
+            </tr>
+
+
+    </table>
+<h5>* :</h5>
+    <h6> matches anything, for eg *oft will every ending with “oft” like soft, loft, hayloft, etc.</h6>
+    <img src="../../static/Search-page images/Image3.png">
+    <p> *oft* will match anything which contains the string “oft” like softball, loft bombing, soft-show, etc.</p>
+    <img src="../../static/Search-page images/Image4.png">
+    <p>oft* will match anything starting anything with “oft” like often, oftener, etc.</p>
+    <img src="../../static/Search-page images/Image5.png">
+<h5>?:</h5>
+    <h6>Matches one character exactly.</h6>
+    <p>[?ot] It will return bot, dot, lot, etc.</p>
+    <img src="../../static/Search-page images/Image6.png">
+
+    <p>[ho?] will return hot, hop, hogg, hob, hoe, etc.</p>
+    <img src="../../static/Search-page images/Image7.png">
+<h5>[xyz]:</h5>
+    <h6>Matches any of x-y-z.</h6>
+    <p>For eg, [bcef]at will return bat, cat, eat, fat, etc.</p>
+    <img src="../../static/Search-page images/Image8.png">
+<h5>[a-k]:</h5>
+    <h6>Matches any character which is not in the range specified inside the square box.</h6>
+    <p>For eg, [b-j]at will return bat, cat, hat, fat, cat, etc.</p>
+    <img src="../../static/Search-page images/Image9.png">
+<hr>
+<h4>Mouse-hovering the Concept page:</h4>
+    <p>The concept pages contain graphical control elements that can be activated when the pointer hovers over a trigger area with the help of a mouse or some other device.
+    For getting more information, hover the pointer over where you want more information. For eg, you want to know what does hypernym means, so you can just hover your pointer over hypernym.
+    </p>
+    <img src="../../static/Search-page images/Image10.png">
+    <p>For getting further information, you can click on hypernym, another tab will be opened after doing so.</p>
+
+<hr>
+
+<h4>Senses: </h4>
+    <p>The sense is relation to other expressions in the language system, it is one of the meanings of a lemma. Senses mean all the possible meanings of a lemma, here in this Senses section you can look at all the possible meanings of a lemma.</p>
+    <img src="../../static/Search-page images/Image11.png">
+
+<h4>Definitions: </h4>
+    <p>In the definitions section, you can see a statement of the exact meaning of a word.</p>
+    <img src="../../static/Search-page images/Image12.png">
+
+
+<h4>Synset Relations:</h4>
+    <p>Here you can look up for Part Holonym, Hypernym, Hyponym, Member Holonym, Domain topic, Instance Hyponym, and other synset relations.
+</p>
+    <img src="../../static/Search-page images/Image13.png">
+
+
+<h4>Synset Sources:</h4>
+    <p>The wordnets are all developed independently, The Open Multilingual Wordnet provides access to open wordnets in a variety of languages, all linked to a collaborative Interlingual Index. </p>
+    <img src="../../static/Search-page images/Image14.png">
+<hr>
 
 
 
@@ -15,7 +113,7 @@
     <br>e.g. {{ili_link(46593, 'omw/ili/concepts/46593')}}
   <li> Search for an ili_id with this to get the concept (as html)
     <br><code>omw/concepts/ili/ili_id</code>
-	<br>e.g. {{ili_ss_link(46593, 'omw/concepts/46593')}}
+  <br>e.g. {{ili_ss_link(46593, 'omw/concepts/46593')}}
   <li> Search within a wordnet using it's project, version and synset identifier:
     <br><code>omw/src/prj/ver/sysnet_id</code>
     <br>e.g. <a href='/omw/src/pwn/3.0/02121620-n'>/omw/src/pwn/3.0/02121620-n</a>
