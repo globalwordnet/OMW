@@ -3,19 +3,185 @@
 
 <h3>OMW Search Interface</h3>
 
-<p>This page provides documentation for the web interface to the Open
-  Multilingual Wordnet.  
+<ul>
+    <li><a href="#Introduction"> Introduction </a></li>
+    <li><a href="#Search-func"> Basic Search Function</a></li>
+    <ul>
+        <li><a href="#Glob"> Glob Patters </a></li>
+        <li><a href="#Hints"> Hints (tooltips)</a></li>
+    </ul>
+    <li><a href="#Elements"> Elements of a Concept</a></li>
+    <ul>
+        <li><a href="#Head"> Head</a></li>
+        <li><a href="#Senses"> Senses</a></li>
+        <li><a href="#Definitions"> Definitions</a></li>
+        <li><a href="#Examples"> Examples</a></li>
+        <li><a href="#Synset-relations"> Synset Relations</a></li>
+        <li><a href="#Synset-Sources"> Synset Sources</a></li>
+    </ul>
+    <li><a href="#Restful"> Restful Interface</a></li>
+</ul>
+<hr>
+
+<h4 id="Introduction"> Introduction:</h4>
+    <p> WordNet is a large, open-source, lexical database of English. Nouns, verbs, adjectives, and adverbs are grouped into sets of cognitive synonyms (synsets), each expressing a distinct concept. Synsets are interlinked utilizing conceptual-semantic and lexical relations. </p>
+    <p>Concepts are abstract ideas or general notions in our minds, we represent them as nodes in the OMW graph which are linked to synsets in individual wordnets.</p>
+<hr>
+<!--h3>Navigating through the Concept page:</h3-->
+<h4 id="Search-func">Basic Search Function:</h4>
+
+    <img style="border:1px solid black" src="../../static/img/docs/search/search1.png">
+    <br>
+    &nbsp;
+    <p>The Basic Search function is used to search lemmas, which is present on the head of the concept page. A lemma is a word you find in the dictionary or wordnet.
+    In the search function, there are two language select options. You can select the languages in which you want to search the word in the search bar.
+    For example, if you choose English & French, and then if you search for a word, it will search that word in both languages.</p>
+
+<h5 id="Glob">Glob Patterns:</h5>
+    <p>Glob patterns are used for file path expansion with the help of wildcard characters. Each wildcard character has it’s own use. Sets of filenames are specified according to these wildcard characters. A wildcard pattern will be expanded into a list of pathnames that will be matching the given pattern.
+
+</p>
+    <table border="3">
+            <tr>
+                <td>Glob pattern </td>
+                <td> Glob pattern description</td>
+            </tr>
+            <tr>
+                <td>* </td>
+                <td> It will match any character zero or more times.</td>
+            </tr>
+            <tr>
+                <td>?</td>
+                <td>It will match any character one time</td>
+            </tr>
+            <tr>
+                <td>[xyz]</td>
+                <td>It will match any character specified in the square brackets.</td>
+            </tr>
+            <tr>
+                <td>[a-k]</td>
+                <td>It will match any character in the range specified inside the square brackets.</td>
+            </tr>
 
 
+    </table>
+&nbsp;
+<h5>* :</h5>
+    <h6> matches anything, for example, *oft will match every ending with “oft”, like soft, loft, hayloft, etc.</h6>
+        <p> *oft* will match anything which contains the string “oft”, like softball, loft bombing, soft-show, etc.</p>
+        <p>oft* will match anything starting anything with “oft”, like often, oftener, etc.</p>
+        &nbsp;
+       <img style="border:1px solid black" src="../../static/img/docs/search/search2.png">
+        &nbsp;
+<h5>?:</h5>
+    <h6>Matches one character exactly.</h6>
+    <p>[ho?] will return hot, hop, hogg, hob, hoe, etc.</p>
+    <p>[?ot] It will return bot, dot, lot, etc.</p>
+    
+    <img style="border:1px solid black" src="../../static/img/docs/search/search3.png ">
+    &nbsp;
 
-  <h4>Restful Interface</h4>
+<h5>[xyz]:</h5>
+    <h6>Matches any of x-y-z.</h6>
+    <p>For example, [bcef]at will return bat, cat, eat, fat, etc.</p>
+    
+    <img style="border:1px solid black" src="../../static/img/docs/search/search4.png">
+
+    &nbsp;
+<h5>[a-k]:</h5>
+    <h6>Matches any character which is not in the range specified inside the square box.</h6>
+    <p>For example, [b-j]at will return bat, cat, hat, fat, cat, etc.</p>
+    
+    <!--img style="border:1px solid black" src="../../static/img/docs/search/search5.png"-->
+    <ul>
+        <li><a href="https://www.sqlitetutorial.net/sqlite-glob/"> Learn how to use the SQLite GLOB operator to determine whether a string matches a specific pattern.</a></li>
+    </ul>
+
+<hr>
+
+<h5 id="Hints">Hints (tooltips):</h5>
+    <p>Many elements have short explanations that will be shown if you hover over them. If you click on them, they will lead you to more detailed information. For example, if you want to know what hypernym means, you can hover your pointer over hypernym.
+    </p>
+    <img style="border:1px solid black" src="../../static/img/docs/search/search6.png">
+    <p>For obtaining more information, you may click on hypernym.</p>
+
+<hr>
+<h4 id="Elements">Elements of a Concept:</h4>
+<p>Elements of a concept include head, senses, definitions, examples, synset-relations, and synset-sources. </p>
+<hr>
+    <h5 id="Head"> Head:</h5>
+        <p> The head section contains lemma, part of speech, core synset symbol (may or may not be present), link to ili (ili Id) and definition of the lemma.</p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/head.png"><br>
+        &nbsp;
+            <h6>Part of Speech:</h6>
+            <p>It implies whether the searched lemma is a noun, adjective, etc.'n' in the image above implies that the lemma is a noun.</p>
+            <ul>
+            <li><a href="https://www.luismc.com/omw/omw/doc/pos"> Parts of Speech: Information for the parts of speech used by OMW</a></li>
+            </ul>
+            <h6>Core synset symbol ✪ : </h6>
+            <p>You may or may not see a star inscribed in a circle next to the part of speech. Core concepts are those in the the semi-automatically compiled list of 4,960 core word senses in the Princeton WordNet (approximately the 5,000 most frequently used word senses in the British National Corpus).
+            </p>
+            <ul>
+                <li><a href="https://www.luismc.com/omw/omw/core"> Core synset ✪</a></li>
+            </ul>
+            <h6>Link to ili:</h6>
+            <p>There is a unique ili ID for each word, you may hover it or may click it to get more information.</p>
+            <h6>Definitions of the lemma:</h6>
+            <ul>
+                <li><a href="#Definitions"> Definitions</a></li>
+            </ul>
+    <hr>
+
+    <h5 id="Senses">Senses: </h5>
+        <p>The sense is relation to other expressions in the language system. It is one of the meanings of a lemma. Senses mean all the possible meanings of a lemma. In this Senses section you can look at all the possible meanings of a lemma. Each sense of a word is in a different synset.</p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/search7.png">
+    <hr>
+    <h5 id="Definitions">Definitions: </h5>
+        <p>In the definitions section, you can see a statement of the exact meaning of a word.</p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/search8.png">
+
+    <hr>
+    <h5 id="Examples">Examples:</h5>
+        <p>An example of the entered lemma will be listed here. It may or may not be available.</p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/examples.png">
+
+    <hr>
+    <h5 id="Synset-relations">Synset Relations:</h5>
+        <p>Here you can look up for Part Holonym, Hypernym, Hyponym, Member Holonym, Domain topic, Instance Hyponym, and other synset relations.
+        </p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/search9.png">
+        <br>
+        &nbsp;
+        <ul>
+            <li><a href="https://globalwordnet.github.io/gwadoc/"> Relations</a></li>
+        </ul>
+    <hr>
+    <h5 id="Synset-Sources">Synset Sources:</h5>
+        <p>The wordnets are all developed independently, The Open Multilingual Wordnet provides access to open wordnets in a variety of languages, all linked to a collaborative Interlingual Index. </p>
+        <img style="border:1px solid black" src="../../static/img/docs/search/search10.png">
+        <br>
+        &nbsp;
+        <ul>
+            <li><a href="https://www.luismc.com/omw/omw/src/pwn/3.0"> Princeton Wordnet</a></li>
+            <li><a href="https://www.luismc.com/omw/omw/src/ellwn/1.0">Greek Wordnet</a></li>
+        </ul>
+    <hr>
+
+<ul>
+    <li><a href="https://www.luismc.com/omw/"> Open Multilingual Wordnet</a></li>
+    <li><a href="https://www.luismc.com/omw/omw/doc/wn"> OMW Wordnet Documentation</a></li>
+    <li><a href="https://www.luismc.com/omw/omw/doc/glossary"> OMW Glossary</a></li>
+    
+</ul>
+
+  <h4 id="Restful">Restful Interface</h4>
 <ul>
   <li> Search for an ili_id with this to get the ili record (as html)
     <br><code>omw/ili/concepts/ili_id</code>
     <br>e.g. {{ili_link(46593, 'omw/ili/concepts/46593')}}
   <li> Search for an ili_id with this to get the concept (as html)
     <br><code>omw/concepts/ili/ili_id</code>
-	<br>e.g. {{ili_ss_link(46593, 'omw/concepts/46593')}}
+  <br>e.g. {{ili_ss_link(46593, 'omw/concepts/46593')}}
   <li> Search within a wordnet using it's project, version and synset identifier:
     <br><code>omw/src/prj/ver/sysnet_id</code>
     <br>e.g. <a href='/omw/src/pwn/3.0/02121620-n'>/omw/src/pwn/3.0/02121620-n</a>
@@ -30,3 +196,5 @@
 
 
 {% endblock %}
+
+
