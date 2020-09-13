@@ -960,6 +960,10 @@ def omw_doc_if(name=None):
 def omw_doc_search(name=None):
     return render_template('doc/search.html')
 
+@app.route('/omw/doc/validator', methods=['GET', 'POST'])
+def omw_doc_validator(name=None):
+    return render_template('doc/validator.html')
+
 @app.route('/omw/doc/upload', methods=['GET', 'POST'])
 def omw_doc_upload(name=None):
     return render_template('doc/upload.html',
