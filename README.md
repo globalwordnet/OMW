@@ -23,7 +23,12 @@ To setup OMW, start by cloning the repository and changing to its directory:
 
 This application utilizes older versions of some packages, as specified in [`requirements.txt`](requirements.txt).
 For that reason, we suggest the creation of isolated Python environments using [virtualenv](https://virtualenv.pypa.io) to install such versions.
-See [here](https://virtualenv.pypa.io/en/latest/installation/) for instructions on installing virtualenv itself if you don't already have it.
+
+If you don't already have virtualenv, install it by running the command:
+```
+~/OMW$ pip install virtualenv
+```
+
 Now create and activate new virtual environment:
 
 ```bash
