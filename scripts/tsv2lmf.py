@@ -27,14 +27,15 @@ args = parser.parse_args()
 
 ###print(args.tsv)
 
-log = open('tsv2wn_{}.log'.format(args.lang),'w')
+log = open('log/tsv2wn_{}.log'.format(args.lang),'w')
 
 open_license = {'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
                 'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/',
                 'CC BY SA 3.0':'https://creativecommons.org/licenses/by-sa/3.0/',
                 'Apache 2.0':'https://opensource.org/licenses/Apache-2.0',
                 'CeCILL-C':'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html',
-                'MIT':'https://opensource.org/licenses/MIT/'}
+                'MIT':'https://opensource.org/licenses/MIT/',
+                'unicode':'https://www.unicode.org/license.html'}
 
 meta_default = { 'id': args.wnid, 
                  'label':'???',
@@ -88,7 +89,10 @@ ilimap = dd(str)
 map_file = open(args.ili_map,'r')
 for l in map_file:
     row = l.strip().split()
-    ilimap[row[1].replace('-s','-a')] = row[0]
+    ilimap[row[1]] = row[0]
+    if row[1].endswith('-s'):
+        ### map as either -s or -a
+        ilimap[row[1].replace('-s','-a')] = row[0]
 
 def clean(lemma):
     if lemma.startswith('"') and lemma.endswith('"'):
