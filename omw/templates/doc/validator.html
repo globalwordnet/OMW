@@ -1,18 +1,41 @@
 {% extends "omw.html" %}
 {% block welcome %}
-
-<h3>Global WordNet Converter and Validator</h3>
+ 
+<h3>Global WordNet Converter</h3>
 
 <p>To link your wordnet to the <a href="https://www.luismc.com/omw/omw">Open Multilingual Wordnet</a>, you should first convert your wordnet to the public Wordnet LMF document type definition <a href="https://www.luismc.com/omw/omw/doc/lmf">(LMF DTD)</a>.</p>
 
-<p>Global Wordnet Association provides a  validator to validate whether your wordnet is in the desired format or not, and a converter to convert wordnets which are in the right format to different representations.</p>
+<p>Global Wordnet Association provides a converter to convert wordnets which are in the right format to different representations, and a validator to validate whether your wordnet is in the desired format or not.</p>
 <ul>
-	<li><a href="#validator"> Validator</a></li>
 	<li><a href="#converter"> Converter</a></li>
+	<li><a href="#validator"> Validator</a></li>
+</ul>
+<hr>
+
+<h4 id="converter">Converter</h4>
+<p>It converts your wordnet file format from Wordnet JSON, Wordnet DB, Open Multilingual Wordnet CSV, plWordNet, DebVisDic and W3C RDF to Wordnet LMF format.</p>
+<p>To convert:</p>
+<ul>
+	<li>Go to the <a href="http://server1.nlp.insight-centre.org/gwn-converter/#">Global Wordnet converter and validator page</a>. At the top left of the page choose the convert option and select the desired format for the input file (the one which you want to convert).</li>
+	<br>
+	<p>Select the desired output wordnet format (Wordnet LMF).</p>
+	<br>
+	<img style="border:1px solid black" src="../../static/img/docs/Validator/image5.png" width="1000px">
+	<br><br>
+	<li>You can either copy-paste the content of your wordnet file in the “Input Wordnet Data” box, or you can upload a wordnet file by selecting the “Browse..” button (We suggest to prefer browsing the file).</li>
+	<br>
+	<li>Before converting the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <strong>Convert</strong>.</li>
+	<br>
+	<p>If there are no errors in the passed file, wordnet in the desired format will be returned.</p>
+	<img style="border:1px solid black" src="../../static/img/docs/Validator/image4.png" width="1000px" height="280px">
+	<br><br>
+	<p>🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfully converted your wordnet in the desired format. 😊</p>
 </ul>
 <hr>
 
 <h4 id="validator">Validator </h4>
+
+<p>It is an external validator. You will need to validate your wordnet file before uploading it to the Open Multilingual Wordnet by the local validator. It's not necessary to get your file validated here to upload it to the OMW.</p>
 
 <p>To validate the format of your wordnet:</p>
 	<ul>
@@ -37,6 +60,7 @@
 	</ul>
 	<h5>Notes</h5>
 		<ul>
+			<li>Your wordnet file might get validated here, but it might not get validated by the local validator (e.g. in case your wordnet resource is forming cycles in the hypernym graph after getting merged). To be able to upload your wordnet resource, you need the approval of the local validator. This external tool is for your reference only.</li>
 			<li>You might get a “Too large request or file” message if you are copy-pasting a large wordnet file in the “Wordnet Data” box.</li>
 			<br>
 			<img style="border:1px solid black" src="../../static/img/docs/Validator/image1.png">
@@ -48,26 +72,6 @@
 			<br><br>
 			<p>In that case, you may again try to validate your wordnet (validator isn’t perfect, as of now you should be successful in validating the wordnet in few attempts).</p>
 		</ul>
-<hr>
-<h4 id="converter">Converter</h4>
-<p>It converts your wordnet file format from Wordnet JSON, Wordnet DB, Open Multilingual Wordnet CSV, plWordNet, DebVisDic and W3C RDF to Wordnet LMF format.</p>
-<p>To convert:</p>
-<ul>
-	<li>Go to the <a href="http://server1.nlp.insight-centre.org/gwn-converter/#">Global Wordnet converter and validator page</a>. At the top left of the page choose the convert option and select the desired format for the input file (the one which you want to convert).</li>
-	<br>
-	<p>Select the desired output wordnet format (Wordnet LMF).</p>
-	<br>
-	<img style="border:1px solid black" src="../../static/img/docs/Validator/image5.png" width="1000px">
-	<br><br>
-	<li>You can either copy-paste the content of your wordnet file in the “Input Wordnet Data” box, or you can upload a wordnet file by selecting the “Browse..” button (We suggest to prefer browsing the file).</li>
-	<br>
-	<li>Before converting the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <strong>Convert</strong>.</li>
-	<br>
-	<p>If there are no errors in the passed file, wordnet in the desired format will be returned.</p>
-	<img style="border:1px solid black" src="../../static/img/docs/Validator/image4.png" width="1000px" height="280px">
-	<br><br>
-	<p>🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfully converted your wordnet in the desired format. 😊</p>
-</ul>
 <hr>
 <ul>
 	<li>

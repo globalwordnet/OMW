@@ -13,8 +13,10 @@
 <h4>Usage</h4>
 <br>
 <pre>
+  <code>
   $ python scripts/tsv2lmf.py --help
   usage: tsv2lmf.py [-h] wnid lang ili_map tsv
+  </code>
 
   A program to make wordnet LMF from OMW 1.0 tsv
 
@@ -27,6 +29,12 @@
   optional arguments:
     -h, --help  show this help message and exit
 </pre>
+<p>For example, to convert a tsv file called tsv_file_name, whose wordnet id is to be tufs_eng, and the language code is en for that language, we will run this command.</p>
+<pre>
+  <code>
+    scripts$ python tsv2lmf.py tufs_eng en ili-map.tab tsv_file_name 
+  </code>
+</pre>  
 
 <br>
 <h4>TSV format</h4>
@@ -57,14 +65,14 @@ offset-pos ␉ lang:exe   ␉ sid  ␉ example
 <h4>Example:</h4>
 <br>
 <pre>
-# Wordnet Bahasa	ind	http://wn-msa.sourceforge.net/	MIT 
-00019613-n	ind:def 0 masalah fisik yang nyata
-00019613-n	ind:lemma	inti
-00019613-n	ind:lemma	unsur
-11407591-n	ind:def	0	Novelis dan kritikus Perancis
-11407591-n	ind:def	1	pembela Dreyfus
-11407591-n	ind:lemma	Emile Zola
-11407591-n	ind:lemma	Zola
+# Wordnet Bahasa  ind http://wn-msa.sourceforge.net/  MIT 
+00019613-n  ind:def 0 masalah fisik yang nyata
+00019613-n  ind:lemma inti
+00019613-n  ind:lemma unsur
+11407591-n  ind:def 0 Novelis dan kritikus Perancis
+11407591-n  ind:def 1 pembela Dreyfus
+11407591-n  ind:lemma Emile Zola
+11407591-n  ind:lemma Zola
 </pre>
 <p>For this data to be really useful you need to combine it with the
 synset relations from the Princeton wordnet.

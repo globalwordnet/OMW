@@ -13,13 +13,19 @@
       wordnet</a> (an LMF-formatted file)
     <ul>
       <li> <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
-	  LMF file</a>
-	<li><a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
-	    to GWA-LMF</a>
+    LMF file</a>
+  <li><a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
+      to GWA-LMF</a>
+      <li>
+          <a href="{{ url_for('omw_doc_validator') }}">Interconverter for desired formats. (external tool)</a>
+      </li>
       <li> <a href="{{ url_for('omw_doc_metadata') }}">More
-	  information about the LMF metadata</a>
+    information about the LMF metadata</a>
       <li><a href="{{ url_for('omw_doc_add_wn') }}">A script for
-	  uploading wordnets from the command line</a>
+    uploading wordnets from the command line</a>
+    <li>
+      <a href="{{ url_for('omw_doc_feedback') }}">Documentation for the validation report</a>
+    </li>
      </ul>
   <li> <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
 </ul>

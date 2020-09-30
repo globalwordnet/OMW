@@ -964,6 +964,11 @@ def omw_doc_search(name=None):
 def omw_doc_validator(name=None):
     return render_template('doc/validator.html')
 
+@app.route('/omw/doc/feedback', methods=['GET', 'POST'])
+def omw_doc_feedback(name=None):
+    return render_template('doc/feedback.html')
+
+
 @app.route('/omw/doc/upload', methods=['GET', 'POST'])
 def omw_doc_upload(name=None):
     return render_template('doc/upload.html',
@@ -1002,7 +1007,7 @@ def omw_doc_pos(name=None):
 
     # Get the labels for the synsets
     sss = set()
-    for p in pos_exe:
+    for p in pos_exe: 
         for (ss_id, freq)  in  pos_exe[p]:
             sss.add(ss_id)
     label= fetch_labels(selected_lang,sss)
