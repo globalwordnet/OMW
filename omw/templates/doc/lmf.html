@@ -8,37 +8,37 @@
     Wordnet</a>.
 
 <p><strong> Lexical markup framework (LMF; ISO
-    24613:2008)</strong>, is the ISO International Organization for
+    24613:2008)</strong> is the ISO International Organization for
   Standardization ISO/TC37 standard for natural language processing
   (NLP) and machine-readable dictionary (MRD) lexicons.
-  The LMF variant we use here (GWA-LMF) is inspired by Wordnet-LMF.
+  The LMF variant that we use here (GWA-LMF) is inspired by Wordnet-LMF.
   The schema
     is <a href="https://github.com/globalwordnet/schemas/">hosted on
     github</a>,
-  with <a href="https://globalwordnet.github.io/schemas/">documentation</a>  .
+  with <a href="https://globalwordnet.github.io/schemas/">documentation</a>.
 
 
   <h4>Guidelines for preparing the LMF</h4>
 
-  <p>Here are some more details on how to prepare the file.
+  <p>Here are more details on how to prepare the file.
 
 <h3>Wordnet Metadata</h3>
 
 <p>Each lexicon must have correct metadata
   (<a href="{{url_for('omw_doc_metadata')}}">see here for more detail</a>)
     Extra properties may be included from the
-    <a href='http://dublincore.org/documents/dces/' target="_blank">Dublin core</a>
+    <a href='http://dublincore.org/documents/dces/' target="_blank">Dublin core</a>.
 
   <ul>
-    <li><strong>id</strong> A short name for the resource
+    <li><strong>id:</strong> A short name for the resource
       <br>e.g. <tt>pwn</tt>;  <tt>bahasa</tt>
-    <li><strong>label</strong> The full name for the resource
+    <li><strong>label:</strong> The full name for the resource
       <br>e.g. <tt>Princeton WordNet</tt>; <tt>Wordnet Bahasa</tt>
-    <li><strong>language</strong> Please follow BCP-47, i.e., use a two-letter
+    <li><strong>language:</strong> Please follow BCP-47, i.e., use a two-letter
                       code if available else a three-letter code
       <br>e.g. <tt>en</tt>; <tt>id</tt>, <tt>zsm</tt>
-    <li><strong>email</strong> Please give a contact email address
-    <li><strong>license</strong> The license of your resource (please provide URL)
+    <li><strong>email:</strong> Please give a contact email address
+    <li><strong>license:</strong> The license of your resource (please provide URL)
       <br>e.g. <tt>https://opensource.org/licenses/MIT</tt>
 
 <p>Currently we recommend:
@@ -53,7 +53,7 @@ For a fuller list, <a href="{{ url_for('omw_doc_metadata') }}#license">see here<
     
     <li><strong>version</strong> A string identifying this version (following
                      major.minor format)
-      	<br>e.g. 3.0; 1.3
+        <br>e.g. 3.0; 1.3
     <li><strong>url</strong> A URL for your project homepage
       <br>e.g. <tt>http://wordnet.princeton.edu/</tt>; <tt>http://wn-msa.sourceforge.net/</tt>
     <li><strong>citation</strong> The paper to cite for this resource
@@ -125,10 +125,9 @@ For a fuller list, <a href="{{ url_for('omw_doc_metadata') }}#license">see here<
 <ul>
   <li>You can also add new synsets to the <a href='https://github.com/globalwordnet/ili'>Collaborative Interlingual Index (CILI)</a>.
     
-  <li>Synset ids in your LMF file should take the project id followed
-  by an hyphen preceeding the id that will be considered original
+  <li>Synset ids in your LMF file should take the project id followed by a hyphen preceding the id that will be considered original
   (e.g. <tt>pwn-00001740-n</tt> for original id <tt>00001740-n</tt> in
-  lexicon with id <tt>pwn</tt>)</li>  This is because xml ids cannot start with numbers.
+  lexicon with id <tt>pwn</tt>)</li>  This is because XML ids cannot start with numbers.
 
   <li>Synsets in your LMF file must make an explicit reference to
   their ILI status: an ILI id preceeded by the letter 'i'
@@ -165,6 +164,7 @@ For a fuller list, <a href="{{ url_for('omw_doc_metadata') }}#license">see here<
   to GWA-LMF</a>.
   <li><a href="http://nlp.pwr.wroc.pl/en/tools-and-resources/tools/wordnetloom">WordnetLoom</a>
     can export to GWA-LMF.
+  <li>We have an <a href="{{ url_for('omw_doc_validator') }}">interconverter for desired formats. (external tool)</a></li>
 </ul>
   
 
