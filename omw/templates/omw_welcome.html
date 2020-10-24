@@ -40,6 +40,7 @@ in the World page</a>.
     <th>ID</th>
     <th>Statistics</th>
     <th>License</th>
+    <th>Feedback</th>
       </tr></thead>
     {% for id in src_meta %}
     {% set meta = src_meta[id] %}
@@ -67,9 +68,20 @@ in the World page</a>.
 	  proj=proj, ver=ver)}}'>LaTeX</a>
     </td>
     <td><a  title= 'More information about the licence'  href='{{meta['license']}}'>{{licenses[meta['license']]}}</a></td>
-   <tr>
+    <td>
+      {% if src_id %}
+        {% if src_info.email %}
+        <p> The contact email is &lt;<a href='mailto:{{src_info.email}}'>{{src_info.email}}</a>&gt;.</p>
+        {% else %}
+        <p> The contact email is <a href = "mailto: omwordnet@gmail.com">omwordnet@gmail.com</a></p>
+        {% endif %}
+      {% else %}
+      <a href = "mailto: omwordnet@gmail.com">omwordnet@gmail.com</a></p>
+      {% endif %}
+    </td>
   {% endfor %}
 </table>
+
 {% if projects == 'all' %}
 <p><a href="{{url_for('omw_welcome')}}">Show only latest versions</a>.
 {% else %}
@@ -84,8 +96,7 @@ in the World page</a>.
       of the OMW'>Statistics about the OMW thought of as one big network</a>.
   
   
-<p><a href="{{ url_for('join') }}">How to join the Open Multilingual
-    Wordnet</a>.
+<p><a href="{{ url_for('join') }}">Add a new wordnet</a>.
 
 <p><a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a></p>
 

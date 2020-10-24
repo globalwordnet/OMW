@@ -38,66 +38,11 @@
     For example, if you choose English & French, and then if you search for a word, it will search that word in both languages.</p>
 
 <h5 id="Glob">Glob Patterns:</h5>
-    <p>Glob patterns are used for file path expansion with the help of wildcard characters. Each wildcard character has it’s own use. Sets of filenames are specified according to these wildcard characters. A wildcard pattern will be expanded into a list of pathnames that will be matching the given pattern.
-
-</p>
-    <table border="3">
-            <tr>
-                <td>Glob pattern </td>
-                <td> Glob pattern description</td>
-            </tr>
-            <tr>
-                <td>* </td>
-                <td> It will match any character zero or more times.</td>
-            </tr>
-            <tr>
-                <td>?</td>
-                <td>It will match any character one time</td>
-            </tr>
-            <tr>
-                <td>[xyz]</td>
-                <td>It will match any character specified in the square brackets.</td>
-            </tr>
-            <tr>
-                <td>[a-k]</td>
-                <td>It will match any character in the range specified inside the square brackets.</td>
-            </tr>
-
-
-    </table>
-&nbsp;
-<h5>* :</h5>
-    <h6> matches anything, for example, *oft will match every ending with “oft”, like soft, loft, hayloft, etc.</h6>
-        <p> *oft* will match anything which contains the string “oft”, like softball, loft bombing, soft-show, etc.</p>
-        <p>oft* will match anything starting anything with “oft”, like often, oftener, etc.</p>
-        &nbsp;
-       <img style="border:1px solid black" src="../../static/img/docs/search/search2.png">
-        &nbsp;
-<h5>?:</h5>
-    <h6>Matches one character exactly.</h6>
-    <p>[ho?] will return hot, hop, hogg, hob, hoe, etc.</p>
-    <p>[?ot] It will return bot, dot, lot, etc.</p>
-    
-    <img style="border:1px solid black" src="../../static/img/docs/search/search3.png ">
-    &nbsp;
-
-<h5>[xyz]:</h5>
-    <h6>Matches any of x-y-z.</h6>
-    <p>For example, [bcef]at will return bat, cat, eat, fat, etc.</p>
-    
-    <img style="border:1px solid black" src="../../static/img/docs/search/search4.png">
-
-    &nbsp;
-<h5>[a-k]:</h5>
-    <h6>Matches any character which is not in the range specified inside the square box.</h6>
-    <p>For example, [b-j]at will return bat, cat, hat, fat, cat, etc.</p>
-    
-    <!--img style="border:1px solid black" src="../../static/img/docs/search/search5.png"-->
+    <p>Glob patterns are used for file path expansion with the help of wildcard characters. <a href="{{ url_for('omw_doc_glob') }}">See the OMW documentation on Glob</a>.
     <ul>
         <li><a href="https://www.sqlitetutorial.net/sqlite-glob/"> Learn how to use the SQLite GLOB operator to determine whether a string matches a specific pattern.</a></li>
     </ul>
 
-<hr>
 
 <h5 id="Hints">Hints (tooltips):</h5>
     <p>Many elements have short explanations that will be shown if you hover over them. If you click on them, they will lead you to more detailed information. For example, if you want to know what hypernym means, you can hover your pointer over hypernym.

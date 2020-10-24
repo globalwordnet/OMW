@@ -35,6 +35,7 @@ import gwadoc
 import networkx as nx
 ## profiler
 #from werkzeug.contrib.profiler import ProfilerMiddleware
+from omw.utils.utils import fetch_sorted_meta_by_version
 
 app = Flask(__name__)
 # Common configuration settings go here
@@ -421,24 +422,13 @@ def ili_welcome(name=None):
 @app.route('/omw', methods=['GET', 'POST'])
 def omw_welcome(name=None):
     projects = request.args.get('projects','current')
-    #print(projects)
     lang_id, lang_code = fetch_langs()
     src_meta=fetch_src_meta()
     ### sort by language, project version (Newest first)
-    src_sort=od()
-    keys=list(src_meta.keys())
-    keys.sort(key=lambda x: Version(src_meta[x]['version']),reverse=True) #Version
-    keys.sort(key=lambda x: src_meta[x]['id']) #id 
-    keys.sort(key=lambda x: lang_id[lang_code['code'][src_meta[x]['language']]][1]) #Language
-    for k in keys:
-        if projects=='current':  # only get the latest version
-            if src_meta[k]['version'] != max((src_meta[i]['version'] for i in src_meta
-                                             if src_meta[i]['id'] ==  src_meta[k]['id']),
-                                             key=lambda x: Version(x)):
-                continue
-        src_sort[k] =  src_meta[k]
+    src_meta_sorted = fetch_sorted_meta_by_version(projects, src_meta, lang_id, lang_code)
+
     return render_template('omw_welcome.html',
-                           src_meta=src_sort,
+                           src_meta=src_meta_sorted,
                            lang_id=lang_id,
                            lang_code=lang_code,
                            licenses=licenses)
@@ -677,6 +667,10 @@ def search_omw(lang=None, lang2=None, q=None):
     ili, ili_defs = fetch_ili([ss[k][0] for k in ss])
     labels = fetch_labels(lang_id, set(senses.keys()))
 
+    projects = request.args.get('projects', 'current')
+    lang_idm, lang_codem = fetch_langs()
+    src_meta = fetch_src_meta()
+    src_meta_sorted = fetch_sorted_meta_by_version(projects, src_meta, lang_idm, lang_codem)
 
     resp = make_response(render_template('omw_results.html',
                                          query =query,
@@ -691,7 +685,8 @@ def search_omw(lang=None, lang2=None, q=None):
                                          links=links,
                                          defs=defs,
                                          exes=exes,
-                                         labels=labels))
+                                         labels=labels,
+                                         src_meta=src_meta_sorted))
 
     resp.set_cookie('selected_lang', str(lang_id))
     resp.set_cookie('selected_lang2', str(lang_id2))
@@ -967,6 +962,10 @@ def omw_doc_validator(name=None):
 @app.route('/omw/doc/feedback', methods=['GET', 'POST'])
 def omw_doc_feedback(name=None):
     return render_template('doc/feedback.html')
+
+@app.route('/omw/doc/glob', methods=['GET', 'POST'])
+def omw_doc_glob(name=None):
+    return render_template('doc/glob.html')
 
 @app.route('/omw/doc/contribute', methods=['GET', 'POST'])
 def omw_doc_contribute(name=None):
