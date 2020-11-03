@@ -54,7 +54,7 @@
                 changes will be moderated.</li>
             <li><span class="big-number">9.</span> Each new CILI concept should link to a synset
                 in an existing project that is part of the
-                OMW with one of a set of 
+                OMW with one of a set of
                 <a =href='https://globalwordnet.github.io/gwadoc/'>known relations</a>
                 (hypernymy, meronomy, antonymy, ...).</li>
             <li><span class="big-number">10.</span> This synset should link to another synset in an
@@ -104,6 +104,12 @@
     </div>
 </div>
 
+<div class="row justify-content-center space-after">
+    <div class="col-sm-4">
+        <h3><a href="{{ url_for('join') }}" class="black">Join CILI, add a wordnet</a></h3>
+    </div>
+</div>
+
 <div class="row" id="format" style="display:none;">
     <div class="col">
         <p>You can download
@@ -139,13 +145,11 @@
 {% if current_user.id %}
 
 <div id="UserPanel">
-  <h5>User Panel</h5>
-
-  <p>If you have a new wordnet, and are part of the Global Wordnet
-  Association, then you can upload a new wordnet.  Please check it
-  thoroughly first.
-     
-  <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
+    <h5>User Panel</h5>
+    <p>If you have a new wordnet, and are part of the Global Wordnet Association, then you can upload a new wordnet.
+        Please check it thoroughly first.
+    <p><a href="{{ url_for('join') }}">Contribute a new wordnet</a></p>
+    <p><a href="{{ url_for('upload') }}">Upload a new wordnet</a></p>
 </div>
 <hr>
 {% endif %}
