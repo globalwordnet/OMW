@@ -1,0 +1,149 @@
+{% extends "omw.html" %}
+{% block welcome %}
+
+    <h3>Feedback</h3>
+    <p>This page provides documentation on how to give us feedback. </p>
+    <hr>
+    <h4>Contents</h4>
+    <ul>
+        <li>
+            <p><a href="#wordnets">Feedback about Individual wordnets</a></p>
+        </li>
+        <li>
+            <p><a href="#website">Feedback about the website</a></p>
+        </li>
+        <li>
+            <p><a href="#project">Feedback/Questions about the OMW project as a whole</a></p>
+            <ul>
+                <li>
+                    <p><a href="#faq">Frequently Asked Questions</a></p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p><a href="#lemma">Feedback about individual lemma (ili-ID)</a></p>
+        </li>
+    </ul>
+    <hr>
+
+    <h4 id="wordnets">Feedback about Individual wordnets</h4>
+    <p>Open Multilingual Wordnet is a collection of different wordnets around the globe that were independently created,
+        some of them with limited resources and time frames, resulting in different accuracies.</p>
+    <p>To give your valuable feedback to the individual wordnets:</p>
+    <ul>
+        <li>Visit the home page, there is a list of wordnets, in that list checks the feedback column, in the feedback
+            column there is the list of active email ids for feedback.
+        </li>
+        <li>Use those email IDs to report an issue or to give us feedback.</li>
+        <li>To get more information about individual wordnet, you should check the wordnet column of the same list
+            (which is on the home page) click on the wordnet, which you want to know more in detail.
+        </li>
+    </ul>
+    <a href="#top">Back to the top</a>
+    <hr>
+
+    <h4 id="website">Feedback about the website</h4>
+    <p>This website is maintained by the OMW community. The source code is hosted on <a
+            href="https://github.com/globalwordnet/OMW">Github.</a></p>
+    <p>If you want to suggest an enhancement, report a bug, have a maintenance issue, or want to request a new feature
+        to be added, please <a href="https://github.com/globalwordnet/OMW/issues">raise an issue for that on Github.</a>
+    </p>
+    <p>You can also contribute to the Open Multilingual Wordnet project, this <a
+            href="{{ url_for('omw_doc_contribute') }}">guide </a>may help you get started.</p>
+    <a href="#top">Back to the top</a>
+    <hr>
+
+    <h4 id="project">Feedback/Questions about the OMW project as a whole</h4>
+    <p>You can reach us through <a href="mailto:omwordnet@gmail.com">mail.</a></p>
+    <p>You can ask questions in the Github issue section and find the answers to many commonly asked questions in the
+        frequently asked question section.</p>
+
+    <h5 id="faq">Frequently Asked Questions</h5>
+    <br>
+    <div class="accordion_bk">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 mx-auto">
+                    <!-- Accordion -->
+                    <div id="accordionExample" class="accordion shadow">
+
+                        <!-- Accordion item 1 -->
+                        <div class="card">
+                            <div id="headingOne" class="card-header bg-white shadow-sm border-0">
+                                <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse"
+                                                                     data-target="#collapseOne" aria-expanded="true"
+                                                                     aria-controls="collapseOne"
+                                                                     class="d-block position-relative text-dark text-uppercase collapsible-link py-2">Which
+                                    parts of speech are used by the Open Multilingual Wordnet?</a></h6>
+                            </div>
+                            <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample"
+                                 class="collapse show">
+                                <div class="card-body p-5">
+                                    <p class="font-weight-light m-0">Open Multilingual Wordnet contains "open-class
+                                        words": nouns, verbs, adjectives, and adverbs.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion item 2 -->
+                        <div class="card">
+                            <div id="headingTwo" class="card-header bg-white shadow-sm border-0">
+                                <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse"
+                                                                     data-target="#collapseTwo" aria-expanded="false"
+                                                                     aria-controls="collapseTwo"
+                                                                     class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Where
+                                    do you get wordnets for Open Multilingual Wordnet?</a></h6>
+                            </div>
+                            <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample"
+                                 class="collapse">
+                                <div class="card-body p-5">
+                                    <p class="font-weight-light m-0">Wordnets in the OMW are independent open source
+                                        projects, there is a full list of them <a
+                                                href="http://globalwordnet.org/resources/wordnets-in-the-world/">here</a>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#top">Back to the top</a>
+    <hr>
+
+    <h4 id="lemma">Feedback about individual lemma (ili-ID)</h4>
+    <p>If you are a user or an admin, you can rate an individual lemma after logging in to OMW.</p>
+    <ul>
+        <li>To rate or comment on an individual lemma, search the lemma (using the search bar) and click on it’s
+            ili-ID.
+        </li>
+        <li>After clicking on the ili-ID, a page similar to this should load:</li>
+        <br>
+        <img style="border:1px solid black;highet:  100px;width: 1000px;"
+             src="../../static/img/docs/feedback_documentation/image1.png"><br><br>
+        <li>In the Actions section, you can rate an ili-ID (lemma) with a thumbs up <span class="thumbup"><i
+                class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+            or a thumbs down <span class="thumbdown"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>.
+            You can leave your comment there by clicking on the <span class="comment"><i class="fa fa-comments-o"
+                                                                                         aria-hidden="true"></i></span>
+            icon.
+            You can also read the previous annotations by using the toggle <span class="detailed"><i
+                    class="fa fa-toggle-off" aria-hidden="true"></i></span>.
+        </li>
+    </ul>
+    <a href="#top">Back to the top</a>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+{% endblock %}
