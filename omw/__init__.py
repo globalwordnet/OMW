@@ -971,6 +971,9 @@ def omw_doc_glob(name=None):
 def omw_doc_contribute(name=None):
     return render_template('doc/contribute.html')
 
+@app.route('/omw/doc/feedback-doc', methods=['GET', 'POST'])
+def omw_doc_feedback_documentation(name=None):
+    return render_template('doc/feedback_documentation.html')
 
 @app.route('/omw/doc/upload', methods=['GET', 'POST'])
 def omw_doc_upload(name=None):
