@@ -131,9 +131,12 @@ footer {
 
 .omw-nav {
     padding-bottom: 10px;
+    padding-top: 4px;
     margin-bottom: 30px;
     border-bottom: 2px solid black;
+    background-color: #aaa6a6;
 }
+
 
 .space-after {
     margin-bottom: 20px;
@@ -278,3 +281,45 @@ th, td {
   padding-right: 10px;
 }
 
+
+.main-heading{
+    text-align: center;
+}
+
+.search-nav {
+    float: left;
+    padding: 8px 16px 0 16px;
+    background-color: #b5d7f4;
+    font-size: 0.9em;
+    margin-right: 5%;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+}
+
+.search-page-above-intro{
+    margin-top: 3%;
+    margin-bottom: 12%;
+}
+
+.search-ul{
+    list-style: none;
+}
+
+.border-image{
+    max-width: 100%;
+    height: auto;
+    border: 1px solid black
+}
+
+.images{
+    max-width: 100%;
+    height: auto;
+}
+
+.terminal-commands{
+  border: 1px solid #999;
+  background-color: #eee;
+  display: block;
+  padding: 2px;
+}
