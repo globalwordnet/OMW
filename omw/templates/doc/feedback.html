@@ -41,13 +41,13 @@
 <ul>
 	<li>
 		<p>The first line in this stage returns the date, name of the user, name of the file that was uploaded, and returns whether the file was successfully uploaded or not.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage0-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage0-1.png">
 		<br><br>
 		<p>In case, the file is not uploaded, “The file failed to upload” message would be returned.</p>
 	</li>
 	<li>
 		<p>The second line returns whether the file was successfully read by our validator or not. </p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage0-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage0-2.png">
 		<br><br>
 		<p>In case the file is not in a proper format, “The file could not be read! Make sure the file is in a valid format” message would be returned.</p>
 	</li>
@@ -66,13 +66,13 @@
 	<li>
 		<p>The first line returns whether your wordnet file has the correct structure as per the Wordnet LMF document type definition (DTD).
 		</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage1-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage1-1.png">
 		<br><br>
 		<p>In case the structure of the wordnet file is not correct, “Your wordnet file failed to validate  against the Wordnet LMF document type definition “ message would be returned.</p>
 	</li>
 	<li>
 		<p>The second-line returns the number of lexicons found, and the names of the lexicons found.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage1-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage1-2.png">
 		<br><br>
 		<p>In case there are no lexicons in the resource file, “No lexicons were found” message would be returned.</p>
 	</li>
@@ -88,7 +88,7 @@
 <ul>
 	<li>
 		<p>Your project label (name) should be the same as the wordnet ID you specified in your XML file. The first line returns whether the project label matches the lexicon.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-1.png">
 		<br><br>
 		<p>Please make sure that your project is in the database. If it isn’t, get in touch with <a href="mailto: bond@ieee.org">Francis Bond </a>so that we can add your project.</p>
 	</li>
@@ -96,12 +96,12 @@
 		<p>We follow <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> for the <a href="https://www.w3.org/International/articles/language-tags/">language tag</a>, use the correct language tag, and make sure your language is in our database.<br>
 		The second line returns whether the project language matches or not from our database.
 		</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-2.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The third line returns the version of the resource.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-3.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-3.png">
 		<br><br>
 		<p>For the successful validation of the wordnet file.</p>
 		<ol>
@@ -114,19 +114,19 @@
 	</li>
 	<li>
 		<p>The fourth lines return whether it is a new version or this version already exists. If there is already a record with this version, the validation will get failed. The <a href="https://www.luismc.com/omw/omw">home page</a>, by default, shows the latest version is visible, but you can view the older versions <a href="https://www.luismc.com/omw/omw?projects=all">here.</a></p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-4.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-4.png">
 		<br><br>
 		<p>In case, the resource is an invalid version, the resource file will not get validated.</p>
 	</li>
 	<li>
 		<p>The fifth line returns the confidence score of the resource. The confidence score is a numeric value between 0 and 1, giving confidence in the correctness of the element.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-5.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-5.png">
 		<br><br>
 		<p>Entries with a value of 1 would be considered for the ILI and, the confidence score of 0 is not acceptable. Any score other than 0 and 1 would be accepted but not ideal. Only synsets with a confidence score of '1.0' would be considered to expand the ILI.</p>
 	</li>
 	<li>
 		<p>The sixth line checks whether you have used an <a href="">acceptable license </a>or not for your resource.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage2-6.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage2-6.png">
 		<br><br>
 		<p>Licenses should be open according to any one of the three: open <a href="https://opensource.org/licenses">Source Initiative</a>, the <a href="http://opendefinition.org/licenses/">Open Definition</a>, or the wordnet license.</p>
 	</li>
@@ -142,48 +142,48 @@
 <ul>
 	<li>
 		<p>The first line returns the number of synsets found in the resource.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-1.png">
 		<br><br>
 		<p>If no synsets were found, that would be acceptable but a warning would be shown.</p>
 	</li>
 	<li>
 		<p>Synsets should have single consistent <a href="https://www.luismc.com/omw/omw/doc/pos">parts of speech </a>(POS), synsets with multiple or no POS are not allowed. The second line returns the info about POS.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-2.png">
 		<br><br>
 		<p>In case if there are some synsets with multiple or no POS, those first hundred synsets would get listed.</p>
 	</li>
 	<li>
 		<p>The third line returns whether the sense examples seem to have the language consistent with their lexicon. There should not be a language mismatch with their lexicon.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-3.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-3.png">
 		<br><br>
 		<p>In case if some sense examples seem to have the language inconsistent with their lexicon, such sense examples would get listed.</p>
 	</li>
 	<li>
 		<p>The fourth line returns whether all the synsets passed the id-convention check in this resource. Synset ids in your LMF file should take the project id followed by a hyphen preceding the id that will be considered original (e.g. pwn-00001740-n for original id 00001740-n in lexicon with id pwn), this is because XML ids cannot start with numbers.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-4.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-4.png">
 		<br><br>
 		<p>In case if some synsets are violating the adopted id-convention in this resource, such first 100 hundred synsets would get listed.</p>
 	</li>
 	<li>
 		<p>The fifth line returns the number of synsets that have a valid ILI key.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-5.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-5.png">
 		<br><br>
 		<p>In case there are no synsets with an ILI key, that would be acceptable too.</p>
 	</li>
 	<li>
 		<p>The sixth line returns whether all ILI keys referred by synsets were checked to exist. Synsets shouldn’t refer to ILI keys that don’t exist or are invalid.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-6.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-6.png">
 		<br><br>
 		<p>Ideally, all synsets should either provide an ILI key or get requested to be included. But if some synsets neither provide an ILI key nor request to be included, that will be completely valid (since they will be ignored by ILI).</p>
 	</li>
 	<li>
 		<p>The seventh line returns how many synsets neither provided an ILI key nor requested to be included.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-7.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-7.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The eighth line returns the number of synsets which have been proposed as new ILI candidates.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage3-8.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage3-8.png">
 		<br><br>
 	</li>
 </ul>
@@ -196,13 +196,13 @@
 <ul>
 	<li>
 		<p>The first line returns the number of loops in the lexicon. No synset should link to themselves with different relations.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage4-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage4-1.png">
 		<br><br>
 		<p>In case this is violated, then the number of loops is returned along with the first 100 such loops. </p>
 	</li>
 	<li>
 		<p>The second line returns the number of cycles in the hypernym graph. The cycles in the hypernym graph of this lexicon mean that in your wordnet resource, ILI nodes are linking to each other to form a cycle in the hypernym graph. </p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage4-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage4-2.png">
 		<br><br>
 		<p>In case this is violated, then the number of cycles in the hypernym graph of this lexicon is returned along with the first 100 such cycles.</p>
 	</li>
@@ -211,7 +211,7 @@
 			Cycles in the hypernym graph merged with OMW means that when your wordnet file is combined with other wordnets in OMW, ILI nodes linked to each other form a cycle in the hypernym graph (including types and instances). E.g.  A hypernym B hypernym C hypernym A.<br>
 			There should not be cycles in the hypernym graph after getting merged with OMW.
 		</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage4-3.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage4-3.png">
 		<br><br>
 		<p>In case this is violated, the number of the cycles in the hypernym graph after getting merged with OMW is returned along with the first 100 such cycles. </p>
 	</li>
@@ -226,44 +226,44 @@
 <ul>
 	<li>
 		<p>The first line checks whether there is an ILI definition for each ILI candidate. ILI candidates should have an ILI definition for successful validation.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-1.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-1.png">
 		<br><br>
 		<p>In case all ILI candidates don’t have an ILI definition, “Some ILI candidates did not have an ILI definition” message would be returned.</p>
 	</li>
 	<li>
 		<p>The second line checks whether each new ILI definition has a valid confidence score or not. The confidence score is a numeric value between 0 and 1, giving confidence in the correctness of the element. Only entries with a value of 1 would be considered for the ILI.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-2.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-2.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The third line returns whether all ILI definitions seem to respect the minimum length. The ILI Definition must be at least 20 characters or five words.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-3.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-3.png">
 		<br><br>
 		<p>In case all ILI definitions don’t have a minimum required length, “Some ILI definitions have failed the minimum length requirement” message would be returned. </p>
 	</li>
 	<li>
 		<p>The fourth line returns whether there is an overlap with existing ILI definitions. Your proposed ILI definitions should not already exist within the ILI. Here overlap means that two or more ILI candidates have the same ILI definitions.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-4.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-4.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The fifth line returns there is no ILI definition overlap within your resource. Your proposed ILI definitions should not overlap within your resource (the ILI definitions which you proposed). </p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-5.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-5.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The sixth line returns whether all new ILI candidates are linked to at least one valid ILI node or not. Each new ILI candidate should be linked to at least one valid ILI node. </p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-6.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-6.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The seventh line returns whether the candidates are linked or not through to even one bad synset relation. Each new ILI candidate should not be linked to any bad synset relation.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-7.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-7.png">
 		<br><br>
 	</li>
 	<li>
 		<p>The eighth line returns whether the candidates are linked or not only to weak synset relations. Ideally, each new ILI candidate should not be linked with only weak synset relations. If this is not the case, that would be acceptable, but we request that you may rectify them.</p>
-		<img style="border:1px solid black" src="../../static/img/docs/Feedback/stage5-8.png">
+		<img class="border-image" src="../../static/img/docs/Feedback/stage5-8.png">
 		<br><br>
 	</li>
 </ul>
@@ -276,7 +276,7 @@
 <p>A summary of changes to ILI would be returned here.<br>
 If the validation passed, there would be an option of upload wordnet, you may upload your wordnet by selecting that.
 </p>
-<img style="border:1px solid black" src="../../static/img/docs/Feedback/result1.png">
+<img class="border-image" src="../../static/img/docs/Feedback/result1.png">
 <br><br>
 <p>If the validation fails, you won’t be able to upload the wordnet,
   try to use the output of the checks to figure out why your wordnet
