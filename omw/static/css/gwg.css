@@ -306,13 +306,14 @@ th, td {
     list-style: none;
 }
 
-.border-image{
+.border-image{      /* This class is for adding responsive images to OMW with a border */
     max-width: 100%;
     height: auto;
     border: 1px solid black
 }
 
-.images{
+.images{        /* This class is for adding responsive images to the OMW without border, use the border-image class if
+you want to use a border */
     max-width: 100%;
     height: auto;
 }
@@ -322,4 +323,29 @@ th, td {
   background-color: #eee;
   display: block;
   padding: 2px;
+}
+
+.vertical-menu {
+    max-width: 100%; /* Makes the menu responsive */
+}
+
+.vertical-menu a {
+  background-color: #eee; /* Grey background color */
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu a.active {
+  background-color: #069ae9; /* Add a blue color to the OMW link */
+  color: white;
+}
+
+#interface-vertical-menu{
+    /* this is for specifically styling the vertical menu in the interface page */
 }
