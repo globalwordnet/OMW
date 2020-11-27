@@ -349,3 +349,23 @@ you want to use a border */
 #interface-vertical-menu{
     /* this is for specifically styling the vertical menu in the interface page */
 }
+
+.back-to-top-button {
+  display: block; /* This feature is yet to be modified */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: #069ae9; /* Set a blue background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+.back-to-top-button:hover {
+  background-color: ; /* Add a grey background on hover */
+}

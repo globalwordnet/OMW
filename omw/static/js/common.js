@@ -191,3 +191,16 @@ function getSynsetTooltip() {
 
     return localData;
 }
+
+
+mybutton = document.getElementsByClassName("back-to-top-button"); // this gets the button
+
+/* When the user scrolls down some distance from the top of the document, then the button should be visible otherwise
+display should be set to null.
+ */
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
