@@ -286,10 +286,10 @@ th, td {
     text-align: center;
 }
 
-.search-nav {
+.contents-nav {
     float: left;
     padding: 8px 16px 0 16px;
-    background-color: #b5d7f4;
+    background-color: #069ae9;
     font-size: 0.9em;
     margin-right: 5%;
     margin-left: 1%;
@@ -297,12 +297,33 @@ th, td {
     margin-top: 2%;
 }
 
+.contents-nav a{
+    color: white;
+}
+
+.contents-nav a:hover{
+    color: yellow;
+}
+
+.contents-nav h4{
+    text-align: center ;
+    color: white;
+}
+
+#search-contents{
+    /* id for specifically styling contents in the search page */
+}
+
+#contribute-contents{
+    /* id for specifically styling contents in the contribute page */
+}
+
 .search-page-above-intro{
     margin-top: 3%;
     margin-bottom: 12%;
 }
 
-.search-ul{
+.hide-bullets{      /* this hides the bullet marks */
     list-style: none;
 }
 
@@ -369,3 +390,4 @@ you want to use a border */
 .back-to-top-button:hover {
   background-color: ; /* Add a grey background on hover */
 }
+

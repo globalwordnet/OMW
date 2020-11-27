@@ -7,9 +7,10 @@
     <button onclick="topFunction()" class="back-to-top-button" title="Go to top">Back to the top</button>
 
     <p>This page provides documentation on how to give us feedback. </p>
-    <hr>
+
+    <aside class="contents-nav">
     <h4>Contents</h4>
-    <ul>
+    <ul class="hide-bullets">
         <li>
             <p><a href="#wordnets">Feedback about Individual wordnets</a></p>
         </li>
@@ -18,7 +19,7 @@
         </li>
         <li>
             <p><a href="#project">Feedback/Questions about the OMW project as a whole</a></p>
-            <ul>
+            <ul class="hide-bullets">
                 <li>
                     <p><a href="#faq">Frequently Asked Questions</a></p>
                 </li>
@@ -28,6 +29,7 @@
             <p><a href="#lemma">Feedback about individual lemma (ili-ID)</a></p>
         </li>
     </ul>
+    </aside>
     <hr>
 
     <h4 id="wordnets">Feedback about Individual wordnets</h4>
@@ -35,7 +37,7 @@
         from around the globe that were independently created,
         some of them with limited resources and time frames, resulting in different accuracies.</p>
     <p>To give your valuable feedback to the individual wordnets:</p>
-    <ul>
+    <ul class="hide-bullets">
         <li>Visit the <a href="{{ url_for('omw_welcome') }}">home
             page</a>, there is a list of wordnets.  In the feedback
             column there is the list of active email ids for feedback.
