@@ -299,10 +299,12 @@ th, td {
     padding: 8px 16px 0 16px;
     background-color: #069ae9;
     font-size: 0.9em;
-    margin-right: 5%;
-    margin-left: 1%;
     margin-bottom: 2%;
     margin-top: 2%;
+    right: 11%;
+    opacity: 0.85;
+    position: fixed;
+    z-index: 99; /* This give contents-nav priority above other contents*/
 }
 
 .contents-nav a{
@@ -401,6 +403,7 @@ you want to use a border */
   OMW, if you want a different shade, consider changing the shades at other places as well */
 }
 
+
 /* Stlying for Sidenav starts */
  /* The side navigation menu */
 .sidenav {
@@ -452,3 +455,7 @@ you want to use a border */
   .sidenav a {font-size: 18px;}
 }
 /* Styling for the sidenav overs */
+
+#ili-welcome-contents-nav{
+    background-color: #f03a47;
+}
