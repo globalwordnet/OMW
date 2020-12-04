@@ -1,5 +1,6 @@
 body {
     font-family: 'Noto Serif', serif;
+    margin-top: 6.5%;
 }
 
 html, body {
@@ -129,12 +130,16 @@ footer {
     margin-bottom: 50px;
 }
 
-.omw-nav {
+.omw-nav {      /* This is the styling for the search bar where Lemmas are searched */
     padding-bottom: 10px;
     padding-top: 4px;
     margin-bottom: 30px;
     border-bottom: 2px solid black;
-    background-color: #aaa6a6;
+    background-color: #aaa6a6;   /* Light Shade of grey */
+    position: fixed;   /* This makes the search bar to stay on scrolling down */
+    top: 0%;
+    width: 77%;
+    margin-left: 0%;
 }
 
 
@@ -253,12 +258,12 @@ table.rels { width: auto; }
   border-bottom:1px #aaaaaa solid;
   overflow: visible;
   height: 9px;
-  margin: 15px 0 20px 0;  
+  margin: 15px 0 20px 0;
 }
 
 .line span{
 background-color: #aaaaaa;
-border-radius: 5px 5px 5px 3px;  //rounds corners 
+border-radius: 5px 5px 5px 3px;  //rounds corners
 font-weight: normal;
 font-size:small;
 color: white;
@@ -286,7 +291,7 @@ th, td {
     text-align: center;
 }
 
-.contents-nav {
+.contents-nav {   /* This contents-nav class is for styling the aside content bar on documentation pages */
     float: left;
     padding: 8px 16px 0 16px;
     background-color: #069ae9;
@@ -339,7 +344,7 @@ you want to use a border */
     height: auto;
 }
 
-.terminal-commands{
+.terminal-commands{     /* This class is used to style terminals commands that are present in the OMW documentation */
   border: 1px solid #999;
   background-color: #eee;
   display: block;
@@ -371,7 +376,7 @@ you want to use a border */
     /* this is for specifically styling the vertical menu in the interface page */
 }
 
-.back-to-top-button {
+.back-to-top-button {      /* This class is for styling the back to the top botton */
   display: block; /* This feature is yet to be modified */
   position: fixed; /* Fixed/sticky position */
   bottom: 20px; /* Place the button at the bottom of the page */
@@ -379,7 +384,8 @@ you want to use a border */
   z-index: 99; /* Make sure it does not overlap */
   border: none; /* Remove borders */
   outline: none; /* Remove outline */
-  background-color: #069ae9; /* Set a blue background color */
+  background-color: #069ae9; /* Set a blue background color, we have used #069ae9 for blue in theming OMW, if you want
+   a different shade, consider changing the shades at other places as well*/
   color: white; /* Text color */
   cursor: pointer; /* Add a mouse pointer on hover */
   padding: 15px; /* Some padding */
@@ -388,6 +394,7 @@ you want to use a border */
 }
 
 .back-to-top-button:hover {
-  background-color: ; /* Add a grey background on hover */
+  background-color: #aaa6a6; /* Add a grey background on hover, we have used #aaa6a6 for light grey color in theming
+  OMW, if you want a different shade, consider changing the shades at other places as well */
 }
 
