@@ -1,5 +1,6 @@
 body {
     font-family: 'Noto Serif', serif;
+    margin-top: 6.5%;
 }
 
 html, body {
@@ -129,11 +130,21 @@ footer {
     margin-bottom: 50px;
 }
 
-.omw-nav {
+.omw-nav {      /* This is the styling for the search bar where Lemmas are searched */
     padding-bottom: 10px;
+    padding-top: 4px;
     margin-bottom: 30px;
     border-bottom: 2px solid black;
+    background-color: #aaa6a6;   /* Light Shade of grey */
+    position: fixed;   /* This makes the search bar to stay on scrolling down */
+    top: 0%;
+    width: 77%;
+    margin-left: 0%;
+    z-index: 100;  /* This z-index of 100 will give this search bar priority over other elements, also note that sidenav should
+    have a higher preference than the search bar
+    */
 }
+
 
 .space-after {
     margin-bottom: 20px;
@@ -250,12 +261,12 @@ table.rels { width: auto; }
   border-bottom:1px #aaaaaa solid;
   overflow: visible;
   height: 9px;
-  margin: 15px 0 20px 0;  
+  margin: 15px 0 20px 0;
 }
 
 .line span{
 background-color: #aaaaaa;
-border-radius: 5px 5px 5px 3px;  //rounds corners 
+border-radius: 5px 5px 5px 3px;  //rounds corners
 font-weight: normal;
 font-size:small;
 color: white;
@@ -278,3 +289,173 @@ th, td {
   padding-right: 10px;
 }
 
+
+.main-heading{
+    text-align: center;
+}
+
+.contents-nav {   /* This contents-nav class is for styling the aside content bar on documentation pages */
+    float: left;
+    padding: 8px 16px 0 16px;
+    background-color: #069ae9;
+    font-size: 0.9em;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    right: 11%;
+    opacity: 0.85;
+    position: fixed;
+    z-index: 99; /* This give contents-nav priority above other contents*/
+}
+
+.contents-nav a{
+    color: white;
+}
+
+.contents-nav a:hover{
+    color: yellow;
+}
+
+.contents-nav h4{
+    text-align: center ;
+    color: white;
+}
+
+#search-contents{
+    /* id for specifically styling contents in the search page */
+}
+
+#contribute-contents{
+    /* id for specifically styling contents in the contribute page */
+}
+
+.search-page-above-intro{
+    margin-top: 3%;
+    margin-bottom: 12%;
+}
+
+.hide-bullets{      /* this hides the bullet marks */
+    list-style: none;
+}
+
+.border-image{      /* This class is for adding responsive images to OMW with a border */
+    max-width: 100%;
+    height: auto;
+    border: 1px solid black
+}
+
+.images{        /* This class is for adding responsive images to the OMW without border, use the border-image class if
+you want to use a border */
+    max-width: 100%;
+    height: auto;
+}
+
+.terminal-commands{     /* This class is used to style terminals commands that are present in the OMW documentation */
+  border: 1px solid #999;
+  background-color: #eee;
+  display: block;
+  padding: 2px;
+}
+
+.vertical-menu {
+    max-width: 100%; /* Makes the menu responsive */
+}
+
+.vertical-menu a {
+  background-color: #eee; /* Grey background color */
+  color: black; /* Black text color */
+  display: block; /* Make the links appear below each other */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu a.active {
+  background-color: #069ae9; /* Add a blue color to the OMW link */
+  color: white;
+}
+
+#interface-vertical-menu{
+    /* this is for specifically styling the vertical menu in the interface page */
+}
+
+.back-to-top-button {      /* This class is for styling the back to the top botton */
+  display: block; /* This feature is yet to be modified */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: #069ae9; /* Set a blue background color, we have used #069ae9 for blue in theming OMW, if you want
+   a different shade, consider changing the shades at other places as well*/
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+.back-to-top-button:hover {
+  background-color: #aaa6a6; /* Add a grey background on hover, we have used #aaa6a6 for light grey color in theming
+  OMW, if you want a different shade, consider changing the shades at other places as well */
+}
+
+
+/* Stlying for Sidenav starts */
+ /* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 101; /* Stay on top, it should have higher preference than the search bar */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #069ae9; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 110%;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: yellow;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* Styling for the sidenav overs */
+
+#ili-welcome-contents-nav{
+    background-color: #f03a47;
+}
