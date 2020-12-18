@@ -92,5 +92,6 @@
     {% set ver =  meta['version'] %}
     <a title='Wordnet Summary' href='{{url_for('omw_wn',
     proj=proj, ver=ver)}}'>{{meta['label']}}</a>
+    <br>
     {% endfor %}
 {% endblock %}

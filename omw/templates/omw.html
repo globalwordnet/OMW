@@ -38,7 +38,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/gwg.css') }}" />
   <!-- pygments  -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/pygment.css') }}" />
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tsv2lmf.css') }}" >
   <script type="text/javascript">
     var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
   </script>
@@ -153,7 +152,7 @@ $(document).ready(function(){
             {% endif %}
             <a href="{{ url_for('ili_welcome') }}" class="nav-item">CILI</a>&nbsp;&nbsp;
             <a href="{{ url_for('omw_welcome') }}" class="nav-item">OMW</a>&nbsp;&nbsp;
-	    <a href="{{ url_for('omw_doc_if') }}" class="nav-item">Help</a>&nbsp;&nbsp;
+            <span onclick="openNav()" class="nav-item">Help</span>
         </div>
     </div>
 
@@ -175,9 +174,36 @@ $(document).ready(function(){
        <!--    </div> -->
        <!-- </div> -->
 
+     <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
+                <a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
+                <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
+                    wordnet</a>
+                <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
+                    LMF file</a>
+                <a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
+                    to GWA-LMF</a>
+
+                <a href="{{ url_for('omw_doc_validator') }}">Interconverter for desired formats. (external tool)</a>
+
+                <a href="{{ url_for('omw_doc_metadata') }}">More
+                    information about the LMF metadata</a>
+                <a href="{{ url_for('omw_doc_add_wn') }}">A script for
+                    uploading wordnets from the command line</a>
+
+                <a href="{{ url_for('omw_doc_feedback') }}">Documentation on the
+                    feedback after uploading a wordnet</a>
+
+                <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
+                <a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
+                    giving feedback</a>
+</div>
+    <div id="main">
      {% block welcome %}{% endblock %}
 
      {% block body %}{% endblock %}
+    </div>
 </div>
 
 <footer id="footer">
