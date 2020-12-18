@@ -231,7 +231,7 @@ def add_new_project():
 @app.route("/_load_lang_selector",methods=["GET"])
 def omw_lang_selector():
     selected_lang =  int(_get_cookie('selected_lang', 1))
-    selected_lang2 =  int(_get_cookie('selected_lang', 1))
+    selected_lang2 =  int(_get_cookie('selected_lang2', 1))
     lang_id, lang_code = fetch_langs()
     html = '<select name="lang" style="font-size: 85%; width: 9em" required>'
     for lid in lang_id.keys():
