@@ -30,6 +30,7 @@ config.py
 py3env
 env
 venv
+.idea
 
 # temp files for adding more wordnets
 omw/resources/

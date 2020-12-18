@@ -113,6 +113,8 @@
     ({{src_meta[src]['version']}})</a> with confidence {{conf}}
       {%- if not loop.last %}{{'; '}}{% endif %}
       {%- endfor %}
-    
+
+    <br><br>
+<p><a href="{{ url_for('omw_doc_search') }}">Documentation on this page</a></p>
 {%- endfor %}
 {% endblock %}

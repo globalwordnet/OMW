@@ -85,4 +85,13 @@
 {%- endfor %}
 </table>
 
+<h6>Links to the individual wordnets for more info and feedback</h6>
+    {% for id in src_meta %}
+    {% set meta = src_meta[id] %}
+    {% set proj = meta['id'] %}
+    {% set ver =  meta['version'] %}
+    <a title='Wordnet Summary' href='{{url_for('omw_wn',
+    proj=proj, ver=ver)}}'>{{meta['label']}}</a>
+    <br>
+    {% endfor %}
 {% endblock %}

@@ -2,7 +2,6 @@
 {% block welcome %}
 
 <h3>OMW Upload How To</h3>
-
 <p>This page provides documentation on how to upload a wordnet to the OMW:
 
 <style>
@@ -18,16 +17,16 @@
 
 <ol>
 	<li class="padding-left bottom-three">
-		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>. Use the username and password that was assigned to you. If not, get in touch with <a href="mailto:bond@ieee.org">Francis Bond</a> to dicuss your project.
+		Login to OMW by clicking on the user icon<i class="fa fa-user" aria-hidden="true"></i>. Use the username and password that was assigned to you. If not, get in touch with <a href="mailto:bond@ieee.org">Francis Bond</a> to discuss your project.
 	</li>
 	<li class="padding-left bottom-three">
 		Go to <a href="{{ url_for('upload') }}">the upload page</a>. At the bottom of the page will be a <b>Choose file</b> option. Alternatively, submit a <b>URL</b> for OMW to download. Then, press validate to determine whether your wordnet is ready to be uploaded or not.
 	</li>
-	<img src="{{url_for('static', filename='insert_file.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<img  src="{{url_for('static', filename='insert_file.png') }}" title="Insert File"  class="padding-left bottom-three images"/>
 	<li class="padding-left bottom-three">
-		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
+		Before validating the wordnet, be sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
 	</li>
-	<img src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<img  src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File"  class="padding-left bottom-three images"/>
 	<li style="font-size:18px" class="padding-left bottom-three">
 		🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfully uploaded a wordnet. We deeply appreciate your contribution 😊
 	</li>
@@ -37,14 +36,18 @@
 
 <ol>
 	<li class="padding-left bottom-three">
-		Login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>.
-		This will direct you to a login page, where the username and password is <em>admin</em>.
+		To locally run the OMW, you need to setup OMW on your PC. Follow <a href="https://github.com/globalwordnet/OMW/blob/develop/README.md">these steps</a> for installation.
+	</li>
+
+	<li class="padding-left bottom-three">
+		After successfully installing OMW locally in your PC, login to OMW by clicking on the user icon <i class="fa fa-user" aria-hidden="true"></i>.
+		This will direct you to a login page, where the username is the admin (password is same that you entered while installing the OMW locally).
 	</li>
 	<li class="padding-left bottom-three">
 		Common mistakes that lead to the <em>Validation Failed!</em> message:
 		<br><br>
-		<img src="{{url_for('static', filename='validation_fail.png') }}" title="Validation Fail" width="777px"/> <br><br>
-		Make sure your project is in the <a href="{{ url_for('projectadmin') }}">database</a>! Click on <b>Add New Project</b> to fix this error. Your project name should be the same as the wordnet ID you specified in your <a href="{{ url_for('omw_doc_tsv2lmf') }}">xml file</a>. <br>
+		<img class="images" src="{{url_for('static', filename='validation_fail.png') }}" title="Validation Fail" /> <br><br>
+		Make sure your project is in the <a href="{{ url_for('projectadmin') }}">database</a>! Click on <b>Add New Project</b> to fix this error. Your project name should be the same as the wordnet ID you specified in your <a href="{{ url_for('omw_doc_tsv2lmf') }}">XML file</a>. <br>
 		<br>
 		Make sure your language is in the <a href="{{ url_for('langadmin') }}">database</a>! Click on <b>Add New Language</b> to fix this error.
 	</li>
@@ -52,11 +55,11 @@
 	<li class="padding-left bottom-three">
 		Go to <a href="{{ url_for('upload') }}">the upload page</a>. At the bottom of the page will be a <b>Choose file</b> option. Alternatively, submit a <b>URL</b> for OMW to download. Then, press validate to determine whether your wordnet is ready to be uploaded or not.
 	</li>
-	<img src="{{url_for('static', filename='insert_file.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<img  src="{{url_for('static', filename='insert_file.png') }}" title="Insert File" class="padding-left bottom-three images"/>
 	<li class="padding-left bottom-three">
-		Before validating the wordnet, be absolutely sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
+		Before validating the wordnet, be sure this is the wordnet you wish to upload! If so, press <b>Upload Wordnet</b>.
 	</li>
-	<img src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File" width="777px" class="padding-left bottom-three"/>
+	<img src="{{url_for('static', filename='upload_wordnet.png') }}" title="Insert File"  class="padding-left bottom-three images"/>
 	<li style="font-size:18px" class="padding-left bottom-three">
 		🎉🎉🎉 Congratulations! 🎉🎉🎉 You have successfully uploaded a wordnet 😊
 	</li>

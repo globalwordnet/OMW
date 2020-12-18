@@ -1,66 +1,75 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3>OMW Interface Documentation</h3>
+    <h3>OMW Interface Documentation</h3>
 
-<p>This page provides documentation for the web interface to the Open
-  Multilingual Wordnet.  
+    <p>This page provides documentation for the web interface to the Open
+        Multilingual Wordnet.
 
+        <nav class="vertical-menu" id="interface-vertical-menu">
+            <ul>
+                <a href="{{ url_for('omw_welcome') }}" class="active">Open Multilingual Wordnet</a>
+                <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
+                <a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
+                <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
+                    wordnet (an LMF-formatted file)</a>
+                <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
+                    LMF file</a>
+                <a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
+                    to GWA-LMF</a>
 
-<ul>
-  <li> <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
-  <li> <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
-      wordnet</a> (an LMF-formatted file)
+                <a href="{{ url_for('omw_doc_validator') }}">Interconverter for desired formats. (external tool)</a>
+
+                <a href="{{ url_for('omw_doc_metadata') }}">More
+                    information about the LMF metadata</a>
+                <a href="{{ url_for('omw_doc_add_wn') }}">A script for
+                    uploading wordnets from the command line</a>
+
+                <a href="{{ url_for('omw_doc_feedback') }}">Documentation on the
+                    feedback after uploading a wordnet</a>
+
+                <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
+                <a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
+                    giving feedback</a>
+
+        </nav>
+
+    <h3>External APIs to the OMW</h3>
+
     <ul>
-      <li> <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
-	  LMF file</a>
-	<li><a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
-	    to GWA-LMF</a>
-      <li> <a href="{{ url_for('omw_doc_metadata') }}">More
-	  information about the LMF metadata</a>
-      <li><a href="{{ url_for('omw_doc_add_wn') }}">A script for
-	  uploading wordnets from the command line</a>
-     </ul>
-  <li> <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
-</ul>
+        <li><a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
+    </ul>
 
 
-<h3>External APIs to the OMW</h4>
+    <h3>Technical Notes</h3>
 
-<ul>
-  <li><a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
-</ul>
+    <p>It is written in python, using flask and sqlite3. The code is on github.
 
 
-  <h3>Technical Notes</h3>
+    <h3>Creating Your Own Instance</h3>
 
-<p>It is written in python, using flask and sqlite3.   The code is on github.
-  
+    <ul>
+        <li><a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Installing-the-software">Installing the software</a></li>
+        <li><a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Creating-the-database">Creating the database</a></li>
+        <li>Adding OMW 1.0 wordnets
+        <li>Adding TUFS wordnets
+        <li>Adding GeoNames Wordnet
+    </ul>
 
-  <h3>Creating Your Own Instance</h3>
+    <hr>
 
-  <ul>
-    <li>Installing the software
-    <li>Creating the database
-    <li>Adding OMW 1.0 wordnets
-    <li>Adding TUFS wordnets
-    <li>Adding GeoNames Wordnet
-  </ul>
-  
-  <hr>
 
-  
-  <p>See the <a href="{{ url_for('omw_doc_wn') }}">OMW documentation on
+    <p>See the <a href="{{ url_for('omw_doc_wn') }}">OMW documentation on
     the wordnets</a>.
-  
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-  {% endif %}
-{% endwith %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
 
 {% endblock %}

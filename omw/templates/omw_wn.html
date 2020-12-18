@@ -6,6 +6,7 @@
        ({{ proj }} {{ ver }}:  {{ src_info.language }})</h5> {# expand to language #}
 {% else %}
 <h6>{{ src_info.label }} ({{ wn }}:  {{ src_info.language }})</h6> {# expand to language #}
+else
 {% endif %}
 
 <p>This page gives some information about {{ src_info.label }}, as it
@@ -14,9 +15,13 @@
   {% if src_info.url %}
   The <a href='{{src_info.url}}'>upstream project homepage</a> may have more information than shown here.</p>
 {% endif %}
+
 {% if src_info.email %}
 <p> The contact email is &lt;<a href='mailto:{{src_info.email}}'>{{src_info.email}}</a>&gt;.</p>
+{% else %}
+<p> The contact email is <a href = "mailto: omwordnet@gmail.com">omwordnet@gmail.com</a></p>
 {% endif %}
+
 <h6>Description</h6>
 {% if src_info.description %}
 <p>{{ src_info.description }}</p>
