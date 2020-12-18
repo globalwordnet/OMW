@@ -38,6 +38,7 @@ parser.add_argument('--no-add-proj', action="store_true",
 args = parser.parse_args()
 
 
+logdir = 'log/'
 
 u =  sys.argv[0]
 wnfile = args.wnfile
@@ -50,9 +51,9 @@ with app.app_context():
     basename = os.path.basename(wnfile).rstrip('.gz').rstrip('.xml')
     vr, filename, wn, wn_dtls = validateFile(userid, wnfile,
                                              addproj = not args.no_add_proj)
-    with open(basename+'.vr.json', 'w') as fh:
+    with open(logdir + basename+'.vr.json', 'w') as fh:
         json.dump(vr, fh, indent=2)
-    with open(basename+'.wn_dtls.json', 'w') as fh:
+    with open(logdir + basename+'.wn_dtls.json', 'w') as fh:
         json.dump(wn_dtls, fh, indent=2)
     if vr["final_validation"]:
         uploadme=False
@@ -69,8 +70,9 @@ with app.app_context():
                 passed, filename = uploadFile('admin', wnfile, 'localfile')
                 r =  ingest_wordnet(filename=filename, u=userid)
                 if r:
-                    with open(basename+'.upload.json', 'w') as fh:
+                    with open(logdir + basename+'.upload.json', 'w') as fh:
                         json.dump(r, fh, indent=2)
+                        print ("\nUpdating labels\n".format(filename), file=debug)
                         updateLabels()
                         print ("\n{} was entered into the database\n".format(filename), file=debug)
                         print("see {}.upload.json for details of upload".format(basename), file=debug)
