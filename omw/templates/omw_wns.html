@@ -1,7 +1,7 @@
 {% extends "omw.html" %}
 {% block welcome %}
 
-<h3> Welcome to the Open Multilingual Wordnet (2.0)</h3>
+<h3>Wordnets in the Open Multilingual Wordnet (2.0)</h3>
 
 <p>This page provides a summary of the component projects in the Open Multilingual
 Wordnet (OMW).   OMW and its components are
@@ -42,7 +42,7 @@ in the World page</a>.
       {% endif %}
     </td>
      <td>
-      <tt>proj-ver</tt>
+      <tt>{{proj}}-{{ver}}</tt>
     </td>
     <td style="text-align:right">{{'{0:,}'.format(stat['synsets'])}}</td>
     <td style="text-align:right">{{'{0:,}'.format(stat['words'])}}</td>
