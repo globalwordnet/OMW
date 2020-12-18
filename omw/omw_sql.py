@@ -40,7 +40,8 @@ with app.app_context():
         lang_code = dd(lambda: dd())
         for r in query_omw("""SELECT id, bcp47, iso639, in_lang_id, name
                              FROM lang JOIN lang_name
-                             ON id = lang_id"""):
+                             ON id = lang_id
+                             ORDER BY name"""):
             lang_id[r['id']]['bcp47'] = r['bcp47']
             lang_id[r['id']]['iso639'] = r['iso639']
             lang_id[r['id']][r['in_lang_id']] = r['name']
