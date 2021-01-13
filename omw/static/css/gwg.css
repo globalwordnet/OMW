@@ -358,27 +358,40 @@ you want to use a border */
 
 .vertical-menu {
     max-width: 100%; /* Makes the menu responsive */
+    background-color: #f5f2f2;
 }
 
-.vertical-menu a {
-  background-color: #eee; /* Grey background color */
-  color: black; /* Black text color */
-  display: block; /* Make the links appear below each other */
-  padding: 12px; /* Add some padding */
-  text-decoration: none; /* Remove underline from links */
+.vertical-menu a, .vertical-menu-dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
 }
 
-.vertical-menu a:hover {
-  background-color: #ccc; /* Dark grey background on mouse-over */
+.vertical-menu a:hover, .vertical-menu-dropdown-btn:hover {
+  color: brown;
 }
 
-.vertical-menu a.active {
-  background-color: #069ae9; /* Add a blue color to the OMW link */
-  color: white;
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
 }
 
-#interface-vertical-menu{
-    /* this is for specifically styling the vertical menu in the interface page */
+.vertical-menu-dropdown-container {
+  display: none;
+  background-color: #e9e6e6;
+  padding-left: 8px;
+}
+
+.show-vertical-menu-dropdown {
+    display:block;
 }
 
 .back-to-top-button {      /* This class is for styling the back to the top botton */

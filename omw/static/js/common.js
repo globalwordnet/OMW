@@ -214,3 +214,7 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
+
+function showfunction(){
+    document.getElementById("vertical-menu-dropdown").classList.toggle("show-vertical-menu-dropdown");
+}
