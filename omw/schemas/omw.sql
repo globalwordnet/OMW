@@ -1302,13 +1302,13 @@ CREATE TRIGGER f_src_delete AFTER DELETE ON f_src
        END;
 
 
-/* Form Meta Tags */
+/* Form Meta Attributes (tags) */
 
 CREATE TABLE fmt
        (id INTEGER PRIMARY KEY ASC,
-        tag TEXT NOT NULL,
-        name TEXT NOT NULL,
-        u INTEGER NOT NULL,
+        tag TEXT NOT NULL,   -- tag attribute for form meta data
+        name TEXT NOT NULL,  -- longer description 
+        u INTEGER NOT NULL,  
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
 
@@ -1377,12 +1377,12 @@ CREATE TRIGGER fmt_delete AFTER DELETE ON fmt
 
 
 
-/* Form Meta Labels */
+/* Form Meta Values (labels) */
 
 CREATE TABLE fml
        (id INTEGER PRIMARY KEY ASC,
-        label TEXT NOT NULL,
-        name TEXT NOT NULL,
+        label TEXT NOT NULL,  -- form meta data label
+        name TEXT NOT NULL,   -- longer explanation 
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 
@@ -1457,10 +1457,14 @@ CREATE TRIGGER fml_delete AFTER DELETE ON fml
 */
 
 CREATE TABLE fm
-       (id INTEGER PRIMARY KEY ASC,
-        f_id INTEGER NOT NULL,
-        fmt_id INTEGER NOT NULL,
-        fml_id INTEGER NOT NULL,
+       -- meta tags for forms
+       -- a tag has an attribute (fmt_id) tag
+       --       and a value      (fml_d)  label
+       -- whch link to 
+       (id INTEGER PRIMARY KEY ASC,  -- id for form meta data (fm_id)
+        f_id INTEGER NOT NULL,       -- id for form (in table f)    
+        fmt_id INTEGER NOT NULL,     -- id for tag attribute
+        fml_id INTEGER NOT NULL,     -- id for tag value
         u INTEGER NOT NULL,
         t TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(f_id) REFERENCES f(id),
