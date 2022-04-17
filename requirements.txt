@@ -4,7 +4,8 @@ lxml
 nltk
 flask
 networkx
+Werkzeug==2.0.0
 flask-login==0.3.2
-git+git://github.com/globalwordnet/gwadoc.git@master#egg=gwadoc
+git+https://github.com/globalwordnet/gwadoc.git@master#egg=gwadoc
 langcodes
 
