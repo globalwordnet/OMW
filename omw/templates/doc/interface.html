@@ -6,13 +6,14 @@
     <p>This page provides documentation for the web interface to the Open
         Multilingual Wordnet.
 
-        <nav class="vertical-menu" id="interface-vertical-menu">
-            <ul>
-                <a href="{{ url_for('omw_welcome') }}" class="active">Open Multilingual Wordnet</a>
-                <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
-                <a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
-                <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
-                    wordnet (an LMF-formatted file)</a>
+        <nav class="vertical-menu">
+            <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
+            <a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
+            <button onclick="showfunction()" class="vertical-menu-dropdown-btn">Uploading a wordnet
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="vertical-menu-dropdown-container" id="vertical-menu-dropdown">
+                <a href='{{ url_for('omw_doc_upload') }}'>Instruction for Uploading a wordnet (an LMF-formatted file)</a>
                 <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
                     LMF file</a>
                 <a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
@@ -27,18 +28,16 @@
 
                 <a href="{{ url_for('omw_doc_feedback') }}">Documentation on the
                     feedback after uploading a wordnet</a>
-
-                <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
-                <a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
-                    giving feedback</a>
-
+            </div>
+            <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
+            <a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
+                giving feedback</a>
         </nav>
 
     <h3>External APIs to the OMW</h3>
-
-    <ul>
-        <li><a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
-    </ul>
+    <nav class="vertical-menu">
+        <a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
+    </nav>
 
 
     <h3>Technical Notes</h3>
@@ -48,14 +47,15 @@
 
     <h3>Creating Your Own Instance</h3>
 
-    <ul>
-        <li><a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Installing-the-software">Installing the software</a></li>
-        <li><a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Creating-the-database">Creating the database</a></li>
-        <li>Adding OMW 1.0 wordnets
-        <li>Adding TUFS wordnets
-        <li>Adding GeoNames Wordnet
-    </ul>
-
+     <nav class="vertical-menu">
+        <a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Installing-the-software">Installing
+            the software</a>
+        <a href="https://github.com/globalwordnet/OMW/blob/develop/INSTALL.md#Creating-the-database">Creating the
+            database</a>
+         <a href="#" >Adding OMW 1.0 wordnets</a>
+        <a href="#">Adding TUFS wordnets</a>
+        <a href="#">Adding GeoNames Wordnet</a>
+     </nav>
     <hr>
 
 
