@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding="UTF-8"?>
-<!ELEMENT LexicalResource (Lexicon+)>
+<!ELEMENT LexicalResource (Lexicon|LexiconExtension)+>
 <!ATTLIST LexicalResource
-    xmlns:dc CDATA #FIXED "http://purl.org/dc/elements/1.1/">
-<!ELEMENT Lexicon (LexicalEntry+, Synset*)>
+    xmlns:dc CDATA #FIXED "https://globalwordnet.github.io/schemas/dc/">
+<!ELEMENT Lexicon (Requires*, LexicalEntry+, Synset*, SyntacticBehaviour*)>
 <!ATTLIST Lexicon
     id ID #REQUIRED
     label CDATA #REQUIRED
@@ -12,6 +12,7 @@
     version CDATA #REQUIRED
     url CDATA #IMPLIED
     citation CDATA #IMPLIED
+    logo CDATA #IMPLIED
     dc:contributor CDATA #IMPLIED
     dc:coverage CDATA #IMPLIED
     dc:creator CDATA #IMPLIED
@@ -49,15 +50,22 @@
     status CDATA #IMPLIED
     note CDATA #IMPLIED
     confidenceScore CDATA #IMPLIED>
-<!ELEMENT Lemma (Tag*)>
+<!ELEMENT Lemma (Pronunciation*, Tag*)>
 <!ATTLIST Lemma
     writtenForm CDATA #REQUIRED
     script CDATA #IMPLIED
     partOfSpeech (n|v|a|r|s|t|c|p|x|u) #REQUIRED>
-<!ELEMENT Form (Tag*)>
+<!ELEMENT Form (Pronunciation*, Tag*)>
 <!ATTLIST Form
+    id ID #IMPLIED
     writtenForm CDATA #REQUIRED
     script CDATA #IMPLIED>
+<!ELEMENT Pronunciation (#PCDATA)>
+<!ATTLIST Pronunciation
+    variety CDATA #IMPLIED
+    notation CDATA #IMPLIED
+    phonemic (true|false) "true"
+    audio CDATA #IMPLIED>
 <!ELEMENT Tag (#PCDATA)>
 <!ATTLIST Tag
     category CDATA #REQUIRED>
@@ -82,7 +90,9 @@
     status CDATA #IMPLIED
     note CDATA #IMPLIED
     confidenceScore CDATA #IMPLIED
-    lexicalized (true|false) "true">
+    lexicalized (true|false) "true"
+    adjposition (a|ip|p) #IMPLIED
+    subcat IDREFS #IMPLIED>
 <!ELEMENT Synset (Definition*, ILIDefinition?, SynsetRelation*, Example*)>
 <!ATTLIST Synset
     id ID #REQUIRED
@@ -105,7 +115,9 @@
     status CDATA #IMPLIED
     note CDATA #IMPLIED
     confidenceScore CDATA #IMPLIED
-    lexicalized (true|false) "true">
+    lexicalized (true|false) "true"
+    members IDREFS #IMPLIED
+    lexfile CDATA #IMPLIED>
 <!ELEMENT Definition (#PCDATA)>
 <!ATTLIST Definition
     language CDATA #IMPLIED
@@ -169,7 +181,7 @@
 <!ELEMENT SynsetRelation EMPTY>
 <!ATTLIST SynsetRelation
     target IDREF #REQUIRED
-    relType (agent|also|attribute|be_in_state|causes|classified_by|classifies|co_agent_instrument|co_agent_patient|co_agent_result|co_instrument_agent|co_instrument_patient|co_instrument_result|co_patient_agent|co_patient_instrument|co_result_agent|co_result_instrument|co_role|direction|domain_region|domain_topic|exemplifies|entails|eq_synonym|has_domain_region|has_domain_topic|is_exemplified_by|holo_location|holo_member|holo_part|holo_portion|holo_substance|holonym|hypernym|hyponym|in_manner|instance_hypernym|instance_hyponym|instrument|involved|involved_agent|involved_direction|involved_instrument|involved_location|involved_patient|involved_result|involved_source_direction|involved_target_direction|is_caused_by|is_entailed_by|location|manner_of|mero_location|mero_member|mero_part|mero_portion|mero_substance|meronym|similar|other|patient|restricted_by|restricts|result|role|source_direction|state_of|target_direction|subevent|is_subevent_of|antonym) #REQUIRED
+    relType (agent|also|attribute|be_in_state|causes|classified_by|classifies|co_agent_instrument|co_agent_patient|co_agent_result|co_instrument_agent|co_instrument_patient|co_instrument_result|co_patient_agent|co_patient_instrument|co_result_agent|co_result_instrument|co_role|direction|domain_region|domain_topic|exemplifies|entails|eq_synonym|has_domain_region|has_domain_topic|is_exemplified_by|holo_location|holo_member|holo_part|holo_portion|holo_substance|holonym|hypernym|hyponym|in_manner|instance_hypernym|instance_hyponym|instrument|involved|involved_agent|involved_direction|involved_instrument|involved_location|involved_patient|involved_result|involved_source_direction|involved_target_direction|is_caused_by|is_entailed_by|location|manner_of|mero_location|mero_member|mero_part|mero_portion|mero_substance|meronym|similar|other|patient|restricted_by|restricts|result|role|source_direction|state_of|target_direction|subevent|is_subevent_of|antonym|feminine|has_feminine|masculine|has_masculine|young|has_young|diminutive|has_diminutive|augmentative|has_augmentative|anto_gradable|anto_simple|anto_converse|ir_synonym) #REQUIRED
     dc:contributor CDATA #IMPLIED
     dc:coverage CDATA #IMPLIED
     dc:creator CDATA #IMPLIED
@@ -190,7 +202,7 @@
 <!ELEMENT SenseRelation EMPTY>
 <!ATTLIST SenseRelation
     target IDREF #REQUIRED
-    relType (antonym|also|participle|pertainym|derivation|domain_topic|has_domain_topic|domain_region|has_domain_region|exemplifies|is_exemplified_by|similar|other) #REQUIRED
+    relType (antonym|also|participle|pertainym|derivation|domain_topic|has_domain_topic|domain_region|has_domain_region|exemplifies|is_exemplified_by|similar|other|simple_aspect_ip|secondary_aspect_ip|simple_aspect_pi|secondary_aspect_pi|feminine|has_feminine|masculine|has_masculine|young|has_young|diminutive|has_diminutive|augmentative|has_augmentative|anto_gradable|anto_simple|anto_converse) #REQUIRED
     dc:contributor CDATA #IMPLIED
     dc:coverage CDATA #IMPLIED
     dc:creator CDATA #IMPLIED
@@ -210,6 +222,7 @@
     confidenceScore CDATA #IMPLIED>
 <!ELEMENT SyntacticBehaviour EMPTY>
 <!ATTLIST SyntacticBehaviour
+  id ID #IMPLIED
   subcategorizationFrame CDATA #REQUIRED
   senses IDREFS #IMPLIED>
 <!ELEMENT Count (#PCDATA)>
@@ -231,3 +244,53 @@
     status CDATA #IMPLIED
     note CDATA #IMPLIED
     confidenceScore CDATA #IMPLIED>
+<!ELEMENT LexiconExtension (Extends, Requires*, (LexicalEntry|ExternalLexicalEntry)*, (Synset|ExternalSynset)*, SyntacticBehaviour*)>
+<!ATTLIST LexiconExtension
+    id ID #REQUIRED
+    label CDATA #REQUIRED
+    language CDATA #REQUIRED
+    email CDATA #REQUIRED
+    license CDATA #REQUIRED
+    version CDATA #REQUIRED
+    url CDATA #IMPLIED
+    citation CDATA #IMPLIED
+    dc:contributor CDATA #IMPLIED
+    dc:coverage CDATA #IMPLIED
+    dc:creator CDATA #IMPLIED
+    dc:date CDATA #IMPLIED
+    dc:description CDATA #IMPLIED
+    dc:format CDATA #IMPLIED
+    dc:identifier CDATA #IMPLIED
+    dc:publisher CDATA #IMPLIED
+    dc:relation CDATA #IMPLIED
+    dc:rights CDATA #IMPLIED
+    dc:source CDATA #IMPLIED
+    dc:subject CDATA #IMPLIED
+    dc:title CDATA #IMPLIED
+    dc:type CDATA #IMPLIED
+    status CDATA #IMPLIED
+    note CDATA #IMPLIED
+    confidenceScore CDATA "1.0">
+<!ELEMENT Requires EMPTY>
+<!ATTLIST Requires
+    id ID #REQUIRED
+    version CDATA #REQUIRED
+    url CDATA #IMPLIED>
+<!ELEMENT Extends EMPTY>
+<!ATTLIST Extends
+    id ID #REQUIRED
+    version CDATA #REQUIRED
+    url CDATA #IMPLIED>
+<!ELEMENT ExternalLexicalEntry (ExternalLemma?, (Form|ExternalForm)*, (Sense|ExternalSense)*, SyntacticBehaviour*)>
+<!ATTLIST ExternalLexicalEntry
+    id ID #REQUIRED>
+<!ELEMENT ExternalLemma (Pronunciation*, Tag*)>
+<!ELEMENT ExternalForm (Pronunciation*, Tag*)>
+<!ATTLIST ExternalForm
+    id ID #REQUIRED>
+<!ELEMENT ExternalSense (SenseRelation*, Example*, Count*)>
+<!ATTLIST ExternalSense
+    id ID #REQUIRED>
+<!ELEMENT ExternalSynset (Definition*, SynsetRelation*, Example*)>
+<!ATTLIST ExternalSynset
+    id ID #REQUIRED>
