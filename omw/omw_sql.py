@@ -865,12 +865,22 @@ with app.app_context():
         return fmv
             
     def fetch_labels(lang_id, sss):
-        """return a dict with lang_id labels for the synsets in sss"""
+        """return a dict with lang_id labels for the synsets in sss
+           get the language you want and English
+           if the language you want has a label use it
+           else use English
+           return only one label per synset
+        """
         labels = dict()
-        for r in query_omw("""SELECT ss_id, label FROM label 
-        WHERE lang_id = ? AND ss_id in (%s)""" % l2q(sss),
-                           [lang_id] + list(sss)):
-            labels[r['ss_id']]=r['label']
+        eng_id = 1 #The backoff
+        query="""SELECT ss_id, label, lang_id FROM label 
+        WHERE lang_id in (?, ?) AND ss_id in (%s) 
+        ORDER BY lang_id DESC""" % l2q(sss)
+        for r in query_omw(query,
+                           [lang_id, eng_id] + list(sss)):
+            #print(r, file=sys.stderr)
+            if r['ss_id'] not in labels:
+                labels[r['ss_id']]=r['label']
         return labels
 
     def fetch_sense_labels(s_ids):
@@ -1224,71 +1234,92 @@ with app.app_context():
         return graph
 
     # UPDATE LABELS
-    def updateLabels():
+    def updateLabels(lang_id=1):
         """This functions is to be run after a new wordnet is uploaded
         so that concept labels for that language are created and visible
         as concept names.
+
+        We store labels for a synset in its own language if they exist
+         * most frequent
+         * most unique (if multiple with the same frequency)
+         * shortest (if multiple unique)
+         * alphabetical (so it is deterministic)
+
+        We store a fallback with the English language, so we always have a label:
+        the language that first introduced a synset should give it a label (also in English)
         """
-        
         # get frequency for everything
         # similar to fetch_s_freq(s_list), but no need for a list
+        #start = datetime.datetime.now()
+        #print('Starting', start)
+        #print('Get Frequency')
         sfreq = dd(int) # defaults to zero
         for r in query_omw("""SELECT s_id, SUM(sml_id) as freq FROM sm 
                               WHERE smt_id=1
                               GROUP BY s_id"""):
             sfreq[r['s_id']] = r['freq']
-
+            
+        #print('Get Senses',  datetime.datetime.now() -start)
         senses =dd(lambda: dd(list))
         #senses[ss_id][lang_id]=[(ls_id, lemma, freq), ...]
         forms = dd(lambda: dd(int))
         #forms[lang][word] = freq
         eng_id=1 ### we know this :-)
 
-
-        for r in query_omw("""SELECT s_id, ss_id, lemma, lang_id
-                              FROM (SELECT w_id, canon, ss_id, s_id
-                              FROM (SELECT id as s_id, ss_id, w_id FROM s)
-                              JOIN w ON w_id = w.id )
-                              JOIN f ON canon = f.id"""):
-
-
+        #print(f'Get Senses for {lang_id}, in inner loop',  datetime.datetime.now() -start)
+        for r in query_omw("""SELECT s.id as s_id, ss_id, lemma, lang_id
+                              FROM (SELECT id as wid, canon, lemma, lang_id
+                                    FROM (SELECT id as f_id, lemma , lang_id
+                                          FROM f WHERE lang_id =?) 
+                                    JOIN w ON canon = f_id)
+                              JOIN s ON w_id = wid""", (lang_id,)):
             senses[r['ss_id']][r['lang_id']].append((r['s_id'], r['lemma'], sfreq[r['s_id']]))
             forms[r['lang_id']][r['lemma']] += 1
+            
+        #print('Make labels',  datetime.datetime.now() -start)
+        # make the best label for the new language and English
 
-        # make the best label for each language that has lemmas    
-        for ss in senses:
-            for l in senses[ss]:
-                senses[ss][l].sort(key=lambda x: (-x[2],  ### sense freq (freq is good)
-                                          forms[l][x[1]], ### uniqueness (freq is bad)
-                                          len(x[1]),  ### length (short is good)
-                                          x[1]))      ### lemma (so it is the same)
+        def abbrev_p(word):
+            if word.endswith('.'):
+                return 1
+            else:
+                return 0
         
-        lgs=[]
-        cv = query_omw_direct("SELECT id FROM lang ORDER BY id") ### English first!
-        for (lid,) in cv:
-            lgs.append(lid)       
-
+        for ss_id in senses:
+            for l in senses[ss_id]:
+                senses[ss_id][l].sort(key=lambda x: (-x[2],  ### sense freq (freq is good)
+                                                     forms[l][x[1]], ### uniqueness (freq is bad)
+                                                     abbrev_p(x[1]),  ### disprefer abbreviation
+                                                     len(x[1]),  ### length (short is good)
+                                                     x[1]))      ### lemma (so it is the same)
+        
+        label = dd(dict)
+        for r in query_omw("""SELECT ss_id, lang_id, label FROM label 
+        WHERE lang_id in (?,?)""", ( eng_id, lang_id)):
+            label[r['lang_id']][r['ss_id']] = r['label']
+        
         # make the labels
-        label = dd(lambda: dd(str))
-        values=list()
+        changed_values=set()
+        new_values=set()
+        
+        for ss_id in senses:
+            ### English
+            ### If there are English senses, use them for the English label
+            for lid in [eng_id, lang_id]:
+                if senses[ss_id][lid]:
+                    ### if they have changed
+                    if (ss_id in label[lid]) and label[lid][ss_id] != senses[ss_id][lid][0][1]:
+                        changed_values.add((senses[ss_id][lid][0][1], ss_id, lid))
+                    elif ss_id not in label[lid]:
+                        ## if it does not have a label (there may be one in another language)
+                        ## give a label in the new language to English
+                        new_values.add((ss_id, lid,  senses[ss_id][lang_id][0][1]))
 
-        for ss in senses:
-            for l in lgs:
-                if senses[ss][l]:
-                    label[ss][l]=senses[ss][l][0][1]
-                else:
-                    for lx in lgs:  ### start with eng and go through till you find one
-                        if senses[ss][lx]:
-                            label[ss][l]=senses[ss][lx][0][1]
-                            break
-                    else:
-                        label[ss][l]="?????"
-                values.append((ss, l,  label[ss][l]))
+        ### write new and changed labels        
 
-
-        # write the labels (delete old ones first)
-        write_omw("""DELETE FROM label""")
         blk_write_omw("""INSERT INTO label(ss_id, lang_id, label, u)
-                         VALUES (?,?,?,"omw")""", values)
+                          VALUES (?,?,?,"omw")""", new_values)
+        blk_write_omw("""UPDATE label SET label=?, u='omw'
+                         WHERE ss_id = ? and lang_id = ? """, changed_values)
 
         return True

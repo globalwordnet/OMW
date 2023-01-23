@@ -212,7 +212,8 @@ def confirm_wn_upload_id():
     user = fetch_id_from_userid(current_user.id)
     fn = request.args.get('fn', None)
     report = ingest_wordnet(fn, user)
-    updateLabels()
+    for langid in report['lang_ids']:
+        updateLabels(lang_id=langid)
     return jsonify(result=report)
 
 

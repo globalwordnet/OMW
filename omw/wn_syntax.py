@@ -844,7 +844,7 @@ with app.app_context():
                 ### this only gets ilis from this resource!
                 ### should do better
                 ###
-                #ilis = set(wn[lex]['syns'][target]['ili_key'] for i in ili.keys())
+                #ilis = set(wn[lexicon]['syns'][target]['ili_key'] for i in ili.keys())
                 ### DEBUG
                 #print ('LNKS: ' + json.dumps(lnks, indent=2), file=debug)
                 #print ('ILIS: ' + ", ".join(str(i) for i in ilis), file=debug)
@@ -921,10 +921,10 @@ with app.app_context():
                     if checkLinked(lnks, good_rels, ilimap.keys(), ss_id, set()):
                         link_to_ili = 'good'
                         #print("LINKED g:",  link_to_ili, ss_id, file=debug)
-                    elif checkLinked(lnks, good_rels+warn_rels, ilis, ss_id, set()):
-                        link_to_ili = 'weak'
-                        vr_lex['synsets_ili_lnk_warn'].append(ss_id)
-                        #print("LINKED w:",  link_to_ili, ss_id, file=debug)
+                    # elif checkLinked(lnks, good_rels+warn_rels, ilis, ss_id, set()):
+                    #     link_to_ili = 'weak'
+                    #     vr_lex['synsets_ili_lnk_warn'].append(ss_id)
+                    #     #print("LINKED w:",  link_to_ili, ss_id, file =debug)
                     elif checkLinked(lnks, good_rels+warn_rels+bad_rels,
                                      ilimap.keys(), ss_id, set()):
                         link_to_ili = 'bad'
@@ -1043,6 +1043,7 @@ with app.app_context():
             r = l()  # report
             r['new_ili_ids'] = []
             r['wns'] = []
+            r['lang_ids'] = []
 
 
             ####################################################################
@@ -1077,6 +1078,7 @@ with app.app_context():
                 lang_id = langs_code['code'][lang]
                 version = wn[lexicon]['attrs']['version']
                 r['wns'].append(lexicon + '-' +  version)
+                r['lang_ids'].append(lang_id)
                 lex_conf = float(wn[lexicon]['attrs']['confidenceScore'])
                 wn[lexicon]['attrs']['filename'] = filename
 
