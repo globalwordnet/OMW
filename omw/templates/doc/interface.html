@@ -6,38 +6,39 @@
     <p>This page provides documentation for the web interface to the Open
         Multilingual Wordnet.
 
-        <nav class="vertical-menu" id="interface-vertical-menu">
-            <ul>
-                <a href="{{ url_for('omw_welcome') }}" class="active">Open Multilingual Wordnet</a>
-                <a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
-                <a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
-                <a href='{{ url_for('omw_doc_upload') }}'>Uploading a
+      <ul>
+        <li><a href="{{ url_for('omw_welcome') }}" class="active">Open Multilingual Wordnet</a>
+        <li><a href='{{ url_for('omw_doc_search') }}'>Searching for words or concepts</a>
+	<li><a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
+<hr>
+        <li><a href='{{ url_for('omw_doc_upload') }}'>Uploading a
                     wordnet (an LMF-formatted file)</a>
-                <a href="{{ url_for('omw_doc_lmf') }}">The structure of the
+        <li><a href="{{ url_for('omw_doc_lmf') }}">The structure of the
                     LMF file</a>
-                <a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
+        <li><a href="{{ url_for('omw_doc_tsv2lmf') }}">A script for converting the simple tsv used in OMW 1.0
                     to GWA-LMF</a>
 
-                <a href="{{ url_for('omw_doc_validator') }}">Interconverter for desired formats. (external tool)</a>
+        <li><a href="{{ url_for('omw_doc_validator') }}">Interconverter for desired formats. (external tool)</a>
 
-                <a href="{{ url_for('omw_doc_metadata') }}">More
-                    information about the LMF metadata</a>
-                <a href="{{ url_for('omw_doc_add_wn') }}">A script for
+        <li><a href="{{ url_for('omw_doc_metadata') }}">More
+            information about the LMF metadata</a>
+        <li><a href="{{ url_for('omw_doc_add_wn') }}">A script for
                     uploading wordnets from the command line</a>
-
-                <a href="{{ url_for('omw_doc_feedback') }}">Documentation on the
+	  <hr>
+	  
+        <li><a href="{{ url_for('omw_doc_feedback') }}">Documentation on the
                     feedback after uploading a wordnet</a>
 
-                <a href='{{ url_for('omw_wns') }}'>A summary of the wordnets in OMW</a>
-                <a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
-                    giving feedback</a>
+        <li><a href='{{ url_for('omw_doc_feedback_documentation') }}'>Information about reporting an issue and
+            giving feedback</a>
+        <li><a href="{{ url_for('omw_doc_contribute') }}">Get Involved! Contribute to OMW</a>
+</ul>
 
-        </nav>
-
-    <h3>External APIs to the OMW</h3>
+    <h3>External Tools for the OMW</h3>
 
     <ul>
-        <li><a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
+      <li><a href='https://pypi.org/project/wn/'>Python WN module</a>
+      <li><a href='https://www.nltk.org/howto/wordnet.html'>NLTK (currently based on OMW 1.0)</a>
     </ul>
 
 
