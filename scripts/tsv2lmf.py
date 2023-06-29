@@ -23,6 +23,12 @@ parser.add_argument(
     'ili_map', help='ili mapping')
 parser.add_argument(
     'tsv', help='tsv file to be parsed')
+parser.add_argument(
+    '--version', help='version for this wordnet',
+    default='1.0')
+parser.add_argument(
+    '--citation', help='citation for this wordnet (using rst)',
+    default='...')
 args = parser.parse_args()
 
 ###print(args.tsv)
@@ -30,20 +36,36 @@ args = parser.parse_args()
 log = open('log/tsv2wn_{}.log'.format(args.lang),'w')
 
 open_license = {'CC BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
+                'CC-BY 3.0':'https://creativecommons.org/licenses/by/3.0/',
                 'CC BY 4.0':'https://creativecommons.org/licenses/by/4.0/',
                 'CC BY SA 3.0':'https://creativecommons.org/licenses/by-sa/3.0/',
+                'CC BY-SA':'https://creativecommons.org/licenses/by-sa/',
+                'CC BY SA':'https://creativecommons.org/licenses/by-sa/',
+                'CC BY SA 4.0':'https://creativecommons.org/licenses/by-sa/4.0/',
                 'Apache 2.0':'https://opensource.org/licenses/Apache-2.0',
                 'CeCILL-C':'http://www.cecill.info/licenses/Licence_CeCILL-C_V1-en.html',
                 'MIT':'https://opensource.org/licenses/MIT/',
-                'unicode':'https://www.unicode.org/license.html'}
+                'wordnet':'wordnet',
+                'unicode':'https://www.unicode.org/license.html',
+                'ODC-BY 1.0':'http://opendefinition.org/licenses/odc-by/'}
 
+citation = '...'
+if args.citation:
+    try:
+        cfh = open(args.citation)
+        citation = html.escape(cfh.read().strip())
+        cfh.close()
+    except:
+        citation = '...'
+        
 meta_default = { 'id': args.wnid, 
                  'label':'???',
                  'lang': args.lang,
+                 'l639':  'unknown',
                  'email':'bond@ieee.org',
                  'license':'https://creativecommons.org/licenses/by/',
-                 'version':'1.0',
-                 'citation':'...',
+                 'version': args.version,
+                 'citation':citation,
                  'url':'...',
                  'description':"Wordnet made from OMW 1.0 data",
                  'conf':'1.0' }
@@ -100,6 +122,7 @@ def clean(lemma):
         print('CLEANED: {} (removed start and end double quote)'.format(lemma), file=log)
     if '"' in lemma:
         print('WARNING: {} (contains a double quote)'.format(lemma), file=log)
+    lemma = lemma.replace('_', ' ')    
     return lemma
     
 def read_wn(ilimap, fn):
@@ -115,6 +138,8 @@ def read_wn(ilimap, fn):
 
     wn = dd(lambda:set())
     lexicon = dd(lambda: dd(lambda: dd(lambda:set())))
+    ss_defs = dd(lambda: dd(list)) # ssdefs['synsetID']['eng'] = [(0, "first English def"), ]
+    ss_exes = dd(lambda: dd(list)) # ssexes['synsetID']['eng'] = [(0, "first English example"), ]
     meta = meta_default
     tab_file = open(fn, 'r')
     lex_c = 0
@@ -128,7 +153,11 @@ def read_wn(ilimap, fn):
         meta['url'] = html.escape(url)
         if lce in open_license:
             lce = open_license[lce]
+        else:
+            print('UNKNOWN LICENSE', lce, file=sys.stderr)
+            print('UNKNOWN LICENSE', lce, file=log)
         meta['license'] = html.escape(lce)
+        meta['l639'] = l639.strip()
 
     else:
         print('NO META DATA', file=sys.stderr)
@@ -141,10 +170,10 @@ def read_wn(ilimap, fn):
         ##
         ## Process lines with lemmas
         ##
-        if tab[1].endswith(':lemma'):  # also check language?
+        if tab[1].endswith(':lemma') or tab[1] =='lemma':  # also check language?
             lex_c += 1
 
-            ss = tab[0].strip()
+            ss = tab[0].strip().replace('-s', '-a')
             lemma = tab[2].strip()
             lemma = clean(lemma)
             pos = ss[-1].replace('s', 'a')
@@ -174,19 +203,43 @@ def read_wn(ilimap, fn):
             for var in variants:
                 lexicon['LexEntry'][lexID]['variants'].add(var)
             lexicon['LexEntry'][lexID]['sense'].add(ssID)
-        elif  tab[2].startswith('rel'):
-            print('Sense link', line.strip())
-        else:
-            print('Unknown type', line.strip())
 
-    return lexicon, meta
+        elif  tab[1].endswith('def'):
+            ss = tab[0].strip().replace('-s', '-a')
+            ssID = meta['id']+'-'+ss
+            if len(tab[1].split(':')) > 1:
+                lang = tab[1].split(':')[0].strip()
+            else:
+                lang = l639
+            ### need to rewrite to bp47
+            order = int(tab[2].strip())
+            definition = tab[3].strip()
+            ss_defs[ssID][lang].append((order, definition))
+            #print ('ss_defs', ssID, lang, order, definition)
+        elif  tab[1].endswith('exe'):
+            ss = tab[0].strip().replace('-s', '-a')
+            ssID = meta['id']+'-'+ss
+            if len(tab[1].split(':')) > 1:
+                lang = tab[1].split(':')[0].strip()
+            else:
+                lang = l639
+            ### need to rewrite to bp47
+            order = int(tab[2].strip())
+            example = tab[3].strip()
+            ss_exes[ssID][lang] .append((order, example))
+        elif  tab[2].startswith('rel'):
+            print('FIXME Sense link', line.strip(), file=log)
+        else:
+            print('FIXME Unknown type', line.strip(), file=log)
+
+    return lexicon, meta, ss_defs,  ss_exes
 
 
 ################################################################################
 # PRINT OUT
 ################################################################################
 
-wn, wnmeta = read_wn(ilimap, args.tsv)
+wn, wnmeta, ss_defs,  ss_exes = read_wn(ilimap, args.tsv)
 header = print_header(wnmeta, "OMW 1.0 converted to 2.0 by tsv2lmf.py")
 footer = print_footer()
 
@@ -220,8 +273,36 @@ for lexID in wn['LexEntry']:
 for ssID in wn['Synset']:
     pos = list(wn['Synset'][ssID]['pos'])[0]
     ili = list(wn['Synset'][ssID]['ili'])[0]
-    synEntry = """    <Synset id="{}" ili="{}" partOfSpeech="{}"></Synset>""".format(ssID, ili, pos)
-    
+    if ssID in ss_defs and \
+       wnmeta['l639'] in  ss_defs[ssID]:
+        #print  ('ss_defs[ssID]', ss_defs[ssID][wnmeta['l639']])
+        dfn = "; ".join([html.escape(x[1], quote=False) for x in sorted(ss_defs[ssID][wnmeta['l639']])])
+    else:
+        dfn = ''
+    if ssID in ss_exes and \
+       wnmeta['l639'] in  ss_exes[ssID]:
+        #print  ('ss_defs[ssID]', ss_defs[ssID][wnmeta['l639']])
+        exe = "; ".join([html.escape(x[1], quote=False) for x in sorted(ss_exes[ssID][wnmeta['l639']])])
+    else:
+        exe = ''
+
+    if dfn and exe:
+        synEntry  = """    <Synset id="{}" ili="{}" partOfSpeech="{}">
+      <Definition language="{}">{}</Definition>
+      <Example language="{}">{}</Example>
+    </Synset>""".format(ssID, ili, pos, args.lang, dfn, args.lang, exe)
+    elif dfn:
+            synEntry  = """    <Synset id="{}" ili="{}" partOfSpeech="{}">
+      <Definition language="{}">{}</Definition>
+    </Synset>""".format(ssID, ili, pos, args.lang, dfn)
+
+    elif exe:
+                synEntry  = """    <Synset id="{}" ili="{}" partOfSpeech="{}">
+     <Example language="{}">{}</Example>
+    </Synset>""".format(ssID, ili, pos, args.lang, exe)
+
+    else: 
+        synEntry  = """    <Synset id="{}" ili="{}" partOfSpeech="{}" />""".format(ssID, ili, pos)
     print(synEntry)
 
 print(footer)

@@ -6,8 +6,9 @@
 #
 import json
 
-with open('en') as f:
+with open('de') as f:
   data = json.load(f)
 
 for entry in data:
+  if entry['keywords']:
     print(entry['_id'], entry['synsets'], [k['keyword'] for k in entry['keywords']])

@@ -98,6 +98,9 @@ span.low {
     display: inline-block;
 }
 
+a.visited { color:#8B0000;  !important; }
+
+
 /*  links for senses */
 a.sense:link {
     color:#000000;

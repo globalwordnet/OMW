@@ -35,28 +35,28 @@
         <p> *oft* will match anything which contains the string “oft”, like softball, loft bombing, soft-show, etc.</p>
         <p>oft* will match anything starting anything with “oft”, like often, oftener, etc.</p>
         &nbsp;
-       <img class="border-image" src="../../static/img/docs/search/search2.png">
+       <img class="border-image" src="{{url_for('static', filename='img/docs/search/search2.png')}}">
         &nbsp;
 <h5>?:</h5>
     <h6>Matches one character exactly.</h6>
     <p>[ho?] will return hot, hop, hogg, hob, hoe, etc.</p>
     <p>[?ot] It will return bot, dot, lot, etc.</p>
     
-    <img class="border-image" src="../../static/img/docs/search/search3.png ">
+    <img class="border-image" src="{{url_for('static', filename='img/docs/search/search3.png ')}}">
     &nbsp;
 
 <h5>[xyz]:</h5>
     <h6>Matches any of x-y-z.</h6>
     <p>For example, [bcef]at will return bat, cat, eat, fat, etc.</p>
     
-    <img class="border-image" src="../../static/img/docs/search/search4.png">
+    <img class="border-image" src="{{url_for('static', filename='img/docs/search/search4.png')}}">
 
     &nbsp;
 <h5>[a-k]:</h5>
     <h6>Matches any character which is not in the range specified inside the square box.</h6>
     <p>For example, [b-j]at will return bat, cat, hat, fat, cat, etc.</p>
     
-    <!--img class="border-image" src="../../static/img/docs/search/search5.png"-->
+    <!--img class="border-image" src="{{url_for('static', filename='img/docs/search/search5.png')}}"-->
 
 {% with messages = get_flashed_messages() %}
   {% if messages %}

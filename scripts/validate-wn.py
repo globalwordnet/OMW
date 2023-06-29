@@ -72,8 +72,10 @@ with app.app_context():
                 if r:
                     with open(logdir + basename+'.upload.json', 'w') as fh:
                         json.dump(r, fh, indent=2)
-                        print ("\nUpdating labels\n".format(filename), file=debug)
-                        updateLabels()
+                        for langid in r['lang_ids']:
+                            print (f"\nUpdating labels for {langid}\n",
+                                   file=debug)
+                            updateLabels(lang_id=langid)
                         print ("\n{} was entered into the database\n".format(filename), file=debug)
                         print("see {}.upload.json for details of upload".format(basename), file=debug)
                 
